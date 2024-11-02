@@ -1,5 +1,9 @@
 const Home = () => {
-  return <div className="w-full min-h-screen bg-slate-200">Home Page</div>;
+  return (
+    <div className="w-full min-h-screen">
+      <h1>Home Page</h1>
+    </div>
+  );
 };
 
 export default Home;
