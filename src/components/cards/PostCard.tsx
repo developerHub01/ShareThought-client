@@ -58,7 +58,7 @@ const PostCard = () => {
             </div>
           </div>
           <div>
-            <PostCardCTA />
+            <PostCardCTA postType="POST_CARD" />
           </div>
         </div>
       </Link>

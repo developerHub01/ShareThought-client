@@ -6,12 +6,10 @@ const CategoryPreviewCard = () => {
   const imgUrl =
     "https://images.unsplash.com/photo-1730217804424-825f12eef36f?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
 
-  const backdropImg =
-    "https://images.unsplash.com/photo-1725092097123-ae9e8c001490?q=80&w=1473&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
   return (
     <div className="pt-3">
       <div className="shadow-xl w-full max-w-sm border border-gray-500/10 rounded-sm relative z-10">
-        <CardFallBack imgUrl={backdropImg} />
+        <CardFallBack imgUrl={imgUrl} />
         <Link href={"/"}>
           <div className="aspect-video relative rounded-t-sm overflow-hidden">
             <Image
