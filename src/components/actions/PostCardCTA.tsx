@@ -18,7 +18,8 @@ type TPostType =
   | "CHANNEL_POST_CARD"
   | "POST_CARD"
   | "POST_CATEGORY_CARD"
-  | "MY_POST_CATEGORY_CARD";
+  | "MY_POST_CATEGORY_CARD"
+  | "HISTORY_POST_CARD";
 
 interface IPostCardCTA {
   postType: TPostType;
@@ -164,6 +165,39 @@ const findCTAMenuItems = (postType: TPostType): Array<ICTAMenuItem> => {
           label: "move to down",
           Icon: DownIcon,
           onClick: () => console.log("move to down clicked"),
+        },
+      ];
+    case "HISTORY_POST_CARD":
+      return [
+        {
+          id: "save_to_read_later",
+          label: "save to read later",
+          Icon: ClockIcon,
+          onClick: () => console.log("save to read later clicked"),
+        },
+        {
+          id: "save_to_category",
+          label: "save to category",
+          Icon: CategoryListIcon,
+          onClick: () => console.log("save to category clicked"),
+        },
+        {
+          id: "download",
+          label: "download",
+          Icon: DownloadIcon,
+          onClick: () => console.log("download clicked"),
+        },
+        {
+          id: "remove_from_history",
+          label: "remove from history",
+          Icon: RemoveIcon,
+          onClick: () => console.log("remove from history clicked"),
+        },
+        {
+          id: "share",
+          label: "share",
+          Icon: ShareIcon,
+          onClick: () => console.log("share clicked"),
         },
       ];
   }
