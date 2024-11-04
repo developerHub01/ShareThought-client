@@ -1,23 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import PostCardCTA from "@/components/actions/PostCardCTA";
+import DotIcon from "@/components/icons/DotIcon";
 
-const DotIcon = () => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="24"
-    height="24"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="5"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    className="lucide lucide-dot"
-  >
-    <circle cx="12.1" cy="12.1" r="1" />
-  </svg>
-);
 const ReactedPostCard = () => {
   const imgUrl =
     "https://images.unsplash.com/photo-1725092097123-ae9e8c001490?q=80&w=1473&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
