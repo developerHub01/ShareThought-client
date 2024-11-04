@@ -11,6 +11,7 @@ import {
   Trash as RemoveIcon,
   ArrowUpToLine as UpIcon,
   ArrowDownToLine as DownIcon,
+  MousePointerClick as ChangeReactionIcon,
 } from "lucide-react";
 import { ICTAMenuItem } from "@/types";
 
@@ -19,7 +20,8 @@ type TPostType =
   | "POST_CARD"
   | "POST_CATEGORY_CARD"
   | "MY_POST_CATEGORY_CARD"
-  | "HISTORY_POST_CARD";
+  | "HISTORY_POST_CARD"
+  | "REACTED_POST_CARD";
 
 interface IPostCardCTA {
   postType: TPostType;
@@ -200,10 +202,49 @@ const findCTAMenuItems = (postType: TPostType): Array<ICTAMenuItem> => {
           onClick: () => console.log("share clicked"),
         },
       ];
+    case "REACTED_POST_CARD":
+      return [
+        {
+          id: "save_to_read_later",
+          label: "save to read later",
+          Icon: ClockIcon,
+          onClick: () => console.log("save to read later clicked"),
+        },
+        {
+          id: "save_to_category",
+          label: "save to category",
+          Icon: CategoryListIcon,
+          onClick: () => console.log("save to category clicked"),
+        },
+        {
+          id: "download",
+          label: "download",
+          Icon: DownloadIcon,
+          onClick: () => console.log("download clicked"),
+        },
+        {
+          id: "remove_reaction",
+          label: "remove reaction",
+          Icon: RemoveIcon,
+          onClick: () => console.log("remove reaction clicked"),
+        },
+        {
+          id: "change_reaction",
+          label: "change reaction",
+          Icon: ChangeReactionIcon,
+          onClick: () => console.log("remove reaction clicked"),
+        },
+        {
+          id: "share",
+          label: "share",
+          Icon: ShareIcon,
+          onClick: () => console.log("share clicked"),
+        },
+      ];
   }
 };
 
-const PostCardCTA = ({ postType }: IPostCardCTA) => {
+const PostCardCTA = ({ postType}: IPostCardCTA) => {
   const ctaMenuItems = findCTAMenuItems(postType);
 
   return <CardCTAButton ctaMenuItems={ctaMenuItems} />;
