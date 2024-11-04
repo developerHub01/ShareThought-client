@@ -25,7 +25,7 @@ const HistoryPostCard = () => {
 
   return (
     <>
-      <div className="shadow-xl w-full border border-gray-500/10 rounded-sm overflow-hidden z-10 flex">
+      <div className="shadow-xl w-full border border-gray-500/10 rounded-sm overflow-hidden flex">
         <Link href={"/"} className="aspect-video overflow-hidden min-w-44">
           <Image
             src={imgUrl}
