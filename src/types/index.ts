@@ -11,3 +11,8 @@ export interface ICTAMenuItem {
 
 export type TReactionTypes =
   (typeof REACTION_TYPES)[keyof typeof REACTION_TYPES];
+
+export interface IPopoverPosition {
+  align?: "start" | "center" | "end";
+  side?: "top" | "right" | "bottom" | "left";
+}
