@@ -8,7 +8,7 @@ const FollowedChannelCard = () => {
     "https://images.unsplash.com/photo-1730660666237-1e6a008067a9?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
 
   return (
-    <div className="shadow-xl w-full border border-gray-500/10 rounded-sm overflow-hidden flex flex-col sm:flex-row items-start sm:items-center p-3 gap-3">
+    <div className="shadow-xl w-full border border-accent rounded-sm overflow-hidden flex flex-col sm:flex-row items-start sm:items-center p-3 gap-3">
       <Link
         href={"/"}
         className="aspect-square rounded-full size-full max-w-24 max-h-24 sm:max-w-32 sm:max-h-32 overflow-hidden flex-shrink-0"

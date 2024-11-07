@@ -6,14 +6,16 @@ import DotIcon from "@/components/icons/DotIcon";
 
 const PostCategoryCard = ({
   isMyCategory = true,
+  showThreeDot = true,
 }: {
   isMyCategory: boolean;
+  showThreeDot?: boolean;
 }) => {
   const imgUrl =
     "https://images.unsplash.com/photo-1725092097123-ae9e8c001490?q=80&w=1473&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
 
   return (
-    <div className="shadow-xl w-full border border-gray-500/10 rounded-sm relative z-10 flex">
+    <div className="shadow-xl w-full border border-accent rounded-sm relative z-10 flex">
       <div
         className={`self-center py-1 px-2 select-none ${
           isMyCategory ? "cursor-grab text-primary-500" : "text-gray-500"
@@ -68,13 +70,15 @@ const PostCategoryCard = ({
               <span>5 days ago</span>
             </div>
           </div>
-          <div className="self-center flex-shrink-0">
-            <PostCardCTA
-              postType={
-                isMyCategory ? "MY_POST_CATEGORY_CARD" : "POST_CATEGORY_CARD"
-              }
-            />
-          </div>
+          {showThreeDot && (
+            <div className="self-center flex-shrink-0">
+              <PostCardCTA
+                postType={
+                  isMyCategory ? "MY_POST_CATEGORY_CARD" : "POST_CATEGORY_CARD"
+                }
+              />
+            </div>
+          )}
         </div>
       </div>
     </div>

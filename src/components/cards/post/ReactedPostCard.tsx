@@ -3,12 +3,16 @@ import Link from "next/link";
 import PostCardCTA from "@/components/actions/PostCardCTA";
 import DotIcon from "@/components/icons/DotIcon";
 
-const ReactedPostCard = () => {
+const ReactedPostCard = ({
+  showThreeDot = true,
+}: {
+  showThreeDot?: boolean;
+}) => {
   const imgUrl =
     "https://images.unsplash.com/photo-1725092097123-ae9e8c001490?q=80&w=1473&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
 
   return (
-    <div className="shadow-xl w-full border border-gray-500/10 rounded-sm overflow-hidden flex">
+    <div className="shadow-xl w-full border border-accent rounded-sm overflow-hidden flex">
       <div className="flex flex-col sm:flex-row border-l sm:border-none w-full">
         <Link href={"/"} className="aspect-video overflow-hidden min-w-44">
           <Image
@@ -59,9 +63,11 @@ const ReactedPostCard = () => {
               />
             </div>
           </div>
-          <div className="self-center flex-shrink-0">
-            <PostCardCTA postType={"REACTED_POST_CARD"} />
-          </div>
+          {showThreeDot && (
+            <div className="self-center flex-shrink-0">
+              <PostCardCTA postType={"REACTED_POST_CARD"} />
+            </div>
+          )}
         </div>
       </div>
     </div>

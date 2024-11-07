@@ -8,7 +8,7 @@ const CategoryPreviewCard = () => {
 
   return (
     <div className="pt-3">
-      <div className="shadow-xl w-full max-w-sm border border-gray-500/10 rounded-sm relative z-10">
+      <div className="shadow-xl w-full max-w-sm border border-accent rounded-sm relative z-10">
         <CardFallBack imgUrl={imgUrl} />
         <Link href={"/"}>
           <div className="aspect-video relative rounded-t-sm overflow-hidden">
@@ -19,7 +19,7 @@ const CategoryPreviewCard = () => {
               alt=""
               className="size-full object-cover select-none"
             />
-            <span className="absolute right-1 bottom-1.5 bg-white/50 backdrop-blur-lg backdrop-opacity-50 drop-shadow-md border border-gray-500/10 rounded-sm px-1.5 text-white capitalize text-xs tracking-wide overflow-hidden flex justify-center items-center gap-1">
+            <span className="absolute right-1 bottom-1.5 bg-white/50 backdrop-blur-lg backdrop-opacity-50 drop-shadow-md border border-accent rounded-sm px-1.5 text-white capitalize text-xs tracking-wide overflow-hidden flex justify-center items-center gap-1">
               <StackIcon size={14} />
               25 posts
             </span>

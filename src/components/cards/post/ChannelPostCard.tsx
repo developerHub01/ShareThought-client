@@ -3,11 +3,15 @@ import Link from "next/link";
 import PostCardCTA from "@/components/actions/PostCardCTA";
 import DotIcon from "@/components/icons/DotIcon";
 
-const ChannelPostCard = () => {
+const ChannelPostCard = ({
+  showThreeDot = true,
+}: {
+  showThreeDot?: boolean;
+}) => {
   const imgUrl =
     "https://images.unsplash.com/photo-1730217804424-825f12eef36f?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
   return (
-    <div className="shadow-xl w-full max-w-sm border border-gray-500/10 rounded-sm overflow-hidden">
+    <div className="shadow-xl w-full max-w-sm border border-accent rounded-sm overflow-hidden">
       <Link href={"/"}>
         <div className="aspect-video rounded-t-sm overflow-hidden">
           <Image
@@ -29,9 +33,11 @@ const ChannelPostCard = () => {
               <span>5 min read</span>
             </div>
           </div>
-          <div>
-            <PostCardCTA postType="CHANNEL_POST_CARD" />
-          </div>
+          {showThreeDot && (
+            <div>
+              <PostCardCTA postType="CHANNEL_POST_CARD" />
+            </div>
+          )}
         </div>
       </Link>
     </div>
