@@ -12,8 +12,10 @@ import {
   ArrowUpToLine as UpIcon,
   ArrowDownToLine as DownIcon,
   MousePointerClick as ChangeReactionIcon,
+  Pencil as EditIcon,
+  Link as LinkIcon,
 } from "lucide-react";
-import { ICTAMenuItem } from "@/types";
+import { ICTAMenuItem, IPopoverPosition } from "@/types";
 
 type TPostType =
   | "CHANNEL_POST_CARD"
@@ -21,16 +23,25 @@ type TPostType =
   | "POST_CATEGORY_CARD"
   | "MY_POST_CATEGORY_CARD"
   | "HISTORY_POST_CARD"
-  | "REACTED_POST_CARD";
+  | "REACTED_POST_CARD"
+  | "COMMUNITY_POST_CARD"
+  | "My_COMMUNITY_POST_CARD";
 
 interface IPostCardCTA {
   postType: TPostType;
+  position?: IPopoverPosition;
 }
 
 const findCTAMenuItems = (postType: TPostType): Array<ICTAMenuItem> => {
   switch (postType) {
     case "POST_CARD":
       return [
+        {
+          id: "copy_post_link",
+          label: "copy link",
+          Icon: LinkIcon,
+          onClick: () => console.log("link clicked clicked"),
+        },
         {
           id: "save_to_read_later",
           label: "save to read later",
@@ -69,6 +80,12 @@ const findCTAMenuItems = (postType: TPostType): Array<ICTAMenuItem> => {
     case "CHANNEL_POST_CARD":
       return [
         {
+          id: "copy_post_link",
+          label: "copy link",
+          Icon: LinkIcon,
+          onClick: () => console.log("link clicked clicked"),
+        },
+        {
           id: "save_to_read_later",
           label: "save to read later",
           Icon: ClockIcon,
@@ -96,6 +113,12 @@ const findCTAMenuItems = (postType: TPostType): Array<ICTAMenuItem> => {
     case "POST_CATEGORY_CARD":
       return [
         {
+          id: "copy_post_link",
+          label: "copy link",
+          Icon: LinkIcon,
+          onClick: () => console.log("link clicked clicked"),
+        },
+        {
           id: "save_to_read_later",
           label: "save to read later",
           Icon: ClockIcon,
@@ -122,6 +145,12 @@ const findCTAMenuItems = (postType: TPostType): Array<ICTAMenuItem> => {
       ];
     case "MY_POST_CATEGORY_CARD":
       return [
+        {
+          id: "copy_post_link",
+          label: "copy link",
+          Icon: LinkIcon,
+          onClick: () => console.log("link clicked clicked"),
+        },
         {
           id: "save_to_read_later",
           label: "save to read later",
@@ -172,6 +201,12 @@ const findCTAMenuItems = (postType: TPostType): Array<ICTAMenuItem> => {
     case "HISTORY_POST_CARD":
       return [
         {
+          id: "copy_post_link",
+          label: "copy link",
+          Icon: LinkIcon,
+          onClick: () => console.log("link clicked clicked"),
+        },
+        {
           id: "save_to_read_later",
           label: "save to read later",
           Icon: ClockIcon,
@@ -204,6 +239,12 @@ const findCTAMenuItems = (postType: TPostType): Array<ICTAMenuItem> => {
       ];
     case "REACTED_POST_CARD":
       return [
+        {
+          id: "copy_post_link",
+          label: "copy link",
+          Icon: LinkIcon,
+          onClick: () => console.log("link clicked clicked"),
+        },
         {
           id: "save_to_read_later",
           label: "save to read later",
@@ -241,13 +282,49 @@ const findCTAMenuItems = (postType: TPostType): Array<ICTAMenuItem> => {
           onClick: () => console.log("share clicked"),
         },
       ];
+    case "COMMUNITY_POST_CARD":
+      return [
+        {
+          id: "copy_post_link",
+          label: "copy link",
+          Icon: LinkIcon,
+          onClick: () => console.log("link clicked clicked"),
+        },
+        {
+          id: "edit_community_post",
+          label: "edit",
+          Icon: EditIcon,
+          onClick: () => console.log("edit clicked"),
+        },
+        {
+          id: "delete_community_post",
+          label: "delete",
+          Icon: RemoveIcon,
+          onClick: () => console.log("delete clicked"),
+        },
+      ];
+    case "My_COMMUNITY_POST_CARD":
+      return [
+        {
+          id: "copy_post_link",
+          label: "copy link",
+          Icon: LinkIcon,
+          onClick: () => console.log("link clicked clicked"),
+        },
+        {
+          id: "report_community_post",
+          label: "report",
+          Icon: ReportIcon,
+          onClick: () => console.log("report clicked"),
+        },
+      ];
   }
 };
 
-const PostCardCTA = ({ postType}: IPostCardCTA) => {
+const PostCardCTA = ({ postType, position }: IPostCardCTA) => {
   const ctaMenuItems = findCTAMenuItems(postType);
 
-  return <CardCTAButton ctaMenuItems={ctaMenuItems} />;
+  return <CardCTAButton ctaMenuItems={ctaMenuItems} position={position} />;
 };
 
 export default PostCardCTA;

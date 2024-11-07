@@ -11,12 +11,17 @@ import {
   MenubarTrigger,
 } from "@/components/ui/menubar";
 import { EllipsisVertical as ThreeDotIcon } from "lucide-react";
-import { ICTAMenuItem } from "@/types";
+import { ICTAMenuItem, IPopoverPosition } from "@/types";
 
 const CardCTAButton = ({
   ctaMenuItems,
+  position = {
+    align: "end",
+    side: "top",
+  },
 }: {
   ctaMenuItems: Array<ICTAMenuItem>;
+  position?: IPopoverPosition;
 }) => {
   return (
     <Menubar className="p-0 border-none bg-transparent">
@@ -30,8 +35,8 @@ const CardCTAButton = ({
         </MenubarTrigger>
         <MenubarContent
           className="p-0 py-1 rounded-sm shadow-md"
-          align="end"
-          side="top"
+          align={position.align}
+          side={position.side}
         >
           {ctaMenuItems?.map(({ id, Icon, label, type, onClick }) => (
             <React.Fragment key={id}>
