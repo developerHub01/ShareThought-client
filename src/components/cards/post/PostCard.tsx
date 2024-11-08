@@ -22,34 +22,32 @@ const PostCard = ({ showThreeDot = true }: { showThreeDot?: boolean }) => {
           Developer Hub BD
         </h4>
       </Link>
-      <Link href={"/"}>
-        <div className="aspect-video rounded-t-sm overflow-hidden">
-          <Image
-            src={imgUrl}
-            width={300}
-            height={300}
-            alt=""
-            className="size-full object-cover select-none"
-          />
-        </div>
-        <div className="p-2.5 py-3 flex justify-between gap-2">
-          <div className="flex flex-col gap-2">
-            <h3 className="font-semibold line-clamp-2 overflow-hidden text-ellipsis">
-              🔴 Let&apos;s build a Full Stack E-Commerce App with NEXT.JS 15
-            </h3>
-            <div className="flex gap-1 text-gray-500 text-sm items-center">
-              <span>1 day ago</span>
-              <DotIcon />
-              <span>5 min read</span>
-            </div>
-          </div>
-          {showThreeDot && (
-            <div>
-              <PostCardCTA postType="POST_CARD" />
-            </div>
-          )}
-        </div>
+      <Link href={"/"} className="aspect-video rounded-t-sm overflow-hidden">
+        <Image
+          src={imgUrl}
+          width={300}
+          height={300}
+          alt=""
+          className="size-full object-cover select-none"
+        />
       </Link>
+      <div className="p-2.5 py-3 flex justify-between gap-2">
+        <Link href={"/"} className="flex flex-col gap-2">
+          <h3 className="font-semibold line-clamp-2 overflow-hidden text-ellipsis">
+            🔴 Let&apos;s build a Full Stack E-Commerce App with NEXT.JS 15
+          </h3>
+          <div className="flex gap-1 text-gray-500 text-sm items-center">
+            <span>1 day ago</span>
+            <DotIcon />
+            <span>5 min read</span>
+          </div>
+        </Link>
+        {showThreeDot && (
+          <div>
+            <PostCardCTA postType="POST_CARD" />
+          </div>
+        )}
+      </div>
     </div>
   );
 };
