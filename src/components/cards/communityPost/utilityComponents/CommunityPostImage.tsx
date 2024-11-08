@@ -47,42 +47,57 @@ const CommunityPostImage = () => {
   };
 
   return (
-    <Carousel
-      setApi={setApi}
-      opts={{ loop: true }}
-      className="w-full max-w-[600px] mx-auto"
-    >
-      <CarouselContent>
-        {imgUrls?.map((imgUrl, index) => (
-          <CarouselItem key={index}>
-            <AspectRatio ratio={1} className="bg-muted">
-              <Image
-                src={imgUrl}
-                alt="Photo by Drew Beamer"
-                fill
-                className="h-full w-full rounded-md object-cover select-none"
-              />
-            </AspectRatio>
-          </CarouselItem>
-        ))}
-      </CarouselContent>
-      <Button
-        size={"icon"}
-        onClick={handleCarouselLeft}
-        variant={"outline"}
-        className="absolute top-1/2 left-0 -translate-x-1/2 -translate-y-1/2 rounded-full border shadow-md"
-      >
-        <ChevronLeft />
-      </Button>
-      <Button
-        size={"icon"}
-        onClick={handleCarouselRight}
-        variant={"outline"}
-        className="absolute top-1/2 right-0 translate-x-1/2 -translate-y-1/2 rounded-full border shadow-md"
-      >
-        <ChevronRight />
-      </Button>
-    </Carousel>
+    <div className="w-full max-w-[600px] mx-auto relative">
+      {imgUrls?.length > 1 ? (
+        <>
+          <Carousel
+            setApi={setApi}
+            opts={{ loop: true }}
+            className="w-full rounded-sm overflow-hidden"
+          >
+            <CarouselContent>
+              {imgUrls?.map((imgUrl, index) => (
+                <CarouselItem key={index}>
+                  <AspectRatio ratio={1} className="bg-muted">
+                    <Image
+                      src={imgUrl}
+                      alt="Photo by Drew Beamer"
+                      fill
+                      className="h-full w-full rounded-md object-cover select-none"
+                    />
+                  </AspectRatio>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+          </Carousel>
+          <Button
+            size={"icon"}
+            onClick={handleCarouselLeft}
+            variant={"outline"}
+            className="absolute top-1/2 left-0 -translate-x-1/2 -translate-y-1/2 rounded-full border shadow-md"
+          >
+            <ChevronLeft />
+          </Button>
+          <Button
+            size={"icon"}
+            onClick={handleCarouselRight}
+            variant={"outline"}
+            className="absolute top-1/2 right-0 translate-x-1/2 -translate-y-1/2 rounded-full border shadow-md"
+          >
+            <ChevronRight />
+          </Button>
+        </>
+      ) : (
+        <AspectRatio ratio={1} className="w-full">
+          <Image
+            src={imgUrls[0]}
+            alt="Photo by Drew Beamer"
+            fill
+            className="h-full w-full rounded-md object-cover select-none"
+          />
+        </AspectRatio>
+      )}
+    </div>
   );
 };
 
