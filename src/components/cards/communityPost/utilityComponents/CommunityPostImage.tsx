@@ -7,8 +7,6 @@ import {
   CarouselApi,
   CarouselContent,
   CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
 } from "@/components/ui/carousel";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
@@ -23,28 +21,14 @@ const imgUrls = [
 
 const CommunityPostImage = () => {
   const [api, setApi] = useState<CarouselApi>();
-  const [current, setCurrent] = useState(0);
-  const [count, setCount] = useState(0);
 
   useEffect(() => {
-    if (!api) {
-      return;
-    }
-
-    setCount(api.scrollSnapList().length);
-    setCurrent(api.selectedScrollSnap() + 1);
-
-    api.on("select", () => {
-      setCurrent(api.selectedScrollSnap() + 1);
-    });
+    if (!api) return;
   }, [api]);
 
-  const handleCarouselLeft = () => {
-    api?.scrollPrev();
-  };
-  const handleCarouselRight = () => {
-    api?.scrollNext();
-  };
+  const handleCarouselLeft = () => api?.scrollPrev();
+
+  const handleCarouselRight = () => api?.scrollNext();
 
   return (
     <div className="w-full max-w-[600px] mx-auto relative">
