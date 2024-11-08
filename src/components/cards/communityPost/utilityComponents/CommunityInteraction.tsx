@@ -13,6 +13,8 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { REACTION_LIST, REACTION_MAP } from "@/constant";
+import { TReactions } from "@/types";
 import {
   MessageSquareText as CommentIcon,
   ThumbsUp as LikeIcon,
@@ -22,17 +24,6 @@ import {
 import Link from "next/link";
 import React, { MouseEvent, useState } from "react";
 
-type TReactions = "like" | "love" | "wow" | "clap" | "helpful" | "inspiring";
-
-const reactionList: Array<TReactions> = [
-  "like",
-  "love",
-  "wow",
-  "clap",
-  "helpful",
-  "inspiring",
-] as const;
-
 type TOnClick = () => void;
 
 interface IActionButtonsList {
@@ -41,15 +32,6 @@ interface IActionButtonsList {
   link?: string;
   onClick?: TOnClick;
 }
-
-const reactionMap: Record<TReactions, string> = {
-  like: "/reaction-icons/like.png",
-  love: "/reaction-icons/love.png",
-  wow: "/reaction-icons/wow.png",
-  clap: "/reaction-icons/clap.png",
-  helpful: "/reaction-icons/helpful.png",
-  inspiring: "/reaction-icons/inspiring.png",
-};
 
 interface ReactPostActionButtonProps {
   activeReactionId: TReactions | null;
@@ -86,7 +68,7 @@ const CommunityInteraction = () => {
 
   const handleReactReaction = (reactionId?: TReactions) => () => {
     if (!reactionId) return setActiveReactionId(null);
-    if (!reactionMap[reactionId]) return setActiveReactionId(null);
+    if (!REACTION_MAP[reactionId]) return setActiveReactionId(null);
 
     return setActiveReactionId(reactionId);
   };
@@ -158,7 +140,7 @@ const ReactPostActionButton = ({
 
     if (activeReactionId) return handleReactReaction()();
 
-    return handleReactReaction("like")();
+    return handleReactReaction("LIKE")();
   };
 
   const handleReactReactionChange = (reactionId?: TReactions) => () => {
@@ -180,7 +162,7 @@ const ReactPostActionButton = ({
         >
           {activeReactionId ? (
             <Avatar className="cursor-pointer overflow-visible size-5">
-              <AvatarImage src={reactionMap[activeReactionId]} />
+              <AvatarImage src={REACTION_MAP[activeReactionId]} />
               <AvatarFallback>{activeReactionId}</AvatarFallback>
             </Avatar>
           ) : (
@@ -195,7 +177,7 @@ const ReactPostActionButton = ({
           className="flex flex-wrap gap-x-2 gap-y-3 justify-between items-center w-fit p-3 max-w-40 sm:max-w-80"
         >
           <TooltipProvider>
-            {reactionList.map((id, index) => (
+            {REACTION_LIST.map((id, index) => (
               <Tooltip key={id}>
                 <TooltipTrigger asChild>
                   <label htmlFor={id}>
@@ -212,7 +194,7 @@ const ReactPostActionButton = ({
                         animationDelay: `${index * 100}ms`, // Stagger delay for each avatar
                       }}
                     >
-                      <AvatarImage src={reactionMap[id]} />
+                      <AvatarImage src={REACTION_MAP[id]} />
                       <AvatarFallback>{id}</AvatarFallback>
                     </Avatar>
                   </label>
@@ -232,17 +214,17 @@ const ReactPostActionButton = ({
 const ReactionTypeAvatarList = () => {
   return (
     <div className="flex items-center">
-      {reactionList.map((id) => (
+      {REACTION_LIST.map((id) => (
         <Avatar
           key={id}
           className="size-5 sm:size-6 -ml-1.5 sm:-ml-3 first:ml-0"
         >
           <AvatarImage
-            src={reactionMap[id]}
+            src={REACTION_MAP[id]}
             alt=""
             className="select-none size-full object-contain"
           />
-          <AvatarFallback>DH</AvatarFallback>
+          <AvatarFallback>{id}</AvatarFallback>
         </Avatar>
       ))}
     </div>

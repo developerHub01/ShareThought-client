@@ -1,3 +1,5 @@
+import { TReactions } from "@/types";
+
 export const REACTION_TYPES = {
   LIKE: "LIKE",
   LOVE: "LOVE",
@@ -6,3 +8,16 @@ export const REACTION_TYPES = {
   HELPFUL: "HELPFUL",
   INSPIRING: "INSPIRING",
 } as const;
+
+export const REACTION_LIST: Array<TReactions> = Object.keys(
+  REACTION_TYPES
+) as TReactions[];
+
+export const REACTION_MAP: Record<TReactions, string> = {
+  LIKE: "/reaction-icons/like.png",
+  LOVE: "/reaction-icons/love.png",
+  WOW: "/reaction-icons/wow.png",
+  CLAP: "/reaction-icons/clap.png",
+  HELPFUL: "/reaction-icons/helpful.png",
+  INSPIRING: "/reaction-icons/inspiring.png",
+};

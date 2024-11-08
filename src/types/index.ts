@@ -16,3 +16,11 @@ export interface IPopoverPosition {
   align?: "start" | "center" | "end";
   side?: "top" | "right" | "bottom" | "left";
 }
+
+export type TReactions =
+  | "LIKE"
+  | "LOVE"
+  | "WOW"
+  | "CLAP"
+  | "HELPFUL"
+  | "INSPIRING";
