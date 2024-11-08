@@ -8,7 +8,7 @@ const PostCategoryCard = ({
   isMyCategory = true,
   showThreeDot = true,
 }: {
-  isMyCategory: boolean;
+  isMyCategory?: boolean;
   showThreeDot?: boolean;
 }) => {
   const imgUrl =
@@ -30,7 +30,7 @@ const PostCategoryCard = ({
       <div className="flex flex-col sm:flex-row border-l sm:border-none w-full">
         <Link
           href={"/"}
-          className="aspect-video relative overflow-hidden min-w-44"
+          className="aspect-video relative overflow-hidden min-w-52"
         >
           <Image
             src={imgUrl}

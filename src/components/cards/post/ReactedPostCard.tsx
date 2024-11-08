@@ -14,7 +14,7 @@ const ReactedPostCard = ({
   return (
     <div className="shadow-xl w-full border border-accent rounded-sm overflow-hidden flex">
       <div className="flex flex-col sm:flex-row border-l sm:border-none w-full">
-        <Link href={"/"} className="aspect-video overflow-hidden min-w-44">
+        <Link href={"/"} className="aspect-video overflow-hidden min-w-52">
           <Image
             src={imgUrl}
             width={300}
