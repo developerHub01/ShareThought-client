@@ -200,7 +200,7 @@ const ReactPostActionButton = ({
                   </label>
                 </TooltipTrigger>
                 <TooltipContent sideOffset={12}>
-                  <p className="capitalize">{id}</p>
+                  <p className="capitalize">{id?.toLowerCase()}</p>
                 </TooltipContent>
               </Tooltip>
             ))}
