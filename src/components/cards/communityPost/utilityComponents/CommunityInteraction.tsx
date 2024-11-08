@@ -8,40 +8,39 @@ import {
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
 import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import {
   MessageSquareText as CommentIcon,
   ThumbsUp as LikeIcon,
   Link as LinkIcon,
   LucideIcon,
 } from "lucide-react";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 
-const reactionList: Array<IReaction> = [
-  {
-    id: "like",
-    icon: "/reaction-icons/like.png",
-  },
-  {
-    id: "love",
-    icon: "/reaction-icons/love.png",
-  },
-  {
-    id: "wow",
-    icon: "/reaction-icons/wow.png",
-  },
-  {
-    id: "clap",
-    icon: "/reaction-icons/clap.png",
-  },
-  {
-    id: "helpful",
-    icon: "/reaction-icons/helpful.png",
-  },
-  {
-    id: "inspiring",
-    icon: "/reaction-icons/inspiring.png",
-  },
-];
+type TReactions = "like" | "love" | "wow" | "clap" | "helpful" | "inspiring";
+
+const reactionList: Array<TReactions> = [
+  "like",
+  "love",
+  "wow",
+  "clap",
+  "helpful",
+  "inspiring",
+] as const;
+
+const reactionMap: Record<TReactions, string> = {
+  like: "/reaction-icons/like.png",
+  love: "/reaction-icons/love.png",
+  wow: "/reaction-icons/wow.png",
+  clap: "/reaction-icons/clap.png",
+  helpful: "/reaction-icons/helpful.png",
+  inspiring: "/reaction-icons/inspiring.png",
+};
 
 type TOnClick = () => void;
 
@@ -68,18 +67,35 @@ const actionButtonsList: Array<IActionButtonsList> = [
     Icon: CommentIcon,
     link: "/",
   },
-];
+] as const;
 
 const CommunityInteraction = () => {
+  const [activeReactionId, setActiveReactionId] = useState<TReactions | null>(
+    null
+  );
+
+  console.log("activeReactionId initail state ===========");
+  console.log(activeReactionId);
+
+  const handleReactReaction = (reactionId?: TReactions) => () => {
+    console.log("handleReactReaction ========");
+    console.log({ reactionId });
+
+    if (!reactionId) return setActiveReactionId(null);
+    if (!reactionMap[reactionId]) return setActiveReactionId(null);
+
+    return setActiveReactionId(reactionId);
+  };
+
   return (
     <div className="flex flex-col gap-2 pt-2">
       <div className="flex gap-1 sm:gap-3 flex-col sm:flex-row items-center justify-center sm:justify-between flex-wrap">
         <Button variant="link" size={"sm"} className="text-xs px-0">
           <ReactionTypeAvatarList />
-          50K Reactions
+          50K
         </Button>
         <Button variant="link" size={"sm"} className="text-xs px-0">
-          <CommentIcon /> 50K comments
+          <CommentIcon /> 50K
         </Button>
       </div>
       <div className="flex gap-2 items-center">
@@ -91,8 +107,8 @@ const CommunityInteraction = () => {
               </Link>
             ) : id === "react" ? (
               <ReactPostActionButton
-                Icon={Icon}
-                onClick={onClick as TOnClick}
+                activeReactionId={activeReactionId}
+                handleReactReaction={handleReactReaction}
               />
             ) : (
               <ActionButton Icon={Icon} onClick={onClick} />
@@ -119,11 +135,11 @@ const ActionButton = ({
 };
 
 const ReactPostActionButton = ({
-  Icon,
-  onClick,
+  activeReactionId = null,
+  handleReactReaction,
 }: {
-  Icon: LucideIcon;
-  onClick: () => void;
+  activeReactionId: TReactions | null;
+  handleReactReaction: (reactionId?: TReactions) => () => void;
 }) => {
   return (
     <HoverCard>
@@ -131,42 +147,72 @@ const ReactPostActionButton = ({
         <Button
           variant="outline"
           size="icon"
-          onClick={onClick}
+          onClick={
+            activeReactionId
+              ? handleReactReaction()
+              : handleReactReaction("like")
+          }
           fullWidth={true}
         >
-          <Icon />
+          {activeReactionId ? (
+            <Avatar className="cursor-pointer overflow-visible size-5">
+              <AvatarImage src={reactionMap[activeReactionId]} />
+              <AvatarFallback>{activeReactionId}</AvatarFallback>
+            </Avatar>
+          ) : (
+            <LikeIcon />
+          )}
         </Button>
       </HoverCardTrigger>
-      <HoverCardContent
-        align="start"
-        side="top"
-        className="flex flex-wrap gap-1 sm:gap-2 justify-center items-center w-fit"
-      >
-        {reactionList.map(({ id, icon }) => (
-          <Avatar
-            key={id}
-            className="transition-all duration-150 ease-out hover:scale-110 hover:rotate-12 cursor-pointer hover:animate-spin overflow-visible rounded-none size-7 sm:size-10"
-          >
-            <AvatarImage src={icon} />
-            <AvatarFallback>{id}</AvatarFallback>
-          </Avatar>
-        ))}
-      </HoverCardContent>
+      <form>
+        <HoverCardContent
+          align="start"
+          side="top"
+          className="flex flex-wrap gap-x-2 gap-y-3 justify-between items-center w-fit p-3 max-w-40 sm:max-w-80"
+        >
+          <TooltipProvider>
+            {reactionList.map((id) => (
+              <Tooltip key={id}>
+                <TooltipTrigger asChild>
+                  <label htmlFor={id}>
+                    <input
+                      type="radio"
+                      name="reaction"
+                      hidden
+                      id={id}
+                      onChange={handleReactReaction(id)}
+                    />
+                    <Avatar className="transition-all duration-150 ease-out hover:scale-110 hover:rotate-12 cursor-pointer hover:animate-spin overflow-visible rounded-none size-7 sm:size-9">
+                      <AvatarImage src={reactionMap[id]} />
+                      <AvatarFallback>{id}</AvatarFallback>
+                    </Avatar>
+                  </label>
+                </TooltipTrigger>
+                <TooltipContent sideOffset={12}>
+                  <p className="capitalize rounded-sm">{id}</p>
+                </TooltipContent>
+              </Tooltip>
+            ))}
+          </TooltipProvider>
+        </HoverCardContent>
+      </form>
     </HoverCard>
   );
 };
 
-interface IReaction {
-  id: string;
-  icon: string;
-}
-
 const ReactionTypeAvatarList = () => {
   return (
     <div className="flex items-center">
-      {reactionList.map(({ id, icon }) => (
-        <Avatar key={id} className="size-5 sm:size-6 -ml-1.5 sm:-ml-3 first:ml-0">
-          <AvatarImage src={icon} alt="" className="select-none" />
+      {reactionList.map((id) => (
+        <Avatar
+          key={id}
+          className="size-5 sm:size-6 -ml-1.5 sm:-ml-3 first:ml-0"
+        >
+          <AvatarImage
+            src={reactionMap[id]}
+            alt=""
+            className="select-none size-full object-contain"
+          />
           <AvatarFallback>DH</AvatarFallback>
         </Avatar>
       ))}
