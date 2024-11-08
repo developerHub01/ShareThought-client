@@ -189,7 +189,7 @@ const ReactPostActionButton = ({
                       onChange={handleReactReactionChange(id)}
                     />
                     <Avatar
-                      className="transition-all ease-in-out duration-1000 hover:scale-110 hover:rotate-12 cursor-pointer animate-pulse hover:animate-spin overflow-visible rounded-none size-7 sm:size-9"
+                      className="transition-all ease-in-out duration-1000 scale-90 hover:scale-110 hover:rotate-12 cursor-pointer animate-pulse hover:animate-spin overflow-visible rounded-none size-7 sm:size-9"
                       style={{
                         animationDelay: `${index * 100}ms`, // Stagger delay for each avatar
                       }}
