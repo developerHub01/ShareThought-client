@@ -20,7 +20,7 @@ import {
   LucideIcon,
 } from "lucide-react";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { MouseEvent, useState } from "react";
 
 type TReactions = "like" | "love" | "wow" | "clap" | "helpful" | "inspiring";
 
@@ -33,6 +33,15 @@ const reactionList: Array<TReactions> = [
   "inspiring",
 ] as const;
 
+type TOnClick = () => void;
+
+interface IActionButtonsList {
+  id: string;
+  Icon: LucideIcon;
+  link?: string;
+  onClick?: TOnClick;
+}
+
 const reactionMap: Record<TReactions, string> = {
   like: "/reaction-icons/like.png",
   love: "/reaction-icons/love.png",
@@ -42,13 +51,14 @@ const reactionMap: Record<TReactions, string> = {
   inspiring: "/reaction-icons/inspiring.png",
 };
 
-type TOnClick = () => void;
+interface ReactPostActionButtonProps {
+  activeReactionId: TReactions | null;
+  handleReactReaction: (reactionId?: TReactions) => () => void;
+}
 
-interface IActionButtonsList {
-  id: string;
+interface ActionButtonProps {
   Icon: LucideIcon;
-  link?: string;
-  onClick?: TOnClick;
+  onClick?: () => void;
 }
 
 const actionButtonsList: Array<IActionButtonsList> = [
@@ -74,13 +84,7 @@ const CommunityInteraction = () => {
     null
   );
 
-  console.log("activeReactionId initail state ===========");
-  console.log(activeReactionId);
-
   const handleReactReaction = (reactionId?: TReactions) => () => {
-    console.log("handleReactReaction ========");
-    console.log({ reactionId });
-
     if (!reactionId) return setActiveReactionId(null);
     if (!reactionMap[reactionId]) return setActiveReactionId(null);
 
@@ -120,13 +124,7 @@ const CommunityInteraction = () => {
   );
 };
 
-const ActionButton = ({
-  Icon,
-  onClick,
-}: {
-  Icon: LucideIcon;
-  onClick?: () => void;
-}) => {
+const ActionButton = ({ Icon, onClick }: ActionButtonProps) => {
   return (
     <Button variant="outline" size="icon" onClick={onClick} fullWidth={true}>
       <Icon />
@@ -137,21 +135,47 @@ const ActionButton = ({
 const ReactPostActionButton = ({
   activeReactionId = null,
   handleReactReaction,
-}: {
-  activeReactionId: TReactions | null;
-  handleReactReaction: (reactionId?: TReactions) => () => void;
-}) => {
+}: ReactPostActionButtonProps) => {
+  const [isHoverCardOpen, setIsHoverCardOpen] = useState<boolean>(false);
+  const [isLikeButtonClicked, setIsLikeButtonClicked] =
+    useState<boolean>(false);
+
+  /* if reaction button is clicked then no need to show popover else show */
+  const handleOnOpenChange = (isOpen: boolean) => {
+    if (isLikeButtonClicked) {
+      setIsLikeButtonClicked(false);
+      return setIsHoverCardOpen(false);
+    }
+
+    return setIsHoverCardOpen(isOpen);
+  };
+
+  const handleClickLikeButton = (e: MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    setIsLikeButtonClicked(true);
+
+    if (activeReactionId) return handleReactReaction()();
+
+    return handleReactReaction("like")();
+  };
+
+  const handleReactReactionChange = (reactionId?: TReactions) => () => {
+    setTimeout(() => {
+      setIsHoverCardOpen(false);
+      setIsLikeButtonClicked(false); /* that is optional. only for sefty */
+    }, 10);
+    return handleReactReaction(reactionId)();
+  };
+
   return (
-    <HoverCard>
+    <HoverCard open={isHoverCardOpen} onOpenChange={handleOnOpenChange}>
       <HoverCardTrigger asChild>
         <Button
           variant="outline"
           size="icon"
-          onClick={
-            activeReactionId
-              ? handleReactReaction()
-              : handleReactReaction("like")
-          }
+          onClick={handleClickLikeButton}
           fullWidth={true}
         >
           {activeReactionId ? (
@@ -171,7 +195,7 @@ const ReactPostActionButton = ({
           className="flex flex-wrap gap-x-2 gap-y-3 justify-between items-center w-fit p-3 max-w-40 sm:max-w-80"
         >
           <TooltipProvider>
-            {reactionList.map((id) => (
+            {reactionList.map((id, index) => (
               <Tooltip key={id}>
                 <TooltipTrigger asChild>
                   <label htmlFor={id}>
@@ -180,16 +204,21 @@ const ReactPostActionButton = ({
                       name="reaction"
                       hidden
                       id={id}
-                      onChange={handleReactReaction(id)}
+                      onChange={handleReactReactionChange(id)}
                     />
-                    <Avatar className="transition-all duration-150 ease-out hover:scale-110 hover:rotate-12 cursor-pointer hover:animate-spin overflow-visible rounded-none size-7 sm:size-9">
+                    <Avatar
+                      className="transition-all ease-in-out duration-1000 hover:scale-110 hover:rotate-12 cursor-pointer animate-pulse hover:animate-spin overflow-visible rounded-none size-7 sm:size-9"
+                      style={{
+                        animationDelay: `${index * 100}ms`, // Stagger delay for each avatar
+                      }}
+                    >
                       <AvatarImage src={reactionMap[id]} />
                       <AvatarFallback>{id}</AvatarFallback>
                     </Avatar>
                   </label>
                 </TooltipTrigger>
                 <TooltipContent sideOffset={12}>
-                  <p className="capitalize rounded-sm">{id}</p>
+                  <p className="capitalize">{id}</p>
                 </TooltipContent>
               </Tooltip>
             ))}
