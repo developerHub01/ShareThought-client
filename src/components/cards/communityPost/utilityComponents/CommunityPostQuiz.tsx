@@ -79,28 +79,28 @@ const CommunityPostQuiz = () => {
   return (
     <div className="flex flex-col gap-3.5">
       <p className="text-sm text-gray-500">{totalAnswers} answered</p>
-      <div className="flex flex-col gap-3">
+      <div className="flex flex-col gap-3 select-none">
         {options.map(({ text, isCorrectAnswer, successRate }, id) => {
           /* round the successRate to show */
           successRate = Math.round(successRate);
 
           /* check current option is selected or not */
           const isCurrentOptionSelected = mySelection === id;
-          
+
           /* if any option is selected and that is correct option then showRight */
           const showRight = isSelected && isCorrectAnswer;
-          
+
           /* if that option is selected and option is not correct then showWrong */
           const showWrong = isCurrentOptionSelected && !isCorrectAnswer;
-          
+
           /* determine border color
             - if showWrong then border color red
             - if current option is selected and that is correct option then border color green
           */
           const answerShowingClasses =
-            `${showRight && isCurrentOptionSelected ? "border-green-500" : ""} ${
-              showWrong ? "border-red-500" : ""
-            }` || "border-accent";
+            `${
+              showRight && isCurrentOptionSelected ? "border-green-500" : ""
+            } ${showWrong ? "border-red-500" : ""}` || "border-accent";
 
           return (
             <div
