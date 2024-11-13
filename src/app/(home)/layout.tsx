@@ -1,3 +1,5 @@
+import { AppSidebar } from "@/components/sidebar/AppSidebar";
+import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -12,10 +14,12 @@ const RootLayout = ({
   children: React.ReactNode;
 }>) => {
   return (
-    <>
-      <h1>Header from main route</h1>
-      {children}
-    </>
+    <SidebarProvider>
+      <AppSidebar />
+      <SidebarInset>
+        <main className="w-full h-full">{children}</main>
+      </SidebarInset>
+    </SidebarProvider>
   );
 };
 
