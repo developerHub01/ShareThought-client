@@ -12,13 +12,13 @@ const Notification = () => {
       {/* that span will show if that notification is not read */}
       <span className="w-1 bg-primary flex-shrink-0" />
       <div className="w-full flex gap-2 justify-between p-2.5 px-3 sm:p-3 bg-transparent hover:bg-accent">
-        <Link href="/" className="flex gap-3.5 justify-between items-start">
-          <Avatar className="size-12">
+        <Link href="/" className="flex gap-2 sm:gap-3.5 justify-between items-start">
+          <Avatar className="size-8 sm:size-12">
             <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
             <AvatarFallback>CN</AvatarFallback>
           </Avatar>
           <div className="flex flex-col gap-1.5">
-            <p className="text-sm font-normal line-clamp-2 text-gray-700">
+            <p className="sm:text-sm font-normal line-clamp-2 text-gray-700">
               Kevin Powell uploaded: Figma&apos;s missing feature that acient
               software added decades ago
             </p>
