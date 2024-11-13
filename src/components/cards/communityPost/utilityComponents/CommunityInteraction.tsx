@@ -108,7 +108,7 @@ const CommunityInteraction = () => {
 
 const ActionButton = ({ Icon, onClick }: ActionButtonProps) => {
   return (
-    <Button variant="outline" size="icon" onClick={onClick} fullWidth={true}>
+    <Button variant="outline" size="icon" onClick={onClick} className="w-full">
       <Icon />
     </Button>
   );
@@ -158,7 +158,7 @@ const ReactPostActionButton = ({
           variant="outline"
           size="icon"
           onClick={handleClickLikeButton}
-          fullWidth={true}
+          className="w-full"
         >
           {activeReactionId ? (
             <Avatar className="cursor-pointer overflow-visible size-5">

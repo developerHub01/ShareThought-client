@@ -24,3 +24,11 @@ export type TReactions =
   | "CLAP"
   | "HELPFUL"
   | "INSPIRING";
+
+export type TCommunityPostType =
+  | "TEXT"
+  | "IMAGE"
+  | "POST_SHARE"
+  | "POLL"
+  | "POLL_WITH_IMAGE"
+  | "QUIZ";
