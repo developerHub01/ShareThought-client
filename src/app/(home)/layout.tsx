@@ -1,3 +1,4 @@
+import Navbar from "@/components/navbar/Navbar";
 import { AppSidebar } from "@/components/sidebar/AppSidebar";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import type { Metadata } from "next";
@@ -17,6 +18,7 @@ const RootLayout = ({
     <SidebarProvider>
       <AppSidebar />
       <SidebarInset>
+        <Navbar />
         <main className="w-full h-full">{children}</main>
       </SidebarInset>
     </SidebarProvider>
