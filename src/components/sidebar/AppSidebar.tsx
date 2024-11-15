@@ -1,24 +1,16 @@
 import {
   Sidebar,
   SidebarContent,
-  SidebarFooter,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuItem,
   SidebarRail,
-} from "@/components/ui/sidebar";
+} from "@/components/sidebar/SidebarMain";
 import { NavMain } from "@/components/sidebar/NavMain";
 import { NavSecondary } from "@/components/sidebar/NavSecondary";
-import { NavUser } from "@/components/sidebar/NavUser";
 import SidebarTop from "@/components/sidebar/SidebarTop";
 
 const data = {
-  user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar:
-      "https://images.unsplash.com/photo-1730660666237-1e6a008067a9?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  },
   navMain: [
     {
       id: "home",
@@ -102,9 +94,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <NavMain items={data.navMain} />
         <NavSecondary items={data.navSecondary} className="mt-auto" />
       </SidebarContent>
-      <SidebarFooter>
-        <NavUser user={data.user} />
-      </SidebarFooter>
       <SidebarRail />
     </Sidebar>
   );

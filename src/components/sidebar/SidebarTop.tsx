@@ -2,7 +2,7 @@
 
 import AppSidebarTrigger from "@/components/sidebar/AppSidebarTrigger";
 import Link from "next/link";
-import { useSidebar } from "@/components/ui/sidebar";
+import { useSidebar } from "@/components/sidebar/SidebarMain";
 
 const SidebarTop = () => {
   const { state } = useSidebar();

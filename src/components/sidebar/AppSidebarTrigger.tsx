@@ -2,7 +2,7 @@
 
 import { Menu as MenuIcon } from "lucide-react";
 import { ComponentProps, ElementRef, forwardRef } from "react";
-import { useSidebar } from "@/components/ui/sidebar";
+import { useSidebar } from "@/components/sidebar/SidebarMain";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 

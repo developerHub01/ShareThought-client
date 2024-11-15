@@ -10,7 +10,13 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
-import { Sheet, SheetContent } from "@/components/ui/sheet";
+import {
+  Drawer,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerDescription,
+  DrawerContentWitoutHandler,
+} from "@/components/ui/drawer";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
   Tooltip,
@@ -40,6 +46,8 @@ const SidebarContext = React.createContext<SidebarContext | null>(null);
 
 function useSidebar() {
   const context = React.useContext(SidebarContext);
+
+  console.log({ context });
 
   if (!context) {
     throw new Error("useSidebar must be used within a SidebarProvider.");
@@ -195,21 +203,28 @@ const Sidebar = React.forwardRef<
 
     if (isMobile) {
       return (
-        <Sheet open={openMobile} onOpenChange={setOpenMobile} {...props}>
-          <SheetContent
+        <Drawer
+          direction={side}
+          open={openMobile}
+          onOpenChange={setOpenMobile}
+        >
+          <DrawerContentWitoutHandler
             data-sidebar="sidebar"
             data-mobile="true"
-            className="w-[--sidebar-width] bg-sidebar p-0 text-sidebar-foreground [&>button]:hidden"
+            className="w-[90%] max-w-[--sidebar-width] bg-sidebar p-0 text-sidebar-foreground [&>button]:hidden fixed mt-0 overflow-hidden inset-2 rounded-sm mr-auto border-0"
             style={
               {
                 "--sidebar-width": SIDEBAR_WIDTH_MOBILE,
               } as React.CSSProperties
             }
-            side={side}
           >
+            <DrawerHeader className="hidden">
+              <DrawerTitle hidden></DrawerTitle>
+              <DrawerDescription hidden></DrawerDescription>
+            </DrawerHeader>
             <div className="flex h-full w-full flex-col">{children}</div>
-          </SheetContent>
-        </Sheet>
+          </DrawerContentWitoutHandler>
+        </Drawer>
       );
     }
 
