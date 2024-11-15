@@ -8,7 +8,7 @@ interface IChannelListItem {
   channelAvatar: string;
   channelName: string;
   followerCount: number;
-  role: "owner" | "moderator" | "super moderator";
+  role: "author" | "moderator" | "super moderator";
 }
 
 const channelList: Array<IChannelListItem> = [
@@ -17,14 +17,14 @@ const channelList: Array<IChannelListItem> = [
     channelAvatar: "https://github.com/shadcn.png",
     channelName: "channel name 1",
     followerCount: 500,
-    role: "owner",
+    role: "author",
   },
   {
     id: "channel2",
     channelAvatar: "https://github.com/shadcn.png",
     channelName: "channel name 2",
     followerCount: 500,
-    role: "owner",
+    role: "author",
   },
   {
     id: "channel3",

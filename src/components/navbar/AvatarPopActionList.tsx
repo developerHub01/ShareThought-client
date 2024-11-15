@@ -9,6 +9,8 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import ThemeMode from "@/components/navbar/ThemeMode";
 import AvatarActionButton from "@/components/navbar/AvatarActionButton";
 import ChannelActionList from "@/components/navbar/ChannelActionList";
+import { Separator } from "@/components/ui/separator";
+import React from "react";
 
 const actionList = [
   {
@@ -33,18 +35,23 @@ const actionList = [
 
 const AvatarPopActionList = () => {
   return (
-    <div className="w-full flex-1">
-      <ScrollArea className="w-full h-[300px]">
-        {/* <div className="w-full h-full"> */}
-          <ThemeMode />
-          <ChannelActionList />
-          {actionList.map((item) => (
-            <AvatarActionButton key={item.id} {...item} />
-          ))}
-        {/* </div> */}
-      </ScrollArea>
-    </div>
+    <ScrollArea className="w-full h-96">
+      <ThemeMode />
+      <LightSeparator />
+      <ChannelActionList />
+      <LightSeparator />
+      {actionList.map((item, index) => (
+        <React.Fragment key={item.id}>
+          <AvatarActionButton {...item} />
+          {index !== actionList.length - 1 && <LightSeparator />}
+        </React.Fragment>
+      ))}
+    </ScrollArea>
   );
 };
+
+const LightSeparator = () => (
+  <Separator className="opacity-30 mx-auto w-11/12" />
+);
 
 export default AvatarPopActionList;

@@ -20,7 +20,7 @@ const AvatarPopover = ({ children }: AvatarPopoverProps) => {
         sideOffset={5}
         side="bottom"
         align="end"
-        className="p-0 py-1 w-64 sm:w-80 h-full max-h-[85vh] rounded-sm flex flex-col"
+        className="p-0 py-1 w-64 sm:w-80 max-h-[85vh] rounded-sm flex flex-col"
       >
         <AvatarPopoverProfileDetails />
         <Separator />
