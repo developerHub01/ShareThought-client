@@ -4,7 +4,6 @@ import {
   SidebarHeader,
   SidebarMenu,
   SidebarMenuItem,
-  SidebarRail,
 } from "@/components/sidebar/SidebarMain";
 import { NavMain } from "@/components/sidebar/NavMain";
 import { NavSecondary } from "@/components/sidebar/NavSecondary";
@@ -82,7 +81,7 @@ const data = {
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
-    <Sidebar collapsible="icon" {...props} className="p-0 max-w-60">
+    <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
@@ -94,7 +93,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <NavMain items={data.navMain} />
         <NavSecondary items={data.navSecondary} className="mt-auto" />
       </SidebarContent>
-      <SidebarRail />
     </Sidebar>
   );
 }
