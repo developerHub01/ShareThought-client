@@ -5,39 +5,10 @@ import { Button } from "@/components/ui/button";
 import {
   Search as SearchIcon,
   X as CancelIcon,
-  Mic as MicIcon,
   ArrowLeft as BackIcon,
 } from "lucide-react";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import {
-  ChangeEvent,
-  Dispatch,
-  FormEvent,
-  SetStateAction,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
 import { useIsMobile } from "@/hooks/use-mobile";
-import {
-  Drawer,
-  DrawerContent,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerTrigger,
-} from "@/components/ui/drawer";
-
-interface VoiceSearchComponentProps {
-  open: boolean;
-  setOpen: Dispatch<SetStateAction<boolean>>;
-  iconSize: number;
-}
 
 const iconMobileSize = 16;
 const iconDesktopSize = 18;
@@ -50,13 +21,10 @@ const Searchbar = () => {
   const isMobile = useIsMobile();
 
   useEffect(() => {
-    if (!isMobile) {
-      setShowSearchBarInMobile(false);
-      inputRef.current?.focus();
-    } else {
-      inputRef.current?.focus();
-    }
-  }, [isMobile]);
+    if (!isMobile) setShowSearchBarInMobile(false);
+
+    if (showSearchBarInMobile) inputRef.current?.focus();
+  }, [isMobile, showSearchBarInMobile]);
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) =>
     setQuery(e?.target?.value);
@@ -86,7 +54,7 @@ const Searchbar = () => {
       </Button>
       <form
         className={clsx(
-          "sm:relative sm:p-0 sm:flex w-full justify-center items-center gap-2 bg-white",
+          "sm:relative sm:p-0 sm:flex w-full justify-center items-center gap-2 bg-white z-30",
           {
             "absolute w-full h-full top-0 left-0 p-1 flex":
               showSearchBarInMobile,
@@ -108,7 +76,7 @@ const Searchbar = () => {
           <input
             type="text"
             placeholder="Search"
-            className="outline-none ps-2 sm:ps-3 pe-0.5 py-1 gap-1 text-gray-500 flex-1 w-full text-sm sm:text-base"
+            className="outline-none ps-2 sm:ps-3 pe-0.5 py-1 gap-1 text-gray-500 flex-1 w-full text-sm sm:text-base bg-transparent"
             value={query}
             onChange={handleInputChange}
             ref={inputRef}
@@ -135,84 +103,8 @@ const Searchbar = () => {
             <SearchIcon size={iconSize} />
           </Button>
         </div>
-        <VoiceSearchBox />
       </form>
     </div>
-  );
-};
-
-const VoiceSearchBox = () => {
-  const [open, setOpen] = useState(false);
-  const isMobile = useIsMobile();
-  const iconSize = isMobile ? iconMobileSize : iconDesktopSize;
-
-  const VoiceSearchComponent = isMobile ? DrawerComponent : DialogComponent;
-
-  return (
-    <VoiceSearchComponent open={open} setOpen={setOpen} iconSize={iconSize} />
-  );
-};
-
-const DialogComponent = ({
-  open,
-  setOpen,
-  iconSize,
-}: VoiceSearchComponentProps) => (
-  <Dialog open={open} onOpenChange={setOpen}>
-    <DialogTrigger asChild>
-      <Button
-        type="button"
-        size="icon"
-        variant="ghost"
-        className="rounded-full aspect-square flex-shrink-0 cursor-pointer"
-      >
-        <MicIcon size={iconSize} strokeWidth={1.5} />
-      </Button>
-    </DialogTrigger>
-    <DialogContent className="rounded-sm flex flex-col gap-3">
-      <DialogHeader className="hidden">
-        <DialogTitle>Edit profile</DialogTitle>
-      </DialogHeader>
-      <VoiceSearchMain />
-    </DialogContent>
-  </Dialog>
-);
-
-const DrawerComponent = ({
-  open,
-  setOpen,
-  iconSize,
-}: VoiceSearchComponentProps) => (
-  <Drawer open={open} onOpenChange={setOpen}>
-    <DrawerTrigger asChild>
-      <Button
-        type="button"
-        size="icon"
-        variant="ghost"
-        className="rounded-full aspect-square flex-shrink-0 cursor-pointer"
-      >
-        <MicIcon size={iconSize} strokeWidth={1.5} />
-      </Button>
-    </DrawerTrigger>
-    <DrawerContent className="fixed overflow-hidden inset-2 rounded-sm first:invisible border-0 max-h-80 mt-auto">
-      <DrawerHeader className="text-left hidden">
-        <DrawerTitle>Edit profile</DrawerTitle>
-      </DrawerHeader>
-      <VoiceSearchMain />
-    </DrawerContent>
-  </Drawer>
-);
-
-const VoiceSearchMain = () => {
-  return (
-    <>
-      <h3>Listening...</h3>
-      <div className="w-full h-full grid place-items-center">
-        <Button size="icon" className="rounded-full size-20">
-          <MicIcon size={40} />
-        </Button>
-      </div>
-    </>
   );
 };
 
