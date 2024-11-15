@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import AvatarActionButton from "@/components/navbar/AvatarActionButton";
+import AvatarActionButton from "@/components/navbar/right/avatar/AvatarActionButton";
 import {
   ChevronRight as ArrowIcon,
   Sun as LightIcon,

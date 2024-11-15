@@ -2,6 +2,7 @@ import React from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import LightSeparator from "@/components/separator/LightSeparator";
 
 interface IChannelListItem {
   id: string;
@@ -79,8 +80,18 @@ const NavPopoverChannelList = () => {
           </Button>
         )
       )}
+      <ChannelListAndActionSeparator />
     </div>
   );
 };
+
+const ChannelListAndActionSeparator = () => (
+  <span className="flex">
+    <span className="w-6" />
+    <span className="w-full">
+      <LightSeparator className="mr-auto" />
+    </span>
+  </span>
+);
 
 export default NavPopoverChannelList;

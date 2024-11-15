@@ -1,3 +1,5 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import clsx from "clsx";
 import { Check as ActiveIcon, LucideIcon } from "lucide-react";

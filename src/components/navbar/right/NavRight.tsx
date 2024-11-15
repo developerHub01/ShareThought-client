@@ -1,5 +1,5 @@
-import NotificationButton from "@/components/navbar/NotificationButton";
-import AvatarButton from "@/components/navbar/AvatarButton";
+import NotificationButton from "@/components/navbar/right/notification/NotificationButton";
+import AvatarButton from "@/components/navbar/right/avatar/AvatarButton";
 
 const NavRight = () => {
   return (

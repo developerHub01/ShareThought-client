@@ -1,5 +1,6 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import AvatarPopover from "@/components/navbar/AvatarPopover";
+// import AvatarPopover from "@/components/navbar/AvatarPopoverV1";
+import AvatarPopover from "@/components/navbar/right/avatar/AvatarPopoverV2";
 
 const AvatarButton = () => {
   return (

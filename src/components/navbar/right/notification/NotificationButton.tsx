@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Bell as NotificationIcon } from "lucide-react";
-import NotificationPopover from "@/components/navbar/NotificationPopover";
+import NotificationPopover from "@/components/navbar/right/notification/NotificationPopover";
 
 const NotificationButton = () => {
   return (

@@ -1,12 +1,14 @@
+"use client";
+
 import React, { useState } from "react";
-import AvatarActionButton from "@/components/navbar/AvatarActionButton";
+import AvatarActionButton from "@/components/navbar/right/avatar/AvatarActionButton";
 import {
   TvMinimalPlay as ChannelIcon,
   ChevronRight as ArrowIcon,
   Plus as AddIcon,
   Eye as ViewAllChannelIcon,
 } from "lucide-react";
-import NavPopoverChannelList from "@/components/navbar/NavPopoverChannelList";
+import NavPopoverChannelList from "@/components/navbar/right/avatar/NavPopoverChannelList";
 
 const ChannelActionList = () => {
   const [isOpen, setOpen] = useState<boolean>(false);

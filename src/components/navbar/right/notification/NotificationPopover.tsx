@@ -10,7 +10,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Settings } from "lucide-react";
 import Link from "next/link";
-import NotificationList from "@/components/notifications/NotificationList";
+import NotificationList from "@/components/navbar/right/notification/NotificationList";
 
 interface NotificationPopoverProps {
   children: React.ReactNode;

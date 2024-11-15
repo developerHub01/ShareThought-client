@@ -1,6 +1,6 @@
-import NavLeft from "@/components/navbar/NavLeft";
-import Searchbar from "@/components/navbar/Searchbar";
-import NavRight from "@/components/navbar/NavRight";
+import NavLeft from "@/components/navbar/left/NavLeft";
+import Searchbar from "@/components/navbar/searchbar/Searchbar";
+import NavRight from "@/components/navbar/right/NavRight";
 
 const Navbar = () => {
   return (

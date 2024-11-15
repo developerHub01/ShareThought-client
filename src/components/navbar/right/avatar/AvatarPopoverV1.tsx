@@ -5,14 +5,14 @@ import {
   PopoverContent,
 } from "@/components/ui/popover";
 import { Separator } from "@/components/ui/separator";
-import AvatarPopActionList from "@/components/navbar/AvatarPopActionList";
-import AvatarPopoverProfileDetails from "@/components/navbar/AvatarPopoverProfileDetails";
+import AvatarPopActionList from "@/components/navbar/right/avatar/AvatarPopoverActionList";
+import AvatarPopoverProfileDetails from "@/components/navbar/right/avatar/AvatarPopoverProfileDetails";
 
-interface AvatarPopoverProps {
+interface AvatarPopoverV1Props {
   children: React.ReactNode;
 }
 
-const AvatarPopover = ({ children }: AvatarPopoverProps) => {
+const AvatarPopoverV1 = ({ children }: AvatarPopoverV1Props) => {
   return (
     <Popover>
       <PopoverTrigger asChild>{children}</PopoverTrigger>
@@ -30,4 +30,4 @@ const AvatarPopover = ({ children }: AvatarPopoverProps) => {
   );
 };
 
-export default AvatarPopover;
+export default AvatarPopoverV1;
