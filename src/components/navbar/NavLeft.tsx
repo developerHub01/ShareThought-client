@@ -3,12 +3,15 @@ import AppSidebarTrigger from "@/components/sidebar/AppSidebarTrigger";
 
 const NavLeft = () => {
   return (
-    <div className="flex justify-start items-center gap-1">
-      <div className="block sm:hidden">
+    <div className="flex justify-start items-center gap-1 select-none font-bold">
+      <div className="block md:hidden">
         <AppSidebarTrigger className="rounded-full" />
       </div>
-      <Link href="/" className="select-none font-bold">
+      <Link href="/" className="hidden sm:block">
         ShareThought
+      </Link>
+      <Link href="/" className="block sm:hidden">
+        SH
       </Link>
     </div>
   );
