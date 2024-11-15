@@ -43,7 +43,7 @@ const channelList: Array<IChannelListItem> = [
   },
 ];
 
-const NavPopoverChannelList = () => {
+const AvatarPopoverChannelList = () => {
   return (
     <div className="w-full flex flex-col">
       {channelList.map(
@@ -94,4 +94,4 @@ const ChannelListAndActionSeparator = () => (
   </span>
 );
 
-export default NavPopoverChannelList;
+export default AvatarPopoverChannelList;

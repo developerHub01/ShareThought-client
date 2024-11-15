@@ -8,7 +8,7 @@ import {
   Plus as AddIcon,
   Eye as ViewAllChannelIcon,
 } from "lucide-react";
-import NavPopoverChannelList from "@/components/navbar/right/avatar/NavPopoverChannelList";
+import AvatarPopoverChannelList from "@/components/navbar/right/avatar/AvatarPopoverChannelList";
 
 const ChannelActionList = () => {
   const [isOpen, setOpen] = useState<boolean>(false);
@@ -25,7 +25,7 @@ const ChannelActionList = () => {
       />
       {isOpen && (
         <div className="flex flex-col">
-          <NavPopoverChannelList />
+          <AvatarPopoverChannelList />
           <AvatarActionButton
             label="view all channel"
             Icon={ViewAllChannelIcon}
