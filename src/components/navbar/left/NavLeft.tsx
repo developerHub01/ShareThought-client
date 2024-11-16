@@ -3,7 +3,7 @@ import AppSidebarTrigger from "@/components/sidebar/AppSidebarTrigger";
 
 const NavLeft = () => {
   return (
-    <div className="flex justify-start items-center gap-1 select-none font-bold">
+    <div className="flex justify-start items-center gap-2 select-none font-bold">
       <div className="block md:hidden">
         <AppSidebarTrigger className="rounded-full" />
       </div>
