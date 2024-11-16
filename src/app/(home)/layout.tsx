@@ -22,7 +22,7 @@ const RootLayout = ({
       <AppSidebar />
       <SidebarInset>
         <Navbar />
-        <main className="w-full h-full">{children}</main>
+        <main className="w-full h-full p-2 md:p-0">{children}</main>
       </SidebarInset>
     </SidebarProvider>
   );

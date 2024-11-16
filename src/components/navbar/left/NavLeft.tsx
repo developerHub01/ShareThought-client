@@ -1,5 +1,5 @@
+import Link from "next/link";
 import AppSidebarTrigger from "@/components/sidebar/AppSidebarTrigger";
-import NavLogo from "@/components/navbar/left/NavLogo";
 
 const NavLeft = () => {
   return (
@@ -7,7 +7,12 @@ const NavLeft = () => {
       <div className="block md:hidden">
         <AppSidebarTrigger className="rounded-full" />
       </div>
-      <NavLogo />
+      <Link href="/" className="hidden sm:block">
+        ShareThought
+      </Link>
+      <Link href="/" className="block sm:hidden">
+        SH
+      </Link>
     </div>
   );
 };

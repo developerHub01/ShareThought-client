@@ -9,7 +9,6 @@ import {
 } from "lucide-react";
 import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { useSidebar } from "@/components/sidebar/SidebarMain";
 
 const iconMobileSize = 16;
 const iconDesktopSize = 18;
@@ -20,7 +19,6 @@ const Searchbar = () => {
     useState<boolean>(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const isMobile = useIsMobile();
-  const { state: sidebarState } = useSidebar();
 
   useEffect(() => {
     if (!isMobile) setShowSearchBarInMobile(false);
@@ -44,12 +42,7 @@ const Searchbar = () => {
   const iconSize = isMobile ? iconMobileSize : iconDesktopSize;
 
   return (
-    <div
-      className={clsx("flex justify-center items-center gap-1 flex-1", {
-        "px-0": sidebarState === "expanded",
-        "px-2": sidebarState === "collapsed",
-      })}
-    >
+    <div className="flex justify-center items-center gap-1 flex-1">
       <Button
         type="button"
         variant={"ghost"}
@@ -61,13 +54,11 @@ const Searchbar = () => {
       </Button>
       <form
         className={clsx(
-          "sm:relative sm:p-0 sm:flex w-full items-center gap-2 bg-white z-30",
+          "sm:relative sm:p-0 sm:flex w-full justify-center items-center gap-2 bg-white z-30",
           {
             "absolute w-full h-full top-0 left-0 p-1 flex":
               showSearchBarInMobile,
             "relative hidden": !showSearchBarInMobile,
-            "justify-start": sidebarState === "expanded",
-            "justify-center": sidebarState === "collapsed",
           }
         )}
         onSubmit={handleSubmitQuery}
@@ -107,7 +98,7 @@ const Searchbar = () => {
             type="submit"
             variant={"default"}
             size={"icon"}
-            className="rounded-none px-3 sm:px-4 flex-shrink-0 w-auto"
+            className="rounded-none px-3 sm:px-4 flex-shrink-0 w-auto h-8 sm:h-9 md:h-10"
           >
             <SearchIcon size={iconSize} />
           </Button>
