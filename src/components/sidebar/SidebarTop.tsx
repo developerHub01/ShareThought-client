@@ -3,9 +3,11 @@
 import AppSidebarTrigger from "@/components/sidebar/AppSidebarTrigger";
 import Link from "next/link";
 import { useSidebar } from "@/components/sidebar/SidebarMain";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const SidebarTop = () => {
   const { state } = useSidebar();
+  const isMobile = useIsMobile();
 
   return (
     <div
@@ -14,15 +16,19 @@ const SidebarTop = () => {
       }`}
     >
       <AppSidebarTrigger className="rounded-full flex-shrink-0" />
-      {state === "expanded" && (
-        <Link
-          href={"/"}
-          className="truncate font-semibold flex-1 text-left text-sm leading-tight px-2 select-none"
-        >
-          Site Name
-        </Link>
-      )}
+      {isMobile ? <AppName /> : state === "expanded" && <AppName />}
     </div>
+  );
+};
+
+const AppName = () => {
+  return (
+    <Link
+      href={"/"}
+      className="truncate font-semibold flex-1 text-left text-sm leading-tight px-2 select-none"
+    >
+      ShareThought
+    </Link>
   );
 };
 
