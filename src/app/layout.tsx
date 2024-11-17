@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
-import { Roboto } from "next/font/google";
+import { Open_Sans } from "next/font/google";
 import "./globals.css";
 
-const roboto = Roboto({
-  variable: "--font-roboto",
-  weight: ["100", "300", "400", "500", "700", "900"],
+const openSans = Open_Sans({
+  variable: "--font-open_sans",
+  weight: ["300", "400", "500", "600", "700", "800"],
   style: ["italic", "normal"],
   subsets: ["latin", "greek"],
 });
@@ -21,7 +21,14 @@ const RootLayout = ({
 }>) => {
   return (
     <html lang="en">
-      <body className={`${roboto.variable} antialiased overflow-x-hidden`}>{children}</body>
+      <body
+        className={`${openSans.variable} antialiased overflow-x-hidden font-[--font-open_sans]`}
+        style={{
+          fontFamily: "var(--font-open_sans)",
+        }}
+      >
+        {children}
+      </body>
     </html>
   );
 };
