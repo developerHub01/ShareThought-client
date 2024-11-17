@@ -1,8 +1,10 @@
+import PostList from "@/app/(home)/_components/PostList";
+
 const Home = () => {
   return (
-    <div className="w-full min-h-screen">
-      <h1>Home Page</h1>
-    </div>
+    <section className="mx-auto w-full max-w-7xl">
+      <PostList />
+    </section>
   );
 };
 

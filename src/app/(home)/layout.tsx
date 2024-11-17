@@ -5,6 +5,7 @@ import {
 import Navbar from "@/components/navbar/Navbar";
 import { AppSidebar } from "@/components/sidebar/AppSidebar";
 import type { Metadata } from "next";
+import MainWrapper from "@/components/wrappers/MainWrapper";
 
 export const metadata: Metadata = {
   title: "Share Thought",
@@ -22,7 +23,7 @@ const RootLayout = ({
       <AppSidebar />
       <SidebarInset>
         <Navbar />
-        <main className="w-full h-full p-2 md:p-0">{children}</main>
+        <MainWrapper>{children}</MainWrapper>
       </SidebarInset>
     </SidebarProvider>
   );
