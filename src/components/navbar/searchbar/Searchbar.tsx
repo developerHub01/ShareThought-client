@@ -76,7 +76,7 @@ const Searchbar = () => {
           <input
             type="text"
             placeholder="Search"
-            className="outline-none ps-2 sm:ps-3 pe-0.5 py-1 gap-1 text-gray-500 flex-1 w-full text-sm sm:text-base bg-transparent"
+            className="outline-none ps-2 sm:ps-3 pe-0.5 py-1 gap-1 text-gray-500 flex-1 w-full text-sm sm:text-base bg-transparent placeholder:select-none"
             value={query}
             onChange={handleInputChange}
             ref={inputRef}
