@@ -14,7 +14,7 @@ const NotificationButton = () => {
       >
         {newNotificationCount > 0 && (
           <Badge
-            className="absolute p-[2.5px] text-[10px] font-light top-0 right-0 translate-x-1/2 flex-shrink-0 leading-none w-7 flex justify-center items-center line-clamp-1 overflow-hidden"
+            className="absolute p-[2.5px] text-[10px] font-light top-0 right-0 translate-x-[20%] flex-shrink-0 leading-none w-7 flex justify-center items-center line-clamp-1 overflow-hidden"
             size={"sm"}
           >
             {newNotificationCount >= 10 ? "10+" : newNotificationCount}
