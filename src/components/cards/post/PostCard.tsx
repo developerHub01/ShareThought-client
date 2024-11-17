@@ -18,19 +18,17 @@ const PostCard = ({ showThreeDot = true }: { showThreeDot?: boolean }) => {
             className="size-full object-cover select-none"
           />
         </div>
-        <h4
-          className="text-primary/80 text-sm font-semibold line-clamp-1 overflow-hidden text-ellipsis"
-        >
+        <h4 className="text-primary/80 text-sm font-semibold line-clamp-1 overflow-hidden text-ellipsis">
           Developer Hub BD
         </h4>
       </Link>
-      <Link href={"/"} className="aspect-video rounded-t-sm overflow-hidden">
+      <Link href={"/"} className="rounded-t-sm overflow-hidden">
         <Image
           src={imgUrl}
           width={300}
           height={300}
           alt=""
-          className="w-full object-cover select-none"
+          className="w-full object-cover select-none aspect-video"
         />
       </Link>
       <div className="p-2.5 py-3 flex justify-between gap-2">
