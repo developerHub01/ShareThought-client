@@ -21,11 +21,10 @@ const buttonVariants = cva(
         cta: "outline-none transition-all duration-75 rounded-full overflow-hidden grid place-items-center relative before:content-[''] before:absolute before:size-full before:rounded-full before:transition-all before:duration-100 before:scale-0 hover:before:scale-100 focus:before:bg-transparent hover:before:bg-gray-500/20 p-1 cursor-pointer [&_svg]:size-6 [&_svg]:stroke-[1.2px]",
       },
       size: {
-        default: "h-10 px-4 py-2",
-        sm: "h-9 rounded-md px-3",
-        lg: "h-11 rounded-md px-8",
-        icon: "h-10 w-10 [&_svg]:size-auto",
-        autoHeight: "h-auto w-auto p-2.5",
+        default: "px-4 py-2",
+        sm: "rounded-md px-3",
+        lg: "rounded-md px-8",
+        icon: "w-10 [&_svg]:size-auto",
       },
     },
     defaultVariants: {
