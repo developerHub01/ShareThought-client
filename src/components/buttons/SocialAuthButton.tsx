@@ -31,7 +31,7 @@ const SocialAuthButton = ({ authType }: SocialAuthButtonProps) => {
   return (
     <Button
       size={"icon"}
-      className="bg-white rounded-full p-1 hover:bg-white shadow-xl hover:scale-110 duration-150 transition-transform"
+      className="bg-white rounded-full p-1 hover:bg-white shadow-xl hover:scale-110 duration-150 transition-transform border"
     >
       <SocialIcon />
     </Button>
