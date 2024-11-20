@@ -13,8 +13,11 @@ const HorizontalPostCard = ({
     "https://images.unsplash.com/photo-1725092097123-ae9e8c001490?q=80&w=1473&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
 
   return (
-    <div className="shadow-xl w-full border border-accent rounded-sm overflow-hidden flex flex-col sm:flex-row">
-      <Link href={"/"} className="aspect-video overflow-hidden min-w-52">
+    <div className="shadow-md w-full border border-accent rounded-sm overflow-hidden flex flex-col sm:flex-row">
+      <Link
+        href={"/"}
+        className="aspect-video overflow-hidden md:bg-white sm:w-2/5"
+      >
         <Image
           src={imgUrl}
           width={300}
@@ -23,7 +26,7 @@ const HorizontalPostCard = ({
           className="size-full object-cover select-none"
         />
       </Link>
-      <div className="p-2.5 py-3 flex justify-between gap-2 w-full">
+      <div className="p-2.5 py-3 flex justify-between gap-2 sm:w-3/5">
         <div className="flex flex-col gap-2">
           <Link href={"/"}>
             <h3 className="font-semibold line-clamp-2 overflow-hidden text-ellipsis">
@@ -47,7 +50,7 @@ const HorizontalPostCard = ({
               Developer Hub BD
             </h4>
           </Link>
-          <div className="flex justify-start items-center gap-1 text-gray-500 text-sm flex-wrap select-none">
+          <div className="flex justify-start items-center gap-1 text-gray-500 text-xs sm:text-sm flex-wrap select-none">
             <span>10 mins read</span>
             <DotIcon />
             <span>5 days ago</span>
