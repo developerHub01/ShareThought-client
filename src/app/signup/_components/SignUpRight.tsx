@@ -7,7 +7,7 @@ const SignUpRight = () => {
   return (
     <div className="w-full flex justify-center items-center p-6 py-8">
       <div className="w-full max-w-md flex flex-col items-center gap-5 sm:gap-6">
-        <h1 className="text-center text-2xl font-bold">Create account</h1>
+        <h1 className="text-center text-2xl sm:text-3xl font-bold">Create account</h1>
         <Form />
         <ReadAboutUs />
       </div>
