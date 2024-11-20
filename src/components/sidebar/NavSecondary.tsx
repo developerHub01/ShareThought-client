@@ -1,43 +1,43 @@
-import * as React from "react";
-import { LucideIcon } from "lucide-react";
-import * as LucideIcons from "lucide-react";
-
 import {
   SidebarGroup,
   SidebarGroupContent,
   SidebarMenu,
-  SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/sidebar/SidebarMain";
-import Link from "next/link";
+import SidebarMenuButtonLink from "@/components/sidebar/SidebarMenuButtonLink";
+
+const menuItems = [
+  {
+    id: "setting",
+    label: "setting",
+    url: "/settings",
+    icon: "Settings",
+  },
+  {
+    id: "report_history",
+    label: "report history",
+    url: "/report-history",
+    icon: "Flag",
+  },
+  {
+    id: "about_us",
+    label: "about us",
+    url: "/about-us",
+    icon: "BookUser",
+  },
+];
 
 export function NavSecondary({
-  items,
   ...props
-}: {
-  items: {
-    title: string;
-    url: string;
-    icon: string;
-  }[];
-} & React.ComponentPropsWithoutRef<typeof SidebarGroup>) {
+}: React.ComponentPropsWithoutRef<typeof SidebarGroup>) {
   return (
     <SidebarGroup {...props}>
       <SidebarGroupContent>
         <SidebarMenu>
-          {items.map((item) => {
-            const Icon = LucideIcons[
-              item.icon as keyof typeof LucideIcons
-            ] as LucideIcon;
-
+          {menuItems.map(({ id, label, url, icon }) => {
             return (
-              <SidebarMenuItem key={item.title}>
-                <SidebarMenuButton asChild tooltip={item.title}>
-                  <Link href={item.url}>
-                    {Icon && <Icon />}
-                    <span className="capitalize">{item.title}</span>
-                  </Link>
-                </SidebarMenuButton>
+              <SidebarMenuItem key={id}>
+                <SidebarMenuButtonLink icon={icon} url={url} label={label} />
               </SidebarMenuItem>
             );
           })}
