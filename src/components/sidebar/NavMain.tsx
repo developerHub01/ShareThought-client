@@ -5,80 +5,21 @@ import {
 } from "@/components/sidebar/SidebarMain";
 import SidebarMenuButtonLink from "@/components/sidebar/SidebarMenuButtonLink";
 
-const menuItems = [
-  {
-    id: "home",
-    label: "home",
-    url: "/",
-    icon: "House",
-  },
-  {
-    id: "history",
-    label: "history",
-    url: "/history",
-    icon: "History",
-  },
-  {
-    id: "categories",
-    label: "categories",
-    url: "/categories",
-    icon: "Boxes",
-  },
-  {
-    id: "read_later",
-    label: "read later",
-    url: "/read-later",
-    icon: "Bookmark",
-  },
-  {
-    id: "reacted_posts",
-    label: "reacted posts",
-    url: "/reacted-posts",
-    icon: "SmilePlus",
-  },
-  {
-    id: "my_commentes",
-    label: "my comments",
-    url: "/my-comments",
-    icon: "MessageSquareText",
-  },
-  {
-    id: "channels",
-    label: "channels",
-    url: "/channels",
-    icon: "LayoutTemplate",
-  },
-  {
-    id: "following",
-    label: "following",
-    url: "/following",
-    icon: "Rss",
-  },
-  {
-    id: "chats",
-    label: "chats",
-    url: "/chats",
-    icon: "MessagesSquare",
-  },
-  {
-    id: "forum",
-    label: "forum",
-    url: "/forum",
-    icon: "LetterText",
-  },
-  {
-    id: "community",
-    label: "community",
-    url: "/community",
-    icon: "Dock",
-  },
-];
+interface NavMainProps
+  extends React.ComponentPropsWithoutRef<typeof SidebarGroup> {
+  navItems: Array<{
+    id: string;
+    label: string;
+    url: string;
+    icon: string;
+  }>;
+}
 
-export function NavMain() {
+export function NavMain({ navItems, ...props }: NavMainProps) {
   return (
-    <SidebarGroup>
+    <SidebarGroup {...props}>
       <SidebarMenu>
-        {menuItems.map(({ id, label, icon, url }) => (
+        {navItems.map(({ id, label, icon, url }) => (
           <SidebarMenuItem key={id}>
             <SidebarMenuButtonLink icon={icon} url={url} label={label} />
           </SidebarMenuItem>
