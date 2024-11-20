@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Open_Sans } from "next/font/google";
 import "./globals.css";
-import { MainScrollArea } from "@/components/scrollArea/MainScrollArea";
 
 const openSans = Open_Sans({
   variable: "--font-open_sans",
@@ -28,7 +27,7 @@ const RootLayout = ({
           fontFamily: "var(--font-open_sans)",
         }}
       >
-        <MainScrollArea className="h-screen">{children}</MainScrollArea>
+        {children}
       </body>
     </html>
   );
