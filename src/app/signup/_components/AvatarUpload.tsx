@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Aperture as CameraIcon, Crop as EditIcon } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 
 const actionButtonList = [
   {
@@ -28,20 +29,21 @@ const AvatarUpload = () => {
           width={400}
           height={400}
           alt="avatar"
-          className="w-full h-full object-fit bg-white"
+          className="w-full h-full object-fit bg-white select-none"
         />
       </div>
       <div className="flex justify-center items-center w-auto rounded-sm bg-primary text-white shadow-md overflow-hidden -mt-10 ring-4">
         {actionButtonList.map(({ id, Icon, onClick }) => (
-          <Button
-            key={id}
-            size={"icon"}
-            variant={"ghost"}
-            className="rounded-none hover:bg-accent/20 hover:text-white"
-            onClick={onClick}
-          >
-            <Icon />
-          </Button>
+          <Link key={id} href={`?modal=${id}`}>
+            <Button
+              size={"icon"}
+              variant={"ghost"}
+              className="rounded-none hover:bg-accent/20 hover:text-white"
+              onClick={onClick}
+            >
+              <Icon />
+            </Button>
+          </Link>
         ))}
       </div>
     </div>
