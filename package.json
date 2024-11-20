@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev -p 5173",
     "build": "next build",
-    "start": "next start",
+    "start": "next start -p 5173",
     "lint": "next lint"
   },
   "dependencies": {
@@ -28,6 +28,7 @@
     "clsx": "^2.1.1",
     "embla-carousel-react": "^8.3.1",
     "lucide-react": "^0.454.0",
+    "motion": "^11.11.17",
     "next": "15.0.1",
     "react": "19.0.0-rc-69d4b800-20241021",
     "react-dom": "19.0.0-rc-69d4b800-20241021",
