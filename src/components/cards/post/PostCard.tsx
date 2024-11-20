@@ -36,7 +36,7 @@ const PostCard = ({ showThreeDot = true }: { showThreeDot?: boolean }) => {
           <h3 className="font-semibold line-clamp-2 overflow-hidden text-ellipsis">
             🔴 Let&apos;s build a Full Stack E-Commerce App with NEXT.JS 15
           </h3>
-          <div className="flex gap-1 text-gray-500 text-sm items-center">
+          <div className="flex gap-1 text-gray-500 text-xs sm:text-sm items-center">
             <span>1 day ago</span>
             <DotIcon />
             <span>5 min read</span>
