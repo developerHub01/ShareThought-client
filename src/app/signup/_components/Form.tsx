@@ -69,72 +69,70 @@ const Form = () => {
 
   return (
     <form
-      className="flex flex-col w-full gap-3"
+      className="flex flex-col w-full gap-2.5"
       onSubmit={handleSubmit(onSubmit)}
     >
-      {/* basic info ======== */}
-      <Input placeholder="Full name" {...register("fullName")} />
-      <Input placeholder="User Name" {...register("userName")} />
-      <Input placeholder="Email" type="email" {...register("email")} />
+      <div className="flex flex-col w-full gap-3">
+        {/* basic info ======== */}
+        <Input placeholder="Full name" {...register("fullName")} />
+        <Input placeholder="User Name" {...register("userName")} />
+        <Input placeholder="Email" type="email" {...register("email")} />
 
-      {/* gender section======== */}
-      <div className="flex items-center justify-between gap-3 px-2 bg-accent rounded-sm py-2.5 text-muted-foreground flex-wrap">
-        <Label htmlFor="r1" className="text-sm font-medium capitalize">
-          gender
-        </Label>
-        <RadioGroup
-          defaultValue="male"
-          {...register("gender")}
-          className="flex items-center gap-3 flex-wrap"
-        >
-          {genderRadioButtonList.map(({ id, value }) => (
-            <div
-              key={id}
-              className="flex items-center space-x-2 cursor-pointer capitalize text-sm"
-            >
-              <RadioGroupItem value={value} id={id} />
-              <Label htmlFor={id} className="cursor-pointer">
-                {value}
-              </Label>
+        {/* gender section======== */}
+        <div className="flex items-center justify-between gap-3 px-2 bg-accent rounded-sm py-2.5 text-muted-foreground flex-wrap">
+          <Label htmlFor="r1" className="text-sm font-medium capitalize">
+            gender
+          </Label>
+          <RadioGroup
+            defaultValue="male"
+            {...register("gender")}
+            className="flex items-center gap-3 flex-wrap"
+          >
+            {genderRadioButtonList.map(({ id, value }) => (
+              <div
+                key={id}
+                className="flex items-center space-x-2 cursor-pointer capitalize text-sm"
+              >
+                <RadioGroupItem value={value} id={id} />
+                <Label htmlFor={id} className="cursor-pointer">
+                  {value}
+                </Label>
+              </div>
+            ))}
+          </RadioGroup>
+        </div>
+
+        {/* password======== */}
+        {passwordFieldList.map(({ id, label }) => {
+          const isShown = showPassword[id];
+
+          return (
+            <div className="flex" key={id}>
+              <Input
+                placeholder={label}
+                {...register(id)}
+                type={isShown ? "text" : "password"}
+                className="rounded-tr-none rounded-br-none"
+              />
+              <Button
+                size={"icon"}
+                className="rounded-sm rounded-tl-none rounded-bl-none"
+                onClick={handleClickPasswordToggle(id)}
+              >
+                {isShown ? <HideIcon size={20} /> : <ShowIcon size={20} />}
+              </Button>
             </div>
-          ))}
-        </RadioGroup>
+          );
+        })}
       </div>
-
-      {/* password======== */}
-      {passwordFieldList.map(({ id, label }) => {
-        const isShown = showPassword[id];
-
-        return (
-          <div className="flex" key={id}>
-            <Input
-              placeholder={label}
-              {...register(id)}
-              type={isShown ? "text" : "password"}
-              className="rounded-tr-none rounded-br-none"
-            />
-            <Button
-              size={"icon"}
-              className="rounded-sm rounded-tl-none rounded-bl-none"
-              onClick={handleClickPasswordToggle(id)}
-            >
-              {isShown ? <HideIcon size={20} /> : <ShowIcon size={20} />}
-            </Button>
-          </div>
-        );
-      })}
 
       {/* keep me logged in checkbox ======== */}
-      <div className="flex items-center gap-2 mt-2 flex-wrap">
-        <Checkbox id="save-my-logged-in-check" />
-        <label
-          htmlFor="save-my-logged-in-check"
-          className="text-sm font-medium leading-none cursor-pointer peer-disabled:cursor-not-allowed peer-disabled:opacity-70 select-none text-primary/80"
-        >
-          Keep me logged in
-        </label>
+      <div className="text-right">
+        <Button type="reset" variant={"link"} className="capitalize">
+          clear form
+        </Button>
       </div>
-      <Button className="mt-2" type="submit">
+      <Button type="submit">
         Signup
       </Button>
     </form>
