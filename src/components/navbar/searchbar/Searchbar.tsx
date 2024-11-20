@@ -7,8 +7,9 @@ import {
   X as CancelIcon,
   ArrowLeft as BackIcon,
 } from "lucide-react";
-import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { useIsMobile } from "@/hooks/use-mobile";
+import Link from "next/link";
 
 const iconMobileSize = 16;
 const iconDesktopSize = 18;
@@ -29,11 +30,6 @@ const Searchbar = () => {
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) =>
     setQuery(e?.target?.value);
 
-  const handleSubmitQuery = (e: FormEvent) => {
-    e.preventDefault();
-    setQuery("");
-  };
-
   const handleCancelQuery = () => setQuery("");
 
   const handleOpenMobileSearchbar = () => setShowSearchBarInMobile(true);
@@ -52,7 +48,7 @@ const Searchbar = () => {
       >
         <SearchIcon size={iconSize} />
       </Button>
-      <form
+      <div
         className={clsx(
           "sm:relative sm:p-0 sm:flex w-full justify-center items-center gap-2 bg-white z-30",
           {
@@ -61,7 +57,6 @@ const Searchbar = () => {
             "relative hidden": !showSearchBarInMobile,
           }
         )}
-        onSubmit={handleSubmitQuery}
       >
         <Button
           type="button"
@@ -94,16 +89,18 @@ const Searchbar = () => {
               </Button>
             )}
           </div>
-          <Button
-            type="submit"
-            variant={"default"}
-            size={"icon"}
-            className="rounded-none px-3 sm:px-4 flex-shrink-0 w-auto h-8 sm:h-9 md:h-10"
-          >
-            <SearchIcon size={iconSize} />
-          </Button>
+          <Link href={`/result/${query}`}>
+            <Button
+              type="button"
+              variant={"default"}
+              size={"icon"}
+              className="rounded-none px-3 sm:px-4 flex-shrink-0 w-auto h-8 sm:h-9 md:h-10"
+            >
+              <SearchIcon size={iconSize} />
+            </Button>
+          </Link>
         </div>
-      </form>
+      </div>
     </div>
   );
 };
