@@ -25,7 +25,9 @@ type TPostType =
   | "HISTORY_POST_CARD"
   | "REACTED_POST_CARD"
   | "COMMUNITY_POST_CARD"
-  | "My_COMMUNITY_POST_CARD";
+  | "My_COMMUNITY_POST_CARD"
+  | "MY_CATEGORY_WRAPPER_CARD"
+  | "CATEGORY_WRAPPER_CARD";
 
 interface IPostCardCTA {
   postType: TPostType;
@@ -304,6 +306,36 @@ const findCTAMenuItems = (postType: TPostType): Array<ICTAMenuItem> => {
         },
       ];
     case "My_COMMUNITY_POST_CARD":
+      return [
+        {
+          id: "copy_post_link",
+          label: "copy link",
+          Icon: LinkIcon,
+          onClick: () => console.log("link clicked clicked"),
+        },
+        {
+          id: "report_community_post",
+          label: "report",
+          Icon: ReportIcon,
+          onClick: () => console.log("report clicked"),
+        },
+      ];
+    case "CATEGORY_WRAPPER_CARD":
+      return [
+        {
+          id: "copy_post_link",
+          label: "copy link",
+          Icon: LinkIcon,
+          onClick: () => console.log("link clicked clicked"),
+        },
+        {
+          id: "report_community_post",
+          label: "report",
+          Icon: ReportIcon,
+          onClick: () => console.log("report clicked"),
+        },
+      ];
+    case "MY_CATEGORY_WRAPPER_CARD":
       return [
         {
           id: "copy_post_link",
