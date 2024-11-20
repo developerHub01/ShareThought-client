@@ -1,8 +1,7 @@
 "use client";
 
+import { Button } from "@/components/buttons/Button";
 import { Input } from "@/components/Inputs/Input";
-import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Eye as ShowIcon, EyeClosed as HideIcon } from "lucide-react";
@@ -10,13 +9,6 @@ import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 
 type TPasswordTypes = "password" | "confirmPassword";
-
-type TFieldTypes =
-  | "fullName"
-  | "email"
-  | "userName"
-  | TPasswordTypes
-  | "gender";
 
 interface IInputs {
   fullName: string;
