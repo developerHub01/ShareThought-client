@@ -67,7 +67,7 @@ const Searchbar = () => {
         >
           <BackIcon size={iconSize} strokeWidth={1.5} />
         </Button>
-        <div className="flex w-full max-w-lg items-center rounded-sm border overflow-hidden gap-1">
+        <div className="flex w-full max-w-lg items-center rounded-sm overflow-hidden gap-1 bg-accent shadow-inner">
           <input
             type="text"
             placeholder="Search"
