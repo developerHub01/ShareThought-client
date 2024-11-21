@@ -34,7 +34,7 @@ const AvatarUpload = () => {
       </div>
       <div className="flex justify-center items-center w-auto rounded-sm bg-primary text-white shadow-md overflow-hidden -mt-10 ring-4">
         {actionButtonList.map(({ id, Icon, onClick }) => (
-          <Link key={id} href={`?modal=${id}`}>
+          <Link key={id} href={`?avatar=${id}`}>
             <Button
               size={"icon"}
               variant={"ghost"}
