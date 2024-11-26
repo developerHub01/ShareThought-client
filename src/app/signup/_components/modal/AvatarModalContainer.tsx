@@ -3,6 +3,7 @@
 import React from "react";
 import {
   Drawer,
+  DrawerClose,
   DrawerContentWitoutHandler,
   DrawerDescription,
   DrawerHeader,
@@ -11,6 +12,8 @@ import {
 import AvatarUploaderModal from "@/app/signup/_components/modal/AvatarUploaderModal";
 import AvatarEditModal from "@/app/signup/_components/modal/AvatarEditModal";
 import clsx from "clsx";
+import { X as CloseIcon } from "lucide-react";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 type TModalType = "camera" | "edit";
 
@@ -34,7 +37,7 @@ const AvatarModalContainer = ({
     >
       <DrawerContentWitoutHandler
         className={clsx(
-          "fixed mt-0 overflow-hidden inset-2 rounded-sm ml-auto border-0 py-5 px-3 sm:py-8 sm:px-10 w-[90%] max-w-max",
+          "fixed mt-0 overflow-hidden inset-2 rounded-sm ml-auto border-0 py-5 w-[90%] max-w-max grid-place-items-centered",
           {
             "max-w-md": modalType === "camera",
             "max-w-2xl": modalType === "edit",
@@ -49,7 +52,18 @@ const AvatarModalContainer = ({
           <DrawerTitle hidden></DrawerTitle>
           <DrawerDescription hidden></DrawerDescription>
         </DrawerHeader>
-        {modalType === "camera" ? <AvatarUploaderModal /> : <AvatarEditModal />}
+
+        <DrawerClose className="inline-block absolute sm:hidden top-1 left-1">
+          <CloseIcon />
+        </DrawerClose>
+
+        <ScrollArea className="h-full">
+          {modalType === "camera" ? (
+            <AvatarUploaderModal />
+          ) : (
+            <AvatarEditModal />
+          )}
+        </ScrollArea>
       </DrawerContentWitoutHandler>
     </Drawer>
   );

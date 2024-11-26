@@ -13,7 +13,7 @@ import Link from "next/link";
 const LoginModalContent = () => {
   return (
     <DrawerContentWitoutHandler
-      className="fixed mt-0 overflow-hidden w-[90%] max-w-md inset-2 rounded-sm ml-auto border-0 py-8 px-10"
+      className="fixed mt-0 overflow-hidden w-[90%] max-w-md inset-2 rounded-sm ml-auto border-0 grid place-items-center"
       style={
         { "--initial-transform": "calc(100% + 8px)" } as React.CSSProperties
       }
@@ -23,7 +23,7 @@ const LoginModalContent = () => {
         <DrawerDescription hidden></DrawerDescription>
       </DrawerHeader>
       <ScrollArea className="w-full h-full">
-        <section className="h-full flex flex-col justify-center items-center gap-4">
+        <section className="h-full flex flex-col justify-center items-center gap-4 py-6 sm:py-8 px-10">
           <h2 className="text-primary text-xl font-bold select-none">Login</h2>
           <LoginSeparator />
           <Form />
