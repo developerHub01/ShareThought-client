@@ -60,7 +60,7 @@ const AvatarUpload = () => {
 
   return (
     <div className="flex flex-col justify-center items-center">
-      <div className="size-full max-w-64 max-h-64 aspect-square rounded-full overflow-hidden ring-8">
+      <div className="size-full max-w-64 max-h-64 aspect-square rounded-full overflow-hidden ring-8 my-2">
         <Image
           src={uploadedAvatar || imgUrl}
           width={400}

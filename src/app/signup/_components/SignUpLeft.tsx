@@ -9,7 +9,7 @@ const SignUpLeft = () => {
       <div className="flex flex-col gap-6 items-center">
         <Link
           href="/"
-          className="text-white text-3xl font-bold pb-3 select-none"
+          className="text-white text-3xl font-bold select-none"
         >
           ShareThought
         </Link>
