@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Open_Sans } from "next/font/google";
 import "./globals.css";
+import { Toaster } from "@/components/ui/toaster";
 
 const openSans = Open_Sans({
   variable: "--font-open_sans",
@@ -28,6 +29,7 @@ const RootLayout = ({
         }}
       >
         {children}
+        <Toaster />
       </body>
     </html>
   );
