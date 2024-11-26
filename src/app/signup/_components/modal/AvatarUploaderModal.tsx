@@ -2,7 +2,6 @@
 
 import React, { DragEvent, ChangeEvent, Fragment } from "react";
 import { Separator } from "@/components/ui/separator";
-import { Button } from "@/components/buttons/Button";
 import Link from "next/link";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import Image from "next/image";
@@ -16,12 +15,9 @@ import {
   CheckCheck as ProceedIcon,
 } from "lucide-react";
 import {
-  Tooltip,
-  TooltipContent,
   TooltipProvider,
-  TooltipTrigger,
 } from "@/components/ui/tooltip";
-import clsx from "clsx";
+import ActionButton from "@/app/signup/_components/modal/ActionButton";
 
 interface IActionButton {
   id: "camera" | "edit" | "remove" | "proceed";
@@ -132,7 +128,7 @@ const AvatarUploaderModal = () => {
           {actionButtonList.map(
             ({ id, label, Icon, link, onClick, isInput }) => {
               const actionButtonProps = { id, Icon, onClick, label };
-              
+
               if (!avatarPreview && ["edit", "remove", "proceed"].includes(id))
                 return null;
 
@@ -176,37 +172,6 @@ const AvatarUploaderModal = () => {
 const LoginSeparator = () => (
   <Separator className="opacity-20 shadow-xl bg-primary w-40 h-[2px]" />
 );
-
-interface ActionButtonProps {
-  id: string;
-  Icon: LucideIcon;
-  label: string;
-  className?: string;
-  [key: string]: unknown;
-}
-
-const ActionButton = ({
-  id,
-  Icon,
-  label,
-  className,
-  ...props
-}: ActionButtonProps) => {
-  return (
-    <Tooltip>
-      <TooltipTrigger asChild>
-        <Button
-          size={"icon"}
-          {...props}
-          className={clsx("rounded-full aspect-square", className)}
-        >
-          <Icon />
-        </Button>
-      </TooltipTrigger>
-      <TooltipContent sideOffset={8}>{label}</TooltipContent>
-    </Tooltip>
-  );
-};
 
 const UploadAvatarCanvas = () => (
   <>
