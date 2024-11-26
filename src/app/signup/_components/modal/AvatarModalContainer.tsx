@@ -12,9 +12,11 @@ import AvatarUploaderModal from "@/app/signup/_components/modal/AvatarUploaderMo
 import AvatarEditModal from "@/app/signup/_components/modal/AvatarEditModal";
 import clsx from "clsx";
 
+type TModalType = "camera" | "edit";
+
 interface AvatarModalContainerProps {
   isOpen: boolean;
-  modalType: "camera" | "edit";
+  modalType: TModalType;
   onClose: () => void;
 }
 
@@ -23,8 +25,6 @@ const AvatarModalContainer = ({
   modalType,
   onClose,
 }: AvatarModalContainerProps) => {
-  console.log({ modalType });
-
   return (
     <Drawer
       direction="right"
@@ -38,6 +38,7 @@ const AvatarModalContainer = ({
           {
             "max-w-md": modalType === "camera",
             "max-w-2xl": modalType === "edit",
+            "w-0": !["camera", "edit"].includes(modalType as TModalType),
           }
         )}
         style={
