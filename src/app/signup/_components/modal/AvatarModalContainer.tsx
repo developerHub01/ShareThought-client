@@ -13,7 +13,7 @@ import AvatarUploaderModal from "@/app/signup/_components/modal/AvatarUploaderMo
 import AvatarEditModal from "@/app/signup/_components/modal/AvatarEditModal";
 import clsx from "clsx";
 import { X as CloseIcon } from "lucide-react";
-import { ScrollArea } from "@/components/ui/scroll-area";
+import { CenterScrollArea } from "@/components/scrollArea/CenterScrollArea";
 
 type TModalType = "camera" | "edit";
 
@@ -57,13 +57,13 @@ const AvatarModalContainer = ({
           <CloseIcon />
         </DrawerClose>
 
-        <ScrollArea className="h-full">
+        <CenterScrollArea className="h-full">
           {modalType === "camera" ? (
             <AvatarUploaderModal />
           ) : (
             <AvatarEditModal />
           )}
-        </ScrollArea>
+        </CenterScrollArea>
       </DrawerContentWitoutHandler>
     </Drawer>
   );

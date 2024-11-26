@@ -5,10 +5,10 @@ import {
   DrawerHeader,
   DrawerTitle,
 } from "@/components/ui/drawer";
-import SocialLogin from "@/app/signup/_components/SocialLogin";
+import SocialLogin from "@/components/auth/SocialLogin";
 import { Separator } from "@/components/ui/separator";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import Link from "next/link";
+import { CenterScrollArea } from "@/components/scrollArea/CenterScrollArea";
 
 const LoginModalContent = () => {
   return (
@@ -22,7 +22,7 @@ const LoginModalContent = () => {
         <DrawerTitle hidden></DrawerTitle>
         <DrawerDescription hidden></DrawerDescription>
       </DrawerHeader>
-      <ScrollArea className="w-full h-full">
+      <CenterScrollArea className="w-full h-full flex">
         <section className="h-full flex flex-col justify-center items-center gap-4 py-6 sm:py-8 px-10">
           <h2 className="text-primary text-xl font-bold select-none">Login</h2>
           <LoginSeparator />
@@ -39,7 +39,7 @@ const LoginModalContent = () => {
             </p>
           </div>
         </section>
-      </ScrollArea>
+      </CenterScrollArea>
     </DrawerContentWitoutHandler>
   );
 };
