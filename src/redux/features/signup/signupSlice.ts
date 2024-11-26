@@ -2,30 +2,27 @@ import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
 export interface SignUpState {
-  value: number;
+  avatar: string | null;
 }
 
 const initialState: SignUpState = {
-  value: 0,
+  avatar: null,
 };
 
 export const signUpSlice = createSlice({
   name: "signUp",
   initialState,
   reducers: {
-    increment: (state) => {
-      state.value += 1;
+    setAvatar: (state, action: PayloadAction<string>) => {
+      state.avatar = action.payload;
     },
-    decrement: (state) => {
-      state.value -= 1;
-    },
-    incrementByAmount: (state, action: PayloadAction<number>) => {
-      state.value += action.payload;
+    removeAvatar: (state) => {
+      state.avatar = null;
     },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { increment, decrement, incrementByAmount } = signUpSlice.actions;
+export const { setAvatar, removeAvatar } = signUpSlice.actions;
 
 export default signUpSlice.reducer;
