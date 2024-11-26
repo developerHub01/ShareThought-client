@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import {
   Drawer,
@@ -21,6 +23,8 @@ const AvatarModalContainer = ({
   modalType,
   onClose,
 }: AvatarModalContainerProps) => {
+  console.log({ modalType });
+
   return (
     <Drawer
       direction="right"
@@ -30,11 +34,10 @@ const AvatarModalContainer = ({
     >
       <DrawerContentWitoutHandler
         className={clsx(
-          "fixed mt-0 overflow-hidden inset-2 rounded-sm ml-auto border-0 py-5 px-3 sm:py-8 sm:px-10 w-[90%]",
+          "fixed mt-0 overflow-hidden inset-2 rounded-sm ml-auto border-0 py-5 px-3 sm:py-8 sm:px-10 w-[90%] max-w-max",
           {
             "max-w-md": modalType === "camera",
             "max-w-2xl": modalType === "edit",
-            "max-w-0": modalType !== "camera" && modalType !== "edit",
           }
         )}
         style={

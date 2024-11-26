@@ -5,7 +5,7 @@ import Link from "next/link";
 
 const AvatarUploaderModal = () => {
   return (
-    <section className="w-full h-full flex flex-col justify-center items-center gap-5">
+    <section className="w-full h-full flex flex-col justify-center items-center gap-5 max-w-lg">
       <div>
         <h2 className="text-center pb-3 capitalize text-primary text-xl font-bold select-none">
           Upload avatar

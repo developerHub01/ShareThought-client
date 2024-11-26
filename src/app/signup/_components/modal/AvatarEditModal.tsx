@@ -3,6 +3,7 @@ import Form from "@/components/navbar/right/login/Form";
 import SocialLogin from "@/app/signup/_components/SocialLogin";
 import { Separator } from "@/components/ui/separator";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { Button } from "@/components/buttons/Button";
 import Link from "next/link";
 
 const AvatarEditModal = () => {
@@ -26,6 +27,9 @@ const AvatarEditModal = () => {
             </Link>
           </p>
         </div>
+        <Link href={"/signup?avatar=camera"}>
+          <Button>Upload</Button>
+        </Link>
       </section>
     </ScrollArea>
   );

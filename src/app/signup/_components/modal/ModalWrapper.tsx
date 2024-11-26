@@ -18,18 +18,11 @@ const ModalWrapper = () => {
   const handleClose = () => router.push("/signup");
 
   return (
-    <>
-      <AvatarModalContainer
-        modalType={modalName as TModalName}
-        isOpen={modalName === "camera"}
-        onClose={handleClose}
-      />
-      <AvatarModalContainer
-        modalType={modalName as TModalName}
-        isOpen={modalName === "edit"}
-        onClose={handleClose}
-      />
-    </>
+    <AvatarModalContainer
+      modalType={modalName as TModalName}
+      isOpen={["camera", "edit"].includes(modalName as TModalName)}
+      onClose={handleClose}
+    />
   );
 };
 
