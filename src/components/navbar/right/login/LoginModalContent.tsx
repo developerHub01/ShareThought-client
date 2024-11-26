@@ -9,6 +9,7 @@ import SocialLogin from "@/components/auth/SocialLogin";
 import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
 import { CenterScrollArea } from "@/components/scrollArea/CenterScrollArea";
+import { Button } from "@/components/buttons/Button";
 
 const LoginModalContent = () => {
   return (
@@ -37,6 +38,9 @@ const LoginModalContent = () => {
                 Create an account
               </Link>
             </p>
+            <Link href="/login" className="mx-auto">
+              <Button>Go to login page</Button>
+            </Link>
           </div>
         </section>
       </CenterScrollArea>
