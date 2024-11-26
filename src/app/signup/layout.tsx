@@ -12,13 +12,7 @@ const SignUpLayout = ({
 }: Readonly<{
   children: ReactNode;
 }>) => {
-  return (
-    <SignUpProvider>
-      <section className="w-full min-h-screen h-full flex flex-col md:flex-row">
-        {children}
-      </section>
-    </SignUpProvider>
-  );
+  return <SignUpProvider>{children}</SignUpProvider>;
 };
 
 export default SignUpLayout;
