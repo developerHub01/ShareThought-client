@@ -1,7 +1,7 @@
 import { Separator } from "@/components/ui/separator";
 import AvatarUpload from "@/app/signup/_components/AvatarUpload";
 import Link from "next/link";
-import SocialLogin from "@/app/signup/_components/SocialLogin";
+import SocialLoginSection from "@/components/auth/SocialLoginSection";
 
 const SignUpLeft = () => {
   return (
@@ -15,10 +15,7 @@ const SignUpLeft = () => {
         </Link>
         <AvatarUpload />
         <Separator className="opacity-20 shadow-xl" />
-        <div className="flex flex-col gap-4">
-          <p className="text-gray-300 text-center select-none">Login with</p>
-          <SocialLogin />
-        </div>
+        <SocialLoginSection />
       </div>
     </div>
   );
