@@ -1,3 +1,4 @@
+import SignUpProvider from "@/redux/providers/SignUpProvider";
 import type { Metadata } from "next";
 import { ReactNode } from "react";
 
@@ -11,7 +12,13 @@ const SignUpLayout = ({
 }: Readonly<{
   children: ReactNode;
 }>) => {
-  return <section>{children}</section>;
+  return (
+    <SignUpProvider>
+      <section className="w-full min-h-screen h-full flex flex-col md:flex-row">
+        {children}
+      </section>
+    </SignUpProvider>
+  );
 };
 
 export default SignUpLayout;
