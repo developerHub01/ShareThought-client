@@ -1,4 +1,4 @@
-import Form from "@/components/navbar/right/login/Form";
+import Form from "@/app/login/_components/Form";
 import {
   DrawerContentWitoutHandler,
   DrawerDescription,
