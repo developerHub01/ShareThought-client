@@ -12,8 +12,8 @@ import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import InputField from "@/components/forms/InputField";
-import InputWrapperWithErrorMessage from "@/components/forms/InputWrapperWithErrorMessage";
+import InputField from "@/components/Inputs/InputField";
+import InputWrapperWithErrorMessage from "@/components/Inputs/InputWrapperWithErrorMessage";
 
 type TPasswordTypes = "password" | "confirmPassword";
 

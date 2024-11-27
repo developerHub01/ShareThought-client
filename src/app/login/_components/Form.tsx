@@ -1,8 +1,8 @@
 "use client";
 
 import { Button } from "@/components/buttons/Button";
-import InputField from "@/components/forms/InputField";
-import InputWrapperWithErrorMessage from "@/components/forms/InputWrapperWithErrorMessage";
+import InputField from "@/components/Inputs/InputField";
+import InputWrapperWithErrorMessage from "@/components/Inputs/InputWrapperWithErrorMessage";
 import { Checkbox } from "@/components/ui/checkbox";
 import { yupResolver } from "@hookform/resolvers/yup";
 import {
