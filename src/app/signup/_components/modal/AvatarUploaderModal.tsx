@@ -1,6 +1,13 @@
 "use client";
 
-import React, { DragEvent, ChangeEvent, Fragment, useState } from "react";
+import React, {
+  DragEvent,
+  ChangeEvent,
+  Fragment,
+  useState,
+  useCallback,
+  useMemo,
+} from "react";
 import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
@@ -28,81 +35,95 @@ interface IActionButton {
   isInput?: boolean;
 }
 
-const actionButtonList: Array<IActionButton> = [
-  {
-    id: "camera",
-    label: "upload avatar",
-    Icon: CameraIcon,
-    isInput: true,
-  },
-  {
-    id: "edit",
-    label: "edit",
-    Icon: EditIcon,
-    link: "?avatar=edit",
-  },
-  {
-    id: "remove",
-    label: "remove",
-    Icon: RemoveIcon,
-    onClick: () => {},
-  },
-  {
-    id: "proceed",
-    label: "proceed",
-    Icon: ProceedIcon,
-    link: "/signup",
-  },
-];
-
 const AvatarUploaderModal = () => {
   const [isDragging, setIsDragging] = useState(false);
   const { avatar: avatarPreview } = useAppSelector((state) => state.signUp);
   const dispatch = useAppDispatch();
   const { toast } = useToast();
 
-  const handleClearAvatar = () => {
+  const processAvatarFile = useCallback(
+    (file: File) => {
+      if (!file.type.startsWith("image/")) {
+        return toast({
+          title: "Oops! That's not an image!",
+          description:
+            "Please upload a valid image file to set your avatar. 😊",
+        });
+      }
+
+      const avatarURL = URL.createObjectURL(file);
+      dispatch(setAvatar(avatarURL));
+    },
+    [dispatch, toast]
+  );
+
+  const handleClearAvatar = useCallback(() => {
     dispatch(removeAvatar());
     setIsDragging(false);
-  };
+  }, [dispatch]);
 
-  actionButtonList[2].onClick = handleClearAvatar;
+  const handleDrop = useCallback(
+    (e: DragEvent<HTMLDivElement>) => {
+      e.preventDefault();
+      const avatarFile = e.dataTransfer.files[0];
+      if (avatarFile) processAvatarFile(avatarFile);
+    },
+    [processAvatarFile]
+  );
 
-  const handleDrop = (e: DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
+  const handleDragOver = useCallback(
+    (e: DragEvent<HTMLDivElement>) => {
+      e.preventDefault();
+      if (!isDragging) setIsDragging(true);
+    },
+    [isDragging]
+  );
 
-    const avatarFile = e.dataTransfer.files[0];
+  const handleDragLeave = useCallback(
+    (e: DragEvent<HTMLDivElement>) => {
+      e.preventDefault();
+      if (isDragging) setIsDragging(false);
+    },
+    [isDragging]
+  );
 
-    if (avatarFile) processAvatarFile(avatarFile);
-  };
+  const handleAvatarChange = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => {
+      const avatarFile = e.target.files?.[0];
+      if (avatarFile) processAvatarFile(avatarFile);
+    },
+    [processAvatarFile]
+  );
 
-  const handleDragOver = (e: DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    setIsDragging(true);
-  };
-
-  const handleDragLeave = (e: DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    setIsDragging(false);
-  };
-
-  const handleAvatarChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const avatarFile = e.target.files?.[0];
-
-    if (avatarFile) processAvatarFile(avatarFile);
-  };
-
-  const processAvatarFile = (file: File) => {
-    if (!file.type.startsWith("image/"))
-      return toast({
-        title: "Oops! That's not an image!",
-        description: "Please upload a valid image file to set your avatar. 😊",
-      });
-
-    const avatarURL = URL.createObjectURL(file);
-
-    dispatch(setAvatar(avatarURL));
-  };
+  const actionButtonList = useMemo<Array<IActionButton>>(
+    () => [
+      {
+        id: "camera",
+        label: "upload avatar",
+        Icon: CameraIcon,
+        isInput: true,
+      },
+      {
+        id: "edit",
+        label: "edit",
+        Icon: EditIcon,
+        link: "?avatar=edit",
+      },
+      {
+        id: "remove",
+        label: "remove",
+        Icon: RemoveIcon,
+        onClick: handleClearAvatar,
+      },
+      {
+        id: "proceed",
+        label: "proceed",
+        Icon: ProceedIcon,
+        link: "/signup",
+      },
+    ],
+    [handleClearAvatar]
+  );
 
   return (
     <CenterScrollArea className="h-full p-5">
@@ -122,10 +143,10 @@ const AvatarUploaderModal = () => {
             onDragOver={handleDragOver}
             onDragLeave={handleDragLeave}
             className={clsx(
-              "size-full aspect-square flex flex-col gap-5 justify-center items-center rounded-md cursor-pointer border-dashed duration-100 ring-offset-0 group-hover:ring-offset-4 ring-transparent group-hover:ring-primary/50 shadow-lg p-2 text-center",
+              "size-full aspect-square flex flex-col gap-5 justify-center items-center rounded-md cursor-pointer border-dashed duration-100 ring-offset-4 group-hover:ring-offset-4 ring-2 ring-transparent group-hover:ring-primary/50 shadow-lg p-2 text-center",
               {
-                "ring-2 ring-offset-4 ring-primary/50 bg-accent": isDragging,
-                "ring-0 bg-transparent": !isDragging,
+                "ring-primary/50 bg-accent": isDragging,
+                "ring-transparent bg-accent/10": !isDragging,
               }
             )}
           >

@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useCallback, useMemo } from "react";
 
 interface IActionButton {
   id: "camera" | "edit" | "remove";
@@ -26,41 +27,55 @@ interface IActionButton {
   onClick?: () => void;
 }
 
-const actionButtonList: Array<IActionButton> = [
-  {
-    id: "camera",
-    label: "camera",
-    Icon: CameraIcon,
-    link: "?avatar=camera",
-  },
-  {
-    id: "edit",
-    label: "edit",
-    Icon: EditIcon,
-    link: "?avatar=edit",
-  },
-  {
-    id: "remove",
-    label: "remove",
-    Icon: RemoveIcon,
-    onClick: () => {},
-  },
-];
+const imgUrl = "/avatar.png";
 
 const AvatarUpload = () => {
-  const imgUrl = "/avatar.png";
-
   const dispatch = useAppDispatch();
 
   const { avatar: uploadedAvatar } = useAppSelector((state) => state.signUp);
 
-  const handleRemoveAvatar = () => dispatch(removeAvatar());
+  const handleRemoveAvatar = useCallback(
+    () => dispatch(removeAvatar()),
+    [dispatch]
+  );
 
-  actionButtonList[2].onClick = handleRemoveAvatar;
+  const actionButtonList = useMemo<Array<IActionButton>>(
+    () => [
+      {
+        id: "camera",
+        label: "camera",
+        Icon: CameraIcon,
+        link: "?avatar=camera",
+      },
+      {
+        id: "edit",
+        label: "edit",
+        Icon: EditIcon,
+        link: "?avatar=edit",
+      },
+      {
+        id: "remove",
+        label: "remove",
+        Icon: RemoveIcon,
+        onClick: handleRemoveAvatar,
+      },
+    ],
+    [handleRemoveAvatar]
+  );
+
+  /* if there is no avatar uploaded then we don't want to show edit or clear option */
+  const filteredButtons = useMemo(
+    () =>
+      actionButtonList.filter(({ id }) => {
+        if (!uploadedAvatar && ["edit", "remove"].includes(id)) return false;
+        return true;
+      }),
+    [actionButtonList, uploadedAvatar]
+  );
 
   return (
     <div className="flex flex-col justify-center items-center">
-      <div className="size-full max-w-64 max-h-64 aspect-square rounded-full overflow-hidden ring-8 my-2">
+      <div className="size-full sm:min-w-[300px] sm:min-h-[300px] max-w-64 max-h-64 aspect-square rounded-full overflow-hidden ring-8 my-2">
         <Image
           src={uploadedAvatar || imgUrl}
           width={400}
@@ -71,38 +86,35 @@ const AvatarUpload = () => {
       </div>
       <TooltipProvider>
         <div className="flex justify-center items-center w-auto rounded-sm bg-primary text-white shadow-md overflow-hidden -mt-10 ring-4">
-          {actionButtonList.map(({ id, Icon, label, onClick, link }) => {
-            /* if there is no avatar uploaded then we don't want to show edit or clear option */
-            if (!uploadedAvatar && ["edit", "remove"].includes(id)) return null;
-
-            return (
-              <Tooltip key={id}>
-                <TooltipTrigger asChild>
-                  {link ? (
-                    <Link href={link}>
-                      <Button
-                        size={"icon"}
-                        variant={"ghost"}
-                        className="rounded-none hover:bg-accent/20 hover:text-white"
-                      >
-                        <Icon />
-                      </Button>
-                    </Link>
-                  ) : (
+          {filteredButtons.map(({ id, Icon, label, onClick, link }) => (
+            <Tooltip key={id}>
+              <TooltipTrigger asChild>
+                {link ? (
+                  <Link href={link}>
                     <Button
                       size={"icon"}
                       variant={"ghost"}
+                      aria-label={label}
                       className="rounded-none hover:bg-accent/20 hover:text-white"
-                      onClick={onClick}
                     >
                       <Icon />
                     </Button>
-                  )}
-                </TooltipTrigger>
-                <TooltipContent sideOffset={8}>{label}</TooltipContent>
-              </Tooltip>
-            );
-          })}
+                  </Link>
+                ) : (
+                  <Button
+                    size={"icon"}
+                    variant={"ghost"}
+                    aria-label={label}
+                    className="rounded-none hover:bg-accent/20 hover:text-white"
+                    onClick={onClick}
+                  >
+                    <Icon />
+                  </Button>
+                )}
+              </TooltipTrigger>
+              <TooltipContent sideOffset={8}>{label}</TooltipContent>
+            </Tooltip>
+          ))}
         </div>
       </TooltipProvider>
     </div>

@@ -1,37 +1,87 @@
-import React from "react";
-import Form from "@/components/navbar/right/login/Form";
-import SocialLogin from "@/app/signup/_components/SocialLogin";
+"use client";
+
+import React, { useCallback, useEffect, useRef } from "react";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { CircleStencil, Cropper, CropperRef } from "react-advanced-cropper";
 import { Separator } from "@/components/ui/separator";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { Button } from "@/components/buttons/Button";
 import Link from "next/link";
+import "react-advanced-cropper/dist/style.css";
+import "react-advanced-cropper/dist/themes/compact.css";
+import { useRouter } from "next/navigation";
+import { CenterScrollArea } from "@/components/scrollArea/CenterScrollArea";
+import { useToast } from "@/hooks/use-toast";
+import { setAvatar } from "@/redux/features/signup/signupSlice";
 
 const AvatarEditModal = () => {
+  const { avatar: avatarPreview } = useAppSelector((state) => state.signUp);
+  const cropperRef = useRef<CropperRef>(null);
+  const { toast } = useToast();
+
+  const router = useRouter();
+
+  const handleClose = () => router.push("/signup");
+
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (!avatarPreview) handleClose();
+  }, [router, avatarPreview]);
+
+  const handleSaveCroppedImage = useCallback(() => {
+    const cropper = cropperRef.current;
+    if (!cropper) return;
+
+    const canvas = cropper.getCanvas();
+    if (!canvas) {
+      return toast({
+        title: "Oops! Something went wrong!",
+        description:
+          "We couldn't generate the cropped image. Please try again.",
+      });
+    }
+
+    canvas.toBlob((blob) => {
+      if (!blob) {
+        console.error("Failed to generate Blob from canvas");
+        return;
+      }
+
+      const avatarURL = URL.createObjectURL(blob);
+      dispatch(setAvatar(avatarURL));
+      router.push("/signup");
+    }, "image/png");
+  }, [dispatch, router, toast]);
+
   return (
-    <ScrollArea className="w-full h-full">
-      <section className="h-full flex flex-col justify-center items-center gap-4">
-        <h2 className="text-primary text-xl font-bold select-none">
-          AvatarEditModal
-        </h2>
-        <LoginSeparator />
-        <Form />
-        <LoginSeparator />
-        <div className="flex flex-col gap-4">
-          <p className="text-gray-500 text-center select-none">Login with</p>
-          <SocialLogin />
-          <p className="text-gray-500 text-center select-none text-sm">
-            Don&apos;t have an account?
-            <Link href="/signup" className="text-primary">
-              {" "}
-              Create an account
-            </Link>
-          </p>
-        </div>
+    <section className="h-full flex flex-col justify-center items-center gap-3 overflow-hidden py-5">
+      <h2 className="text-primary text-xl font-bold select-none">
+        Edit Avatar
+      </h2>
+      <LoginSeparator />
+      {avatarPreview && (
+        <CenterScrollArea className="w-full h-full px-6">
+          <div className="grid place-items-center overflow-hidden max-w-lg mx-auto">
+            <Cropper
+              ref={cropperRef}
+              src={avatarPreview}
+              // onChange={onChange}
+              stencilComponent={CircleStencil}
+              stencilProps={{ grid: true }}
+              className={"cropper w-full h-full object-contain"}
+            />
+          </div>
+        </CenterScrollArea>
+      )}
+
+      <LoginSeparator />
+      <div className="flex justify-center items-center gap-2 flex-wrap">
         <Link href={"/signup?avatar=camera"}>
-          <Button>Upload</Button>
+          <Button>Change Avatar</Button>
         </Link>
-      </section>
-    </ScrollArea>
+        <Button onClick={handleSaveCroppedImage}>Save</Button>
+      </div>
+    </section>
   );
 };
 
