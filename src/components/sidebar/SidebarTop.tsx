@@ -1,6 +1,6 @@
 "use client";
 
-import AppSidebarTrigger from "@/components/sidebar/AppSidebarTrigger";
+import SidebarTrigger from "@/components/sidebar/SidebarTrigger";
 import Link from "next/link";
 import { useSidebar } from "@/components/sidebar/SidebarMain";
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -19,7 +19,7 @@ const SidebarTop = () => {
         "justify-start": state === "expanded",
       })}
     >
-      <AppSidebarTrigger className="rounded-full flex-shrink-0" />
+      <SidebarTrigger className="rounded-full flex-shrink-0" />
       <AnimatePresence>
         {(isMobile || state === "expanded") && <AppName />}
       </AnimatePresence>

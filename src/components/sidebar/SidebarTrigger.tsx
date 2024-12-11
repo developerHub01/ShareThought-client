@@ -6,7 +6,7 @@ import { useSidebar } from "@/components/sidebar/SidebarMain";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
-const AppSidebarTrigger = forwardRef<
+const SidebarTrigger = forwardRef<
   ElementRef<typeof Button>,
   ComponentProps<typeof Button>
 >(({ className, onClick, ...props }, ref) => {
@@ -30,5 +30,5 @@ const AppSidebarTrigger = forwardRef<
   );
 });
 
-AppSidebarTrigger.displayName = "AppSidebarTrigger";
-export default AppSidebarTrigger;
+SidebarTrigger.displayName = "SidebarTrigger";
+export default SidebarTrigger;

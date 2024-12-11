@@ -5,21 +5,23 @@ import {
   SidebarMenu,
   SidebarMenuItem,
 } from "@/components/sidebar/SidebarMain";
-import SidebarTop from "@/components/sidebar/SidebarTop";
-import SidebarMenuList from "@/components/sidebar/SidebarMenuList";
+import StudioSidebarTop from "@/components/sidebar/StudioSidebarTop";
+import StudioSidebarMenuList from "@/components/sidebar/StudioSidebarMenuList";
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+export function StudioSidebar({
+  ...props
+}: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarTop />
+            <StudioSidebarTop />
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-        <SidebarMenuList />
+        <StudioSidebarMenuList />
       </SidebarContent>
     </Sidebar>
   );
