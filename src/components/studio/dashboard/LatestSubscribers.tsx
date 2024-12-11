@@ -35,7 +35,7 @@ const subscribers = [
 
 const LatestSubscribers = () => {
   return (
-    <div className="border rounded-sm p-5 flex flex-col gap-5">
+    <div className="border rounded-sm p-5 flex flex-col gap-5 shadow-lg">
       <div>
         <h4 className="text-lg font-semibold">Recent subscribers</h4>
         <p className="text-xs text-gray-500">Last 90 days</p>

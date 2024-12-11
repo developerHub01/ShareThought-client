@@ -40,7 +40,7 @@ const topPostList = [
 
 const AnalyticsSummery = () => {
   return (
-    <div className="border rounded-sm p-5 gap-4 flex flex-col">
+    <div className="border rounded-sm p-5 gap-4 flex flex-col shadow-lg">
       <AnalyticsTop />
       <Separator />
       <AnalyticsSummary />

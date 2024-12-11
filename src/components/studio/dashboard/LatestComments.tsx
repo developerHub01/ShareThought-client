@@ -11,7 +11,7 @@ const thumbUrl =
 const subscribers = [
   {
     id: "1",
-    name: "text-xs text-gray-500 line-clamp-2 overflow-hidden text-ellipsis",
+    name: "FullName1",
     comment:
       "Lorem ipsum dolor sit amet consectetur adipisicing elit. In autem, perferendis obcaecati aliquid, repellat facilis rem, non officiis quisquam similique accusantium alias? Qui, pariatur dicta saepe culpa eaque laboriosam tempora.",
     date: "2 day ago",
@@ -49,7 +49,7 @@ const subscribers = [
 
 const LatestComments = () => {
   return (
-    <div className="border rounded-sm p-5 flex flex-col gap-5">
+    <div className="border rounded-sm p-5 flex flex-col gap-5 shadow-lg">
       <div>
         <h4 className="text-lg font-semibold">Latest comments</h4>
         <p className="text-xs text-gray-500">

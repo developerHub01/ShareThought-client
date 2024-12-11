@@ -18,7 +18,7 @@ const countData = [
 
 const LatestPost = () => {
   return (
-    <div className="border rounded-sm p-5 flex flex-col gap-5">
+    <div className="border rounded-sm p-5 flex flex-col gap-5 shadow-lg">
       <h4 className="text-lg font-semibold">Latest post</h4>
       <ChannelPostCard showThreeDot={false} />
       <div className="w-full flex items-center justify-between gap-3 p-1">

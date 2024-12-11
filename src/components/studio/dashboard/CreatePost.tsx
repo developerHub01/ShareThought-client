@@ -4,7 +4,7 @@ import Link from "next/link";
 
 const CreatePost = () => {
   return (
-    <div className="border rounded-sm p-5 gap-6 flex flex-col select-none text-center">
+    <div className="border rounded-sm p-5 gap-6 flex flex-col select-none text-center shadow-lg">
       <PostCreateSection />
       <Separator />
       <CommunityPostCreateSection />
