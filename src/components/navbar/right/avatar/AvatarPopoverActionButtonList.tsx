@@ -1,5 +1,3 @@
-"use client";
-
 import { Fragment } from "react";
 import AvatarActionButton from "@/components/navbar/right/avatar/AvatarActionButton";
 import LightSeparator from "@/components/separator/LightSeparator";
@@ -7,9 +5,18 @@ import {
   LogOut as LogOutIcon,
   Settings as SettingsIcon,
   AppWindowMac as AboutUsIcon,
+  LucideIcon,
 } from "lucide-react";
 
-const actionList = [
+interface IActionButton {
+  id: string;
+  label: string;
+  Icon: LucideIcon;
+  onClick?: () => void;
+  link?: string;
+}
+
+const actionList: Array<IActionButton> = [
   {
     id: "logout",
     label: "logout",
