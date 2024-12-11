@@ -1,11 +1,11 @@
 import Link from "next/link";
-import AppSidebarTrigger from "@/components/sidebar/AppSidebarTrigger";
+import SidebarTrigger from "@/components/sidebar/SidebarTrigger";
 
 const NavLeft = () => {
   return (
     <div className="flex justify-start items-center gap-2 select-none font-bold">
       <div className="block md:hidden">
-        <AppSidebarTrigger className="rounded-full" />
+        <SidebarTrigger className="rounded-full" />
       </div>
       <Link href="/" className="hidden sm:block">
         ShareThought

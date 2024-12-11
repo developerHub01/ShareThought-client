@@ -1,9 +1,15 @@
+"use client";
+
 import React from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import useIsStudio from "@/hooks/use-is-studio";
 
 const AvatarPopoverProfileDetails = () => {
+  const isStudio = useIsStudio();
+
+  console.log({ isStudio });
   return (
     <div className="w-full flex gap-2 sm:gap-3 p-4">
       <Avatar className="size-8 sm:size-10 cursor-pointer">
@@ -19,7 +25,9 @@ const AvatarPopoverProfileDetails = () => {
         </p>
         <Link href={"/"} className="select-none mt-2">
           <Button variant={"outline"} className="capitalize h-auto py-2">
-            View profile
+            {
+              isStudio? "View Channel" : "View profile"
+            }
           </Button>
         </Link>
       </div>

@@ -4,14 +4,35 @@ import ChannelActionList from "@/components/navbar/right/avatar/ChannelActionLis
 import LightSeparator from "@/components/separator/LightSeparator";
 import clsx from "clsx";
 import AvatarPopoverActionButtonList from "@/components/navbar/right/avatar/AvatarPopoverActionButtonList";
+import useIsStudio from "@/hooks/use-is-studio";
+import AvatarActionButton from "@/components/navbar/right/avatar/AvatarActionButton";
+import { AppWindowMac as AboutUsIcon, House as HomeIcon } from "lucide-react";
+import { Fragment } from "react";
 
 interface AvatarPopoverActionListProps {
   variant?: "v1" | "v2";
 }
 
+const studioRestOfActionList = [
+  {
+    id: "about-us",
+    label: "About Us",
+    Icon: AboutUsIcon,
+    link: "/",
+  },
+  {
+    id: "home",
+    label: "Move to Home Page",
+    Icon: HomeIcon,
+    link: "/",
+  },
+];
+
 const AvatarPopoverActionList = ({
   variant = "v1",
 }: AvatarPopoverActionListProps) => {
+  const isStudio = useIsStudio();
+
   return (
     <ScrollArea
       className={clsx("w-full", {
@@ -21,9 +42,19 @@ const AvatarPopoverActionList = ({
     >
       <ThemeMode />
       <LightSeparator />
-      <ChannelActionList />
-      <LightSeparator />
-      <AvatarPopoverActionButtonList />
+      {!isStudio && (
+        <>
+          <ChannelActionList />
+          <LightSeparator />
+          <AvatarPopoverActionButtonList />
+        </>
+      )}
+      {isStudio &&
+        studioRestOfActionList.map((actionButtonData) => (
+          <Fragment key={actionButtonData.id}>
+            <AvatarActionButton {...actionButtonData} />
+          </Fragment>
+        ))}
     </ScrollArea>
   );
 };
