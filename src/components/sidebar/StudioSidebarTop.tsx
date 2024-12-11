@@ -120,7 +120,12 @@ const ContextPreview = ({
               />
               <div className="absolute size-full grid place-items-center bg-primary/50 opacity-0 hover:opacity-100 duration-100">
                 <Button
-                  className="rounded-full aspect-square bg-accent/0 hover:bg-accent/30"
+                  className={clsx(
+                    "rounded-full aspect-square bg-accent/0 hover:bg-accent/30",
+                    {
+                      "w-7": sidebarState === "collapsed",
+                    }
+                  )}
                   size="icon"
                 >
                   <RedirectIcon
