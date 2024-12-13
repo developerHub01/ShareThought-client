@@ -12,11 +12,16 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import LayoutList from "@/app/studio/create-blog/_components/LayoutList";
-import ComponentList from "@/app/studio/create-blog/_components/ComponentList";
-import EditorSidebar from "@/app/studio/create-blog/_components/EditorSidebar";
+import LayoutList from "@/app/studio/create-blog/[id]/_components/LayoutList";
+import ComponentList from "@/app/studio/create-blog/[id]/_components/ComponentList";
+import EditorSidebar from "@/app/studio/create-blog/[id]/_components/EditorSidebar";
+import { useParams } from "next/navigation";
 
 const CreateBlogPostPage = () => {
+  const params = useParams();
+
+  console.log(params);
+
   return (
     <section className="mx-auto w-full max-w-7xl">
       <h1 className="text-4xl font-bold text-slate-900 pb-4">
