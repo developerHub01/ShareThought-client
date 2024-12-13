@@ -10,6 +10,18 @@ const navItemsList = {
       url: "/studio",
       icon: "LayoutDashboard",
     },
+    {
+      id: "create-blog",
+      label: "create blog",
+      url: "/studio/create-blog",
+      icon: "SquarePen",
+    },
+    {
+      id: "create-community-post",
+      label: "create community post",
+      url: "/studio/create-community-post",
+      icon: "SquarePen",
+    },
   ],
 };
 
