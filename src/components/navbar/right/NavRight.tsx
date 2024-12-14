@@ -32,7 +32,6 @@ const AuthButtonList = () => {
 const AuthenticatedUserButtonList = () => {
   const isStudio = useIsStudio();
 
-  console.log({ isStudio });
   return (
     <>
       {isStudio && (

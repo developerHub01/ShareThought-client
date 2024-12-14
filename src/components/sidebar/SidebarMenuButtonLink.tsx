@@ -25,18 +25,19 @@ const SidebarMenuButtonLink = ({
   label,
 }: SidebarMenuButtonLinkProps) => {
   const pathname = usePathname();
-  const params = useParams();
+  const params = useParams<{
+    id: string;
+  }>();
   const router = useRouter();
   const { state } = useSidebar();
 
   const handleClick = () => {
     if (!url.startsWith("/studio/create-blog")) return;
     const id = uuidv4();
-    url = `${url}/${params?.id || id}`;
 
     if (params.id) return;
 
-    console.log({ url });
+    url = `${url}/${id}`;
 
     return router.push(url);
   };

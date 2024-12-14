@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import {
   Tooltip,
@@ -23,6 +25,11 @@ import {
   ChevronsDownUp as CollapsIcon,
   AlignVerticalSpaceAround as SpacerIcon,
 } from "lucide-react";
+import { useEditor } from "@/app/studio/create-blog/[id]/_components/EditorProvider";
+import { useAppDispatch } from "@/redux/hooks";
+import { distance } from "react-advanced-cropper";
+import { addComponent } from "@/redux/features/builders/blogBuilderSlice";
+import { useParams } from "next/navigation";
 
 const componentItemList = [
   {
@@ -108,13 +115,30 @@ const componentItemList = [
 ];
 
 const ComponentList = () => {
+  const { id: blogId } = useParams<{ id: string }>();
+
+  const dispatch = useAppDispatch();
+  const { setIsComponentDialogOpen, selectedIndex } = useEditor();
+  const handleClick = (blockId: string) => () => {
+    setIsComponentDialogOpen(false);
+    dispatch(
+      addComponent({
+        id: blogId,
+        blockId: blockId,
+        index: selectedIndex,
+      })
+    );
+  };
   return (
     <div className="w-full grid grid-cols-2 md:grid-cols-3 gap-3 sm:gap-5 p-2">
       <TooltipProvider>
         {componentItemList.map(({ id, label, Icon }) => (
           <Tooltip key={id}>
             <TooltipTrigger asChild>
-              <button className="flex flex-col bg-accent rounded-sm p-2 justify-center items-center gap-2 aspect-square ring-2 ring-transparent hover:ring-primary/50 duration-150 hover:shadow-xl">
+              <button
+                className="flex flex-col bg-accent rounded-sm p-2 justify-center items-center gap-2 aspect-square ring-2 ring-transparent hover:ring-primary/50 duration-150 hover:shadow-xl"
+                onClick={handleClick(id)}
+              >
                 <Icon size={35} />
                 <span className="capitalize">{label}</span>
               </button>
