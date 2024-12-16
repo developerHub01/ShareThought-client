@@ -1,5 +1,6 @@
 import { REACTION_TYPES } from "@/constant";
 import { LucideIcon } from "lucide-react";
+import { MotionProps } from "motion/react";
 
 export interface ICTAMenuItem {
   id: string;
@@ -32,3 +33,8 @@ export type TCommunityPostType =
   | "POLL"
   | "POLL_WITH_IMAGE"
   | "QUIZ";
+
+
+  /* Framer motion */
+  export type MotionDivProps = React.HTMLAttributes<HTMLDivElement> & MotionProps;
+  export type MotionSpanProps = React.HTMLAttributes<HTMLSpanElement> & MotionProps;

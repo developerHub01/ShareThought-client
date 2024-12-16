@@ -13,6 +13,7 @@ import PreviewButton from "@/app/studio/create-blog/[id]/_components/PreviewButt
 import ComponentDialog from "@/app/studio/create-blog/[id]/_components/ComponentDialog";
 import EditorSidebar from "@/app/studio/create-blog/[id]/_components/EditorSidebar";
 import { AnimatePresence, motion } from "motion/react";
+import { MotionDivProps } from "@/types";
 
 const CreateBlogPostPage = () => {
   const { id: postId } = useParams<{ id: string }>();
@@ -63,6 +64,7 @@ const CreateBlogPostPage = () => {
                     {index !== list.length - 1 && (
                       <motion.div
                         className="group-hover:block hidden"
+                        {...({} as MotionDivProps)}
                         exit={{ opacity: 0 }}
                       >
                         <AddComponentSection index={index + 1} />

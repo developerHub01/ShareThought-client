@@ -11,7 +11,7 @@ import * as LucideIcons from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { sidebarLabelAnimProps } from "./sidebarLabelAnim";
 import { v4 as uuidv4 } from "uuid";
-import { useState, useEffect } from "react";
+import { MotionSpanProps } from "@/types";
 
 interface SidebarMenuButtonLinkProps {
   url: string;
@@ -83,7 +83,7 @@ const ItemText = ({ state, label }: ItemTextProps) => {
         <motion.span
           key="sidebar_menu_item_label"
           className="capitalize"
-          {...sidebarLabelAnimProps}
+          {...(sidebarLabelAnimProps as MotionSpanProps)}
         >
           {label}
         </motion.span>
