@@ -32,7 +32,17 @@ const SidebarMenuButtonLink = ({
   const { state } = useSidebar();
 
   const handleClick = () => {
-    if (!url.startsWith("/studio/create-blog")) return;
+    /* 
+    if current route is create-blog page
+    or 
+    targeted route is create-blog page then no need to redirect
+    */
+    if (
+      pathname.startsWith("/studio/create-blog") ||
+      !url.startsWith("/studio/create-blog")
+    )
+      return;
+
     const id = uuidv4();
 
     if (params.id) return;
@@ -44,10 +54,22 @@ const SidebarMenuButtonLink = ({
 
   const Icon = LucideIcons[icon as keyof typeof LucideIcons] as LucideIcon;
 
-  const isActive = pathname === url;
+  /* 
+  if pathname is same as url 
+  or 
+  pathname is create-blog page and url is create-blog 
+
+  then it is active
+  */
+  const isActive =
+    pathname === url ||
+    (pathname.startsWith("/studio/create-blog") &&
+      url === "/studio/create-blog");
 
   const customUrlRedirectList = ["/studio/create-blog"];
-  const isPreventLink = customUrlRedirectList.includes(url);
+  const isPreventLink = customUrlRedirectList.find((link) =>
+    url.startsWith(link)
+  );
 
   return (
     <SidebarMenuButton
