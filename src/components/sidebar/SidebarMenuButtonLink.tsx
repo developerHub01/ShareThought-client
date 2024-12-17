@@ -25,52 +25,31 @@ const SidebarMenuButtonLink = ({
   label,
 }: SidebarMenuButtonLinkProps) => {
   const pathname = usePathname();
-  const params = useParams<{
-    id: string;
-  }>();
+  const params = useParams<{ id: string }>();
   const router = useRouter();
   const { state } = useSidebar();
 
-  const handleClick = () => {
-    /* 
-    if current route is create-blog page
-    or 
-    targeted route is create-blog page then no need to redirect
-    */
-    if (
-      pathname.startsWith("/studio/create-blog") ||
-      !url.startsWith("/studio/create-blog")
-    )
-      return;
-
-    const id = uuidv4();
-
-    if (params.id) return;
-
-    url = `${url}/${id}`;
-
-    return router.push(url);
-  };
-
-  const Icon = LucideIcons[icon as keyof typeof LucideIcons] as LucideIcon;
-
-  /* 
-  if pathname is same as url 
-  or 
-  pathname is create-blog page and url is create-blog 
-
-  then it is active
-  */
-  const isActive =
-    pathname === url ||
-    (pathname.startsWith("/studio/create-blog") &&
-      url === "/studio/create-blog");
-
   const customUrlRedirectList = ["/studio/create-blog"];
-  const isPreventLink = customUrlRedirectList.find((link) =>
+  const isCustomRedirect = customUrlRedirectList.some((link) =>
     url.startsWith(link)
   );
 
+  const isActive =
+    pathname === url ||
+    (pathname.startsWith(url) && url === "/studio/create-blog");
+
+  const handleClick = () => {
+    if (
+      url.startsWith("/studio/create-blog") &&
+      !pathname.startsWith("/studio/create-blog")
+    ) {
+      if (!params.id) {
+        router.push(`/studio/create-blog/${uuidv4()}`);
+      }
+    }
+  };
+
+  const Icon = LucideIcons[icon as keyof typeof LucideIcons] as LucideIcon;
   return (
     <SidebarMenuButton
       asChild
@@ -78,39 +57,41 @@ const SidebarMenuButtonLink = ({
       data-active={isActive}
       onClick={handleClick}
     >
-      {isPreventLink ? (
+      {isCustomRedirect ? (
         <span className="cursor-pointer">
-          {Icon && <Icon />}
-          <ItemText state={state} label={label} />
+          <ButtonContent state={state} label={label} Icon={Icon} />
         </span>
       ) : (
         <Link href={url}>
-          {Icon && <Icon />}
-          <ItemText state={state} label={label} />
+          <ButtonContent state={state} label={label} Icon={Icon} />
         </Link>
       )}
     </SidebarMenuButton>
   );
 };
 
-interface ItemTextProps {
+interface ButtonContentProps {
   state: string;
   label: string;
+  Icon?: LucideIcon;
 }
 
-const ItemText = ({ state, label }: ItemTextProps) => {
+const ButtonContent = ({ state, label, Icon }: ButtonContentProps) => {
   return (
-    <AnimatePresence>
-      {state === "expanded" && (
-        <motion.span
-          key="sidebar_menu_item_label"
-          className="capitalize"
-          {...(sidebarLabelAnimProps as MotionSpanProps)}
-        >
-          {label}
-        </motion.span>
-      )}
-    </AnimatePresence>
+    <>
+      {Icon && <Icon />}
+      <AnimatePresence>
+        {state === "expanded" && (
+          <motion.span
+            key="sidebar_menu_item_label"
+            className="capitalize"
+            {...(sidebarLabelAnimProps as MotionSpanProps)}
+          >
+            {label}
+          </motion.span>
+        )}
+      </AnimatePresence>
+    </>
   );
 };
 
