@@ -10,20 +10,17 @@ const StudioDashboardPage = () => {
   return (
     <section className="mx-auto w-full max-w-7xl">
       <h1 className="text-xl text-primary font-bold pb-4">Channel dashboard</h1>
-      <div className="md:columns-2 gap-5">
-        <CreatePost />
-        <Specer />
-        <LatestPost />
-        <Specer />
-        <LatestSubscribers />
-        <div className="break-after-column">
-          <Specer />
-        </div>
-        <AnalyticsSummery />
-        <Specer />
-        <LatestComments />
-        <Specer />
-      </div>
+      <section className="flex flex-col md:flex-row gap-5 pb-5">
+        <section className="w-full flex flex-col gap-5">
+          <CreatePost />
+          <LatestPost />
+          <LatestSubscribers />
+        </section>
+        <section className="w-full flex flex-col gap-5">
+          <AnalyticsSummery />
+          <LatestComments />
+        </section>
+      </section>
     </section>
   );
 };
