@@ -1,4 +1,4 @@
-import Form from "@/app/login/_components/Form";
+import Form from "@/app/(auth)/login/_components/Form";
 import {
   DrawerContentWitoutHandler,
   DrawerDescription,

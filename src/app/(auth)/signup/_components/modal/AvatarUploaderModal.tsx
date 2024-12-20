@@ -22,7 +22,7 @@ import {
   CheckCheck as ProceedIcon,
 } from "lucide-react";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import ActionButton from "@/app/signup/_components/modal/ActionButton";
+import ActionButton from "@/app/(auth)/signup/_components/modal/ActionButton";
 import { CenterScrollArea } from "@/components/scrollArea/CenterScrollArea";
 import clsx from "clsx";
 

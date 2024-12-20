@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import React from "react";
-import Form from "@/app/signup/_components/Form";
+import Form from "@/app/(auth)/signup/_components/Form";
 
 const SignUpRight = () => {
   return (

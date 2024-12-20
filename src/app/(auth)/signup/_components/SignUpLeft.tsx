@@ -1,5 +1,5 @@
 import { Separator } from "@/components/ui/separator";
-import AvatarUpload from "@/app/signup/_components/AvatarUpload";
+import AvatarUpload from "@/app/(auth)/signup/_components/AvatarUpload";
 import Link from "next/link";
 import SocialLoginSection from "@/components/auth/SocialLoginSection";
 

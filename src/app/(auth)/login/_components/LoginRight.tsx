@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import React from "react";
-import Form from "@/app/login/_components/Form";
+import Form from "@/app/(auth)/login/_components/Form";
 
 const LoginRight = () => {
   return (

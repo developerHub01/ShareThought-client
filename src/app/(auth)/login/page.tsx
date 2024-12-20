@@ -1,6 +1,6 @@
 import React from "react";
-import LoginLeft from "@/app/login/_components/LoginLeft";
-import LoginRight from "@/app/login/_components/LoginRight";
+import LoginLeft from "@/app/(auth)/login/_components/LoginLeft";
+import LoginRight from "@/app/(auth)/login/_components/LoginRight";
 
 const LoginPage = () => {
   return (

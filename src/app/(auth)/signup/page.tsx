@@ -1,7 +1,7 @@
 import React from "react";
-import SignUpLeft from "@/app/signup/_components/SignUpLeft";
-import SignUpRight from "@/app/signup/_components/SignUpRight";
-import ModelWrapper from "@/app/signup/_components/modal/ModalWrapper";
+import SignUpLeft from "@/app/(auth)/signup/_components/SignUpLeft";
+import SignUpRight from "@/app/(auth)/signup/_components/SignUpRight";
+import ModelWrapper from "@/app/(auth)/signup/_components/modal/ModalWrapper";
 
 const RegisterPage = () => {
   return (

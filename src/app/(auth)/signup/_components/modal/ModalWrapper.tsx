@@ -2,8 +2,7 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 import React from "react";
-import AvatarModalContainer from "@/app/signup/_components/modal/AvatarModalContainer";
-import { useAppSelector } from "@/redux/hooks";
+import AvatarModalContainer from "@/app/(auth)/signup/_components/modal/AvatarModalContainer";
 
 type TModalName = "camera" | "edit";
 
