@@ -7,7 +7,9 @@ interface MainWrapperProps {
 }
 const MainWrapper = ({ children, className = "" }: MainWrapperProps) => {
   return (
-    <main className={clsx("w-full h-full p-2 md:p-0 md:pr-2", className)}>
+    <main
+      className={clsx("mx-auto w-full h-full p-2 md:p-0 md:pr-2", className)}
+    >
       {children}
     </main>
   );
