@@ -27,7 +27,7 @@ interface IActionButton {
   onClick?: () => void;
 }
 
-const imgUrl = "/avatar.png";
+const imgUrl = "/images/avatar.png";
 
 const AvatarUpload = () => {
   const dispatch = useAppDispatch();
