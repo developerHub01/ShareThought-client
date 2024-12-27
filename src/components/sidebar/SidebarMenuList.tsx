@@ -29,22 +29,40 @@ const navItemsList = {
       icon: "Bookmark",
     },
     {
-      id: "reacted_posts",
-      label: "reacted posts",
-      url: "/reacted-posts",
-      icon: "SmilePlus",
-    },
-    {
-      id: "my_commentes",
-      label: "my comments",
-      url: "/my-comments",
-      icon: "MessageSquareText",
+      id: "my_activities", // Combined menu
+      label: "my activities",
+      icon: "Activity", // Choose an appropriate icon
+      items: [
+        {
+          id: "reacted_posts",
+          label: "reacted posts",
+          url: "/reacted-posts",
+          icon: "SmilePlus",
+        },
+        {
+          id: "my_comments",
+          label: "my comments",
+          url: "/my-comments",
+          icon: "MessageSquareText",
+        },
+      ],
     },
     {
       id: "channels",
       label: "channels",
-      url: "/channels",
       icon: "LayoutTemplate",
+      items: [
+        {
+          id: "following_channels",
+          label: "Following Channels",
+          url: "/channels/following",
+        },
+        {
+          id: "my_channels",
+          label: "My Channels",
+          url: "/channels/my",
+        },
+      ],
     },
     {
       id: "following",

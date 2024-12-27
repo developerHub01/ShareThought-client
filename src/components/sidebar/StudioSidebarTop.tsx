@@ -6,7 +6,7 @@ import { useSidebar } from "@/components/sidebar/SidebarMain";
 import { useIsMobile } from "@/hooks/use-mobile";
 import clsx from "clsx";
 import { motion, AnimatePresence } from "motion/react";
-import { sidebarLabelAnimProps } from "./sidebarLabelAnim";
+import { sidebarLabelAnimProps } from "@/components/sidebar/sidebarLabelAnim";
 import Image from "next/image";
 import {
   Tooltip,

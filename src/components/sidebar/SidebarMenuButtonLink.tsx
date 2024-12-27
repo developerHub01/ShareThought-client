@@ -1,21 +1,16 @@
 "use client";
 
-import {
-  SidebarMenuButton,
-  useSidebar,
-} from "@/components/sidebar/SidebarMain";
+import { SidebarMenuButton } from "@/components/sidebar/SidebarMain";
 import { useParams, usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import { LucideIcon } from "lucide-react";
 import * as LucideIcons from "lucide-react";
-import { AnimatePresence, motion } from "motion/react";
-import { sidebarLabelAnimProps } from "./sidebarLabelAnim";
 import { v4 as uuidv4 } from "uuid";
-import { MotionSpanProps } from "@/types";
+import ItemButtonContent from "@/components/sidebar/ItemButtonContent";
 
 interface SidebarMenuButtonLinkProps {
   url: string;
-  icon: string;
+  icon?: string;
   label: string;
 }
 
@@ -27,7 +22,6 @@ const SidebarMenuButtonLink = ({
   const pathname = usePathname();
   const params = useParams<{ id: string }>();
   const router = useRouter();
-  const { state } = useSidebar();
 
   const customUrlRedirectList = ["/studio/create-blog"];
   const isCustomRedirect = customUrlRedirectList.some((link) =>
@@ -41,11 +35,10 @@ const SidebarMenuButtonLink = ({
   const handleClick = () => {
     if (
       url.startsWith("/studio/create-blog") &&
-      !pathname.startsWith("/studio/create-blog")
+      !pathname.startsWith("/studio/create-blog") &&
+      !params.id
     ) {
-      if (!params.id) {
-        router.push(`/studio/create-blog/${uuidv4()}`);
-      }
+      router.push(`/studio/create-blog/${uuidv4()}`);
     }
   };
 
@@ -59,39 +52,14 @@ const SidebarMenuButtonLink = ({
     >
       {isCustomRedirect ? (
         <span className="cursor-pointer">
-          <ButtonContent state={state} label={label} Icon={Icon} />
+          <ItemButtonContent label={label} Icon={Icon} />
         </span>
       ) : (
         <Link href={url}>
-          <ButtonContent state={state} label={label} Icon={Icon} />
+          <ItemButtonContent label={label} Icon={Icon} />
         </Link>
       )}
     </SidebarMenuButton>
-  );
-};
-
-interface ButtonContentProps {
-  state: string;
-  label: string;
-  Icon?: LucideIcon;
-}
-
-const ButtonContent = ({ state, label, Icon }: ButtonContentProps) => {
-  return (
-    <>
-      {Icon && <Icon />}
-      <AnimatePresence>
-        {state === "expanded" && (
-          <motion.span
-            key="sidebar_menu_item_label"
-            className="capitalize"
-            {...(sidebarLabelAnimProps as MotionSpanProps)}
-          >
-            {label}
-          </motion.span>
-        )}
-      </AnimatePresence>
-    </>
   );
 };
 
