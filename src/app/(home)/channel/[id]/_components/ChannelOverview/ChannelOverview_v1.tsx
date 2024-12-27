@@ -2,7 +2,7 @@ import { Button } from "@/components/buttons/Button";
 import DotIcon from "@/components/icons/DotIcon";
 import Image from "next/image";
 import React from "react";
-import AboutPopOver from "@/app/(home)/channel/[id]/_components/AboutPopOver";
+import AboutPopOver from "@/app/(home)/channel/[id]/_components/About/AboutPopOver";
 import ChannelOverviewActions from "@/app/(home)/channel/[id]/_components/ChannelOverview/ChannelOverviewActions";
 import ChannelBanner from "@/app/(home)/channel/[id]/_components/ChannelOverview/ChannelBanner";
 import clsx from "clsx";

@@ -1,5 +1,5 @@
 import React from "react";
-import FollowersList from "@/app/(home)/channel/[id]/_components/FollowersList";
+import FollowersList from "@/app/(home)/channel/[id]/_components/Followers/FollowersList";
 import InviteButton from "@/app/(home)/channel/[id]/_components/InviteButton";
 import ShareButton from "@/app/(home)/channel/[id]/_components/ShareButton";
 import clsx from "clsx";
