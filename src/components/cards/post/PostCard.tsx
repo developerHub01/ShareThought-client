@@ -22,13 +22,13 @@ const PostCard = ({ showThreeDot = true }: { showThreeDot?: boolean }) => {
           Developer Hub BD
         </h4>
       </Link>
-      <Link href={"/"} className="rounded-t-sm overflow-hidden">
+      <Link href={"/"} className="block w-full rounded-t-sm overflow-hidden">
         <Image
           src={imgUrl}
           width={300}
           height={300}
           alt=""
-          className="w-full object-cover select-none aspect-video"
+          className="w-full h-full object-cover"
         />
       </Link>
       <div className="p-2.5 py-3 flex justify-between gap-2">
