@@ -12,6 +12,8 @@ const config: Config = {
     extend: {
       aspectRatio: {
         banner: "1070 / 305",
+        square: "1 / 1",
+        video: "16 / 9",
       },
       colors: {
         background: "hsl(var(--background))",

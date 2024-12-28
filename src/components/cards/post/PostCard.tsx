@@ -22,7 +22,7 @@ const PostCard = ({ showThreeDot = true }: { showThreeDot?: boolean }) => {
           Developer Hub BD
         </h4>
       </Link>
-      <Link href={"/"} className="block w-full rounded-t-sm overflow-hidden">
+      <Link href={"/"} className="block w-full overflow-hidden aspect-video">
         <Image
           src={imgUrl}
           width={300}

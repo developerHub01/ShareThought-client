@@ -113,7 +113,7 @@ const ContextPreview = ({
             >
               <Image
                 src={channelLogo}
-                alt=""
+                alt="channel logo"
                 width={300}
                 height={300}
                 className="size-full object-cover"
@@ -138,7 +138,7 @@ const ContextPreview = ({
           ) : (
             <Link
               href={"/"}
-              className="w-full h-full min-h-8 min-w-8 max-h-32 max-w-32 aspect-square rounded-full overflow-hidden bg-slate-700 relative grid place-items-center"
+              className="size-full min-h-8 min-w-8 max-h-32 max-w-32 aspect-square rounded-full overflow-hidden bg-slate-700 relative grid place-items-center"
             >
               <Image
                 src={channelLogo}
