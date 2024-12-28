@@ -88,4 +88,7 @@ body {
   img {
     @apply select-none;
   }
+  [data-radix-scroll-area-viewport] > div {
+    @apply h-full;
+  }
 }

@@ -29,9 +29,9 @@ const navItemsList = {
       icon: "Bookmark",
     },
     {
-      id: "my_activities", // Combined menu
+      id: "my_activities",
       label: "my activities",
-      icon: "Activity", // Choose an appropriate icon
+      icon: "Activity",
       items: [
         {
           id: "reacted_posts",
@@ -63,12 +63,6 @@ const navItemsList = {
           url: "/channels/my",
         },
       ],
-    },
-    {
-      id: "following",
-      label: "following",
-      url: "/following",
-      icon: "Rss",
     },
     {
       id: "chats",
@@ -114,9 +108,11 @@ const navItemsList = {
 const SidebarMenuList = () => {
   const { navMainItems, navSecondaryItems } = navItemsList;
   return (
-    <ScrollArea className="h-full w-full">
-      <NavMain navItems={navMainItems} />
-      <NavMain navItems={navSecondaryItems} className="mt-auto" />
+    <ScrollArea className="h-full w-full" id="sidebar-scrollarea-wrapper">
+      <div className="h-full flex flex-col justify-between">
+        <NavMain navItems={navMainItems} />
+        <NavMain navItems={navSecondaryItems} className="mt-auto" />
+      </div>
     </ScrollArea>
   );
 };
