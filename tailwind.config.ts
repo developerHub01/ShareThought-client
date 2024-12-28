@@ -10,6 +10,9 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      aspectRatio: {
+        banner: "1070 / 305",
+      },
       colors: {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
@@ -111,6 +114,9 @@ const config: Config = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [
+    require("tailwindcss-animate"),
+    require("@tailwindcss/aspect-ratio"),
+  ],
 };
 export default config;

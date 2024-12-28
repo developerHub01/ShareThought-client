@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
-const FollowedChannelCard = () => {
+const FollowedChannelCard_v1 = () => {
   const imgUrl =
     "https://images.unsplash.com/photo-1730660666237-1e6a008067a9?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
 
@@ -21,10 +21,12 @@ const FollowedChannelCard = () => {
           className="size-full object-cover select-none"
         />
       </Link>
-      <Link href={"/"} className="flex flex-col justify-between gap-2 w-full max-w-xl mr-auto">
-        <h3 className="font-medium text-lg line-clamp-2 overflow-hidden text-ellipsis pb-1">
-          Developer Hub BD
-        </h3>
+      <div className="flex flex-col justify-between gap-2 w-full max-w-xl mr-auto">
+        <Link href={"/"}>
+          <h3 className="font-medium text-lg line-clamp-2 overflow-hidden text-ellipsis">
+            Developer Hub BD
+          </h3>
+        </Link>
         <div className="flex justify-start items-center gap-1 text-gray-500 text-xs flex-wrap select-none">
           <span>10K followers</span>
         </div>
@@ -36,12 +38,10 @@ const FollowedChannelCard = () => {
           veniam. Nulla in neque laborum doloribus nam! Nam dolores et tenetur,
           aliquam laborum ipsum dolorem.
         </p>
-      </Link>
-      <div className="self-start sm:self-center flex-shrink-0">
         <FollowedChannelCardCTA id={"1"} />
       </div>
     </div>
   );
 };
 
-export default FollowedChannelCard;
+export default FollowedChannelCard_v1;
