@@ -1,9 +1,9 @@
-import FollowedChannelCardCTA from "@/components/actions/FollowedChannelCardCTA";
+import FollowingChannelCardCTA from "@/components/actions/FollowingChannelCardCTA";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
-const FollowedChannelCard_v1 = () => {
+const FollowingChannelCard = () => {
   const imgUrl =
     "https://images.unsplash.com/photo-1730660666237-1e6a008067a9?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
 
@@ -38,10 +38,10 @@ const FollowedChannelCard_v1 = () => {
           veniam. Nulla in neque laborum doloribus nam! Nam dolores et tenetur,
           aliquam laborum ipsum dolorem.
         </p>
-        <FollowedChannelCardCTA id={"1"} />
+        <FollowingChannelCardCTA id={"1"} />
       </div>
     </div>
   );
 };
 
-export default FollowedChannelCard_v1;
+export default FollowingChannelCard;
