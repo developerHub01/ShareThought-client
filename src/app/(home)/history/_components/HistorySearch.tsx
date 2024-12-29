@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { useRouter, useSearchParams } from "next/navigation";
 import useModifyQueryParams from "@/hooks/use-modify-query-params";
 import { Input } from "@/components/ui/input";
+import { AnimatePresence, motion } from "motion/react";
 
 const HistorySearch = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -58,17 +59,25 @@ const HistorySearch = () => {
           value={searchTerm}
           onChange={handleChange}
         />
-        {searchTerm && (
-          <Button
-            size={"icon"}
-            variant={"ghost"}
-            className="rounded-full flex-shrink-0"
-            onClick={handleClear}
-            type="button"
-          >
-            <CloseIcon size={18} />
-          </Button>
-        )}
+        <AnimatePresence>
+          {searchTerm && (
+            <motion.div
+              key="read-history-search-clear"
+              exit={{ opacity: 0, rotate: 90, filter: "blur(5)" }}
+              transition={{ opacity: 1, rotate: 0, filter: "blur(0)" }}
+            >
+              <Button
+                size={"icon"}
+                variant={"ghost"}
+                className="rounded-full flex-shrink-0"
+                onClick={handleClear}
+                type="button"
+              >
+                <CloseIcon size={18} />
+              </Button>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </form>
     </div>
   );

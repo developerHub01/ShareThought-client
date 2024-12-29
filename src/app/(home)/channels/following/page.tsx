@@ -5,7 +5,7 @@ import React from "react";
 
 const FollowingChannels = () => {
   return (
-    <section className="mx-auto w-full max-w-7xl">
+    <section className="mx-auto w-full max-w-7xl pb-5">
       <PageHeadingWrapper>
         <Heading_v1>My Following Channels</Heading_v1>
       </PageHeadingWrapper>

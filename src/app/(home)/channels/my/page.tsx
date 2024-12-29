@@ -7,7 +7,7 @@ import PageHeadingWrapper from "@/components/headings/PageHeadingWrapper";
 
 const MyChannels = () => {
   return (
-    <section className="mx-auto w-full max-w-7xl">
+    <section className="mx-auto w-full max-w-7xl pb-5">
       <PageHeadingWrapper>
         <Heading_v1>My Channels</Heading_v1>
         <Button size={"sm"}>
