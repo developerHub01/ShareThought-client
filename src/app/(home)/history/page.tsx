@@ -1,11 +1,14 @@
 import React from "react";
+import HistoryList from "@/app/(home)/history/_components/HistoryList";
+import HistorySearch from "@/app/(home)/history/_components/HistorySearch";
 
-const page = () => {
+const HistoryPage = () => {
   return (
-    <div>
-      <h1>History</h1>
-    </div>
+    <section className="flex flex-col gap-5">
+      <HistorySearch />
+      <HistoryList />
+    </section>
   );
 };
 
-export default page;
+export default HistoryPage;
