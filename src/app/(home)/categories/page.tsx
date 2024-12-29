@@ -1,11 +1,11 @@
-import React from "react";
+import SaveCategoryList from "@/app/(home)/categories/_components/SaveCategoryList";
 
-const page = () => {
+const CategoriesPage = () => {
   return (
     <div>
-      <h1>Categories</h1>
+      <SaveCategoryList />
     </div>
   );
 };
 
-export default page;
+export default CategoriesPage;
