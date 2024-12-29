@@ -52,7 +52,7 @@ const MyChannelCard = () => {
         </p>
         <div className="flex justify-center items-center gap-1 flex-wrap">
           <Link href="/">
-            <Button size={"sm"}>
+            <Button size={"sm"} variant={"outline"}>
               <ViewIcon size={18} />
               View Channel
             </Button>
