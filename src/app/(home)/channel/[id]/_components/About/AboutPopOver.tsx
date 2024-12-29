@@ -1,6 +1,5 @@
 "use client";
 
-import { Button } from "@/components/buttons/Button";
 import {
   Drawer,
   DrawerContentWitoutHandler,
@@ -10,10 +9,13 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer";
 import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import React from "react";
 import AboutChannel from "@/app/(home)/channel/[id]/_components/About/AboutChannel";
 import useIsActiveQuery from "@/hooks/use-is-active-query";
+import { X as CloseIcon } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 interface AboutPopOverProps {}
 
@@ -46,11 +48,21 @@ const AboutPopOver = ({}: AboutPopOverProps) => {
           { "--initial-transform": "calc(100% + 8px)" } as React.CSSProperties
         }
       >
-        <DrawerHeader className="p-0 py-1 max-h-[85vh] rounded-sm flex flex-col">
-          <DrawerTitle>About</DrawerTitle>
+        <DrawerHeader className="flex justify-between items-center gap-2 border-b py-2">
+          <DrawerTitle className="font-medium">About</DrawerTitle>
           <DrawerDescription hidden></DrawerDescription>
-          <AboutChannel />
+          <Button
+            size={"icon"}
+            className="rounded-full"
+            variant={"ghost"}
+            onClick={() => handleClose(false)}
+          >
+            <CloseIcon size={22} strokeWidth={1.5} />
+          </Button>
         </DrawerHeader>
+        <ScrollArea className="w-full h-full">
+          <AboutChannel />
+        </ScrollArea>
       </DrawerContentWitoutHandler>
     </Drawer>
   );
