@@ -13,7 +13,10 @@ const HistoryPostCard = ({
 
   return (
     <div className="shadow-xl w-full border border-accent rounded-sm overflow-hidden flex flex-col sm:flex-row">
-      <Link href={"/"} className="aspect-video overflow-hidden min-w-52">
+      <Link
+        href={"/"}
+        className="block aspect-video h-full overflow-hidden min-w-52"
+      >
         <Image
           src={imgUrl}
           width={300}
