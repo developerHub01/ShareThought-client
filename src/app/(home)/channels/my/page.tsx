@@ -11,7 +11,7 @@ const MyChannels = () => {
       <PageHeadingWrapper>
         <Heading_v1>My Channels</Heading_v1>
         <Button size={"sm"}>
-          <CreateIcon size={16} /> Create Channel
+          <CreateIcon size={18} /> Create Channel
         </Button>
       </PageHeadingWrapper>
 
