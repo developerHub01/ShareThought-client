@@ -5,7 +5,7 @@ import { useSearchParams } from "next/navigation";
 const useIsActiveQuery = (param: string) => {
   const params = useSearchParams();
 
-  return params.get(param) !== null && params.get(param) !== "false";
+  return params.has(param);
 };
 
 export default useIsActiveQuery;
