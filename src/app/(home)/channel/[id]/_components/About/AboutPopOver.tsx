@@ -13,15 +13,14 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import React from "react";
 import AboutChannel from "@/app/(home)/channel/[id]/_components/About/AboutChannel";
+import useIsActiveQuery from "@/hooks/use-is-active-query";
 
 interface AboutPopOverProps {}
 
 const AboutPopOver = ({}: AboutPopOverProps) => {
-  const params = useSearchParams();
   const router = useRouter();
 
-  const isAboutOpen =
-    params.get("about") !== null && params.get("about") !== "false";
+  const isAboutOpen = useIsActiveQuery("about");
 
   const handleClose = (open: boolean) => {
     if (!open) return router.back();
