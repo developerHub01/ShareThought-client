@@ -3,7 +3,6 @@
 import { Button } from "@/components/ui/button";
 import {
   Drawer,
-  DrawerTrigger,
   DrawerHeader,
   DrawerTitle,
   DrawerDescription,
@@ -19,23 +18,28 @@ import CreateChannelName from "@/app/(home)/channels/my/_components/CreateChanne
 import CreateChannelDescription from "@/app/(home)/channels/my/_components/CreateChannel/CreateChannelDescription";
 import CreateChannelAvatar from "@/app/(home)/channels/my/_components/CreateChannel/CreateChannelAvatar";
 import CreateChannelCover from "@/app/(home)/channels/my/_components/CreateChannel/CreateChannelCover";
-import CreateChannelFinal from "@/app/(home)/channels/my/_components/CreateChannel/CreateChannelFinal";
+import CreateChannelPreview from "@/app/(home)/channels/my/_components/CreateChannel/CreateChannelPreview";
 import CreateChannelFooter from "@/app/(home)/channels/my/_components/CreateChannel/CreateChannelFooter";
+import CreateChannelAvatarEditor from "@/app/(home)/channels/my/_components/CreateChannel/CreateChannelAvatarEditor";
+import CreateChannelCoverEditor from "@/app/(home)/channels/my/_components/CreateChannel/CreateChannelCoverEditor";
+import { clearState } from "@/redux/features/create-channel/createChannelSlice";
+import { useAppDispatch } from "@/redux/hooks";
+import clsx from "clsx";
 
 const CreateChannelPopover = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const dispatch = useAppDispatch();
 
   const isAboutOpen = useIsActiveQuery("create");
   const { modifyParams, buildFullPath } = useModifyQueryParams();
 
   const handleClose = (open: boolean) => {
-    if (!open)
+    if (!open) {
+      dispatch(clearState());
       return router.push(buildFullPath(modifyParams("delete", "create")));
+    }
   };
-
-  const handleNavigateAboutQuery = () =>
-    router.push(buildFullPath(modifyParams("set", "create")));
 
   const createStep = useMemo(
     () => searchParams.get("create")?.trim()!,
@@ -51,7 +55,12 @@ const CreateChannelPopover = () => {
       dismissible={false}
     >
       <DrawerContentWitoutHandler
-        className="fixed mt-0 overflow-hidden w-[90%] max-w-xl inset-2 rounded-sm ml-auto border-0"
+        className={clsx(
+          "fixed mt-0 overflow-hidden w-[90%] max-w-xl inset-2 rounded-sm ml-auto border-0",
+          {
+            "max-w-4xl": ["4", "7"].includes(createStep),
+          }
+        )}
         style={
           { "--initial-transform": "calc(100% + 8px)" } as React.CSSProperties
         }
@@ -70,7 +79,7 @@ const CreateChannelPopover = () => {
             <CloseIcon size={22} strokeWidth={1.5} />
           </Button>
         </DrawerHeader>
-        <ScrollArea className="w-full h-full">
+        <ScrollArea className="center-scroll-area w-full h-full">
           <PopoverContent createStep={createStep} />
         </ScrollArea>
         <CreateChannelFooter createStep={createStep} />
@@ -94,7 +103,11 @@ const PopoverTitle = ({ createStep }: PopoverTitleOrContentProps) => {
     case "4":
       return <p>Channel Cover</p>;
     case "5":
-      return <p>Channel Final</p>;
+      return <p>Channel Preview</p>;
+    case "6":
+      return <p>Edit Channel Avatar</p>;
+    case "7":
+      return <p>Edit Channel Cover</p>;
   }
 };
 
@@ -109,7 +122,11 @@ const PopoverContent = ({ createStep }: PopoverTitleOrContentProps) => {
     case "4":
       return <CreateChannelCover />;
     case "5":
-      return <CreateChannelFinal />;
+      return <CreateChannelPreview />;
+    case "6":
+      return <CreateChannelAvatarEditor />;
+    case "7":
+      return <CreateChannelCoverEditor />;
   }
 };
 

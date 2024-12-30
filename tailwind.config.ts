@@ -1,4 +1,4 @@
-import { transform } from "next/dist/build/swc/generated-native";
+import { aspectRatioList } from "./src/constant";
 import type { Config } from "tailwindcss";
 
 const config: Config = {
@@ -11,7 +11,7 @@ const config: Config = {
   theme: {
     extend: {
       aspectRatio: {
-        banner: "1070 / 305",
+        banner: `${aspectRatioList.banner[0]} / ${aspectRatioList.banner[1]}`,
         square: "1 / 1",
         video: "16 / 9",
       },

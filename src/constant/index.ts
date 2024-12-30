@@ -33,3 +33,7 @@ export const COMMUNITY_POST_TYPES = {
 
 export const COMMUNITY_POST_TYPE_LIST: Array<string> =
   Object.keys(COMMUNITY_POST_TYPES);
+
+export const aspectRatioList = {
+  banner: [214, 61],
+};
