@@ -1,4 +1,4 @@
-import { Textarea } from "@/components/Inputs/TextArea";
+import { Textarea } from "@/components/Inputs/Textarea";
 import React from "react";
 
 const CreateChannelDescription = () => {
