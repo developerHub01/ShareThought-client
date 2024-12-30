@@ -91,4 +91,8 @@ body {
   [data-radix-scroll-area-viewport] > div {
     @apply h-full;
   }
+
+  .center-scroll-area > div {
+    @apply !grid place-items-center;
+  }
 }

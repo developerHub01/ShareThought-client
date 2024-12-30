@@ -27,16 +27,12 @@ const HistorySearch = () => {
 
   const handleClear = () => {
     setSearchTerm("");
-    const queryParams = modifyParams("delete", "query");
-    const fullPath = buildFullPath(queryParams);
-    router.push(fullPath);
+    router.push(buildFullPath(modifyParams("delete", "query")));
   };
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const queryParams = modifyParams("append", "query", searchTerm);
-    const fullPath = buildFullPath(queryParams);
-    router.push(fullPath);
+    router.push(buildFullPath(modifyParams("append", "query", searchTerm)));
   };
 
   return (

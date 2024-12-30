@@ -7,6 +7,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import useModifyQueryParams from "@/hooks/use-modify-query-params";
 import { removeAvatar } from "@/redux/features/signup/signupSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import {
@@ -16,7 +17,7 @@ import {
   LucideIcon,
 } from "lucide-react";
 import Image from "next/image";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useCallback, useMemo } from "react";
 
 interface IActionButton {
@@ -31,6 +32,8 @@ const imgUrl = "/images/avatar.png";
 
 const AvatarUpload = () => {
   const dispatch = useAppDispatch();
+  const router = useRouter();
+  const { modifyParams, buildFullPath } = useModifyQueryParams();
 
   const { avatar: uploadedAvatar } = useAppSelector((state) => state.signUp);
 
@@ -39,19 +42,22 @@ const AvatarUpload = () => {
     [dispatch]
   );
 
+  const handleNavigateQuery = (key: string, value: string = "") =>
+    router.push(buildFullPath(modifyParams("set", key, value)));
+
   const actionButtonList = useMemo<Array<IActionButton>>(
     () => [
       {
         id: "camera",
         label: "camera",
         Icon: CameraIcon,
-        link: "?avatar=camera",
+        onClick: () => handleNavigateQuery("avatar", "camera"),
       },
       {
         id: "edit",
         label: "edit",
         Icon: EditIcon,
-        link: "?avatar=edit",
+        onClick: () => handleNavigateQuery("avatar", "edit"),
       },
       {
         id: "remove",
@@ -81,36 +87,23 @@ const AvatarUpload = () => {
           width={400}
           height={400}
           alt="avatar"
-          className="w-full h-full object-fit bg-white select-none"
+          className="w-full h-full object-cover bg-white select-none"
         />
       </div>
       <TooltipProvider>
         <div className="flex justify-center items-center w-auto rounded-sm bg-primary text-white shadow-md overflow-hidden -mt-10 ring-4">
-          {filteredButtons.map(({ id, Icon, label, onClick, link }) => (
+          {filteredButtons.map(({ id, Icon, label, onClick }) => (
             <Tooltip key={id}>
               <TooltipTrigger asChild>
-                {link ? (
-                  <Link href={link}>
-                    <Button
-                      size={"icon"}
-                      variant={"ghost"}
-                      aria-label={label}
-                      className="rounded-none hover:bg-accent/20 hover:text-white"
-                    >
-                      <Icon />
-                    </Button>
-                  </Link>
-                ) : (
-                  <Button
-                    size={"icon"}
-                    variant={"ghost"}
-                    aria-label={label}
-                    className="rounded-none hover:bg-accent/20 hover:text-white"
-                    onClick={onClick}
-                  >
-                    <Icon />
-                  </Button>
-                )}
+                <Button
+                  size={"icon"}
+                  variant={"ghost"}
+                  aria-label={label}
+                  className="rounded-none hover:bg-accent/20 hover:text-white"
+                  onClick={onClick}
+                >
+                  <Icon />
+                </Button>
               </TooltipTrigger>
               <TooltipContent sideOffset={8}>{label}</TooltipContent>
             </Tooltip>

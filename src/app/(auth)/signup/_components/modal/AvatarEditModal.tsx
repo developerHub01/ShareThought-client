@@ -5,22 +5,26 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { CircleStencil, Cropper, CropperRef } from "react-advanced-cropper";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/buttons/Button";
-import Link from "next/link";
 import "react-advanced-cropper/dist/style.css";
 import "react-advanced-cropper/dist/themes/compact.css";
 import { useRouter } from "next/navigation";
 import { CenterScrollArea } from "@/components/scrollArea/CenterScrollArea";
 import { useToast } from "@/hooks/use-toast";
 import { setAvatar } from "@/redux/features/signup/signupSlice";
+import useModifyQueryParams from "@/hooks/use-modify-query-params";
 
 const AvatarEditModal = () => {
   const { avatar: avatarPreview } = useAppSelector((state) => state.signUp);
   const cropperRef = useRef<CropperRef>(null);
   const { toast } = useToast();
-
   const router = useRouter();
+  const { modifyParams, buildFullPath } = useModifyQueryParams();
 
-  const handleClose = () => router.push("/signup");
+  const handleClose = () =>
+    router.push(buildFullPath(modifyParams("delete", "avatar")));
+
+  const handleNavigateCamera = () =>
+    router.push(buildFullPath(modifyParams("set", "avatar", "camera")));
 
   const dispatch = useAppDispatch();
 
@@ -49,7 +53,8 @@ const AvatarEditModal = () => {
 
       const avatarURL = URL.createObjectURL(blob);
       dispatch(setAvatar(avatarURL));
-      router.push("/signup");
+
+      router.push(buildFullPath(modifyParams("delete", "avatar")));
     }, "image/png");
   }, [dispatch, router, toast]);
 
@@ -76,9 +81,7 @@ const AvatarEditModal = () => {
 
       <LoginSeparator />
       <div className="flex justify-center items-center gap-2 flex-wrap">
-        <Link href={"/signup?avatar=camera"}>
-          <Button>Change Avatar</Button>
-        </Link>
+        <Button onClick={handleNavigateCamera}>Change Avatar</Button>
         <Button onClick={handleSaveCroppedImage}>Save</Button>
       </div>
     </section>

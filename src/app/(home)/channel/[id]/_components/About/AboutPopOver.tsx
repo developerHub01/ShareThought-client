@@ -8,7 +8,6 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React from "react";
 import AboutChannel from "@/app/(home)/channel/[id]/_components/About/AboutChannel";
@@ -16,6 +15,7 @@ import useIsActiveQuery from "@/hooks/use-is-active-query";
 import { X as CloseIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import useModifyQueryParams from "@/hooks/use-modify-query-params";
 
 interface AboutPopOverProps {}
 
@@ -23,10 +23,15 @@ const AboutPopOver = ({}: AboutPopOverProps) => {
   const router = useRouter();
 
   const isAboutOpen = useIsActiveQuery("about");
+  const { modifyParams, buildFullPath } = useModifyQueryParams();
 
   const handleClose = (open: boolean) => {
-    if (!open) return router.back();
+    if (!open)
+      return router.push(buildFullPath(modifyParams("delete", "about")));
   };
+
+  const handleNavigateAboutQuery = () =>
+    router.push(buildFullPath(modifyParams("set", "about")));
 
   return (
     <Drawer
@@ -36,11 +41,13 @@ const AboutPopOver = ({}: AboutPopOverProps) => {
       onOpenChange={handleClose}
     >
       <DrawerTrigger asChild>
-        <Link href={"?about"}>
-          <Button variant={"ghost"} className="hover:underline">
-            About
-          </Button>
-        </Link>
+        <Button
+          variant={"ghost"}
+          className="hover:underline"
+          onClick={handleNavigateAboutQuery}
+        >
+          About
+        </Button>
       </DrawerTrigger>
       <DrawerContentWitoutHandler
         className="fixed mt-0 overflow-hidden w-[90%] max-w-lg inset-2 rounded-sm ml-auto border-0"

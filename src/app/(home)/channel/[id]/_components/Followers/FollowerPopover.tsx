@@ -13,20 +13,22 @@ import { X as CloseIcon } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import React from "react";
 import FollowerChannel from "@/app/(home)/channel/[id]/_components/Followers/FollowerChannel";
+import useIsActiveQuery from "@/hooks/use-is-active-query";
+import useModifyQueryParams from "@/hooks/use-modify-query-params";
 
 interface FollowerPopoverProps {
   children: React.ReactNode;
 }
 
 const FollowerPopover = ({ children }: FollowerPopoverProps) => {
-  const params = useSearchParams();
   const router = useRouter();
 
-  const isFollowersOpen =
-    params.get("followers") !== null && params.get("followers") !== "false";
+  const isFollowersOpen = useIsActiveQuery("followers");
+  const { modifyParams, buildFullPath } = useModifyQueryParams();
 
   const handleClose = (open: boolean) => {
-    if (!open) return router.back();
+    if (!open)
+      return router.push(buildFullPath(modifyParams("delete", "followers")));
   };
 
   return (

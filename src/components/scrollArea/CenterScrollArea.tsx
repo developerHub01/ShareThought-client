@@ -13,7 +13,7 @@ const CenterScrollArea = React.forwardRef<
     {...props}
   >
     <ScrollAreaPrimitive.Viewport
-      className={cn("h-full w-full rounded-[inherit] grid place-items-center")}
+      className={cn("center-scroll-area h-full w-full rounded-[inherit] grid place-items-center")}
     >
       {children}
     </ScrollAreaPrimitive.Viewport>

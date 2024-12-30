@@ -32,7 +32,7 @@ const useModifyQueryParams = () => {
   const searchParams = useSearchParams();
 
   const modifyParams = useCallback(
-    (action: paramsActionType, key: string, value: string = "") => {
+    (action: paramsActionType, key: string, value: string = "true") => {
       const params = new URLSearchParams(searchParams.toString());
 
       switch (action) {

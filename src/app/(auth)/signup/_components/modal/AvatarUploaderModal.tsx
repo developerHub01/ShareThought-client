@@ -25,6 +25,8 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import ActionButton from "@/app/(auth)/signup/_components/modal/ActionButton";
 import { CenterScrollArea } from "@/components/scrollArea/CenterScrollArea";
 import clsx from "clsx";
+import useModifyQueryParams from "@/hooks/use-modify-query-params";
+import { useRouter } from "next/navigation";
 
 interface IActionButton {
   id: "camera" | "edit" | "remove" | "proceed";
@@ -39,7 +41,9 @@ const AvatarUploaderModal = () => {
   const [isDragging, setIsDragging] = useState(false);
   const { avatar: avatarPreview } = useAppSelector((state) => state.signUp);
   const dispatch = useAppDispatch();
+  const router = useRouter();
   const { toast } = useToast();
+  const { modifyParams, buildFullPath } = useModifyQueryParams();
 
   const processAvatarFile = useCallback(
     (file: File) => {
@@ -95,6 +99,11 @@ const AvatarUploaderModal = () => {
     [processAvatarFile]
   );
 
+  const handleNavigateEdit = () => {
+    const queryParams = modifyParams("set", "avatar", "edit");
+    router.push(buildFullPath(queryParams));
+  };
+
   const actionButtonList = useMemo<Array<IActionButton>>(
     () => [
       {
@@ -107,7 +116,7 @@ const AvatarUploaderModal = () => {
         id: "edit",
         label: "edit",
         Icon: EditIcon,
-        link: "?avatar=edit",
+        onClick: handleNavigateEdit,
       },
       {
         id: "remove",
@@ -196,7 +205,7 @@ const AvatarUploaderModal = () => {
                     ) : (
                       <>
                         {link && (
-                          <Link href={"/signup?avatar=edit"}>
+                          <Link href={link}>
                             <ActionButton {...actionButtonProps} />
                           </Link>
                         )}

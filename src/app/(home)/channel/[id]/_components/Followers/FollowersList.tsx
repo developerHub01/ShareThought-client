@@ -2,7 +2,6 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import clsx from "clsx";
 import Link from "next/link";
 import React from "react";
-import { Ellipsis as ThreeDotHIcon } from "lucide-react";
 import {
   Tooltip,
   TooltipContent,
@@ -10,6 +9,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import FollowerPopover from "@/app/(home)/channel/[id]/_components/Followers/FollowerPopover";
+import FollowerPopoverAction from "@/app/(home)/channel/[id]/_components/Followers/FollowerPopoverAction";
 
 const avatars = [
   {
@@ -76,17 +76,9 @@ const FollowersList = () => {
           </Tooltip>
         ))}
       </TooltipProvider>
-      
+
       <FollowerPopover>
-        <Link href={"?followers"} className="">
-          <Avatar className="border-2 border-white -ml-2 cursor-pointer relative">
-            <AvatarImage src={avatars[0].avatar} alt={""} />
-            <AvatarFallback>CN</AvatarFallback>
-            <div className="absolute bg-primary/60 text-white w-full h-full top-0 left-0 grid place-items-center transition-all duration-100 hover:bg-primary/30">
-              <ThreeDotHIcon />
-            </div>
-          </Avatar>
-        </Link>
+        <FollowerPopoverAction avatar={avatars[0].avatar} />
       </FollowerPopover>
     </div>
   );
