@@ -11,14 +11,32 @@ import { Button } from "@/components/ui/button";
 import { Settings } from "lucide-react";
 import Link from "next/link";
 import NotificationList from "@/components/navbar/right/notification/NotificationList";
+import { useRouter } from "next/navigation";
+import useIsActiveQuery from "@/hooks/use-is-active-query";
+import useModifyQueryParams from "@/hooks/use-modify-query-params";
 
 interface NotificationPopoverProps {
   children: React.ReactNode;
 }
 
 const NotificationPopover = ({ children }: NotificationPopoverProps) => {
+  const router = useRouter();
+
+  const isAboutOpen = useIsActiveQuery("notification");
+  const { modifyParams, buildFullPath } = useModifyQueryParams();
+
+  const handleClose = (open: boolean) => {
+    if (!open)
+      return router.push(buildFullPath(modifyParams("delete", "notification")));
+  };
+
   return (
-    <Drawer direction="right" handleOnly={true}>
+    <Drawer
+      direction="right"
+      handleOnly={true}
+      open={isAboutOpen}
+      onOpenChange={handleClose}
+    >
       <DrawerTrigger asChild>{children}</DrawerTrigger>
       <DrawerContentWitoutHandler
         className="fixed mt-0 overflow-hidden w-[90%] max-w-md inset-2 rounded-sm ml-auto border-0"
