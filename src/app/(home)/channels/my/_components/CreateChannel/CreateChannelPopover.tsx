@@ -36,8 +36,8 @@ const CreateChannelPopover = () => {
 
   const handleClose = (open: boolean) => {
     if (!open) {
-      dispatch(clearState());
-      return router.push(buildFullPath(modifyParams("delete", "create")));
+      router.push(buildFullPath(modifyParams("delete", "create")));
+      return dispatch(clearState());
     }
   };
 
