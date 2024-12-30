@@ -3,13 +3,11 @@
 import React, {
   DragEvent,
   ChangeEvent,
-  Fragment,
   useState,
   useCallback,
   useMemo,
+  useRef,
 } from "react";
-import { Separator } from "@/components/ui/separator";
-import Link from "next/link";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import Image from "next/image";
 import { removeAvatar, setAvatar } from "@/redux/features/signup/signupSlice";
@@ -25,9 +23,9 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import ActionButton from "@/app/(auth)/signup/_components/modal/ActionButton";
 import { CenterScrollArea } from "@/components/scrollArea/CenterScrollArea";
 import clsx from "clsx";
+import UploadAvatarCanvas from "@/components/canvas/UploadAvatarCanvas";
 import useModifyQueryParams from "@/hooks/use-modify-query-params";
 import { useRouter } from "next/navigation";
-import UploadAvatarCanvas from "@/components/canvas/UploadAvatarCanvas";
 
 interface IActionButton {
   id: "camera" | "edit" | "remove" | "proceed";
@@ -45,6 +43,7 @@ const AvatarUploaderModal = () => {
   const router = useRouter();
   const { toast } = useToast();
   const { modifyParams, buildFullPath } = useModifyQueryParams();
+  const avatarInputRef = useRef<HTMLInputElement | null>(null);
 
   const processAvatarFile = useCallback(
     (file: File) => {
@@ -100,10 +99,20 @@ const AvatarUploaderModal = () => {
     [processAvatarFile]
   );
 
+  const handleOpenCamera = () => {
+    if (avatarInputRef.current) {
+      avatarInputRef.current.value = "";
+      avatarInputRef.current.click();
+    }
+  };
+
   const handleNavigateEdit = () => {
     const queryParams = modifyParams("set", "avatar", "edit");
     router.push(buildFullPath(queryParams));
   };
+
+  const handleNavigateProceed = () =>
+    router.push(buildFullPath(modifyParams("delete", "avatar")));
 
   const actionButtonList = useMemo<Array<IActionButton>>(
     () => [
@@ -111,7 +120,7 @@ const AvatarUploaderModal = () => {
         id: "camera",
         label: "upload avatar",
         Icon: CameraIcon,
-        isInput: true,
+        onClick: handleOpenCamera,
       },
       {
         id: "edit",
@@ -129,7 +138,7 @@ const AvatarUploaderModal = () => {
         id: "proceed",
         label: "proceed",
         Icon: ProceedIcon,
-        link: "/signup",
+        onClick: handleNavigateProceed,
       },
     ],
     [handleClearAvatar]
@@ -138,16 +147,19 @@ const AvatarUploaderModal = () => {
   return (
     <CenterScrollArea className="h-full p-5">
       <section className="w-full h-full flex flex-col justify-center items-center gap-3 max-w-lg">
-        <div>
-          <h2 className="text-center capitalize text-primary text-xl font-bold select-none">
-            Upload avatar
-          </h2>
-        </div>
-        <LoginSeparator />
         <label
           htmlFor="avatar"
           className="w-full max-w-[350px] max-h-[350px] p-2 group rounded-md"
         >
+          <input
+            type="file"
+            name="avatar"
+            accept="image/*"
+            id="avatar"
+            ref={avatarInputRef}
+            onChange={handleAvatarChange}
+            hidden
+          />
           <div
             onDrop={handleDrop}
             onDragOver={handleDragOver}
@@ -173,59 +185,21 @@ const AvatarUploaderModal = () => {
             )}
           </div>
         </label>
-        <LoginSeparator />
         <TooltipProvider>
           <div className="flex justify-center items-center gap-2 flex-wrap">
-            {actionButtonList.map(
-              ({ id, label, Icon, link, onClick, isInput }) => {
-                if (
-                  !avatarPreview &&
-                  ["edit", "remove", "proceed"].includes(id)
-                )
-                  return null;
+            {actionButtonList.map(({ id, label, Icon, onClick }) => {
+              if (!avatarPreview && ["edit", "remove", "proceed"].includes(id))
+                return null;
 
-                const actionButtonProps = { id, Icon, onClick, label };
+              const actionButtonProps = { id, Icon, onClick, label };
 
-                return (
-                  <Fragment key={id}>
-                    {isInput ? (
-                      <label htmlFor="avatar" className="cursor-pointer">
-                        <input
-                          type="file"
-                          name="avatar"
-                          accept="image/*"
-                          id="avatar"
-                          onChange={handleAvatarChange}
-                          hidden
-                        />
-                        <ActionButton
-                          {...actionButtonProps}
-                          className="pointer-events-none"
-                        />
-                      </label>
-                    ) : (
-                      <>
-                        {link && (
-                          <Link href={link}>
-                            <ActionButton {...actionButtonProps} />
-                          </Link>
-                        )}
-                        {onClick && <ActionButton {...actionButtonProps} />}
-                      </>
-                    )}
-                  </Fragment>
-                );
-              }
-            )}
+              return <ActionButton {...actionButtonProps} key={id} />;
+            })}
           </div>
         </TooltipProvider>
       </section>
     </CenterScrollArea>
   );
 };
-
-const LoginSeparator = () => (
-  <Separator className="opacity-20 shadow-xl bg-primary w-40 h-[2px]" />
-);
 
 export default AvatarUploaderModal;

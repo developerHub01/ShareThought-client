@@ -60,10 +60,6 @@ const AvatarEditModal = () => {
 
   return (
     <section className="h-full flex flex-col justify-center items-center gap-3 overflow-hidden py-5">
-      <h2 className="text-primary text-xl font-bold select-none">
-        Edit Avatar
-      </h2>
-      <LoginSeparator />
       {avatarPreview && (
         <CenterScrollArea className="w-full h-full px-6">
           <div className="grid place-items-center overflow-hidden max-w-lg mx-auto">
@@ -79,7 +75,6 @@ const AvatarEditModal = () => {
         </CenterScrollArea>
       )}
 
-      <LoginSeparator />
       <div className="flex justify-center items-center gap-2 flex-wrap">
         <Button onClick={handleNavigateCamera}>Change Avatar</Button>
         <Button onClick={handleSaveCroppedImage}>Save</Button>
@@ -87,9 +82,5 @@ const AvatarEditModal = () => {
     </section>
   );
 };
-
-const LoginSeparator = () => (
-  <Separator className="opacity-20 shadow-xl bg-primary w-40" />
-);
 
 export default AvatarEditModal;

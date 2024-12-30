@@ -1,4 +1,4 @@
-import { Button } from "@/components/buttons/Button";
+import { Button } from "@/components/ui/button";
 import {
   Tooltip,
   TooltipContent,
@@ -23,18 +23,18 @@ const ActionButton = ({
   ...props
 }: ActionButtonProps) => {
   return (
-    <Tooltip>
-      <TooltipTrigger asChild>
-        <Button
-          size={"icon"}
-          {...props}
-          className={clsx("rounded-full aspect-square", className)}
-        >
-          <Icon />
-        </Button>
-      </TooltipTrigger>
-      <TooltipContent sideOffset={8}>{label}</TooltipContent>
-    </Tooltip>
+    <>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <Button size={"icon"} {...props} className={clsx("", className)}>
+            <Icon />
+          </Button>
+        </TooltipTrigger>
+        <TooltipContent side="bottom" sideOffset={8}>
+          {label}
+        </TooltipContent>
+      </Tooltip>
+    </>
   );
 };
 
