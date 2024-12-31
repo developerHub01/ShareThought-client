@@ -73,24 +73,26 @@ const CreateChannelCoverEditor = () => {
   }, [imageSaveRequest, dispatch]);
 
   return (
-    <section className="h-full flex flex-col justify-center items-center gap-3 overflow-hidden py-5">
-      {coverPreview && (
-        <CenterScrollArea className="w-full h-full px-6">
-          <div className="grid place-items-center overflow-hidden max-w-lg mx-auto">
-            <Cropper
-              ref={cropperRef}
-              src={coverPreview}
-              stencilProps={{
-                aspectRatio:
-                  aspectRatioList.banner[0] / aspectRatioList.banner[1],
-                grid: true,
-              }}
-              className={"cropper w-full h-full object-contain"}
-            />
-          </div>
-        </CenterScrollArea>
-      )}
-    </section>
+    <CenterScrollArea className="w-full h-full">
+      <section className="w-full h-full flex flex-col justify-center items-center gap-3 overflow-hidden py-5">
+        {coverPreview && (
+          <CenterScrollArea className="w-full h-full px-6">
+            <div className="grid place-items-center overflow-hidden max-w-lg mx-auto">
+              <Cropper
+                ref={cropperRef}
+                src={coverPreview}
+                stencilProps={{
+                  aspectRatio:
+                    aspectRatioList.banner[0] / aspectRatioList.banner[1],
+                  grid: true,
+                }}
+                className={"cropper w-full h-full object-contain"}
+              />
+            </div>
+          </CenterScrollArea>
+        )}
+      </section>
+    </CenterScrollArea>
   );
 };
 

@@ -32,6 +32,7 @@ import React, {
   useRef,
   useState,
 } from "react";
+import { CenterScrollArea } from "@/components/scrollArea/CenterScrollArea";
 
 interface IActionButton {
   id: "camera" | "edit" | "remove";
@@ -148,49 +149,51 @@ const CreateChannelAvatar = () => {
   );
 
   return (
-    <div className="flex flex-col justify-center items-center p-5">
-      <div className="w-full p-2 group rounded-md flex flex-col justify-center items-center gap-5">
-        <label
-          htmlFor="avatar"
-          className="block w-full h-full max-w-[360px] max-h-[360px]"
-        >
-          <input
-            type="file"
-            name="avatar"
-            accept="image/*"
-            id="avatar"
-            ref={avatarInputRef}
-            onChange={handleAvatarChange}
-            hidden
-          />
-          <div
-            onDrop={handleDrop}
-            onDragOver={handleDragOver}
-            onDragLeave={handleDragLeave}
-            className={clsx(
-              "size-full aspect-square flex flex-col gap-5 justify-center items-center rounded-md cursor-pointer border-dashed duration-100 ring-offset-4 group-hover:ring-offset-4 ring-2 ring-transparent group-hover:ring-primary/50 shadow-lg p-2 text-center",
-              {
-                "ring-primary/50 bg-accent": isDragging,
-                "ring-transparent bg-accent/10": !isDragging,
-              }
-            )}
+    <CenterScrollArea className="w-full h-full">
+      <div className="w-full flex flex-col justify-center items-center p-5">
+        <div className="w-full p-2 group rounded-md flex flex-col justify-center items-center gap-5">
+          <label
+            htmlFor="avatar"
+            className="block w-full h-full max-w-[360px] max-h-[360px]"
           >
-            {avatarPreview ? (
-              <Image
-                src={avatarPreview}
-                width={400}
-                height={400}
-                alt=""
-                className="size-full object-cover rounded-sm"
-              />
-            ) : (
-              <UploadAvatarCanvas />
-            )}
-          </div>
-        </label>
-        <ActionList filteredButtons={filteredButtons} />
+            <input
+              type="file"
+              name="avatar"
+              accept="image/*"
+              id="avatar"
+              ref={avatarInputRef}
+              onChange={handleAvatarChange}
+              hidden
+            />
+            <div
+              onDrop={handleDrop}
+              onDragOver={handleDragOver}
+              onDragLeave={handleDragLeave}
+              className={clsx(
+                "size-full aspect-square flex flex-col gap-5 justify-center items-center rounded-md cursor-pointer border-dashed duration-100 ring-offset-4 group-hover:ring-offset-4 ring-2 ring-transparent group-hover:ring-primary/50 shadow-lg p-2 text-center",
+                {
+                  "ring-primary/50 bg-accent": isDragging,
+                  "ring-transparent bg-accent/10": !isDragging,
+                }
+              )}
+            >
+              {avatarPreview ? (
+                <Image
+                  src={avatarPreview}
+                  width={400}
+                  height={400}
+                  alt=""
+                  className="size-full object-cover rounded-sm"
+                />
+              ) : (
+                <UploadAvatarCanvas />
+              )}
+            </div>
+          </label>
+          <ActionList filteredButtons={filteredButtons} />
+        </div>
       </div>
-    </div>
+    </CenterScrollArea>
   );
 };
 

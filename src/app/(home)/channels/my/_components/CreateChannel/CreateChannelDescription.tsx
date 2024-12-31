@@ -1,4 +1,5 @@
 import { Textarea } from "@/components/Inputs/Textarea";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { setField } from "@/redux/features/create-channel/createChannelSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import React, { ChangeEvent, useEffect, useState } from "react";
@@ -27,16 +28,18 @@ const CreateChannelDescription = () => {
     );
   };
   return (
-    <div className="p-4">
-      <Textarea
-        placeholder="Channel description"
-        name="channelDescription"
-        className="min-h-full h-[65vh] leading-relaxed"
-        value={channelName}
-        onChange={handleChange}
-        onBlur={handleBlur}
-      />
-    </div>
+    <ScrollArea className="w-full h-full">
+      <div className="w-full p-4">
+        <Textarea
+          placeholder="Channel description"
+          name="channelDescription"
+          className="min-h-full h-[65vh] leading-relaxed"
+          value={channelName}
+          onChange={handleChange}
+          onBlur={handleBlur}
+        />
+      </div>
+    </ScrollArea>
   );
 };
 

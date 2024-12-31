@@ -20,16 +20,13 @@ const AvatarEditModal = () => {
   const router = useRouter();
   const { modifyParams, buildFullPath } = useModifyQueryParams();
 
-  const handleClose = () =>
-    router.push(buildFullPath(modifyParams("delete", "avatar")));
-
   const handleNavigateCamera = () =>
     router.push(buildFullPath(modifyParams("set", "avatar", "camera")));
 
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if (!avatarPreview) handleClose();
+    if (!avatarPreview) handleNavigateCamera();
   }, [router, avatarPreview]);
 
   const handleSaveCroppedImage = useCallback(() => {

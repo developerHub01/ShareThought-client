@@ -92,8 +92,7 @@ body {
     @apply h-full;
   }
 
-  .center-scroll-area > div,
-  [data-radix-scroll-area-viewport].center-scroll-area > div {
-    @apply !grid place-items-center;
+  .center-scroll-area > div {
+    @apply !grid place-items-center w-full;
   }
 }

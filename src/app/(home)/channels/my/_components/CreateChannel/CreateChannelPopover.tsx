@@ -13,7 +13,6 @@ import useModifyQueryParams from "@/hooks/use-modify-query-params";
 import { useRouter, useSearchParams } from "next/navigation";
 import React, { useMemo } from "react";
 import { X as CloseIcon } from "lucide-react";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import CreateChannelName from "@/app/(home)/channels/my/_components/CreateChannel/CreateChannelName";
 import CreateChannelDescription from "@/app/(home)/channels/my/_components/CreateChannel/CreateChannelDescription";
 import CreateChannelAvatar from "@/app/(home)/channels/my/_components/CreateChannel/CreateChannelAvatar";
@@ -79,9 +78,7 @@ const CreateChannelPopover = () => {
             <CloseIcon size={22} strokeWidth={1.5} />
           </Button>
         </DrawerHeader>
-        <ScrollArea className="center-scroll-area w-full h-full">
-          <PopoverContent createStep={createStep} />
-        </ScrollArea>
+        <PopoverContent createStep={createStep} />
         <CreateChannelFooter createStep={createStep} />
       </DrawerContentWitoutHandler>
     </Drawer>
