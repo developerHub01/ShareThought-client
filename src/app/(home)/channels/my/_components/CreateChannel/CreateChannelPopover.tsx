@@ -30,7 +30,8 @@ const CreateChannelPopover = () => {
   const searchParams = useSearchParams();
   const dispatch = useAppDispatch();
 
-  const isAboutOpen = useIsActiveQuery("create");
+  const isCreateOpen = searchParams.has("create");
+
   const { modifyParams, buildFullPath } = useModifyQueryParams();
 
   const handleClose = (open: boolean) => {
@@ -42,14 +43,14 @@ const CreateChannelPopover = () => {
 
   const createStep = useMemo(
     () => searchParams.get("create")?.trim()!,
-    [searchParams]
+    [router, searchParams]
   );
 
   return (
     <Drawer
       direction="right"
       handleOnly={true}
-      open={isAboutOpen}
+      open={isCreateOpen}
       onOpenChange={handleClose}
       dismissible={false}
     >

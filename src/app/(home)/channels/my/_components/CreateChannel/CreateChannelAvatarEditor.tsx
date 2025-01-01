@@ -8,7 +8,6 @@ import "react-advanced-cropper/dist/themes/compact.css";
 import { useRouter } from "next/navigation";
 import { CenterScrollArea } from "@/components/scrollArea/CenterScrollArea";
 import { useToast } from "@/hooks/use-toast";
-import useModifyQueryParams from "@/hooks/use-modify-query-params";
 import {
   clearSaveImageRequest,
   setField,
@@ -24,16 +23,8 @@ const CreateChannelAvatarEditor = () => {
   const cropperRef = useRef<CropperRef>(null);
   const { toast } = useToast();
   const router = useRouter();
-  const { modifyParams, buildFullPath } = useModifyQueryParams();
-
-  const handleClose = () =>
-    router.push(buildFullPath(modifyParams("set", "create", "3")));
 
   const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    if (!avatarPreview) handleClose();
-  }, [router, avatarPreview]);
 
   const handleSaveCroppedImage = useCallback(() => {
     const cropper = cropperRef.current;

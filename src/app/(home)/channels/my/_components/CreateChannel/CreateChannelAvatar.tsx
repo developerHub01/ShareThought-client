@@ -210,6 +210,7 @@ const ActionList = ({ filteredButtons }: ActionListProps) => {
             <TooltipTrigger asChild>
               <Button
                 onClick={onClick}
+                size={"icon"}
                 variant={"ghost"}
                 className="rounded-none hover:bg-accent/20 hover:text-white"
               >

@@ -207,6 +207,7 @@ const ActionList = ({ filteredButtons }: ActionListProps) => {
               <Button
                 onClick={onClick}
                 variant={"ghost"}
+                size={"icon"}
                 className="rounded-none hover:bg-accent/20 hover:text-white"
               >
                 <Icon />

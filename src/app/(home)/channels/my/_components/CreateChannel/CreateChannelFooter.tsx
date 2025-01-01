@@ -9,8 +9,13 @@ import {
 } from "@/redux/features/create-channel/createChannelSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import clsx from "clsx";
+import {
+  ChevronLeft as LeftIcon,
+  ChevronRight as RightIcon,
+  SkipForward as SkipIcon,
+} from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 
 interface CreateChannelFooterProps {
   createStep?: string;
@@ -21,18 +26,26 @@ const CreateChannelFooter = ({
 }: CreateChannelFooterProps) => {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const channelState = useAppSelector(
-    (state) => state.createChannel.channelState
-  );
+  const { channelName, channelAvatar, channelCover, channelDescription } =
+    useAppSelector((state) => state.createChannel.channelState);
   const dispatch = useAppDispatch();
   const { modifyParams, buildFullPath } = useModifyQueryParams();
+  const currentStep = Number(createStep);
 
   useEffect(() => {
-    if (!channelState.channelName && searchParams.get("create")?.trim() !== "1")
-      return router.push(buildFullPath(modifyParams("set", "create", "1")));
-  }, []);
+    console.log({ currentStep, channelName });
 
-  const currentStep = Number(createStep);
+    /* if channel name is not defined and step is in another then move to channel name step */
+    if (!channelName && currentStep) {
+      router.push(buildFullPath(modifyParams("set", "create", "1")));
+    } else if (currentStep === 6 && !channelAvatar) {
+      /* if channel avatar is not defined and step is in avatar editor then move to upload channel avatar step */
+      router.push(buildFullPath(modifyParams("set", "create", "3")));
+    } else if (currentStep === 7 && !channelCover) {
+      /* if channel cover is not defined and step is in cover editor then move to upload channel cover step */
+      router.push(buildFullPath(modifyParams("set", "create", "4")));
+    }
+  }, []);
 
   const handleNevigateCancel = () =>
     router.push(buildFullPath(modifyParams("delete", "create")));
@@ -56,8 +69,14 @@ const CreateChannelFooter = ({
   };
 
   const handleCancel = () => {
-    handleNevigateCancel();
     dispatch(clearState());
+    handleNevigateCancel();
+  };
+
+  const handleCreate = () => {
+    /* TODO */
+    /* Do channel creation job */
+    handleCancel();
   };
 
   const handleLeaveEditor = () => {
@@ -76,6 +95,33 @@ const CreateChannelFooter = ({
     handleLeaveEditor();
   };
 
+  const isNextDisabled = useMemo(() => {
+    return [
+      {
+        value: channelName,
+        step: 1,
+      },
+      {
+        value: channelDescription,
+        step: 2,
+      },
+      {
+        value: channelAvatar,
+        step: 3,
+      },
+      {
+        value: channelCover,
+        step: 4,
+      },
+    ].some(({ value, step }) => step === currentStep && !value);
+  }, [
+    channelName,
+    channelAvatar,
+    channelCover,
+    channelDescription,
+    currentStep,
+  ]);
+
   return (
     <DrawerFooter>
       <div className="flex justify-end items-center gap-2 flex-wrap">
@@ -93,20 +139,32 @@ const CreateChannelFooter = ({
               Cancel
             </FooterButton>
             {currentStep < 5 && currentStep !== 1 && (
-              <FooterButton onClick={handleSkip} variant={"outline"}>
-                Skip
+              <FooterButton
+                onClick={handleSkip}
+                variant={"outline"}
+                disabled={!isNextDisabled}
+              >
+                Skip <SkipIcon size={18} />
               </FooterButton>
             )}
             {currentStep !== 1 && (
               <FooterButton onClick={handlePrevious} variant={"outline"}>
+                <LeftIcon size={18} />
                 Back
               </FooterButton>
             )}
             <FooterButton
-              onClick={handleNext}
-              disabled={!channelState.channelName}
+              onClick={currentStep < 5 ? handleNext : handleCreate}
+              disabled={isNextDisabled}
             >
-              {currentStep < 5 ? "Next" : "Create"}
+              {currentStep < 5 ? (
+                <>
+                  Next
+                  <RightIcon size={18} />
+                </>
+              ) : (
+                "Create"
+              )}
             </FooterButton>
           </>
         )}
