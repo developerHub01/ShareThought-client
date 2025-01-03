@@ -8,7 +8,13 @@ import useModifyQueryParams from "@/hooks/use-modify-query-params";
 import { Input } from "@/components/ui/input";
 import { AnimatePresence, motion } from "motion/react";
 
-const HistorySearch = () => {
+interface SecondarySearchbarProps {
+  label?: string;
+}
+
+const SecondarySearchbar = ({
+  label = "search....",
+}: SecondarySearchbarProps) => {
   const [searchTerm, setSearchTerm] = useState("");
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -32,7 +38,10 @@ const HistorySearch = () => {
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    router.push(buildFullPath(modifyParams("append", "query", searchTerm)));
+
+    if (!searchTerm) return;
+
+    router.push(buildFullPath(modifyParams("set", "query", searchTerm)));
   };
 
   return (
@@ -50,7 +59,7 @@ const HistorySearch = () => {
           <SearchIcon size={18} />
         </Button>
         <Input
-          placeholder="Search read history"
+          placeholder={label}
           className="border-0"
           value={searchTerm}
           onChange={handleChange}
@@ -79,4 +88,4 @@ const HistorySearch = () => {
   );
 };
 
-export default HistorySearch;
+export default SecondarySearchbar;

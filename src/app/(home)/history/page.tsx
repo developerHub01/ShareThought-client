@@ -1,13 +1,15 @@
 import React from "react";
-import HistoryList from "@/app/(home)/history/_components/HistoryList";
-import HistorySearch from "@/app/(home)/history/_components/HistorySearch";
+import HistoryPostCard from "@/components/cards/post/HistoryPostCard";
 
 const HistoryPage = () => {
   return (
-    <section className="flex flex-col gap-5">
-      <HistorySearch />
-      <HistoryList />
-    </section>
+    <div className="grid gap-5">
+      {Array(20)
+        .fill(0)
+        .map((_, index) => (
+          <HistoryPostCard key={index} />
+        ))}
+    </div>
   );
 };
 
