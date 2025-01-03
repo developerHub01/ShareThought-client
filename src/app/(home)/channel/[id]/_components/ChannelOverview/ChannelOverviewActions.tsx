@@ -6,20 +6,31 @@ import clsx from "clsx";
 
 interface ChannelOverviewActionsProps {
   direction?: "left" | "center" | "right" | "between";
+  smDirection?: "left" | "center" | "right";
 }
 
 const ChannelOverviewActions = ({
   direction = "between",
+  smDirection,
 }: ChannelOverviewActionsProps) => {
   return (
     <div
       className={clsx(
-        "flex flex-wrap flex-col sm:flex-row items-center gap-x-2 gap-y-3 p-4",
+        "flex flex-wrap flex-col sm:flex-row gap-x-2 gap-y-3 p-4",
         {
           "justify-start": direction === "left",
           "justify-center": direction === "center",
           "justify-end": direction === "right",
           "justify-center sm:justify-between": direction === "between",
+
+          "items-start":
+            (direction === "left" && !smDirection) || smDirection === "left",
+          "items-center":
+            (direction === "center" && !smDirection) ||
+            (direction === "between" && !smDirection) ||
+            smDirection === "center",
+          "items-end":
+            (direction === "right" && !smDirection) || smDirection === "right",
         }
       )}
     >
