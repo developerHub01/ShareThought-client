@@ -14,7 +14,7 @@ import {
   ChevronRight as RightIcon,
   SkipForward as SkipIcon,
 } from "lucide-react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import React, { useEffect, useMemo } from "react";
 
 interface CreateChannelFooterProps {
@@ -25,7 +25,6 @@ const CreateChannelFooter = ({
   createStep = "0",
 }: CreateChannelFooterProps) => {
   const router = useRouter();
-  const searchParams = useSearchParams();
   const { channelName, channelAvatar, channelCover, channelDescription } =
     useAppSelector((state) => state.createChannel.channelState);
   const dispatch = useAppDispatch();
@@ -33,8 +32,6 @@ const CreateChannelFooter = ({
   const currentStep = Number(createStep);
 
   useEffect(() => {
-    console.log({ currentStep, channelName });
-
     /* if channel name is not defined and step is in another then move to channel name step */
     if (!channelName && currentStep) {
       router.push(buildFullPath(modifyParams("set", "create", "1")));

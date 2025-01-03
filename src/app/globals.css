@@ -88,8 +88,9 @@ body {
   img {
     @apply select-none;
   }
-  [data-radix-scroll-area-viewport] > div {
-    @apply h-full;
+
+  #sidebar-scrollarea-wrapper > [data-radix-scroll-area-viewport] > div {
+    @apply !h-full;
   }
 
   .center-scroll-area > div {
