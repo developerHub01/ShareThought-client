@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import AvatarActionButton from "@/components/navbar/right/avatar/AvatarActionButton";
 import {
   ChevronRight as ArrowIcon,
@@ -10,6 +10,7 @@ import {
   MonitorCog as SystemIcon,
   LucideIcon,
 } from "lucide-react";
+import { useTheme } from "next-themes";
 
 type TThemeId = "dark" | "light" | "system";
 
@@ -20,30 +21,35 @@ interface ITheme {
   onClick: () => void;
 }
 
-const themeList: Array<ITheme> = [
-  {
-    id: "light",
-    label: "light theme",
-    Icon: LightIcon,
-    onClick: () => {},
-  },
-  {
-    id: "dark",
-    label: "dark theme",
-    Icon: DarkIcon,
-    onClick: () => {},
-  },
-  {
-    id: "system",
-    label: "system theme",
-    Icon: SystemIcon,
-    onClick: () => {},
-  },
-];
-
 const ThemeMode = () => {
+  const { setTheme, theme } = useTheme();
+
+  const themeList: Array<ITheme> = useMemo(
+    () => [
+      {
+        id: "light",
+        label: "light theme",
+        Icon: LightIcon,
+        onClick: () => setTheme("light"),
+      },
+      {
+        id: "dark",
+        label: "dark theme",
+        Icon: DarkIcon,
+        onClick: () => setTheme("dark"),
+      },
+      {
+        id: "system",
+        label: "system theme",
+        Icon: SystemIcon,
+        onClick: () => setTheme("system"),
+      },
+    ],
+    [setTheme]
+  );
+
   const [isOpen, setOpen] = useState<boolean>(false);
-  const [activeThemeId, setActiveThemeId] = useState<string>("system");
+  const [activeThemeId, setActiveThemeId] = useState<string>(theme || "system");
 
   const handleToggleButton = () => setOpen((prev) => !prev);
   const handleActiveThemeId = (theme: TThemeId) => setActiveThemeId(theme);
@@ -62,7 +68,10 @@ const ThemeMode = () => {
             <AvatarActionButton
               key={props.id}
               {...props}
-              onClick={() => handleActiveThemeId(props.id)}
+              onClick={() => {
+                handleActiveThemeId(props.id);
+                props.onClick();
+              }}
               havePrefix
               isActive={props.id === activeThemeId}
             />
