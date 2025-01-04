@@ -8,7 +8,7 @@ const imgUrl =
 
  const CommunitPostWrapper = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className="w-full p-3 rounded-sm border border-accent flex flex-col gap-4 shadow-md">
+    <div className="w-full max-w-3xl p-3 rounded-sm border border-primary/10 flex flex-col gap-4 shadow-md">
       <div className="flex justify-between items-center gap-3">
         <ChannelDetails />
         <PostCardCTA

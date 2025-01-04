@@ -11,7 +11,7 @@ const ChannelPostCard = ({
   const imgUrl =
     "https://images.unsplash.com/photo-1730217804424-825f12eef36f?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
   return (
-    <div className="shadow-xl w-full max-w-sm border border-accent rounded-sm overflow-hidden">
+    <div className="shadow-xl w-full border border-accent rounded-sm overflow-hidden">
       <Link href={"/"}>
         <div className="aspect-video rounded-t-sm overflow-hidden">
           <Image
