@@ -8,7 +8,6 @@ import {
   DrawerDescription,
   DrawerContentWitoutHandler,
 } from "@/components/ui/drawer";
-import useIsActiveQuery from "@/hooks/use-is-active-query";
 import useModifyQueryParams from "@/hooks/use-modify-query-params";
 import { useRouter, useSearchParams } from "next/navigation";
 import React, { useMemo } from "react";
