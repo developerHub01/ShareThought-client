@@ -58,8 +58,15 @@ const useModifyQueryParams = () => {
     },
     [pathname, searchParams]
   );
+  
+  const joinPath = useCallback(
+    (firstPath: string, queryParams: string) => {
+      return `${firstPath}?${queryParams}`;
+    },
+    [searchParams]
+  );
 
-  return { modifyParams, buildFullPath };
+  return { modifyParams, buildFullPath, joinPath };
 };
 
 export default useModifyQueryParams;
