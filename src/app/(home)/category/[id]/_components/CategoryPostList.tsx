@@ -1,16 +1,16 @@
 import PostCategoryCard from "@/components/cards/post/PostCategoryCard";
 import React from "react";
 
-const ReadLaterPostList = () => {
+const CategoryPostList = () => {
   return (
     <div className="w-full flex flex-col gap-5">
       {Array(20)
         .fill(0)
         .map((_, index) => (
-          <PostCategoryCard key={index} isMyCategory={true} />
+          <PostCategoryCard key={index} isMyCategory={false} />
         ))}
     </div>
   );
 };
 
-export default ReadLaterPostList;
+export default CategoryPostList;
