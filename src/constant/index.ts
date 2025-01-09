@@ -37,3 +37,11 @@ export const COMMUNITY_POST_TYPE_LIST: Array<string> =
 export const aspectRatioList = {
   banner: [214, 61],
 };
+
+export const defaultGlobalStyles = {};
+
+export const CREATE_CHANNEL_SIZE = {
+  CHANNEL_NAME_MAX_LENGTH: 50,
+  CHANNEL_NAME_MIN_LENGTH: 1,
+  CHANNEL_DESCRIPTION_MAX_LENGTH: 800,
+};
