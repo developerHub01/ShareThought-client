@@ -200,7 +200,7 @@ interface ActionListProps {
 const ActionList = ({ filteredButtons }: ActionListProps) => {
   return (
     <TooltipProvider>
-      <div className="flex justify-center items-center w-fit rounded-sm bg-primary text-white shadow-md overflow-hidden mx-auto">
+      <div className="flex justify-center items-center w-fit rounded-sm bg-primary text-primary-foreground shadow-md overflow-hidden mx-auto">
         {filteredButtons.map(({ id, Icon, label, onClick }) => (
           <Tooltip key={id}>
             <TooltipTrigger asChild>
@@ -208,7 +208,7 @@ const ActionList = ({ filteredButtons }: ActionListProps) => {
                 onClick={onClick}
                 variant={"ghost"}
                 size={"icon"}
-                className="rounded-none hover:bg-accent/20 hover:text-white"
+                className="rounded-none hover:bg-accent/20 hover:text-primary-foreground"
               >
                 <Icon />
               </Button>

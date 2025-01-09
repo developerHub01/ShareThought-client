@@ -50,7 +50,7 @@ const MyChannelCard = () => {
           nemo veritatis officia qui, laudantium amet voluptatem illum tempora
           iusto iure?
         </p>
-        <div className="flex justify-center items-center gap-1 flex-wrap">
+        <div className="flex justify-center items-center gap-x-1 gap-y-2 flex-wrap">
           <Link href="/">
             <Button size={"sm"} variant={"outline"}>
               <ViewIcon size={18} />

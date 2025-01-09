@@ -7,7 +7,7 @@ const InsetDiv = React.forwardRef<HTMLDivElement, React.ComponentProps<"div">>(
     return (
       <div
         className={cn(
-          "flex w-full border border-input ring-offset-background tracking-wide rounded-sm bg-accent p-2 shadow-inner",
+          "flex w-full border border-input tracking-wide rounded-sm bg-accent p-2 shadow-inner",
           className
         )}
         ref={ref}

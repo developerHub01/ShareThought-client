@@ -18,7 +18,7 @@ const UploadAvatarCanvas = () => {
         <path d="M17 22v-5.5" />
         <circle cx="9" cy="9" r="2" />
       </svg>
-      <p className="text-gray-500 text-xs sm:text-sm">
+      <p className="text-accent-foreground text-xs sm:text-sm">
         Click or Drag and drop your image here
       </p>
     </>
