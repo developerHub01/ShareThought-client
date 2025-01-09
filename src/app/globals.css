@@ -88,6 +88,16 @@ body {
   img {
     @apply select-none;
   }
+  input,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  p {
+    @apply outline-none ring-0 focus-visible:ring-0 focus-visible:outline-none;
+  }
 
   #sidebar-scrollarea-wrapper > [data-radix-scroll-area-viewport] > div {
     @apply !h-full;
@@ -96,4 +106,16 @@ body {
   .center-scroll-area > div {
     @apply !grid place-items-center w-full;
   }
+}
+
+/* For Chrome, Safari, Edge, and other WebKit-based browsers */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* For Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
 }

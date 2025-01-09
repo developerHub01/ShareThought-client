@@ -1,5 +1,5 @@
 import React from "react";
-import { useEditor } from "@/app/studio/create-blog/[id]/_components/EditorProvider";
+import { useEditor } from "@/app/(editor)/studio/create-blog/[id]/_components/EditorProvider";
 import clsx from "clsx";
 import { Button } from "@/components/ui/button";
 import { Plus as AddIcon } from "lucide-react";

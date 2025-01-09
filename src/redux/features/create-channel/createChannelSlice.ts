@@ -21,8 +21,14 @@ const initialState: CreateChannelState = {
   imageSaveRequest: false,
 };
 
+export type TCreateChannelField =
+  | "channelName"
+  | "channelDescription"
+  | "channelAvatar"
+  | "channelCover";
+
 interface SetFieldPayload {
-  key: "channelName" | "channelDescription" | "channelAvatar" | "channelCover";
+  key: TCreateChannelField;
   value: string;
 }
 

@@ -67,7 +67,7 @@ const Searchbar = () => {
       </Button>
       <div
         className={clsx(
-          "sm:relative sm:p-0 sm:flex w-full justify-center items-center gap-2 bg-white z-30",
+          "sm:relative sm:p-0 sm:flex w-full justify-center items-center gap-2 bg-transparent z-30",
           {
             "absolute w-full h-full top-0 left-0 p-1 flex":
               showSearchBarInMobile,
@@ -88,7 +88,7 @@ const Searchbar = () => {
           <input
             type="text"
             placeholder="Search"
-            className="outline-none ps-2 sm:ps-3 pe-0.5 py-1 gap-1 text-gray-500 flex-1 w-full text-sm sm:text-base bg-transparent placeholder:select-none"
+            className="outline-none ps-2 sm:ps-3 pe-0.5 py-1 gap-1 text-accent-foreground flex-1 w-full text-sm sm:text-base bg-transparent placeholder:select-none"
             value={query}
             onChange={handleInputChange}
             onKeyUp={handleKeyUp}

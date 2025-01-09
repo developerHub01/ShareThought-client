@@ -24,7 +24,7 @@ const RootLayout = ({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${openSans.variable} antialiased overflow-x-hidden font-[--font-open_sans]`}
+        className={`${openSans.variable} antialiased overflow-x-hidden font-[--font-open_sans] min-h-screen`}
         style={{
           fontFamily: "var(--font-open_sans)",
         }}

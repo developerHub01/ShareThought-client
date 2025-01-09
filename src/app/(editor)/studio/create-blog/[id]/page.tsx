@@ -4,9 +4,9 @@ import React, { useEffect } from "react";
 import { useParams } from "next/navigation";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { createBlog } from "@/redux/features/builders/blogBuilderSlice";
-import EditorCanvas from "@/app/studio/create-blog/[id]/_components/EditorCanvas";
-import EditorPreview from "@/app/studio/create-blog/[id]/_components/EditorPreview";
-import PreviewButton from "@/app/studio/create-blog/[id]/_components/PreviewButton";
+import EditorCanvas from "@/app/(editor)/studio/create-blog/[id]/_components/EditorCanvas";
+import EditorPreview from "@/app/(editor)/studio/create-blog/[id]/_components/EditorPreview";
+import PreviewButton from "@/app/(editor)/studio/create-blog/[id]/_components/PreviewButton";
 
 const CreateBlogPostPage = () => {
   const { id: postId } = useParams<{ id: string }>();
@@ -27,7 +27,7 @@ const CreateBlogPostPage = () => {
   const blogData = blogsData[postId];
 
   return (
-    <>
+    <section className="h-full overflow-hidden">
       <>
         {blogData?.editorOrPreview === "editor" ? (
           <EditorCanvas />
@@ -36,7 +36,7 @@ const CreateBlogPostPage = () => {
         )}
       </>
       <PreviewButton />
-    </>
+    </section>
   );
 };
 

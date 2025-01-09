@@ -8,7 +8,10 @@ interface Heading_v1Props {
 
 const Heading_v1 = ({ children, className, ...props }: Heading_v1Props) => {
   return (
-    <h1 className={clsx("text-2xl font-bold", className)} {...props}>
+    <h1
+      className={clsx("text-2xl font-bold text-primary", className)}
+      {...props}
+    >
       {children}
     </h1>
   );

@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import LayoutList from "@/app/studio/create-blog/[id]/_components/LayoutList";
-import ComponentList from "@/app/studio/create-blog/[id]/_components/ComponentList";
-import { useEditor } from "@/app/studio/create-blog/[id]/_components/EditorProvider";
+import LayoutList from "@/app/(editor)/studio/create-blog/[id]/_components/LayoutList";
+import ComponentList from "@/app/(editor)/studio/create-blog/[id]/_components/ComponentList";
+import { useEditor } from "@/app/(editor)/studio/create-blog/[id]/_components/EditorProvider";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -12,7 +12,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import AddComponentSection from "@/app/studio/create-blog/[id]/_components/AddComponentSection";
+import AddComponentSection from "@/app/(editor)/studio/create-blog/[id]/_components/AddComponentSection";
 
 const ComponentDialog = () => {
   const { isComponentDialogOpen, setIsComponentDialogOpen, setSelectedIndex } =

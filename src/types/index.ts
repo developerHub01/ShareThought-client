@@ -1,6 +1,7 @@
 import { REACTION_TYPES } from "@/constant";
 import { LucideIcon } from "lucide-react";
 import { MotionProps } from "motion/react";
+import { BlockInterface } from "@/redux/features/builders/blogBuilderSlice";
 
 export interface ICTAMenuItem {
   id: string;
@@ -34,7 +35,12 @@ export type TCommunityPostType =
   | "POLL_WITH_IMAGE"
   | "QUIZ";
 
+/* Framer motion */
+export type MotionDivProps = React.HTMLAttributes<HTMLDivElement> & MotionProps;
+export type MotionSpanProps = React.HTMLAttributes<HTMLSpanElement> &
+  MotionProps;
 
-  /* Framer motion */
-  export type MotionDivProps = React.HTMLAttributes<HTMLDivElement> & MotionProps;
-  export type MotionSpanProps = React.HTMLAttributes<HTMLSpanElement> & MotionProps;
+export interface BlogComponentBlock extends BlockInterface {
+  postId?: string;
+  styles?: Record<string, string | number>;
+}
