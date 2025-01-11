@@ -40,7 +40,7 @@ export interface BlogBuilderState {
   blogs: {
     [id: string]: {
       title: string;
-      content: Array<BlockInterface>;
+      content: Array<string>;
       metaData: {
         imgLinks: Record<string, string>;
         styles: {
@@ -58,6 +58,9 @@ export interface BlogBuilderState {
       };
       editorOrPreview: editorOrPreviewTypes;
       activeBlock: string | null;
+      components: {
+        [key: string]: BlockInterface;
+      };
     };
   };
 }
@@ -74,6 +77,7 @@ const blogInitialState = {
   },
   editorOrPreview: "editor" as editorOrPreviewTypes,
   activeBlock: null,
+  components: {},
 };
 
 const tableInitialState: TableInterface = {
@@ -126,13 +130,15 @@ export const blogBuilderSlice = createSlice({
         index: number;
       }>
     ) => {
-      const { id, type, index, gridSize } = action.payload;
+      const { id: blogId, type, index, gridSize } = action.payload;
 
       /* if that blog is not exist then create */
-      ensureBlogExists(state, id);
+      ensureBlogExists(state, blogId);
+
+      const id = uuidv4();
 
       let block: BlockInterface = {
-        id: String(Date.now()),
+        id,
         type: "p",
         locationPath: [],
         children: [],
@@ -141,7 +147,7 @@ export const blogBuilderSlice = createSlice({
       switch (type) {
         case "h1":
           block = {
-            id: uuidv4(),
+            id,
             type,
             text: "heading 1",
             locationPath: [],
@@ -150,7 +156,7 @@ export const blogBuilderSlice = createSlice({
           break;
         case "h2":
           block = {
-            id: uuidv4(),
+            id,
             type,
             text: "heading 2",
             locationPath: [],
@@ -159,7 +165,7 @@ export const blogBuilderSlice = createSlice({
           break;
         case "h3":
           block = {
-            id: uuidv4(),
+            id,
             type,
             text: "heading 3",
             locationPath: [],
@@ -168,7 +174,7 @@ export const blogBuilderSlice = createSlice({
           break;
         case "h4":
           block = {
-            id: uuidv4(),
+            id,
             type,
             text: "heading 4",
             locationPath: [],
@@ -177,7 +183,7 @@ export const blogBuilderSlice = createSlice({
           break;
         case "h5":
           block = {
-            id: uuidv4(),
+            id,
             type,
             text: "heading 5",
             locationPath: [],
@@ -186,7 +192,7 @@ export const blogBuilderSlice = createSlice({
           break;
         case "h6":
           block = {
-            id: uuidv4(),
+            id,
             type,
             text: "heading 6",
             locationPath: [],
@@ -195,7 +201,7 @@ export const blogBuilderSlice = createSlice({
           break;
         case "p":
           block = {
-            id: uuidv4(),
+            id,
             type,
             text: "paragraph",
             locationPath: [],
@@ -204,7 +210,7 @@ export const blogBuilderSlice = createSlice({
           break;
         case "section":
           block = {
-            id: uuidv4(),
+            id,
             type,
             gridSize,
             locationPath: [],
@@ -213,7 +219,7 @@ export const blogBuilderSlice = createSlice({
           break;
         case "table":
           block = {
-            id: uuidv4(),
+            id,
             type,
             gridSize,
             locationPath: [],
@@ -222,7 +228,8 @@ export const blogBuilderSlice = createSlice({
           break;
       }
 
-      state.blogs[id].content.push(block);
+      state.blogs[blogId].content.push(id);
+      state.blogs[blogId].components[id] = block;
     },
     toggleEditorOrPreview: (state, action: PayloadAction<string>) => {
       const activeEditorOrPreview = state.blogs[action.payload].editorOrPreview;

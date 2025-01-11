@@ -47,9 +47,9 @@ const EditorCanvas = () => {
               onKeyUp={handleKeyEnter}
             />
             <section className="py-5 px-1 shadow-xl rounded-sm border flex flex-col">
-              {blogData?.content.map((block, index, list) => (
-                <div key={block.id} className="group">
-                  <BlockComponent {...block} postId={postId} />
+              {blogData?.content.map((id, index, list) => (
+                <div key={id} className="group">
+                  <BlockComponent {...blogData.components[id]} postId={postId} />
                   <AnimatePresence>
                     {index !== list.length - 1 && (
                       <motion.div
