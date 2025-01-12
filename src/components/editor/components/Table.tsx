@@ -11,7 +11,10 @@ const Table = ({ thead, tbody }: TableProps) => {
     <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
       <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
         {thead.map((rows, rowIndex) => (
-          <tr key={rowIndex} className="p-4">
+          <tr
+            key={rowIndex}
+            className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+          >
             {rows.map((cell, cellIndex) => (
               <Th key={cellIndex}>{cell}</Th>
             ))}
@@ -25,9 +28,7 @@ const Table = ({ thead, tbody }: TableProps) => {
             className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
           >
             {rows.map((cell, cellIndex) => (
-              <Td key={cellIndex} className="px-6 py-4">
-                {cell}
-              </Td>
+              <Td key={cellIndex}>{cell}</Td>
             ))}
           </tr>
         ))}
@@ -46,9 +47,9 @@ const Td = ({ children, className, ...props }: TdThProps) => (
     contentEditable
     suppressContentEditableWarning
     {...props}
-    className={clsx("px-6 py-4", className)}
+    className={clsx("px-6 py-4 min-h-8", className)}
   >
-    {children}
+    {children || <>&nbsp;</>}
   </td>
 );
 interface TdProps {
@@ -61,9 +62,9 @@ const Th = ({ children, className, ...props }: TdThProps) => (
     contentEditable
     suppressContentEditableWarning
     {...props}
-    className={clsx("px-6 py-4", className)}
+    className={clsx("px-6 py-4 min-h-8", className)}
   >
-    {children}
+    {children || <>&nbsp;</>}
   </th>
 );
 

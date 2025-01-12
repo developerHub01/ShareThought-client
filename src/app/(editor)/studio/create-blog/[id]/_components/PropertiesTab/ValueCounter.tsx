@@ -1,25 +1,24 @@
-import React from "react";
+import React, { ChangeEvent } from "react";
 
 import { Plus as PlusIcon, Minus as MinusIcon } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
 interface ValueCounterProps {
-  min: number;
-  max: number;
+  min?: number;
+  max?: number;
   value: number;
-  handleChange: () => void;
+  handleChange: (e: ChangeEvent<HTMLInputElement>) => void;
   handleIncrement: () => void;
   handleDecrement: () => void;
 }
 
 const ValueCounter = ({
-  min,
-  max,
   value,
   handleChange,
   handleIncrement,
   handleDecrement,
+  ...props
 }: ValueCounterProps) => {
   return (
     <div className="flex">
@@ -35,9 +34,8 @@ const ValueCounter = ({
         type="number"
         value={value}
         onChange={handleChange}
-        min={min}
-        max={max}
         className="w-10 text-center rounded-none"
+        {...props}
       />
       <Button
         size={"icon"}

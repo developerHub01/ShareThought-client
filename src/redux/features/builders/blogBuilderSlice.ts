@@ -81,11 +81,11 @@ const blogInitialState = {
 };
 
 const tableInitialState: TableInterface = {
-  thead: [["Heading 1", "", ""]],
+  thead: [["Heading 1", "Heading 2"]],
   tbody: [
-    ["Data 1", "Data 2", "Data 3"],
-    ["Data 4", "Data 5", "Data 6"],
-    ["Data 7", "Data 8", "Data 9"],
+    ["Data 1", "Data 2"],
+    ["Data 4", "Data 5"],
+    ["Data 7", "Data 8"],
   ],
 };
 
@@ -121,6 +121,7 @@ export const blogBuilderSlice = createSlice({
 
       state.blogs[id].title = title;
     },
+
     addComponent: (
       state,
       action: PayloadAction<{
@@ -231,12 +232,14 @@ export const blogBuilderSlice = createSlice({
       state.blogs[blogId].content.push(id);
       state.blogs[blogId].components[id] = block;
     },
+
     toggleEditorOrPreview: (state, action: PayloadAction<string>) => {
       const activeEditorOrPreview = state.blogs[action.payload].editorOrPreview;
 
       state.blogs[action.payload].editorOrPreview =
         activeEditorOrPreview === "editor" ? "preview" : "editor";
     },
+
     removeComponent: (
       state,
       action: PayloadAction<{
@@ -250,6 +253,7 @@ export const blogBuilderSlice = createSlice({
       delete state.blogs[postId].metaData.mobileStyles[id];
       delete state.blogs[postId].metaData.hoverStyles[id];
     },
+
     changeActiveBlock: (
       state,
       action: PayloadAction<{
@@ -259,6 +263,158 @@ export const blogBuilderSlice = createSlice({
     ) => {
       const { blogId, activeBlockId } = action.payload;
       state.blogs[blogId].activeBlock = activeBlockId || null;
+    },
+
+    addTableRows: (
+      state,
+      action: PayloadAction<{
+        blogId: string;
+        id: string; // component id
+      }>
+    ) => {
+      const { blogId, id } = action.payload;
+
+      const tableData = state.blogs[blogId].components[id]
+        .children as TableInterface;
+      const columnsCount = tableData.thead[0].length;
+
+      (
+        state.blogs[blogId].components[id].children as TableInterface
+      ).tbody.push(Array(columnsCount).fill(""));
+    },
+
+    removeTableRows: (
+      state,
+      action: PayloadAction<{
+        blogId: string;
+        id: string; // component id
+      }>
+    ) => {
+      const { blogId, id } = action.payload;
+
+      (
+        state.blogs[blogId].components[id].children as TableInterface
+      ).tbody.pop();
+    },
+
+    changeTableRowsCount: (
+      state,
+      action: PayloadAction<{
+        blogId: string;
+        id: string; // component id
+        value: number;
+      }>
+    ) => {
+      const { blogId, id, value: newRowsCount } = action.payload;
+
+      const tableData = state.blogs[blogId].components[id]
+        .children as TableInterface;
+
+      const rowsCount = tableData.tbody.length;
+      const columnsCount = tableData.thead[0].length;
+
+      if (newRowsCount < 0) return state;
+
+      if (newRowsCount > rowsCount) {
+        const needExtraRows = newRowsCount - rowsCount;
+        (
+          state.blogs[blogId].components[id].children as TableInterface
+        ).tbody.push(
+          ...Array(needExtraRows).fill(Array(columnsCount).fill(""))
+        );
+      } else {
+        const needToRemoveRows = rowsCount - newRowsCount;
+
+        (
+          state.blogs[blogId].components[id].children as TableInterface
+        ).tbody.splice(rowsCount - needToRemoveRows - 1, needToRemoveRows);
+      }
+    },
+
+    addTableColumns: (
+      state,
+      action: PayloadAction<{
+        blogId: string;
+        id: string; // component id
+      }>
+    ) => {
+      const { blogId, id } = action.payload;
+
+      const columnsCount = (
+        state.blogs[blogId].components[id].children as TableInterface
+      ).thead[0].length;
+
+      (
+        state.blogs[blogId].components[id].children as TableInterface
+      ).thead.forEach((row) => row.push(`Heading ${columnsCount + 1}`));
+      (
+        state.blogs[blogId].components[id].children as TableInterface
+      ).tbody.forEach((row) => row.push(""));
+    },
+
+    removeTableColumns: (
+      state,
+      action: PayloadAction<{
+        blogId: string;
+        id: string; // component id
+      }>
+    ) => {
+      const { blogId, id } = action.payload;
+
+      (
+        state.blogs[blogId].components[id].children as TableInterface
+      ).thead.forEach((row) => row.pop());
+      (
+        state.blogs[blogId].components[id].children as TableInterface
+      ).tbody.forEach((row) => row.pop());
+    },
+
+    changeTableColumnsCount: (
+      state,
+      action: PayloadAction<{
+        blogId: string;
+        id: string; // component id
+        value: number;
+      }>
+    ) => {
+      const { blogId, id, value: newColumnsCount } = action.payload;
+
+      const tableData = state.blogs[blogId].components[id]
+        .children as TableInterface;
+
+      const columnsCount = tableData.thead[0].length;
+
+      if (newColumnsCount < 0) return state;
+
+      if (newColumnsCount > columnsCount) {
+        const needExtraColumns = newColumnsCount - columnsCount;
+
+        (
+          state.blogs[blogId].components[id].children as TableInterface
+        ).thead.forEach((row) =>
+          row.push(
+            ...Array(needExtraColumns).fill(`Heading ${columnsCount + 1}`)
+          )
+        );
+
+        (
+          state.blogs[blogId].components[id].children as TableInterface
+        ).tbody.forEach((row) => row.push(...Array(needExtraColumns).fill("")));
+      } else {
+        const needToRemoveColumns = columnsCount - newColumnsCount;
+
+        (
+          state.blogs[blogId].components[id].children as TableInterface
+        ).thead.forEach((row) =>
+          row.splice(columnsCount - needToRemoveColumns, needToRemoveColumns)
+        );
+
+        (
+          state.blogs[blogId].components[id].children as TableInterface
+        ).tbody.forEach((row) =>
+          row.splice(columnsCount - needToRemoveColumns, needToRemoveColumns)
+        );
+      }
     },
   },
 });
@@ -270,6 +426,12 @@ export const {
   updateTitle,
   toggleEditorOrPreview,
   changeActiveBlock,
+  addTableRows,
+  removeTableRows,
+  changeTableRowsCount,
+  addTableColumns,
+  removeTableColumns,
+  changeTableColumnsCount,
 } = blogBuilderSlice.actions;
 
 export default blogBuilderSlice.reducer;
