@@ -6,7 +6,7 @@ interface PropertyWrapper_v1Props {
 }
 const PropertyWrapper_v1 = ({ children }: PropertyWrapper_v1Props) => {
   return (
-    <div className="flex justify-between items-center gap-2 px-3 py-1.5 border-b">
+    <div className="flex justify-between items-center gap-2 px-3 py-1.5 border-b flex-wrap">
       {children}
     </div>
   );

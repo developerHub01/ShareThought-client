@@ -14,12 +14,13 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { EDITOR_TABLE_SIZE } from "@/constant";
 import {
   addRowColumnBeforeAfterOfCurrent,
   removeTableFullColumn,
   removeTableFullRow,
 } from "@/redux/features/builders/blogBuilderSlice";
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { useAppDispatch } from "@/redux/hooks";
 import clsx from "clsx";
 import { Plus as PlusIcon, Trash as TrashIcon } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
@@ -44,7 +45,11 @@ const actionButtonAnim = {
 
 type AddRowColumnType = "before" | "after";
 
-const Table = ({ children: { thead, tbody }, id, ...props }: TableProps) => {
+const Table = ({
+  children: { thead, tbody, border },
+  id,
+  ...props
+}: TableProps) => {
   const [hoveredRow, setHoveredRow] = useState<number | null>(null);
   const [hoveredColumn, setHoveredColumn] = useState<number | null>(null);
   const [focusedRow, setFocusedRow] = useState<boolean>(false);
@@ -146,8 +151,19 @@ const Table = ({ children: { thead, tbody }, id, ...props }: TableProps) => {
     []
   );
 
+  const borderStyle = {
+    border: `${border?.size || EDITOR_TABLE_SIZE.DEFAULT_BORDER_SIZE}px ${
+      border?.style || "solid"
+    } ${border?.color || EDITOR_TABLE_SIZE.DEFAULT_BORDER_COLOR}`,
+  };
+
   return (
-    <table className="border-separate w-full text-sm text-left text-gray-500 dark:text-gray-400">
+    <table
+      className="border-collapse w-full text-sm text-left text-gray-500 dark:text-gray-400"
+      style={{
+        ...borderStyle,
+      }}
+    >
       <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
         {thead.map((rows, rowIndex) => (
           <tr
@@ -158,6 +174,9 @@ const Table = ({ children: { thead, tbody }, id, ...props }: TableProps) => {
               <Th
                 key={colIndex}
                 className="relative"
+                style={{
+                  ...borderStyle,
+                }}
                 onMouseEnter={() => handleMouseEnter("column", colIndex)}
                 onMouseLeave={() => handleMouseLeave("column")}
               >
@@ -242,7 +261,7 @@ const Table = ({ children: { thead, tbody }, id, ...props }: TableProps) => {
         {tbody.map((rows, rowIndex) => (
           <tr
             key={rowIndex}
-            className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+            className="bg-white border-b dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-600"
             onMouseEnter={() => handleMouseEnter("row", rowIndex)}
             onMouseLeave={() => handleMouseLeave("row")}
           >
@@ -250,6 +269,9 @@ const Table = ({ children: { thead, tbody }, id, ...props }: TableProps) => {
               <Td
                 key={colIndex}
                 className="relative"
+                style={{
+                  ...borderStyle,
+                }}
                 onMouseEnter={() => handleMouseEnter("column", colIndex)}
                 onMouseLeave={() => handleMouseLeave("column")}
               >

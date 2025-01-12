@@ -5,7 +5,7 @@ import PropertiesTab from "@/app/(editor)/studio/create-blog/[id]/_components/Pr
 
 const EditorSidebar = () => {
   return (
-    <section className="w-full h-full max-w-80 bg-accent shadow-xl border-accent flex-grow-0">
+    <section className="w-full h-full max-w-96 bg-accent shadow-xl border-accent flex-grow-0">
       <Tabs defaultValue="styles" className="w-full bg-primary-foreground">
         <TabsList className="grid w-full grid-cols-2 border-b">
           <TabsTrigger value="styles" className="capitalize">

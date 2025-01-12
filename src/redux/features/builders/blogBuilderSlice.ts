@@ -17,6 +17,7 @@ type BlockTypes =
   | "section";
 
 type TableTypes = "thead" | "tbody" | "tr" | "th" | "td";
+export type BorderStyleType = "solid" | "dotted" | "dashed";
 
 export interface BlockInterface {
   postId?: string;
@@ -34,6 +35,11 @@ export interface BlockInterface {
 export interface TableInterface {
   thead: Array<Array<string>>;
   tbody: Array<Array<string>>;
+  border?: {
+    style?: BorderStyleType;
+    color?: string;
+    size?: number;
+  };
 }
 
 export interface BlogBuilderState {
@@ -87,6 +93,11 @@ const tableInitialState: TableInterface = {
     ["Data 4", "Data 5"],
     ["Data 7", "Data 8"],
   ],
+  border: {
+    style: "solid",
+    color: EDITOR_TABLE_SIZE.DEFAULT_BORDER_COLOR,
+    size: EDITOR_TABLE_SIZE.DEFAULT_BORDER_SIZE,
+  },
 };
 
 const initialState: BlogBuilderState = {
@@ -529,6 +540,38 @@ export const blogBuilderSlice = createSlice({
         ).tbody.map((row) => row.splice(targetIndex, 0, ""));
       }
     },
+
+    addTableBorderStyle: (
+      state,
+      action: PayloadAction<{
+        blogId: string;
+        id: string; // component id
+        style?: BorderStyleType;
+        color?: string;
+        size?: number | null;
+      }>
+    ) => {
+      const { blogId, id } = action.payload;
+      let { style, color, size } = action.payload;
+
+      if (!style && !color && size === undefined) return state;
+
+      const tableData = state.blogs[blogId].components[id]
+        .children as TableInterface;
+
+      if (!tableData.border) tableData.border = {};
+
+      if (
+        size &&
+        (size > EDITOR_TABLE_SIZE.MAX_BORDER_SIZE ||
+          size < EDITOR_TABLE_SIZE.MIN_BORDER_SIZE)
+      )
+        size = null;
+
+      if (style) tableData.border.style = style;
+      if (color) tableData.border.color = color;
+      if (size) tableData.border.size = size;
+    },
   },
 });
 
@@ -548,6 +591,7 @@ export const {
   removeTableFullRow,
   removeTableFullColumn,
   addRowColumnBeforeAfterOfCurrent,
+  addTableBorderStyle,
 } = blogBuilderSlice.actions;
 
 export default blogBuilderSlice.reducer;
