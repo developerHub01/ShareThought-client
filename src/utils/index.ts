@@ -9,3 +9,10 @@ export const convertNumberToWords = (number: number): string => {
 
   return contextNumber;
 };
+
+export const isValidHexColor = (hex: string) => {
+  const hexRegex =
+    /^#([A-Fa-f0-9]{3}|[A-Fa-f0-9]{4}|[A-Fa-f0-9]{6}|[A-Fa-f0-9]{8})$/;
+
+  return hexRegex.test(hex);
+};

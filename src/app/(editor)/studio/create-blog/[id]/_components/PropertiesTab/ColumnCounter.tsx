@@ -11,6 +11,7 @@ import {
   TableInterface,
 } from "@/redux/features/builders/blogBuilderSlice";
 import { EDITOR_TABLE_SIZE } from "@/constant";
+import PropertyWrapper_v1 from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/PropertyWrapper_v1";
 
 const ColumnCounter = () => {
   const dispatch = useAppDispatch();
@@ -84,7 +85,7 @@ const ColumnCounter = () => {
   };
 
   return (
-    <div className="flex justify-between items-center gap-2 px-3 py-1.5 border-b">
+    <PropertyWrapper_v1>
       <p className="text-sm">Columns</p>
       <div className="flex">
         <ValueCounter
@@ -96,7 +97,7 @@ const ColumnCounter = () => {
           handleChange={handleColumnChange}
         />
       </div>
-    </div>
+    </PropertyWrapper_v1>
   );
 };
 

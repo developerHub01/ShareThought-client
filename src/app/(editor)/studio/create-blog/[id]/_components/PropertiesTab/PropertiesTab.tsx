@@ -25,7 +25,7 @@ const PropertiesTab = () => {
   return (
     <div className="w-full h-full flex flex-col">
       <TopActionList />
-      <Accordion type="single" collapsible className="w-full">
+      <Accordion type="multiple" className="w-full">
         <AccordionItem value="item-1" className="border-b">
           <AccordionTrigger className="px-3 py-2.5 border-b text-base">
             Layout
