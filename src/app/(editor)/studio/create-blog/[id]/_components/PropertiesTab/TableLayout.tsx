@@ -32,16 +32,14 @@ const TableLayout = () => {
   const rowsCount = tableData?.tbody?.length;
   const columnsCount = tableData?.thead[0].length;
 
-  const [dimention, setDimention] = useState({
+  const [dimension, setDimension] = useState({
     rowsCount,
     columnsCount,
   });
 
   useEffect(() => {
-    console.log({ rowsCount, columnsCount });
-
     if (content)
-      setDimention((prev) => ({
+      setDimension((prev) => ({
         ...prev,
         rowsCount,
         columnsCount,
@@ -50,7 +48,7 @@ const TableLayout = () => {
 
   /* Columns handlers =========== */
   const handleColumnIncrement = () => {
-    setDimention((prev) => ({
+    setDimension((prev) => ({
       ...prev,
       columnsCount: Math.min(8, prev.columnsCount + 1),
     }));
@@ -64,7 +62,7 @@ const TableLayout = () => {
   };
 
   const handleColumnDecrement = () => {
-    setDimention((prev) => ({
+    setDimension((prev) => ({
       ...prev,
       columnsCount: Math.max(1, prev.columnsCount - 1),
     }));
@@ -82,7 +80,7 @@ const TableLayout = () => {
     /* if columns count is 0 or less then 1 and if greater then 8 then max value 8 */
     const columnsCount = value <= 0 ? 1 : value > 8 ? 8 : value;
 
-    setDimention((prev) => ({
+    setDimension((prev) => ({
       ...prev,
       columnsCount,
     }));
@@ -98,7 +96,7 @@ const TableLayout = () => {
 
   /* Rows handlers =========== */
   const handleRowsIncrement = () => {
-    setDimention((prev) => ({
+    setDimension((prev) => ({
       ...prev,
       rowsCount: prev.rowsCount + 1,
     }));
@@ -112,7 +110,7 @@ const TableLayout = () => {
   };
 
   const handleRowsDecrement = () => {
-    setDimention((prev) => ({
+    setDimension((prev) => ({
       ...prev,
       rowsCount: Math.max(0, prev.rowsCount - 1),
     }));
@@ -129,7 +127,7 @@ const TableLayout = () => {
     const value = Number(e.target.value);
     const rowsCount = Math.max(0, value);
 
-    setDimention((prev) => ({
+    setDimension((prev) => ({
       ...prev,
       rowsCount,
     }));
@@ -151,7 +149,7 @@ const TableLayout = () => {
           <ValueCounter
             min={1}
             max={8}
-            value={dimention.columnsCount}
+            value={dimension.columnsCount}
             handleIncrement={handleColumnIncrement}
             handleDecrement={handleColumnDecrement}
             handleChange={handleColumnChange}
@@ -163,7 +161,7 @@ const TableLayout = () => {
         <div className="flex">
           <ValueCounter
             min={0}
-            value={dimention.rowsCount}
+            value={dimension.rowsCount}
             handleIncrement={handleRowsIncrement}
             handleDecrement={handleRowsDecrement}
             handleChange={handleRowsChange}

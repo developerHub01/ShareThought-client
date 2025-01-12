@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import { Eye as PreviewIcon, Pencil as EditIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";

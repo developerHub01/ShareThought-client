@@ -107,6 +107,7 @@ export const blogBuilderSlice = createSlice({
       const id = action.payload;
       state.blogs[id] = { ...blogInitialState };
     },
+
     updateTitle: (
       state,
       action: PayloadAction<{
@@ -416,6 +417,79 @@ export const blogBuilderSlice = createSlice({
         );
       }
     },
+
+    removeTableFullRow: (
+      state,
+      action: PayloadAction<{
+        blogId: string;
+        id: string; // component id
+        index: number;
+      }>
+    ) => {
+      const { blogId, id, index } = action.payload;
+
+      (
+        state.blogs[blogId].components[id].children as TableInterface
+      ).tbody.splice(index, 1);
+    },
+
+    removeTableFullColumn: (
+      state,
+      action: PayloadAction<{
+        blogId: string;
+        id: string; // component id
+        index: number;
+      }>
+    ) => {
+      const { blogId, id, index } = action.payload;
+
+      /* if only one column remain then prevent deletion */
+      if (
+        (state.blogs[blogId].components[id].children as TableInterface).thead[0]
+          .length === 1
+      )
+        return state;
+
+      (
+        state.blogs[blogId].components[id].children as TableInterface
+      ).thead.forEach((row) => row.splice(index, 1));
+
+      (
+        state.blogs[blogId].components[id].children as TableInterface
+      ).tbody.forEach((row) => row.splice(index, 1));
+    },
+
+    addRowColumnBeforeAfterOfCurrent: (
+      state,
+      action: PayloadAction<{
+        blogId: string;
+        id: string; // component id
+        type: "row" | "column";
+        addType: "before" | "after";
+        index: number;
+      }>
+    ) => {
+      const { blogId, id, type, addType, index } = action.payload;
+
+      const tableData = state.blogs[blogId].components[id]
+        .children as TableInterface;
+      const columnsCount = tableData.thead[0].length;
+
+      const targetIndex = addType === "before" ? index : index + 1;
+      if (type === "row") {
+        (
+          state.blogs[blogId].components[id].children as TableInterface
+        ).tbody.splice(targetIndex, 0, Array(columnsCount).fill(""));
+      } else {
+        (
+          state.blogs[blogId].components[id].children as TableInterface
+        ).thead.map((row) => row.splice(targetIndex, 0, "Heading"));
+
+        (
+          state.blogs[blogId].components[id].children as TableInterface
+        ).tbody.map((row) => row.splice(targetIndex, 0, ""));
+      }
+    },
   },
 });
 
@@ -432,6 +506,9 @@ export const {
   addTableColumns,
   removeTableColumns,
   changeTableColumnsCount,
+  removeTableFullRow,
+  removeTableFullColumn,
+  addRowColumnBeforeAfterOfCurrent,
 } = blogBuilderSlice.actions;
 
 export default blogBuilderSlice.reducer;

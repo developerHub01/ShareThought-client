@@ -19,13 +19,17 @@ import {
 import { Button } from "@/components/ui/button";
 import Table from "@/components/editor/components/Table";
 
+export interface TableProps extends BlockInterface {
+  children: TableInterface;
+}
+
 const Block = ({ ...props }: BlogComponentBlock) => {
   if (["h1", "h2", "h3", "h4", "h5", "h6"].includes(props.type)) {
     return <Heading {...props} />;
   } else if (props.type === "section") {
     return <Section {...props} />;
   } else if (props.type === "table") {
-    return <Table {...(props.children as TableInterface)} />;
+    return <Table {...(props as TableProps)} />;
   }
   return <></>;
 };
