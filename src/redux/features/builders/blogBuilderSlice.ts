@@ -1,4 +1,4 @@
-import { defaultGlobalStyles } from "@/constant";
+import { defaultGlobalStyles, EDITOR_TABLE_SIZE } from "@/constant";
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { v4 as uuidv4 } from "uuid";
@@ -266,6 +266,9 @@ export const blogBuilderSlice = createSlice({
       state.blogs[blogId].activeBlock = activeBlockId || null;
     },
 
+    /**
+     * Table=============
+     * ***/
     addTableRows: (
       state,
       action: PayloadAction<{
@@ -277,7 +280,11 @@ export const blogBuilderSlice = createSlice({
 
       const tableData = state.blogs[blogId].components[id]
         .children as TableInterface;
+
       const columnsCount = tableData.thead[0].length;
+      const rowsCount = tableData.tbody.length;
+
+      if (rowsCount >= EDITOR_TABLE_SIZE.MAX_ROWS) return state;
 
       (
         state.blogs[blogId].components[id].children as TableInterface
@@ -293,6 +300,13 @@ export const blogBuilderSlice = createSlice({
     ) => {
       const { blogId, id } = action.payload;
 
+      const tableData = state.blogs[blogId].components[id]
+        .children as TableInterface;
+
+      const rowsCount = tableData.tbody.length;
+
+      if (rowsCount <= EDITOR_TABLE_SIZE.MIN_ROWS) return state;
+
       (
         state.blogs[blogId].components[id].children as TableInterface
       ).tbody.pop();
@@ -306,7 +320,8 @@ export const blogBuilderSlice = createSlice({
         value: number;
       }>
     ) => {
-      const { blogId, id, value: newRowsCount } = action.payload;
+      const { blogId, id } = action.payload;
+      let newColumnsCount = action.payload.value;
 
       const tableData = state.blogs[blogId].components[id]
         .children as TableInterface;
@@ -314,17 +329,20 @@ export const blogBuilderSlice = createSlice({
       const rowsCount = tableData.tbody.length;
       const columnsCount = tableData.thead[0].length;
 
-      if (newRowsCount < 0) return state;
+      if (newColumnsCount < EDITOR_TABLE_SIZE.MIN_ROWS)
+        newColumnsCount = EDITOR_TABLE_SIZE.MIN_ROWS;
+      else if (newColumnsCount > EDITOR_TABLE_SIZE.MAX_ROWS)
+        newColumnsCount = EDITOR_TABLE_SIZE.MAX_ROWS;
 
-      if (newRowsCount > rowsCount) {
-        const needExtraRows = newRowsCount - rowsCount;
+      if (newColumnsCount > rowsCount) {
+        const needExtraRows = newColumnsCount - rowsCount;
         (
           state.blogs[blogId].components[id].children as TableInterface
         ).tbody.push(
           ...Array(needExtraRows).fill(Array(columnsCount).fill(""))
         );
       } else {
-        const needToRemoveRows = rowsCount - newRowsCount;
+        const needToRemoveRows = rowsCount - newColumnsCount;
 
         (
           state.blogs[blogId].components[id].children as TableInterface
@@ -341,9 +359,12 @@ export const blogBuilderSlice = createSlice({
     ) => {
       const { blogId, id } = action.payload;
 
-      const columnsCount = (
-        state.blogs[blogId].components[id].children as TableInterface
-      ).thead[0].length;
+      const tableData = state.blogs[blogId].components[id]
+        .children as TableInterface;
+
+      const columnsCount = tableData.thead[0].length;
+
+      if (columnsCount >= EDITOR_TABLE_SIZE.MAX_COLUMNS) return state;
 
       (
         state.blogs[blogId].components[id].children as TableInterface
@@ -362,6 +383,13 @@ export const blogBuilderSlice = createSlice({
     ) => {
       const { blogId, id } = action.payload;
 
+      const tableData = state.blogs[blogId].components[id]
+        .children as TableInterface;
+
+      const columnsCount = tableData.thead[0].length;
+
+      if (columnsCount <= EDITOR_TABLE_SIZE.MIN_COLUMNS) return state;
+
       (
         state.blogs[blogId].components[id].children as TableInterface
       ).thead.forEach((row) => row.pop());
@@ -378,14 +406,18 @@ export const blogBuilderSlice = createSlice({
         value: number;
       }>
     ) => {
-      const { blogId, id, value: newColumnsCount } = action.payload;
+      const { blogId, id } = action.payload;
+      let newColumnsCount = action.payload.value;
 
       const tableData = state.blogs[blogId].components[id]
         .children as TableInterface;
 
       const columnsCount = tableData.thead[0].length;
 
-      if (newColumnsCount < 0) return state;
+      if (newColumnsCount < EDITOR_TABLE_SIZE.MIN_COLUMNS)
+        newColumnsCount = EDITOR_TABLE_SIZE.MIN_COLUMNS;
+      else if (newColumnsCount > EDITOR_TABLE_SIZE.MAX_COLUMNS)
+        newColumnsCount = EDITOR_TABLE_SIZE.MAX_COLUMNS;
 
       if (newColumnsCount > columnsCount) {
         const needExtraColumns = newColumnsCount - columnsCount;
@@ -474,6 +506,13 @@ export const blogBuilderSlice = createSlice({
       const tableData = state.blogs[blogId].components[id]
         .children as TableInterface;
       const columnsCount = tableData.thead[0].length;
+      const rowsCount = tableData.tbody.length;
+
+      if (
+        (type == "column" && columnsCount >= EDITOR_TABLE_SIZE.MAX_COLUMNS) ||
+        (type == "row" && rowsCount >= EDITOR_TABLE_SIZE.MAX_ROWS)
+      )
+        return state;
 
       const targetIndex = addType === "before" ? index : index + 1;
       if (type === "row") {

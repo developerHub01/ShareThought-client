@@ -3,6 +3,7 @@ import React, { ChangeEvent } from "react";
 import { Plus as PlusIcon, Minus as MinusIcon } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import clsx from "clsx";
 
 interface ValueCounterProps {
   min?: number;
@@ -11,6 +12,7 @@ interface ValueCounterProps {
   handleChange: (e: ChangeEvent<HTMLInputElement>) => void;
   handleIncrement: () => void;
   handleDecrement: () => void;
+  separate?: boolean;
 }
 
 const ValueCounter = ({
@@ -18,6 +20,7 @@ const ValueCounter = ({
   handleChange,
   handleIncrement,
   handleDecrement,
+  separate = true,
   ...props
 }: ValueCounterProps) => {
   return (
@@ -26,7 +29,10 @@ const ValueCounter = ({
         size={"icon"}
         variant={"outline"}
         onClick={handleDecrement}
-        className="rounded-r-none"
+        className={clsx("", {
+          "rounded-r-none": separate,
+          "rounded-none": !separate,
+        })}
       >
         <MinusIcon size={16} />
       </Button>
@@ -41,7 +47,10 @@ const ValueCounter = ({
         size={"icon"}
         variant={"outline"}
         onClick={handleIncrement}
-        className="rounded-l-none"
+        className={clsx("", {
+          "rounded-r-none": separate,
+          "rounded-none": !separate,
+        })}
       >
         <PlusIcon size={16} />
       </Button>

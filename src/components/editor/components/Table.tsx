@@ -204,7 +204,7 @@ const Table = ({ children: { thead, tbody }, id, ...props }: TableProps) => {
                                   <PlusIcon size={14} />
                                 </Button>
                               </DropdownMenuTrigger>
-                              <DropdownMenuContent className="w-56">
+                              <DropdownMenuContent>
                                 {dropdownColumnActionButtonList.map(
                                   ({ id, label }) => (
                                     <DropdownMenuItem
