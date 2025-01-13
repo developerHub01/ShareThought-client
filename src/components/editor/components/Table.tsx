@@ -45,6 +45,28 @@ const actionButtonAnim = {
 
 type AddRowColumnType = "before" | "after";
 
+const dropdownColumnActionButtonList = [
+  {
+    id: "before",
+    label: "Add Before Column",
+  },
+  {
+    id: "after",
+    label: "Add After Column",
+  },
+];
+
+const dropdownRowActionButtonList = [
+  {
+    id: "before",
+    label: "Add Before Row",
+  },
+  {
+    id: "after",
+    label: "Add After Row",
+  },
+];
+
 const Table = ({
   children: { thead, tbody, border },
   id,
@@ -123,38 +145,10 @@ const Table = ({
     );
   };
 
-  const dropdownColumnActionButtonList = useMemo(
-    () => [
-      {
-        id: "before",
-        label: "Add Before Column",
-      },
-      {
-        id: "after",
-        label: "Add After Column",
-      },
-    ],
-    []
-  );
-
-  const dropdownRowActionButtonList = useMemo(
-    () => [
-      {
-        id: "before",
-        label: "Add Before Row",
-      },
-      {
-        id: "after",
-        label: "Add After Row",
-      },
-    ],
-    []
-  );
-
   const borderStyle = {
-    border: `${border?.size || EDITOR_TABLE_SIZE.DEFAULT_BORDER_SIZE}px ${
-      border?.style || "solid"
-    } ${border?.color || EDITOR_TABLE_SIZE.DEFAULT_BORDER_COLOR}`,
+    border: `${border?.size}px ${border?.style || "solid"} ${
+      border?.color || EDITOR_TABLE_SIZE.DEFAULT_BORDER_COLOR
+    }`,
   };
 
   return (

@@ -48,8 +48,6 @@ const Border = () => {
   });
 
   useEffect(() => {
-    console.log(components);
-
     if (activeBlock)
       setBorderState((prev) => ({
         ...prev,
@@ -128,40 +126,35 @@ const Border = () => {
   const handleBorderSizeIncrease = () => {
     if (borderState.size >= EDITOR_TABLE_SIZE.MAX_BORDER_SIZE) return;
 
-    setBorderState((prev) => {
-      const updatedSize = prev.size + 1;
-      dispatch(
-        addTableBorderStyle({
-          blogId,
-          id: activeBlock,
-          size: updatedSize,
-        })
-      );
-      return {
-        ...prev,
-        size: updatedSize,
-      };
-    });
+    setBorderState((prev) => ({
+      ...prev,
+      size: prev.size + 1,
+    }));
+
+    dispatch(
+      addTableBorderStyle({
+        blogId,
+        id: activeBlock,
+        size: "increase",
+      })
+    );
   };
 
   const handleBorderSizeDecrease = () => {
     if (borderState.size <= EDITOR_TABLE_SIZE.MIN_BORDER_SIZE) return;
 
-    setBorderState((prev) => {
-      const updatedSize = prev.size - 1;
-      dispatch(
-        addTableBorderStyle({
-          blogId,
-          id: activeBlock,
-          size: updatedSize,
-        })
-      );
+    setBorderState((prev) => ({
+      ...prev,
+      size: prev.size - 1,
+    }));
 
-      return {
-        ...prev,
-        size: updatedSize,
-      };
-    });
+    dispatch(
+      addTableBorderStyle({
+        blogId,
+        id: activeBlock,
+        size: "decrease",
+      })
+    );
   };
 
   const handleBorderSizeChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -173,8 +166,6 @@ const Border = () => {
         : value >= EDITOR_TABLE_SIZE.MAX_BORDER_SIZE
         ? EDITOR_TABLE_SIZE.MAX_BORDER_SIZE
         : value;
-
-    console.log({ size });
 
     setBorderState((prev) => ({
       ...prev,

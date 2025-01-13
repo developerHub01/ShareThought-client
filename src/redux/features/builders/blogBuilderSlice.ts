@@ -548,29 +548,50 @@ export const blogBuilderSlice = createSlice({
         id: string; // component id
         style?: BorderStyleType;
         color?: string;
-        size?: number | null;
+        size?: number | null | "increase" | "decrease";
       }>
     ) => {
-      const { blogId, id } = action.payload;
-      let { style, color, size } = action.payload;
+      const { blogId, id, style, color, size: inputSize } = action.payload;
 
-      if (!style && !color && size === undefined) return state;
+      if (!style && !color && inputSize === undefined) return state;
 
       const tableData = state.blogs[blogId].components[id]
         .children as TableInterface;
 
-      if (!tableData.border) tableData.border = {};
+      // Initialize border if not present
+      tableData.border = tableData.border || {};
 
-      if (
-        size &&
-        (size > EDITOR_TABLE_SIZE.MAX_BORDER_SIZE ||
-          size < EDITOR_TABLE_SIZE.MIN_BORDER_SIZE)
-      )
-        size = null;
+      // Handle size updates
+      if (inputSize !== null || inputSize !== undefined) {
+        const currentSize = Number(tableData.border.size) || 0;
 
+        if (typeof inputSize === "string") {
+          const isWithinBounds = (size: number) =>
+            size >= EDITOR_TABLE_SIZE.MIN_BORDER_SIZE &&
+            size <= EDITOR_TABLE_SIZE.MAX_BORDER_SIZE;
+
+          const newSize =
+            inputSize === "increase"
+              ? currentSize + 1
+              : inputSize === "decrease"
+              ? currentSize - 1
+              : currentSize;
+
+          if (isWithinBounds(newSize)) {
+            tableData.border.size = newSize;
+          }
+        } else if (
+          typeof inputSize === "number" &&
+          inputSize >= EDITOR_TABLE_SIZE.MIN_BORDER_SIZE &&
+          inputSize <= EDITOR_TABLE_SIZE.MAX_BORDER_SIZE
+        ) {
+          tableData.border.size = inputSize;
+        }
+      }
+
+      // Update style and color
       if (style) tableData.border.style = style;
       if (color) tableData.border.color = color;
-      if (size) tableData.border.size = size;
     },
   },
 });
