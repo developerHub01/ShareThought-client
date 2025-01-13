@@ -8,13 +8,13 @@ import { isValidHexColor } from "@/utils";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import {
   addTableBackgroundStyle,
-  addTableBorderStyle,
+  addTableTextStyle,
   TableInterface,
 } from "@/redux/features/builders/blogBuilderSlice";
 import { useParams } from "next/navigation";
 import { EDITOR_TABLE_SIZE } from "@/constant";
 
-const BackgroundColor = () => {
+const TextColor = () => {
   const { id: blogId } = useParams() as { id: string };
 
   if (!blogId) return null;
@@ -27,32 +27,31 @@ const BackgroundColor = () => {
 
   const tableData = components[activeBlock as string]
     ?.children as TableInterface;
-  const tableBackgroundColor = tableData.backgroundColor;
+  const tableTextColor = tableData.textColor;
 
   const dispatch = useAppDispatch();
-  const [backgroundState, setBackgroundState] = useState<string>(
-    tableBackgroundColor || EDITOR_TABLE_SIZE.DEFAULT_BACKGROUND_COLOR
+  const [textColorState, setTextColorState] = useState<string>(
+    tableTextColor || EDITOR_TABLE_SIZE.DEFAULT_TEXT_COLOR
   );
   const [lastValidColor, setLastValidColor] = useState(
-    tableBackgroundColor || EDITOR_TABLE_SIZE.DEFAULT_BACKGROUND_COLOR
+    tableTextColor || EDITOR_TABLE_SIZE.DEFAULT_TEXT_COLOR
   );
 
   useEffect(() => {
-    if (activeBlock && tableBackgroundColor)
-      setBackgroundState(tableBackgroundColor);
-  }, [activeBlock, tableBackgroundColor]);
+    if (activeBlock && tableTextColor) setTextColorState(tableTextColor);
+  }, [activeBlock, tableTextColor]);
 
   const handleColorPicker = (color: ColorResult, e: ChangeEvent) => {
     const newColor = color.hex;
     if (isValidHexColor(newColor)) setLastValidColor(newColor);
 
-    setBackgroundState(newColor);
+    setTextColorState(newColor);
 
     dispatch(
-      addTableBackgroundStyle({
+      addTableTextStyle({
         blogId,
         id: activeBlock,
-        backgroundColor: newColor,
+        textColor: newColor,
       })
     );
   };
@@ -62,13 +61,13 @@ const BackgroundColor = () => {
 
     if (isValidHexColor(color)) setLastValidColor(color);
 
-    setBackgroundState(color);
+    setTextColorState(color);
 
     dispatch(
-      addTableBackgroundStyle({
+      addTableTextStyle({
         blogId,
         id: activeBlock,
-        backgroundColor: color,
+        textColor: color,
       })
     );
   };
@@ -79,31 +78,31 @@ const BackgroundColor = () => {
     const dispatchData = {
       blogId,
       id: activeBlock,
-      backgroundColor: color,
+      textColor: color,
     };
 
     if (!isValidHexColor(color)) {
       dispatch(
-        addTableBackgroundStyle({
+        addTableTextStyle({
           ...dispatchData,
-          backgroundColor: lastValidColor,
+          textColor: lastValidColor,
         })
       );
 
-      return setBackgroundState(lastValidColor);
+      return setTextColorState(lastValidColor);
     }
 
-    setBackgroundState(color);
+    setTextColorState(color);
 
-    dispatch(addTableBackgroundStyle(dispatchData));
+    dispatch(addTableTextStyle(dispatchData));
   };
 
   return (
     <PropertyWrapper_v1>
-      <p className="text-sm">Background Color</p>
+      <p className="text-sm">Text Color</p>
       <div className="flex items-center gap-1.5 ml-auto">
         <ColorPicker
-          color={backgroundState}
+          color={textColorState}
           handleColorPicker={handleColorPicker}
           handleColorChange={handleColorChange}
           handleColorBlur={handleColorBlur}
@@ -113,4 +112,4 @@ const BackgroundColor = () => {
   );
 };
 
-export default BackgroundColor;
+export default TextColor;

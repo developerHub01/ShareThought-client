@@ -68,7 +68,13 @@ const dropdownRowActionButtonList = [
 ];
 
 const Table = ({
-  children: { thead, tbody, border, backgroundColor: tableBackgroundColor },
+  children: {
+    thead,
+    tbody,
+    border,
+    backgroundColor: tableBackgroundColor,
+    textColor: tableTextColor,
+  },
   id,
   ...props
 }: TableProps) => {
@@ -157,14 +163,12 @@ const Table = ({
       style={{
         ...borderStyle,
         backgroundColor: tableBackgroundColor,
+        color: tableTextColor,
       }}
     >
       <thead className="text-xs text-gray-700 uppercase dark:text-gray-400">
         {thead.map((rows, rowIndex) => (
-          <tr
-            key={rowIndex}
-            className="border-b dark:border-gray-700"
-          >
+          <tr key={rowIndex} className="border-b dark:border-gray-700">
             {rows.map((col, colIndex) => (
               <Th
                 key={colIndex}
