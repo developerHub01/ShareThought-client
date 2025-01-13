@@ -68,7 +68,7 @@ const dropdownRowActionButtonList = [
 ];
 
 const Table = ({
-  children: { thead, tbody, border },
+  children: { thead, tbody, border, backgroundColor: tableBackgroundColor },
   id,
   ...props
 }: TableProps) => {
@@ -156,13 +156,14 @@ const Table = ({
       className="border-collapse w-full text-sm text-left text-gray-500 dark:text-gray-400"
       style={{
         ...borderStyle,
+        backgroundColor: tableBackgroundColor,
       }}
     >
-      <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+      <thead className="text-xs text-gray-700 uppercase dark:text-gray-400">
         {thead.map((rows, rowIndex) => (
           <tr
             key={rowIndex}
-            className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+            className="border-b dark:border-gray-700"
           >
             {rows.map((col, colIndex) => (
               <Th
@@ -255,7 +256,7 @@ const Table = ({
         {tbody.map((rows, rowIndex) => (
           <tr
             key={rowIndex}
-            className="bg-white border-b dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-600"
+            className="border-b"
             onMouseEnter={() => handleMouseEnter("row", rowIndex)}
             onMouseLeave={() => handleMouseLeave("row")}
           >

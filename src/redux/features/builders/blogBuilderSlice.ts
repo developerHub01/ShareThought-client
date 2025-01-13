@@ -1,4 +1,5 @@
 import { defaultGlobalStyles, EDITOR_TABLE_SIZE } from "@/constant";
+import { isValidHexColor } from "@/utils";
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { v4 as uuidv4 } from "uuid";
@@ -39,6 +40,10 @@ export interface TableInterface {
     style?: BorderStyleType;
     color?: string;
     size?: number;
+  };
+  backgroundColor?: string;
+  stripedRow?: {
+    backgorunColor?: string;
   };
 }
 
@@ -98,6 +103,7 @@ const tableInitialState: TableInterface = {
     color: EDITOR_TABLE_SIZE.DEFAULT_BORDER_COLOR,
     size: EDITOR_TABLE_SIZE.DEFAULT_BORDER_SIZE,
   },
+  backgroundColor: EDITOR_TABLE_SIZE.DEFAULT_BACKGROUND_COLOR,
 };
 
 const initialState: BlogBuilderState = {
@@ -593,6 +599,24 @@ export const blogBuilderSlice = createSlice({
       if (style) tableData.border.style = style;
       if (color) tableData.border.color = color;
     },
+
+    addTableBackgroundStyle: (
+      state,
+      action: PayloadAction<{
+        blogId: string;
+        id: string; // component id
+        backgroundColor: string;
+      }>
+    ) => {
+      const { blogId, id, backgroundColor } = action.payload;
+
+      const tableData = state.blogs[blogId].components[id]
+        .children as TableInterface;
+
+      if (!isValidHexColor(backgroundColor)) return state;
+
+      tableData.backgroundColor = backgroundColor;
+    },
   },
 });
 
@@ -613,6 +637,7 @@ export const {
   removeTableFullColumn,
   addRowColumnBeforeAfterOfCurrent,
   addTableBorderStyle,
+  addTableBackgroundStyle,
 } = blogBuilderSlice.actions;
 
 export default blogBuilderSlice.reducer;

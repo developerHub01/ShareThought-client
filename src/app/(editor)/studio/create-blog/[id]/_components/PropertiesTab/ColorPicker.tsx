@@ -26,7 +26,7 @@ const ColorPicker = ({
       <Popover>
         <PopoverTrigger asChild>
           <button
-            className="size-8 rounded-sm"
+            className="size-6 border-2 rounded-sm"
             style={{
               background: color,
             }}
