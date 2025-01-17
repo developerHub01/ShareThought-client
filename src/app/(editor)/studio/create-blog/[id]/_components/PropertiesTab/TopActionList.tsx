@@ -14,8 +14,21 @@ import {
   X as ClearIcon,
 } from "lucide-react";
 import clsx from "clsx";
+import { useAppDispatch } from "@/redux/hooks";
+import { changeActiveBlock } from "@/redux/features/builders/blogBuilderSlice";
+import { useParams } from "next/navigation";
 
 const TopActionList = () => {
+  const { id: blogId } = useParams<{
+    id: string;
+  }>();
+
+  const dispatch = useAppDispatch();
+
+  const clearActiveComponent = () => {
+    dispatch(changeActiveBlock({ blogId }));
+  };
+
   const actionList = useMemo(
     () => [
       {
@@ -34,10 +47,10 @@ const TopActionList = () => {
         id: "clear",
         Icon: ClearIcon,
         label: "Clear Selection",
-        onClick: () => console.log("clear"),
+        onClick: clearActiveComponent,
       },
     ],
-    []
+    [blogId]
   );
 
   return (
