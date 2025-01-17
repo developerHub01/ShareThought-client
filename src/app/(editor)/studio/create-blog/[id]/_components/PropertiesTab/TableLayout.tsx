@@ -7,7 +7,7 @@ import StripedRow from "@/app/(editor)/studio/create-blog/[id]/_components/Prope
 
 const TableLayout = () => {
   return (
-    <div className="flex flex-col gap-1">
+    <div className="flex flex-col gap-1 h-full">
       <ColumnCounter />
       <RowCounter />
       <Border />

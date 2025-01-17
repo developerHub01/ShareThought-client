@@ -46,7 +46,7 @@ const EditorCanvas = () => {
               value={blogData.title}
               onKeyUp={handleKeyEnter}
             />
-            <section className="py-5 px-1 shadow-xl rounded-sm border flex flex-col">
+            <section className="py-5 px-1 flex flex-col">
               {blogData?.content.map((id, index, list) => (
                 <div key={id} className="group">
                   <BlockComponent

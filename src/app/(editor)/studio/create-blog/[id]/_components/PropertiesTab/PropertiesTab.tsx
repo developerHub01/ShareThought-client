@@ -6,7 +6,6 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import TopActionList from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/TopActionList";
 import TableLayout from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/TableLayout";
 import { useAppSelector } from "@/redux/hooks";
 import { useParams } from "next/navigation";
@@ -23,14 +22,13 @@ const PropertiesTab = () => {
   const activeComponentType = activeComponent.type;
 
   return (
-    <div className="w-full h-full flex flex-col">
-      <TopActionList />
-      <Accordion type="multiple" className="w-full">
+    <div className="w-full h-full">
+      <Accordion type="multiple" className="h-full w-full">
         <AccordionItem value="item-1" className="border-b">
-          <AccordionTrigger className="px-3 py-2.5 border-b text-base">
+          <AccordionTrigger className="px-3 py-2.5 border-b text-base bg-accent">
             Layout
           </AccordionTrigger>
-          <AccordionContent>
+          <AccordionContent className="h-full">
             {activeComponentType === "table" && <TableLayout />}
           </AccordionContent>
         </AccordionItem>
