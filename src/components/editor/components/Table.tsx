@@ -74,6 +74,7 @@ const Table = ({
     border,
     backgroundColor: tableBackgroundColor,
     textColor: tableTextColor,
+    stripedRow,
   },
   id,
   ...props
@@ -261,6 +262,13 @@ const Table = ({
           <tr
             key={rowIndex}
             className="border-b"
+            style={{
+              ...(stripedRow?.backgroundColor && !(rowIndex % 2)
+                ? {
+                    backgroundColor: stripedRow?.backgroundColor,
+                  }
+                : {}),
+            }}
             onMouseEnter={() => handleMouseEnter("row", rowIndex)}
             onMouseLeave={() => handleMouseLeave("row")}
           >

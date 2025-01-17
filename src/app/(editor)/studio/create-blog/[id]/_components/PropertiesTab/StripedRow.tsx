@@ -1,19 +1,22 @@
 "use client";
 
 import React, { ChangeEvent, FocusEvent, useEffect, useState } from "react";
-import ColorPicker from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/ColorPicker";
 import PropertyWrapper_v1 from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/PropertyWrapper_v1";
-import { ColorResult } from "react-color";
-import { isValidHexColor } from "@/utils";
+import ColorPicker from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/ColorPicker";
+import { useParams } from "next/navigation";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import {
   addTableBackgroundStyle,
+  addTableStripedRow,
+  clearTableStripedRow,
   TableInterface,
 } from "@/redux/features/builders/blogBuilderSlice";
-import { useParams } from "next/navigation";
 import { EDITOR_TABLE_SIZE } from "@/constant";
+import { ColorResult } from "react-color";
+import { isValidHexColor } from "@/utils";
+import { Switch } from "@/components/ui/switch";
 
-const BackgroundColor = () => {
+const StripedRow = () => {
   const { id: blogId } = useParams() as { id: string };
 
   if (!blogId) return null;
@@ -26,29 +29,27 @@ const BackgroundColor = () => {
 
   const tableData = components[activeBlock as string]
     ?.children as TableInterface;
-  const tableBackgroundColor = tableData.backgroundColor;
+  const tableStripeBackgroundColor = tableData.stripedRow?.backgroundColor;
 
   const dispatch = useAppDispatch();
   const [backgroundState, setBackgroundState] = useState<string>(
-    tableBackgroundColor || EDITOR_TABLE_SIZE.DEFAULT_BACKGROUND_COLOR
+    tableStripeBackgroundColor || ""
   );
   const [lastValidColor, setLastValidColor] = useState(
-    tableBackgroundColor || EDITOR_TABLE_SIZE.DEFAULT_BACKGROUND_COLOR
+    tableStripeBackgroundColor ||
+      EDITOR_TABLE_SIZE.STRIPED_ROW_DEFAULT_BACKGROUND_COLOR
   );
 
   useEffect(() => {
-    if (activeBlock && tableBackgroundColor)
-      setBackgroundState(tableBackgroundColor);
-  }, [activeBlock, tableBackgroundColor]);
+    if (activeBlock) setBackgroundState(tableStripeBackgroundColor || "");
+  }, [activeBlock, tableData, tableStripeBackgroundColor]);
 
   const handleColorPicker = (color: ColorResult, e: ChangeEvent) => {
     const newColor = color.hex;
     if (isValidHexColor(newColor)) setLastValidColor(newColor);
 
-    setBackgroundState(newColor);
-
     dispatch(
-      addTableBackgroundStyle({
+      addTableStripedRow({
         blogId,
         id: activeBlock,
         backgroundColor: newColor,
@@ -61,10 +62,8 @@ const BackgroundColor = () => {
 
     if (isValidHexColor(color)) setLastValidColor(color);
 
-    setBackgroundState(color);
-
     dispatch(
-      addTableBackgroundStyle({
+      addTableStripedRow({
         blogId,
         id: activeBlock,
         backgroundColor: color,
@@ -81,35 +80,52 @@ const BackgroundColor = () => {
       backgroundColor: color,
     };
 
-    if (!isValidHexColor(color)) {
+    if (!isValidHexColor(color))
       dispatch(
-        addTableBackgroundStyle({
+        addTableStripedRow({
           ...dispatchData,
           backgroundColor: lastValidColor,
         })
       );
 
-      return setBackgroundState(lastValidColor);
-    }
+    dispatch(addTableStripedRow(dispatchData));
+  };
 
-    setBackgroundState(color);
+  const handleStripedBackgroundChange = (value: boolean) => {
+    const stripedPayload = {
+      blogId,
+      id: activeBlock,
+    };
 
-    dispatch(addTableBackgroundStyle(dispatchData));
+    if (!value) return dispatch(clearTableStripedRow(stripedPayload));
+
+    return dispatch(addTableStripedRow(stripedPayload));
   };
 
   return (
-    <PropertyWrapper_v1>
-      <p className="text-sm">Background Color</p>
-      <div className="flex items-center gap-1.5 ml-auto">
-        <ColorPicker
-          color={backgroundState}
-          handleColorPicker={handleColorPicker}
-          handleColorChange={handleColorChange}
-          handleColorBlur={handleColorBlur}
+    <PropertyWrapper_v1 className="flex-col">
+      <div className="w-full flex justify-between items-center gap-3">
+        <label htmlFor="striped_row" className="text-sm">
+          Striped Row
+        </label>
+        <Switch
+          id="striped_row"
+          checked={Boolean(backgroundState)}
+          onCheckedChange={handleStripedBackgroundChange}
         />
       </div>
+      {backgroundState && (
+        <div className="flex items-center gap-1.5 ml-auto">
+          <ColorPicker
+            color={backgroundState}
+            handleColorPicker={handleColorPicker}
+            handleColorChange={handleColorChange}
+            handleColorBlur={handleColorBlur}
+          />
+        </div>
+      )}
     </PropertyWrapper_v1>
   );
 };
 
-export default BackgroundColor;
+export default StripedRow;

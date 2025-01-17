@@ -3,6 +3,7 @@ import ColumnCounter from "@/app/(editor)/studio/create-blog/[id]/_components/Pr
 import RowCounter from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/RowCounter";
 import BackgroundColor from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/BackgroundColor";
 import TextColor from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/TextColor";
+import StripedRow from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/StripedRow";
 
 const TableLayout = () => {
   return (
@@ -12,6 +13,7 @@ const TableLayout = () => {
       <Border />
       <BackgroundColor />
       <TextColor />
+      <StripedRow />
     </div>
   );
 };

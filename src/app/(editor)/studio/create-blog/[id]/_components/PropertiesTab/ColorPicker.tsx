@@ -22,11 +22,11 @@ const ColorPicker = ({
   handleColorBlur,
 }: ColorPickerProps) => {
   return (
-    <div className="flex items-center gap-1 border rounded-sm p-1.5">
+    <div className="flex items-center gap-1 border rounded-sm p-0.5">
       <Popover>
         <PopoverTrigger asChild>
           <button
-            className="size-6 border-2 rounded-sm"
+            className="size-6 md:size-7 border-2 rounded-sm"
             style={{
               background: color,
             }}

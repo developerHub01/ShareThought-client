@@ -84,7 +84,7 @@ const BlockComponent = ({ ...props }: BlockInterface) => {
       <div className={"flex"}>
         <ActionButton key={actionsList[0].id} {...actionsList[0]} index={0} />
       </div>
-      <div className="w-full max-w-3xl rounded-sm px-5 py-3">
+      <div className="w-full max-w-3xl rounded-sm p-3">
         <Block {...props} styles={styles} />
       </div>
       <ActionButton key={actionsList[1].id} {...actionsList[1]} index={1} />

@@ -44,7 +44,7 @@ export interface TableInterface {
   backgroundColor?: string;
   textColor?: string;
   stripedRow?: {
-    backgorunColor?: string;
+    backgroundColor?: string;
   };
 }
 
@@ -637,6 +637,46 @@ export const blogBuilderSlice = createSlice({
 
       tableData.textColor = textColor;
     },
+
+    addTableStripedRow: (
+      state,
+      action: PayloadAction<{
+        blogId: string;
+        id: string; // component id
+        backgroundColor?: string | null;
+      }>
+    ) => {
+      const { blogId, id, backgroundColor } = action.payload;
+
+      const tableData = state.blogs[blogId].components[id]
+        .children as TableInterface;
+
+      if (backgroundColor && !isValidHexColor(backgroundColor)) return state;
+
+      tableData.stripedRow = {
+        backgroundColor:
+          backgroundColor ||
+          EDITOR_TABLE_SIZE.STRIPED_ROW_DEFAULT_BACKGROUND_COLOR,
+      };
+    },
+
+    clearTableStripedRow: (
+      state,
+      action: PayloadAction<{
+        blogId: string;
+        id: string; // component id
+      }>
+    ) => {
+      const { blogId, id } = action.payload;
+
+      const tableData = state.blogs[blogId].components[id]
+        .children as TableInterface;
+
+      // delete tableData["stripedRow"];
+      tableData.stripedRow = undefined;
+
+      return state;
+    },
   },
 });
 
@@ -659,6 +699,8 @@ export const {
   addTableBorderStyle,
   addTableBackgroundStyle,
   addTableTextStyle,
+  addTableStripedRow,
+  clearTableStripedRow,
 } = blogBuilderSlice.actions;
 
 export default blogBuilderSlice.reducer;
