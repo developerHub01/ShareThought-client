@@ -91,13 +91,13 @@ const Table = ({
   const dispatch = useAppDispatch();
 
   const handleRemoveRowOrColumn = (
-    rowNumber: number,
+    index: number,
     rowOrColumn: "row" | "column"
   ) => {
     const payload = {
       blogId,
       id,
-      index: rowNumber,
+      index,
     };
 
     if (rowOrColumn === "row") return dispatch(removeTableFullRow(payload));
@@ -192,7 +192,7 @@ const Table = ({
                                 <Button
                                   type="button"
                                   onClick={() =>
-                                    handleRemoveRowOrColumn(rowIndex, "column")
+                                    handleRemoveRowOrColumn(colIndex, "column")
                                   }
                                   size={"smIcon"}
                                   className="rounded-r-none"

@@ -314,9 +314,7 @@ export const blogBuilderSlice = createSlice({
 
       if (rowsCount >= EDITOR_TABLE_SIZE.MAX_ROWS) return state;
 
-      (
-        state.blogs[blogId].components[id].children as TableInterface
-      ).tbody.push(Array(columnsCount).fill(""));
+      tableData.tbody.push(Array(columnsCount).fill(""));
     },
 
     removeTableRows: (
@@ -335,9 +333,7 @@ export const blogBuilderSlice = createSlice({
 
       if (rowsCount <= EDITOR_TABLE_SIZE.MIN_ROWS) return state;
 
-      (
-        state.blogs[blogId].components[id].children as TableInterface
-      ).tbody.pop();
+      tableData.tbody.pop();
     },
 
     changeTableRowsCount: (
@@ -364,17 +360,16 @@ export const blogBuilderSlice = createSlice({
 
       if (newColumnsCount > rowsCount) {
         const needExtraRows = newColumnsCount - rowsCount;
-        (
-          state.blogs[blogId].components[id].children as TableInterface
-        ).tbody.push(
+        tableData.tbody.push(
           ...Array(needExtraRows).fill(Array(columnsCount).fill(""))
         );
       } else {
         const needToRemoveRows = rowsCount - newColumnsCount;
 
-        (
-          state.blogs[blogId].components[id].children as TableInterface
-        ).tbody.splice(rowsCount - needToRemoveRows - 1, needToRemoveRows);
+        tableData.tbody.splice(
+          rowsCount - needToRemoveRows - 1,
+          needToRemoveRows
+        );
       }
     },
 
@@ -394,12 +389,8 @@ export const blogBuilderSlice = createSlice({
 
       if (columnsCount >= EDITOR_TABLE_SIZE.MAX_COLUMNS) return state;
 
-      (
-        state.blogs[blogId].components[id].children as TableInterface
-      ).thead.forEach((row) => row.push(`Heading ${columnsCount + 1}`));
-      (
-        state.blogs[blogId].components[id].children as TableInterface
-      ).tbody.forEach((row) => row.push(""));
+      tableData.thead.forEach((row) => row.push(`Heading ${columnsCount + 1}`));
+      tableData.tbody.forEach((row) => row.push(""));
     },
 
     removeTableColumns: (
@@ -418,12 +409,8 @@ export const blogBuilderSlice = createSlice({
 
       if (columnsCount <= EDITOR_TABLE_SIZE.MIN_COLUMNS) return state;
 
-      (
-        state.blogs[blogId].components[id].children as TableInterface
-      ).thead.forEach((row) => row.pop());
-      (
-        state.blogs[blogId].components[id].children as TableInterface
-      ).tbody.forEach((row) => row.pop());
+      tableData.thead.forEach((row) => row.pop());
+      tableData.tbody.forEach((row) => row.pop());
     },
 
     changeTableColumnsCount: (
@@ -450,29 +437,23 @@ export const blogBuilderSlice = createSlice({
       if (newColumnsCount > columnsCount) {
         const needExtraColumns = newColumnsCount - columnsCount;
 
-        (
-          state.blogs[blogId].components[id].children as TableInterface
-        ).thead.forEach((row) =>
+        tableData.thead.forEach((row) =>
           row.push(
             ...Array(needExtraColumns).fill(`Heading ${columnsCount + 1}`)
           )
         );
 
-        (
-          state.blogs[blogId].components[id].children as TableInterface
-        ).tbody.forEach((row) => row.push(...Array(needExtraColumns).fill("")));
+        tableData.tbody.forEach((row) =>
+          row.push(...Array(needExtraColumns).fill(""))
+        );
       } else {
         const needToRemoveColumns = columnsCount - newColumnsCount;
 
-        (
-          state.blogs[blogId].components[id].children as TableInterface
-        ).thead.forEach((row) =>
+        tableData.thead.forEach((row) =>
           row.splice(columnsCount - needToRemoveColumns, needToRemoveColumns)
         );
 
-        (
-          state.blogs[blogId].components[id].children as TableInterface
-        ).tbody.forEach((row) =>
+        tableData.tbody.forEach((row) =>
           row.splice(columnsCount - needToRemoveColumns, needToRemoveColumns)
         );
       }
@@ -488,9 +469,10 @@ export const blogBuilderSlice = createSlice({
     ) => {
       const { blogId, id, index } = action.payload;
 
-      (
-        state.blogs[blogId].components[id].children as TableInterface
-      ).tbody.splice(index, 1);
+      const tableData = state.blogs[blogId].components[id]
+        .children as TableInterface;
+
+      tableData.tbody.splice(index, 1);
     },
 
     removeTableFullColumn: (
@@ -503,20 +485,26 @@ export const blogBuilderSlice = createSlice({
     ) => {
       const { blogId, id, index } = action.payload;
 
+      const tableData = state.blogs[blogId].components[id]
+        .children as TableInterface;
+
       /* if only one column remain then prevent deletion */
       if (
-        (state.blogs[blogId].components[id].children as TableInterface).thead[0]
-          .length === 1
+        tableData.thead[0].length === 1 ||
+        index < 0 ||
+        index >= tableData.thead[0].length
       )
         return state;
 
-      (
-        state.blogs[blogId].components[id].children as TableInterface
-      ).thead.forEach((row) => row.splice(index, 1));
+      tableData.thead.forEach((row) => {
+        row.splice(index, 1);
+        return row;
+      });
 
-      (
-        state.blogs[blogId].components[id].children as TableInterface
-      ).tbody.forEach((row) => row.splice(index, 1));
+      tableData.tbody.forEach((row) => {
+        row.splice(index, 1);
+        return row;
+      });
     },
 
     addRowColumnBeforeAfterOfCurrent: (
@@ -543,18 +531,19 @@ export const blogBuilderSlice = createSlice({
         return state;
 
       const targetIndex = addType === "before" ? index : index + 1;
-      if (type === "row") {
-        (
-          state.blogs[blogId].components[id].children as TableInterface
-        ).tbody.splice(targetIndex, 0, Array(columnsCount).fill(""));
-      } else {
-        (
-          state.blogs[blogId].components[id].children as TableInterface
-        ).thead.map((row) => row.splice(targetIndex, 0, "Heading"));
 
-        (
-          state.blogs[blogId].components[id].children as TableInterface
-        ).tbody.map((row) => row.splice(targetIndex, 0, ""));
+      if (type === "row")
+        tableData.tbody.splice(targetIndex, 0, Array(columnsCount).fill(""));
+      else {
+        tableData.thead.map((row) => {
+          row.splice(targetIndex, 0, "Heading");
+          return row;
+        });
+
+        tableData.tbody.map((row) => {
+          row.splice(targetIndex, 0, "");
+          return row;
+        });
       }
     },
 
