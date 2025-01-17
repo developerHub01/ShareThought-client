@@ -10,7 +10,6 @@ import { updateTitle } from "@/redux/features/builders/blogBuilderSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useParams } from "next/navigation";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import DummyContent from "@/components/DummyContent";
 
 const EditorCanvas = () => {
   const { id: postId } = useParams<{ id: string }>();
@@ -18,7 +17,8 @@ const EditorCanvas = () => {
 
   const blogsData = useAppSelector((state) => state?.blogBuilder?.blogs);
   const blogData = blogsData[postId];
-  const activeBlock = blogData.activeBlock;
+
+  if (!blogData) return null;
 
   const handleTitle = (e: ChangeEvent<HTMLInputElement>) => {
     dispatch(
@@ -49,7 +49,10 @@ const EditorCanvas = () => {
             <section className="py-5 px-1 shadow-xl rounded-sm border flex flex-col">
               {blogData?.content.map((id, index, list) => (
                 <div key={id} className="group">
-                  <BlockComponent {...blogData.components[id]} postId={postId} />
+                  <BlockComponent
+                    {...blogData.components[id]}
+                    postId={postId}
+                  />
                   <AnimatePresence>
                     {index !== list.length - 1 && (
                       <motion.div

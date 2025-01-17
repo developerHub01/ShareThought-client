@@ -29,13 +29,13 @@ const CreateBlogPostPage = () => {
   return (
     <section className="h-full overflow-hidden">
       <>
-        {blogData?.editorOrPreview === "editor" ? (
+        {blogData?.editorOrPreview !== "preview" ? (
           <EditorCanvas />
         ) : (
           <EditorPreview />
         )}
       </>
-      <PreviewButton />
+      {/* <PreviewButton /> */}
     </section>
   );
 };

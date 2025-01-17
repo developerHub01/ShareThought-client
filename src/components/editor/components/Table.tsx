@@ -263,7 +263,9 @@ const Table = ({
             key={rowIndex}
             className="border-b"
             style={{
-              ...(stripedRow?.backgroundColor && !(rowIndex % 2)
+              ...(stripedRow?.backgroundColor &&
+              ((stripedRow.stripedType === "even" && !(rowIndex % 2)) ||
+                (stripedRow.stripedType === "odd" && rowIndex % 2))
                 ? {
                     backgroundColor: stripedRow?.backgroundColor,
                   }

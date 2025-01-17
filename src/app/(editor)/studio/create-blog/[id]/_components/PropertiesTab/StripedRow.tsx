@@ -8,13 +8,23 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import {
   addTableBackgroundStyle,
   addTableStripedRow,
+  changeTableStripedTypeRow,
   clearTableStripedRow,
+  StripedType,
   TableInterface,
 } from "@/redux/features/builders/blogBuilderSlice";
 import { EDITOR_TABLE_SIZE } from "@/constant";
 import { ColorResult } from "react-color";
 import { isValidHexColor } from "@/utils";
 import { Switch } from "@/components/ui/switch";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const StripedRow = () => {
   const { id: blogId } = useParams() as { id: string };
@@ -102,6 +112,16 @@ const StripedRow = () => {
     return dispatch(addTableStripedRow(stripedPayload));
   };
 
+  const handleChangeStripeType = (value: StripedType) => {
+    dispatch(
+      changeTableStripedTypeRow({
+        blogId,
+        id: activeBlock,
+        type: value,
+      })
+    );
+  };
+
   return (
     <PropertyWrapper_v1 className="flex-col">
       <div className="w-full flex justify-between items-center gap-3">
@@ -115,14 +135,31 @@ const StripedRow = () => {
         />
       </div>
       {backgroundState && (
-        <div className="flex items-center gap-1.5 ml-auto">
-          <ColorPicker
-            color={backgroundState}
-            handleColorPicker={handleColorPicker}
-            handleColorChange={handleColorChange}
-            handleColorBlur={handleColorBlur}
-          />
-        </div>
+        <>
+          <div className="w-full flex items-center justify-between gap-1.5">
+            <p className="text-sm">Background Color</p>
+            <ColorPicker
+              color={backgroundState}
+              handleColorPicker={handleColorPicker}
+              handleColorChange={handleColorChange}
+              handleColorBlur={handleColorBlur}
+            />
+          </div>
+          <div className="w-full flex items-center justify-between gap-1.5">
+            <p className="text-sm">Stripe Type</p>
+            <Select defaultValue="even" onValueChange={handleChangeStripeType}>
+              <SelectTrigger className="max-w-28">
+                <SelectValue placeholder="Border style" />
+              </SelectTrigger>
+              <SelectContent align="end">
+                <SelectGroup>
+                  <SelectItem value="even">Even</SelectItem>
+                  <SelectItem value="odd">Odd</SelectItem>
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+          </div>
+        </>
       )}
     </PropertyWrapper_v1>
   );

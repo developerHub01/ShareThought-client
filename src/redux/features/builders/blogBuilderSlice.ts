@@ -19,6 +19,7 @@ type BlockTypes =
 
 type TableTypes = "thead" | "tbody" | "tr" | "th" | "td";
 export type BorderStyleType = "solid" | "dotted" | "dashed";
+export type StripedType = "even" | "odd";
 
 export interface BlockInterface {
   postId?: string;
@@ -33,6 +34,11 @@ export interface BlockInterface {
   children: Array<BlockInterface> | TableInterface;
 }
 
+export interface StripedRowInterface {
+  backgroundColor?: string;
+  stripedType?: StripedType;
+}
+
 export interface TableInterface {
   thead: Array<Array<string>>;
   tbody: Array<Array<string>>;
@@ -43,9 +49,7 @@ export interface TableInterface {
   };
   backgroundColor?: string;
   textColor?: string;
-  stripedRow?: {
-    backgroundColor?: string;
-  };
+  stripedRow?: StripedRowInterface;
 }
 
 export interface BlogBuilderState {
@@ -106,6 +110,11 @@ const tableInitialState: TableInterface = {
   },
   backgroundColor: EDITOR_TABLE_SIZE.DEFAULT_BACKGROUND_COLOR,
   textColor: EDITOR_TABLE_SIZE.DEFAULT_TEXT_COLOR,
+};
+
+const tableStripedInitialState: StripedRowInterface = {
+  backgroundColor: EDITOR_TABLE_SIZE.STRIPED_ROW_DEFAULT_BACKGROUND_COLOR,
+  stripedType: "even",
 };
 
 const initialState: BlogBuilderState = {
@@ -653,11 +662,35 @@ export const blogBuilderSlice = createSlice({
 
       if (backgroundColor && !isValidHexColor(backgroundColor)) return state;
 
-      tableData.stripedRow = {
-        backgroundColor:
-          backgroundColor ||
-          EDITOR_TABLE_SIZE.STRIPED_ROW_DEFAULT_BACKGROUND_COLOR,
-      };
+      if (!tableData.stripedRow)
+        tableData.stripedRow = {
+          ...tableStripedInitialState,
+        };
+
+      tableData.stripedRow.backgroundColor =
+        backgroundColor ||
+        EDITOR_TABLE_SIZE.STRIPED_ROW_DEFAULT_BACKGROUND_COLOR;
+    },
+
+    changeTableStripedTypeRow: (
+      state,
+      action: PayloadAction<{
+        blogId: string;
+        id: string; // component id
+        type?: StripedType;
+      }>
+    ) => {
+      const { blogId, id, type: stripedType } = action.payload;
+
+      const tableData = state.blogs[blogId].components[id]
+        .children as TableInterface;
+
+      if (!tableData.stripedRow)
+        tableData.stripedRow = {
+          ...tableStripedInitialState,
+        };
+
+      tableData.stripedRow.stripedType = stripedType || "even";
     },
 
     clearTableStripedRow: (
@@ -672,7 +705,6 @@ export const blogBuilderSlice = createSlice({
       const tableData = state.blogs[blogId].components[id]
         .children as TableInterface;
 
-      // delete tableData["stripedRow"];
       tableData.stripedRow = undefined;
 
       return state;
@@ -700,6 +732,7 @@ export const {
   addTableBackgroundStyle,
   addTableTextStyle,
   addTableStripedRow,
+  changeTableStripedTypeRow,
   clearTableStripedRow,
 } = blogBuilderSlice.actions;
 

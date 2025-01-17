@@ -1,6 +1,6 @@
 "use client";
 
-import React, { ChangeEvent, FocusEvent, useState } from "react";
+import React, { ChangeEvent, FocusEvent } from "react";
 import {
   Popover,
   PopoverContent,
@@ -32,7 +32,12 @@ const ColorPicker = ({
             }}
           ></button>
         </PopoverTrigger>
-        <PopoverContent>
+        <PopoverContent
+          className="w-fit p-0"
+          side="top"
+          align="end"
+          sideOffset={5}
+        >
           <SketchPicker color={color} onChangeComplete={handleColorPicker} />
         </PopoverContent>
       </Popover>

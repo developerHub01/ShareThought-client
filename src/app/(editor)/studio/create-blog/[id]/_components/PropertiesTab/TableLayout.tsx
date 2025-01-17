@@ -14,6 +14,9 @@ const TableLayout = () => {
       <BackgroundColor />
       <TextColor />
       <StripedRow />
+      <StripedRow />
+      <StripedRow />
+      <StripedRow />
     </div>
   );
 };
