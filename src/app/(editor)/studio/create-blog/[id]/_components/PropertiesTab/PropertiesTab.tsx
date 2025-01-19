@@ -6,10 +6,10 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import TableLayout from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Table/TableLayout";
+import TableLayout from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Table/Layout/TableLayout";
 import { useAppSelector } from "@/redux/hooks";
 import { useParams } from "next/navigation";
-import TableHeader from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Table/TableHeader";
+import TableHeader from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Table/Header/TableHeader";
 
 const PropertiesTab = () => {
   const { id: blogId } = useParams();
