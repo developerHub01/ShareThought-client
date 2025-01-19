@@ -17,6 +17,7 @@ import {
 import { EDITOR_TABLE_SIZE } from "@/constant";
 import {
   addRowColumnBeforeAfterOfCurrent,
+  AlignType,
   removeTableFullColumn,
   removeTableFullRow,
 } from "@/redux/features/builders/blogBuilderSlice";
@@ -173,6 +174,8 @@ const Table = ({
       }px`,
       fontWeight:
         header?.fontWeight || EDITOR_TABLE_SIZE.DEFAULT_HEADER_FONT_WEIGHT,
+      textAlign: (header?.align ||
+        EDITOR_TABLE_SIZE.DEFAULT_HEADER_ALIGN) as AlignType,
     }),
     [header]
   );

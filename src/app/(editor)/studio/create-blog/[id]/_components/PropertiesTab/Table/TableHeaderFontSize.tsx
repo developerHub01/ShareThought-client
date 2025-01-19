@@ -1,13 +1,10 @@
 "use client";
 
-import React, { ChangeEvent, useEffect, useState } from "react";
+import React, { ChangeEvent } from "react";
 import CountBlock from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/CountBlock";
 import { EDITOR_TABLE_SIZE } from "@/constant";
 import {
-  addTableColumns,
-  changeTableColumnsCount,
   changeTableHeaderStyle,
-  removeTableColumns,
   TableInterface,
 } from "@/redux/features/builders/blogBuilderSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";

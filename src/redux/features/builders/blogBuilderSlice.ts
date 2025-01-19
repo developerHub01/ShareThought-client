@@ -112,7 +112,7 @@ const tableHeaderInitialState: TableHeaderInterface = {
   textColor: EDITOR_TABLE_SIZE.DEFAULT_HEADER_TEXT_COLOR,
   fontSize: EDITOR_TABLE_SIZE.DEFAULT_HEADER_FONT_SIZE,
   fontWeight: EDITOR_TABLE_SIZE.DEFAULT_HEADER_FONT_WEIGHT as FontWeightType,
-  align: "left",
+  align: EDITOR_TABLE_SIZE.DEFAULT_HEADER_ALIGN as AlignType,
 };
 
 const tableInitialState: TableInterface = {

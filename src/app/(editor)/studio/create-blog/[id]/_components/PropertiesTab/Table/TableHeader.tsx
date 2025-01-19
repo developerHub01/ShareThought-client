@@ -3,6 +3,7 @@ import TableHeaderBackground from "@/app/(editor)/studio/create-blog/[id]/_compo
 import TableHeaderTextColor from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Table/TableHeaderTextColor";
 import TableHeaderFontSize from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Table/TableHeaderFontSize";
 import TableHeaderFontWeight from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Table/TableHeaderFontWeight";
+import TableHeaderTextAlign from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Table/TableHeaderTextAlign";
 
 const TableHeader = () => {
   return (
@@ -11,6 +12,7 @@ const TableHeader = () => {
       <TableHeaderTextColor />
       <TableHeaderFontSize />
       <TableHeaderFontWeight />
+      <TableHeaderTextAlign />
     </div>
   );
 };

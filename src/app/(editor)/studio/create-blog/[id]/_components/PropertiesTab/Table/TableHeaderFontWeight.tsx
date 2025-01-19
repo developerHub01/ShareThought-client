@@ -39,8 +39,6 @@ const TableHeaderFontWeight = () => {
   const tableHeader = tableData.header;
 
   const handleChangeFontWeight = (value: string) => {
-    console.log({ value });
-
     dispatch(
       changeTableHeaderStyle({
         blogId,
