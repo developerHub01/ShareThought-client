@@ -1,7 +1,6 @@
 "use client";
 
 import React, { ChangeEvent, useEffect, useState } from "react";
-import ValueCounter from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/ValueCounter";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useParams } from "next/navigation";
 import {
@@ -11,7 +10,7 @@ import {
   TableInterface,
 } from "@/redux/features/builders/blogBuilderSlice";
 import { EDITOR_TABLE_SIZE } from "@/constant";
-import PropertyWrapper_v1 from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/PropertyWrapper_v1";
+import CountBlock from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/CountBlock";
 
 const ColumnCounter = () => {
   const dispatch = useAppDispatch();
@@ -85,19 +84,15 @@ const ColumnCounter = () => {
   };
 
   return (
-    <PropertyWrapper_v1>
-      <p className="text-sm">Columns</p>
-      <div className="flex">
-        <ValueCounter
-          min={EDITOR_TABLE_SIZE.MIN_COLUMNS}
-          max={EDITOR_TABLE_SIZE.MAX_COLUMNS}
-          value={columnsCount}
-          handleIncrement={handleColumnIncrement}
-          handleDecrement={handleColumnDecrement}
-          handleChange={handleColumnChange}
-        />
-      </div>
-    </PropertyWrapper_v1>
+    <CountBlock
+      title="Columns"
+      value={columnsCount}
+      handleIncrement={handleColumnIncrement}
+      handleDecrement={handleColumnDecrement}
+      handleChange={handleColumnChange}
+      min={EDITOR_TABLE_SIZE.MIN_COLUMNS}
+      max={EDITOR_TABLE_SIZE.MAX_COLUMNS}
+    />
   );
 };
 

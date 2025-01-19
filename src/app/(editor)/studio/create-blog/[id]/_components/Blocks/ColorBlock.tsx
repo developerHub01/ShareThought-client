@@ -5,7 +5,7 @@ import ColorPicker from "@/app/(editor)/studio/create-blog/[id]/_components/Prop
 import PropertyWrapper_v1 from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/PropertyWrapper_v1";
 import { ColorResult } from "react-color";
 
-interface BackgroundColorProps {
+interface ColorBlockProps {
   title: string;
   colorState: string;
   handleColorPicker: (color: ColorResult, e: ChangeEvent) => void;
@@ -13,13 +13,13 @@ interface BackgroundColorProps {
   handleColorBlur: (e: FocusEvent<HTMLInputElement>) => void;
 }
 
-const BackgroundColor = ({
+const ColorBlock = ({
   title,
   colorState,
   handleColorPicker,
   handleColorChange,
   handleColorBlur,
-}: BackgroundColorProps) => {
+}: ColorBlockProps) => {
   return (
     <PropertyWrapper_v1>
       <p className="text-sm">{title}</p>
@@ -35,4 +35,4 @@ const BackgroundColor = ({
   );
 };
 
-export default BackgroundColor;
+export default ColorBlock;

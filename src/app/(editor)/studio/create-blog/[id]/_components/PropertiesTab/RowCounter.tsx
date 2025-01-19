@@ -1,7 +1,6 @@
 "use client";
 
 import React, { ChangeEvent, useEffect, useState } from "react";
-import ValueCounter from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/ValueCounter";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useParams } from "next/navigation";
 import {
@@ -11,7 +10,7 @@ import {
   TableInterface,
 } from "@/redux/features/builders/blogBuilderSlice";
 import { EDITOR_TABLE_SIZE } from "@/constant";
-import PropertyWrapper_v1 from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/PropertyWrapper_v1";
+import CountBlock from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/CountBlock";
 
 const RowCounter = () => {
   const dispatch = useAppDispatch();
@@ -83,18 +82,14 @@ const RowCounter = () => {
   };
 
   return (
-    <PropertyWrapper_v1>
-      <p className="text-sm">Rows</p>
-      <div className="flex">
-        <ValueCounter
-          min={0}
-          value={tableRowsCount}
-          handleIncrement={handleRowsIncrement}
-          handleDecrement={handleRowsDecrement}
-          handleChange={handleRowsChange}
-        />
-      </div>
-    </PropertyWrapper_v1>
+    <CountBlock
+      title="Rows"
+      value={tableRowsCount}
+      handleIncrement={handleRowsIncrement}
+      handleDecrement={handleRowsDecrement}
+      handleChange={handleRowsChange}
+      min={0}
+    />
   );
 };
 

@@ -10,7 +10,7 @@ import {
 } from "@/redux/features/builders/blogBuilderSlice";
 import { useParams } from "next/navigation";
 import { EDITOR_TABLE_SIZE } from "@/constant";
-import BackgroundColor from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/BackgroundColor";
+import ColorBlock from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/ColorBlock";
 
 const TableBackground = () => {
   const { id: blogId } = useParams() as { id: string };
@@ -97,7 +97,7 @@ const TableBackground = () => {
   };
 
   return (
-    <BackgroundColor
+    <ColorBlock
       title="Background Color"
       colorState={backgroundState}
       handleColorPicker={handleColorPicker}

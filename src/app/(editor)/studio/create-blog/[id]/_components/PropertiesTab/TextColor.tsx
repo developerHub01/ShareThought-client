@@ -13,6 +13,7 @@ import {
 } from "@/redux/features/builders/blogBuilderSlice";
 import { useParams } from "next/navigation";
 import { EDITOR_TABLE_SIZE } from "@/constant";
+import ColorBlock from "../Blocks/ColorBlock";
 
 const TextColor = () => {
   const { id: blogId } = useParams() as { id: string };
@@ -98,17 +99,13 @@ const TextColor = () => {
   };
 
   return (
-    <PropertyWrapper_v1>
-      <p className="text-sm">Text Color</p>
-      <div className="flex items-center gap-1.5 ml-auto">
-        <ColorPicker
-          color={textColorState}
-          handleColorPicker={handleColorPicker}
-          handleColorChange={handleColorChange}
-          handleColorBlur={handleColorBlur}
-        />
-      </div>
-    </PropertyWrapper_v1>
+    <ColorBlock
+      title="Text Color"
+      colorState={textColorState}
+      handleColorPicker={handleColorPicker}
+      handleColorChange={handleColorChange}
+      handleColorBlur={handleColorBlur}
+    />
   );
 };
 
