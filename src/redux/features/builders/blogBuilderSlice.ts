@@ -20,6 +20,8 @@ type BlockTypes =
 type TableTypes = "thead" | "tbody" | "tr" | "th" | "td";
 export type BorderStyleType = "solid" | "dotted" | "dashed";
 export type StripedType = "even" | "odd";
+export type AlignType = "left" | "center" | "right" | "justify";
+export type FontWeightType = "bold" | "regular";
 
 export interface BlockInterface {
   postId?: string;
@@ -39,6 +41,14 @@ export interface StripedRowInterface {
   stripedType?: StripedType;
 }
 
+export interface TableHeaderInterface {
+  backgroundColor?: string;
+  textColor?: string;
+  fontSize?: number;
+  fontWeight?: FontWeightType;
+  align?: AlignType;
+}
+
 export interface TableInterface {
   thead: Array<Array<string>>;
   tbody: Array<Array<string>>;
@@ -50,6 +60,7 @@ export interface TableInterface {
   backgroundColor?: string;
   textColor?: string;
   stripedRow?: StripedRowInterface;
+  header?: TableHeaderInterface;
 }
 
 export interface BlogBuilderState {
@@ -96,6 +107,14 @@ const blogInitialState = {
   components: {},
 };
 
+const tableHeaderInitialState: TableHeaderInterface = {
+  backgroundColor: EDITOR_TABLE_SIZE.DEFAULT_HEADER_BACKGROUND_COLOR,
+  textColor: EDITOR_TABLE_SIZE.DEFAULT_HEADER_TEXT_COLOR,
+  fontSize: 16,
+  fontWeight: "regular",
+  align: "left",
+};
+
 const tableInitialState: TableInterface = {
   thead: [["Heading 1", "Heading 2"]],
   tbody: [
@@ -110,6 +129,9 @@ const tableInitialState: TableInterface = {
   },
   backgroundColor: EDITOR_TABLE_SIZE.DEFAULT_BACKGROUND_COLOR,
   textColor: EDITOR_TABLE_SIZE.DEFAULT_TEXT_COLOR,
+  header: {
+    ...tableHeaderInitialState,
+  },
 };
 
 const tableStripedInitialState: StripedRowInterface = {
@@ -122,9 +144,7 @@ const initialState: BlogBuilderState = {
 };
 
 const ensureBlogExists = (state: BlogBuilderState, id: string) => {
-  if (!state.blogs[id]) {
-    state.blogs[id] = { ...blogInitialState };
-  }
+  if (!state.blogs[id]) state.blogs[id] = { ...blogInitialState };
 };
 
 export const blogBuilderSlice = createSlice({
@@ -698,6 +718,53 @@ export const blogBuilderSlice = createSlice({
 
       return state;
     },
+
+    /* table header */
+    changeTableHeaderStyle: (
+      state,
+      action: PayloadAction<{
+        blogId: string;
+        id: string; // component id
+        backgroundColor?: string;
+        textColor?: string;
+        fontSize?: number;
+        fontWeight?: FontWeightType;
+        align?: AlignType;
+      }>
+    ) => {
+      const {
+        blogId,
+        id,
+        backgroundColor,
+        textColor,
+        fontSize,
+        fontWeight,
+        align,
+      } = action.payload;
+
+      const tableData = state.blogs[blogId].components[id]
+        .children as TableInterface;
+
+      if (!backgroundColor && !textColor && !fontSize && !fontWeight && !align)
+        return state;
+
+      if (
+        (backgroundColor && !isValidHexColor(backgroundColor)) ||
+        (textColor && !isValidHexColor(textColor))
+      )
+        return state;
+
+      if (!tableData.header)
+        tableData.header = {
+          ...tableHeaderInitialState,
+        };
+
+      if (backgroundColor) tableData.header.backgroundColor = backgroundColor;
+      if (textColor) tableData.header.textColor = textColor;
+      if (fontSize) tableData.header.fontSize = fontSize;
+      if (fontWeight) tableData.header.fontWeight = fontWeight;
+      if (align) tableData.header.align = align;
+    },
   },
 });
 
@@ -723,6 +790,7 @@ export const {
   addTableStripedRow,
   changeTableStripedTypeRow,
   clearTableStripedRow,
+  changeTableHeaderStyle,
 } = blogBuilderSlice.actions;
 
 export default blogBuilderSlice.reducer;
