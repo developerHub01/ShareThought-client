@@ -171,6 +171,8 @@ const Table = ({
       fontSize: `${
         header?.fontSize || EDITOR_TABLE_SIZE.DEFAULT_HEADER_FONT_SIZE
       }px`,
+      fontWeight:
+        header?.fontWeight || EDITOR_TABLE_SIZE.DEFAULT_HEADER_FONT_WEIGHT,
     }),
     [header]
   );
@@ -186,7 +188,7 @@ const Table = ({
     >
       {thead && (
         <thead
-          className="text-xs text-gray-700 uppercase dark:text-gray-400"
+          className="text-xs text-gray-700 uppercase dark:text-gray-400 font-normal"
           style={{
             ...tableHeaderStyle,
           }}
@@ -199,6 +201,9 @@ const Table = ({
                   className="relative"
                   style={{
                     ...borderStyle,
+                    fontWeight:
+                      header?.fontWeight ||
+                      EDITOR_TABLE_SIZE.DEFAULT_HEADER_FONT_WEIGHT,
                   }}
                   onMouseEnter={() => handleMouseEnter("column", colIndex)}
                   onMouseLeave={() => handleMouseLeave("column")}

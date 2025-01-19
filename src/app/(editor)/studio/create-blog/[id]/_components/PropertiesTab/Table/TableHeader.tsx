@@ -2,6 +2,7 @@ import React from "react";
 import TableHeaderBackground from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Table/TableHeaderBackground";
 import TableHeaderTextColor from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Table/TableHeaderTextColor";
 import TableHeaderFontSize from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Table/TableHeaderFontSize";
+import TableHeaderFontWeight from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Table/TableHeaderFontWeight";
 
 const TableHeader = () => {
   return (
@@ -9,6 +10,7 @@ const TableHeader = () => {
       <TableHeaderBackground />
       <TableHeaderTextColor />
       <TableHeaderFontSize />
+      <TableHeaderFontWeight />
     </div>
   );
 };

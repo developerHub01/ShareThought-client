@@ -1,16 +1,7 @@
 "use client";
 
-import React, { ChangeEvent, useEffect, useState } from "react";
+import React, { ChangeEvent } from "react";
 import ValueCounter from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/ValueCounter";
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { useParams } from "next/navigation";
-import {
-  addTableRows,
-  changeTableRowsCount,
-  removeTableRows,
-  TableInterface,
-} from "@/redux/features/builders/blogBuilderSlice";
-import { EDITOR_TABLE_SIZE } from "@/constant";
 import PropertyWrapper_v1 from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/PropertyWrapper_v1";
 
 interface CountBlockProps {

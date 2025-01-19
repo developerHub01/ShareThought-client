@@ -21,7 +21,7 @@ type TableTypes = "thead" | "tbody" | "tr" | "th" | "td";
 export type BorderStyleType = "solid" | "dotted" | "dashed";
 export type StripedType = "even" | "odd";
 export type AlignType = "left" | "center" | "right" | "justify";
-export type FontWeightType = "bold" | "regular";
+export type FontWeightType = "bold" | "normal";
 
 export interface BlockInterface {
   postId?: string;
@@ -111,7 +111,7 @@ const tableHeaderInitialState: TableHeaderInterface = {
   backgroundColor: EDITOR_TABLE_SIZE.DEFAULT_HEADER_BACKGROUND_COLOR,
   textColor: EDITOR_TABLE_SIZE.DEFAULT_HEADER_TEXT_COLOR,
   fontSize: EDITOR_TABLE_SIZE.DEFAULT_HEADER_FONT_SIZE,
-  fontWeight: "regular",
+  fontWeight: EDITOR_TABLE_SIZE.DEFAULT_HEADER_FONT_WEIGHT as FontWeightType,
   align: "left",
 };
 
