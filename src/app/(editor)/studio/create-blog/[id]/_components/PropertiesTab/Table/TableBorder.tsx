@@ -23,7 +23,7 @@ import {
 } from "@/redux/features/builders/blogBuilderSlice";
 import { EDITOR_TABLE_SIZE } from "@/constant";
 
-const Border = () => {
+const TableBorder = () => {
   const dispatch = useAppDispatch();
   const { id: blogId } = useParams() as { id: string };
 
@@ -232,4 +232,4 @@ const Border = () => {
   );
 };
 
-export default Border;
+export default TableBorder;

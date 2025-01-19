@@ -12,7 +12,7 @@ import {
 import { EDITOR_TABLE_SIZE } from "@/constant";
 import CountBlock from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/CountBlock";
 
-const RowCounter = () => {
+const TableRowCounter = () => {
   const dispatch = useAppDispatch();
   const { id: blogId } = useParams() as { id: string };
 
@@ -93,4 +93,4 @@ const RowCounter = () => {
   );
 };
 
-export default RowCounter;
+export default TableRowCounter;

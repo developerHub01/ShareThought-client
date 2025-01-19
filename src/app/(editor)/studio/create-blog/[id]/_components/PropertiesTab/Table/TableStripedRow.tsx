@@ -26,7 +26,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-const StripedRow = () => {
+const TableStripedRow = () => {
   const { id: blogId } = useParams() as { id: string };
 
   if (!blogId) return null;
@@ -165,4 +165,4 @@ const StripedRow = () => {
   );
 };
 
-export default StripedRow;
+export default TableStripedRow;

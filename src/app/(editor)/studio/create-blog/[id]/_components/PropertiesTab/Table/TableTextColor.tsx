@@ -1,21 +1,19 @@
 "use client";
 
 import React, { ChangeEvent, FocusEvent, useEffect, useState } from "react";
-import ColorPicker from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/ColorPicker";
-import PropertyWrapper_v1 from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/PropertyWrapper_v1";
+
 import { ColorResult } from "react-color";
 import { isValidHexColor } from "@/utils";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import {
-  addTableBackgroundStyle,
   addTableTextStyle,
   TableInterface,
 } from "@/redux/features/builders/blogBuilderSlice";
 import { useParams } from "next/navigation";
 import { EDITOR_TABLE_SIZE } from "@/constant";
-import ColorBlock from "../Blocks/ColorBlock";
+import ColorBlock from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/ColorBlock";
 
-const TextColor = () => {
+const TableTextColor = () => {
   const { id: blogId } = useParams() as { id: string };
 
   if (!blogId) return null;
@@ -109,4 +107,4 @@ const TextColor = () => {
   );
 };
 
-export default TextColor;
+export default TableTextColor;
