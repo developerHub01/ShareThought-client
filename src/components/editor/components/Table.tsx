@@ -168,6 +168,9 @@ const Table = ({
         header?.backgroundColor ||
         EDITOR_TABLE_SIZE.DEFAULT_HEADER_BACKGROUND_COLOR,
       color: header?.textColor || EDITOR_TABLE_SIZE.DEFAULT_HEADER_TEXT_COLOR,
+      fontSize: `${
+        header?.fontSize || EDITOR_TABLE_SIZE.DEFAULT_HEADER_FONT_SIZE
+      }px`,
     }),
     [header]
   );

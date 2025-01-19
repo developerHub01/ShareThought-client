@@ -110,7 +110,7 @@ const blogInitialState = {
 const tableHeaderInitialState: TableHeaderInterface = {
   backgroundColor: EDITOR_TABLE_SIZE.DEFAULT_HEADER_BACKGROUND_COLOR,
   textColor: EDITOR_TABLE_SIZE.DEFAULT_HEADER_TEXT_COLOR,
-  fontSize: 16,
+  fontSize: EDITOR_TABLE_SIZE.DEFAULT_HEADER_FONT_SIZE,
   fontWeight: "regular",
   align: "left",
 };
@@ -727,7 +727,7 @@ export const blogBuilderSlice = createSlice({
         id: string; // component id
         backgroundColor?: string;
         textColor?: string;
-        fontSize?: number;
+        fontSize?: number | "inc" | "dec";
         fontWeight?: FontWeightType;
         align?: AlignType;
       }>
@@ -745,25 +745,39 @@ export const blogBuilderSlice = createSlice({
       const tableData = state.blogs[blogId].components[id]
         .children as TableInterface;
 
+      // Ensure header exists
+      if (!tableData.header) tableData.header = { ...tableHeaderInitialState };
+
+      const header = tableData.header as Required<TableHeaderInterface>;
+
+      // Validation: Return early if no valid updates are provided
+      const isInvalidFontSize =
+        (fontSize === "inc" &&
+          header.fontSize >= EDITOR_TABLE_SIZE.MAX_HEADER_FONT_SIZE) ||
+        (fontSize === "dec" &&
+          header.fontSize <= EDITOR_TABLE_SIZE.MIN_HEADER_FONT_SIZE) ||
+        (typeof fontSize === "number" &&
+          (fontSize < EDITOR_TABLE_SIZE.MIN_HEADER_FONT_SIZE ||
+            fontSize > EDITOR_TABLE_SIZE.MAX_HEADER_FONT_SIZE));
+
+      const isInvalidColors =
+        (backgroundColor && !isValidHexColor(backgroundColor)) ||
+        (textColor && !isValidHexColor(textColor));
+
       if (!backgroundColor && !textColor && !fontSize && !fontWeight && !align)
         return state;
+      if (isInvalidFontSize || isInvalidColors) return state;
 
-      if (
-        (backgroundColor && !isValidHexColor(backgroundColor)) ||
-        (textColor && !isValidHexColor(textColor))
-      )
-        return state;
-
-      if (!tableData.header)
-        tableData.header = {
-          ...tableHeaderInitialState,
-        };
-
-      if (backgroundColor) tableData.header.backgroundColor = backgroundColor;
+      // Update header properties
+      if (backgroundColor) header.backgroundColor = backgroundColor;
       if (textColor) tableData.header.textColor = textColor;
-      if (fontSize) tableData.header.fontSize = fontSize;
-      if (fontWeight) tableData.header.fontWeight = fontWeight;
-      if (align) tableData.header.align = align;
+
+      if (fontSize === "inc") header.fontSize += 1;
+      else if (fontSize === "dec") header.fontSize -= 1;
+      else if (typeof fontSize === "number") header.fontSize = fontSize;
+
+      if (fontWeight) header.fontWeight = fontWeight;
+      if (align) header.align = align;
     },
   },
 });
