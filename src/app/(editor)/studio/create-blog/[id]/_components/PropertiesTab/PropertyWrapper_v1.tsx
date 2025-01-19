@@ -12,7 +12,7 @@ const PropertyWrapper_v1 = ({
   return (
     <div
       className={clsx(
-        "flex justify-between items-center px-3 py-1.5 border-b flex-wrap select-none gap-3",
+        "flex justify-between items-center p-3 border-b flex-wrap select-none gap-3",
         className
       )}
     >
