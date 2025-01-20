@@ -170,6 +170,8 @@ const Table = ({
       letterSpacing:
         content?.letterSpacing ||
         EDITOR_TABLE_SIZE.DEFAULT_CONTENT_LETTER_SPACING,
+      lineHeight:
+        content?.lineHeight || EDITOR_TABLE_SIZE.DEFAULT_CONTENT_LINE_HEIGHT,
     }),
     [header, content]
   );
