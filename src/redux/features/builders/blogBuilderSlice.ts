@@ -853,6 +853,18 @@ export const blogBuilderSlice = createSlice({
           (fontSize < EDITOR_TABLE_SIZE.MIN_CONTENT_FONT_SIZE ||
             fontSize > EDITOR_TABLE_SIZE.MAX_CONTENT_FONT_SIZE));
 
+      // Validation: Return early if no valid updates are provided
+      const isInvalidLetterSpacing =
+        (letterSpacing === "inc" &&
+          content.letterSpacing >=
+            EDITOR_TABLE_SIZE.MAX_CONTENT_LETTER_SPACING) ||
+        (letterSpacing === "dec" &&
+          content.letterSpacing <=
+            EDITOR_TABLE_SIZE.MIN_CONTENT_LETTER_SPACING) ||
+        (typeof letterSpacing === "number" &&
+          (letterSpacing < EDITOR_TABLE_SIZE.MIN_CONTENT_LETTER_SPACING ||
+            letterSpacing > EDITOR_TABLE_SIZE.MAX_CONTENT_LETTER_SPACING));
+
       const isInvalidColors = textColor && !isValidHexColor(textColor);
 
       if (
@@ -862,10 +874,12 @@ export const blogBuilderSlice = createSlice({
         !align &&
         !textDirection &&
         !lineHeight &&
-        typeof letterSpacing !== "number"
+        !letterSpacing
       )
         return state;
-      if (isInvalidFontSize || isInvalidColors) return state;
+
+      if (isInvalidFontSize || isInvalidLetterSpacing || isInvalidColors)
+        return state;
 
       // Update content properties
       if (textColor) tableData.content.textColor = textColor;

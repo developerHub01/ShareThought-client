@@ -13,7 +13,7 @@ interface TextAlignBlockProps {
     label: string;
     Icon: LucideIcon;
   }>;
-  activeAlign: AlignType;
+  activeAlign: string;
   handleChange: (value: string) => void;
 }
 

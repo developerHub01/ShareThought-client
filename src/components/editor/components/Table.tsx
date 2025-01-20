@@ -20,6 +20,7 @@ import {
   AlignType,
   removeTableFullColumn,
   removeTableFullRow,
+  TextDirectionType,
 } from "@/redux/features/builders/blogBuilderSlice";
 import { useAppDispatch } from "@/redux/hooks";
 import clsx from "clsx";
@@ -164,6 +165,15 @@ const Table = ({
     [border]
   );
 
+  const tableStyle = useMemo(
+    () => ({
+      letterSpacing:
+        content?.letterSpacing ||
+        EDITOR_TABLE_SIZE.DEFAULT_CONTENT_LETTER_SPACING,
+    }),
+    [header, content]
+  );
+
   const tableHeaderStyle = useMemo(
     () => ({
       backgroundColor:
@@ -180,6 +190,7 @@ const Table = ({
     }),
     [header]
   );
+
   const tableContentStyle = useMemo(
     () => ({
       color: content?.textColor || EDITOR_TABLE_SIZE.DEFAULT_CONTENT_TEXT_COLOR,
@@ -190,6 +201,8 @@ const Table = ({
         content?.fontWeight || EDITOR_TABLE_SIZE.DEFAULT_CONTENT_FONT_WEIGHT,
       textAlign: (content?.align ||
         EDITOR_TABLE_SIZE.DEFAULT_ALIGN) as AlignType,
+      direction: (content?.textDirection ||
+        EDITOR_TABLE_SIZE.DEFAULT_CONTENT_TEXT_DIRECTION) as TextDirectionType,
     }),
     [content]
   );
@@ -199,6 +212,7 @@ const Table = ({
       className="border-collapse w-full text-sm text-left text-gray-500 dark:text-gray-400"
       style={{
         ...borderStyle,
+        ...tableStyle,
         backgroundColor: tableBackgroundColor,
         color: tableTextColor,
       }}
