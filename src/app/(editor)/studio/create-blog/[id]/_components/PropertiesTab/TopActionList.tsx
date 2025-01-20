@@ -14,7 +14,7 @@ import {
   X as ClearIcon,
 } from "lucide-react";
 import clsx from "clsx";
-import { useAppDispatch } from "@/redux/hooks";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { changeActiveBlock } from "@/redux/features/builders/blogBuilderSlice";
 import { useParams } from "next/navigation";
 
@@ -24,6 +24,9 @@ const TopActionList = () => {
   }>();
 
   const dispatch = useAppDispatch();
+  const { activeBlock } = useAppSelector(
+    (state) => state.blogBuilder.blogs[blogId]
+  );
 
   const clearActiveComponent = () => {
     dispatch(changeActiveBlock({ blogId }));
@@ -52,6 +55,8 @@ const TopActionList = () => {
     ],
     [blogId]
   );
+
+  if (!activeBlock) return null;
 
   return (
     <div className="flex items-center justify-between gap-2">
