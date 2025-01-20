@@ -22,6 +22,8 @@ export type BorderStyleType = "solid" | "dotted" | "dashed";
 export type StripedType = "even" | "odd";
 export type AlignType = "left" | "center" | "right" | "justify";
 export type FontWeightType = "bold" | "normal";
+export type LineHeightType = 1.2 | 1.5 | 1.8 | 2.0;
+export type TextDirectionType = "ltr" | "rtl";
 
 export interface BlockInterface {
   postId?: string;
@@ -49,6 +51,16 @@ export interface TableHeaderInterface {
   align?: AlignType;
 }
 
+export interface TableContentInterface {
+  textColor?: string;
+  fontSize?: number;
+  fontWeight?: FontWeightType;
+  letterSpacing?: number;
+  lineHeight?: LineHeightType;
+  align?: AlignType;
+  textDirection?: TextDirectionType;
+}
+
 export interface TableInterface {
   thead: Array<Array<string>>;
   tbody: Array<Array<string>>;
@@ -61,6 +73,7 @@ export interface TableInterface {
   textColor?: string;
   stripedRow?: StripedRowInterface;
   header?: TableHeaderInterface;
+  content?: TableContentInterface;
 }
 
 export interface BlogBuilderState {
@@ -112,7 +125,18 @@ const tableHeaderInitialState: TableHeaderInterface = {
   textColor: EDITOR_TABLE_SIZE.DEFAULT_HEADER_TEXT_COLOR,
   fontSize: EDITOR_TABLE_SIZE.DEFAULT_HEADER_FONT_SIZE,
   fontWeight: EDITOR_TABLE_SIZE.DEFAULT_HEADER_FONT_WEIGHT as FontWeightType,
-  align: EDITOR_TABLE_SIZE.DEFAULT_HEADER_ALIGN as AlignType,
+  align: EDITOR_TABLE_SIZE.DEFAULT_ALIGN as AlignType,
+};
+
+const tableContentInitialState: TableContentInterface = {
+  textColor: EDITOR_TABLE_SIZE.DEFAULT_CONTENT_TEXT_COLOR,
+  fontSize: EDITOR_TABLE_SIZE.DEFAULT_CONTENT_FONT_SIZE,
+  fontWeight: EDITOR_TABLE_SIZE.DEFAULT_CONTENT_FONT_WEIGHT as FontWeightType,
+  letterSpacing: EDITOR_TABLE_SIZE.DEFAULT_CONTENT_LETTER_SPACING,
+  lineHeight: EDITOR_TABLE_SIZE.DEFAULT_CONTENT_LINE_HEIGHT as LineHeightType,
+  align: EDITOR_TABLE_SIZE.DEFAULT_ALIGN as AlignType,
+  textDirection:
+    EDITOR_TABLE_SIZE.DEFAULT_CONTENT_TEXT_DIRECTION as TextDirectionType,
 };
 
 const tableInitialState: TableInterface = {
@@ -131,6 +155,9 @@ const tableInitialState: TableInterface = {
   textColor: EDITOR_TABLE_SIZE.DEFAULT_TEXT_COLOR,
   header: {
     ...tableHeaderInitialState,
+  },
+  content: {
+    ...tableContentInitialState,
   },
 };
 
@@ -779,6 +806,85 @@ export const blogBuilderSlice = createSlice({
       if (fontWeight) header.fontWeight = fontWeight;
       if (align) header.align = align;
     },
+
+    /* table content */
+    changeTableContentStyle: (
+      state,
+      action: PayloadAction<{
+        blogId: string;
+        id: string; // component id
+        textColor?: string;
+        fontSize?: number | "inc" | "dec";
+        fontWeight?: FontWeightType;
+        align?: AlignType;
+        letterSpacing?: number | "inc" | "dec";
+        lineHeight?: LineHeightType;
+        textDirection?: TextDirectionType;
+      }>
+    ) => {
+      const {
+        blogId,
+        id,
+        textColor,
+        fontSize,
+        fontWeight,
+        align,
+        textDirection,
+        letterSpacing,
+        lineHeight,
+      } = action.payload;
+
+      const tableData = state.blogs[blogId].components[id]
+        .children as TableInterface;
+
+      // Ensure content exists
+      if (!tableData.content)
+        tableData.content = { ...tableContentInitialState };
+
+      const content = tableData.content as Required<TableContentInterface>;
+
+      // Validation: Return early if no valid updates are provided
+      const isInvalidFontSize =
+        (fontSize === "inc" &&
+          content.fontSize >= EDITOR_TABLE_SIZE.MAX_CONTENT_FONT_SIZE) ||
+        (fontSize === "dec" &&
+          content.fontSize <= EDITOR_TABLE_SIZE.MIN_CONTENT_FONT_SIZE) ||
+        (typeof fontSize === "number" &&
+          (fontSize < EDITOR_TABLE_SIZE.MIN_CONTENT_FONT_SIZE ||
+            fontSize > EDITOR_TABLE_SIZE.MAX_CONTENT_FONT_SIZE));
+
+      const isInvalidColors = textColor && !isValidHexColor(textColor);
+
+      if (
+        !textColor &&
+        !fontSize &&
+        !fontWeight &&
+        !align &&
+        !textDirection &&
+        !lineHeight &&
+        typeof letterSpacing !== "number"
+      )
+        return state;
+      if (isInvalidFontSize || isInvalidColors) return state;
+
+      // Update content properties
+      if (textColor) tableData.content.textColor = textColor;
+
+      if (fontSize === "inc") content.fontSize += 1;
+      else if (fontSize === "dec") content.fontSize -= 1;
+      else if (typeof fontSize === "number") content.fontSize = fontSize;
+
+      if (letterSpacing === "inc") content.letterSpacing += 1;
+      else if (letterSpacing === "dec") content.letterSpacing -= 1;
+      else if (typeof letterSpacing === "number")
+        content.letterSpacing = letterSpacing;
+
+      if (fontWeight) content.fontWeight = fontWeight;
+      if (align) content.align = align;
+
+      if (textDirection) content.textDirection = textDirection;
+      if (lineHeight) content.lineHeight = lineHeight;
+    },
   },
 });
 
@@ -805,6 +911,7 @@ export const {
   changeTableStripedTypeRow,
   clearTableStripedRow,
   changeTableHeaderStyle,
+  changeTableContentStyle,
 } = blogBuilderSlice.actions;
 
 export default blogBuilderSlice.reducer;

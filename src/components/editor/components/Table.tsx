@@ -77,6 +77,7 @@ const Table = ({
     textColor: tableTextColor,
     stripedRow,
     header,
+    content,
   },
   id,
   ...props
@@ -175,9 +176,22 @@ const Table = ({
       fontWeight:
         header?.fontWeight || EDITOR_TABLE_SIZE.DEFAULT_HEADER_FONT_WEIGHT,
       textAlign: (header?.align ||
-        EDITOR_TABLE_SIZE.DEFAULT_HEADER_ALIGN) as AlignType,
+        EDITOR_TABLE_SIZE.DEFAULT_ALIGN) as AlignType,
     }),
     [header]
+  );
+  const tableContentStyle = useMemo(
+    () => ({
+      color: content?.textColor || EDITOR_TABLE_SIZE.DEFAULT_CONTENT_TEXT_COLOR,
+      fontSize: `${
+        content?.fontSize || EDITOR_TABLE_SIZE.DEFAULT_CONTENT_FONT_SIZE
+      }px`,
+      fontWeight:
+        content?.fontWeight || EDITOR_TABLE_SIZE.DEFAULT_CONTENT_FONT_WEIGHT,
+      textAlign: (content?.align ||
+        EDITOR_TABLE_SIZE.DEFAULT_ALIGN) as AlignType,
+    }),
+    [content]
   );
 
   return (
@@ -292,7 +306,11 @@ const Table = ({
           ))}
         </thead>
       )}
-      <tbody>
+      <tbody
+        style={{
+          ...tableContentStyle,
+        }}
+      >
         {tbody.map((rows, rowIndex) => (
           <tr
             key={rowIndex}
