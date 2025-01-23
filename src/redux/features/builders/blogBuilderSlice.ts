@@ -24,6 +24,12 @@ export type AlignType = "left" | "center" | "right" | "justify";
 export type FontWeightType = "bold" | "normal";
 export type LineHeightType = 1.2 | 1.5 | 1.8 | 2.0;
 export type TextDirectionType = "ltr" | "rtl";
+export type PaddingType =
+  | "padding"
+  | "paddingTop"
+  | "paddingBottom"
+  | "paddingLeft"
+  | "paddingRight";
 
 export interface BlockInterface {
   postId?: string;
@@ -84,16 +90,16 @@ export interface BlogBuilderState {
       metaData: {
         imgLinks: Record<string, string>;
         styles: {
-          [key: string]: Record<string, string>;
+          [key: string]: Record<string, string | number>;
         };
         mobileStyles: {
-          [key: string]: Record<string, string>;
+          [key: string]: Record<string, string | number>;
         };
         hoverStyles: {
-          [key: string]: Record<string, string>;
+          [key: string]: Record<string, string | number>;
         };
         globalStyles: {
-          [key: string]: Record<string, string>;
+          [key: string]: Record<string, string | number>;
         };
       };
       editorOrPreview: editorOrPreviewTypes;
@@ -110,9 +116,9 @@ const blogInitialState = {
   content: [],
   metaData: {
     imgLinks: {} as Record<string, string>,
-    styles: {} as Record<string, Record<string, string>>,
-    mobileStyles: {} as Record<string, Record<string, string>>,
-    hoverStyles: {} as Record<string, Record<string, string>>,
+    styles: {} as Record<string, Record<string, string | number>>,
+    mobileStyles: {} as Record<string, Record<string, string | number>>,
+    hoverStyles: {} as Record<string, Record<string, string | number>>,
     globalStyles: defaultGlobalStyles,
   },
   editorOrPreview: "editor" as editorOrPreviewTypes,
@@ -339,6 +345,202 @@ export const blogBuilderSlice = createSlice({
     ) => {
       const { blogId, activeBlockId } = action.payload;
       state.blogs[blogId].activeBlock = activeBlockId || null;
+    },
+
+    createActiveBlockStyle: (
+      state,
+      action: PayloadAction<{
+        blogId: string;
+        activeBlockId: string;
+      }>
+    ) => {
+      const { blogId, activeBlockId } = action.payload;
+      const styles = state.blogs[blogId].metaData.styles;
+
+      if (activeBlockId in styles) return state;
+
+      styles[activeBlockId] = {};
+    },
+
+    updatePaddingStyle: (
+      state,
+      action: PayloadAction<{
+        blogId: string;
+        activeBlockId: string;
+        padding: Partial<Record<PaddingType, number | "inc" | "dec">>;
+      }>
+    ) => {
+      const { blogId, activeBlockId, padding } = action.payload;
+      console.log(padding);
+
+      const styles = state.blogs[blogId].metaData.styles[activeBlockId];
+
+      if (padding.padding !== undefined) {
+        delete styles.paddingLeft;
+        delete styles.paddingRight;
+        delete styles.paddingTop;
+        delete styles.paddingBottom;
+
+        if (padding.padding === "inc")
+          styles.padding = Number(styles.padding ?? 0) + 1;
+        if (padding.padding === "dec" && Number(styles.padding) > 0)
+          styles.padding = Number(styles.padding) - 1;
+        if (typeof padding.padding === "number" && padding.padding >= 0) {
+          styles.padding = padding.padding;
+        }
+
+        return state;
+      }
+
+      /* if there is not passed any of these padding */
+      if (
+        [
+          padding.paddingLeft,
+          padding.paddingRight,
+          padding.paddingTop,
+          padding.paddingBottom,
+        ].every((item) => item === undefined)
+      )
+        return state;
+
+      if (
+        (typeof padding.paddingTop === "number" && padding.paddingTop < 0) ||
+        (typeof padding.paddingBottom === "number" &&
+          padding.paddingBottom < 0) ||
+        (typeof padding.paddingLeft === "number" && padding.paddingLeft < 0) ||
+        (typeof padding.paddingRight === "number" &&
+          padding.paddingRight < 0) ||
+        (padding.paddingTop === "dec" && Number(styles.paddingTop ?? 0) <= 0) ||
+        (padding.paddingBottom === "dec" &&
+          Number(styles.paddingBottom) <= 0) ||
+        (padding.paddingLeft === "dec" &&
+          Number(styles.paddingLeft ?? 0) <= 0) ||
+        (padding.paddingRight === "dec" &&
+          Number(styles.paddingRight ?? 0) <= 0)
+      )
+        return state;
+
+      delete styles.padding;
+      console.log("padding.......................");
+
+      /* padding left ========= */
+      if (
+        padding.paddingLeft !== undefined &&
+        typeof padding.paddingLeft === "number"
+      )
+        styles.paddingLeft = padding.paddingLeft;
+
+      if (padding.paddingLeft !== undefined && padding.paddingLeft === "inc")
+        styles.paddingLeft = Number(styles.paddingLeft ?? 0) + 1;
+
+      if (
+        padding.paddingLeft !== undefined &&
+        padding.paddingLeft === "dec" &&
+        styles.paddingLeft
+      )
+        styles.paddingLeft = Number(styles.paddingLeft) - 1;
+
+      /* padding right ========= */
+      if (
+        padding.paddingRight !== undefined &&
+        typeof padding.paddingRight === "number"
+      )
+        styles.paddingRight = padding.paddingRight;
+
+      if (padding.paddingRight !== undefined && padding.paddingRight === "inc")
+        styles.paddingRight = Number(styles.paddingRight ?? 0) + 1;
+
+      if (
+        padding.paddingRight !== undefined &&
+        padding.paddingRight === "dec" &&
+        styles.paddingRight
+      )
+        styles.paddingRight = Number(styles.paddingRight) - 1;
+
+      /* padding top ========= */
+      if (
+        padding.paddingTop !== undefined &&
+        typeof padding.paddingTop === "number"
+      )
+        styles.paddingTop = padding.paddingTop ?? 0;
+
+      if (padding.paddingTop !== undefined && padding.paddingTop === "inc")
+        styles.paddingTop = Number(styles.paddingTop ?? 0) + 1;
+
+      if (
+        padding.paddingTop !== undefined &&
+        padding.paddingTop === "dec" &&
+        styles.paddingTop
+      )
+        styles.paddingTop = Number(styles.paddingTop) - 1;
+
+      /* padding bottom ========= */
+      if (
+        padding.paddingBottom !== undefined &&
+        typeof padding.paddingBottom === "number"
+      )
+        styles.paddingBottom = padding.paddingLeft ?? 0;
+
+      if (
+        padding.paddingBottom !== undefined &&
+        padding.paddingBottom === "inc"
+      )
+        styles.paddingBottom = Number(styles.paddingBottom ?? 0) + 1;
+
+      if (
+        padding.paddingBottom !== undefined &&
+        padding.paddingBottom === "dec" &&
+        styles.paddingBottom
+      )
+        styles.paddingBottom = Number(styles.paddingBottom) - 1;
+    },
+
+    togglePaddingAll: (
+      state,
+      action: PayloadAction<{
+        blogId: string;
+        activeBlockId: string;
+      }>
+    ) => {
+      const { blogId, activeBlockId } = action.payload;
+
+      const styles = state.blogs[blogId].metaData.styles[activeBlockId];
+
+      if (
+        [
+          styles.paddingLeft,
+          styles.paddingRight,
+          styles.paddingTop,
+          styles.paddingBottom,
+        ].some((padding) => typeof padding === "number")
+      ) {
+        console.log("show one switch");
+
+        styles.padding = Math.max(
+          styles.paddingLeft as number,
+          styles.paddingRight as number,
+          styles.paddingTop as number,
+          styles.paddingBottom as number,
+          0
+        );
+
+        delete styles.paddingLeft;
+        delete styles.paddingRight;
+        delete styles.paddingTop;
+        delete styles.paddingBottom;
+
+        return state;
+      } else {
+        console.log("show four switch");
+        styles.paddingLeft = styles.padding || 0;
+        styles.paddingRight = styles.padding || 0;
+        styles.paddingTop = styles.padding || 0;
+        styles.paddingBottom = styles.padding || 0;
+
+        delete styles.padding;
+
+        return state;
+      }
     },
 
     /**
@@ -909,6 +1111,9 @@ export const {
   updateTitle,
   toggleEditorOrPreview,
   changeActiveBlock,
+  createActiveBlockStyle,
+  updatePaddingStyle,
+  togglePaddingAll,
   addTableRows,
   removeTableRows,
   changeTableRowsCount,

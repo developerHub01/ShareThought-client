@@ -1,14 +1,13 @@
 "use client";
 
-import {
-  Accordion,
-} from "@/components/ui/accordion";
+import { Accordion } from "@/components/ui/accordion";
 import TableLayout from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Table/Layout/TableLayout";
 import { useAppSelector } from "@/redux/hooks";
 import { useParams } from "next/navigation";
 import TableHeader from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Table/Header/TableHeader";
 import TableContent from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Table/Content/TableContent";
 import PropertyTypeWrapper from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/PropertyTypeWrapper";
+import PaddingProperties from "./Common/PaddingProperties";
 
 const PropertiesTab = () => {
   const { id: blogId } = useParams();
@@ -38,6 +37,9 @@ const PropertiesTab = () => {
             <TableContent />
           </PropertyTypeWrapper>
         )}
+        <PropertyTypeWrapper id="padding" label="Padding">
+          <PaddingProperties />
+        </PropertyTypeWrapper>
       </Accordion>
     </div>
   );
