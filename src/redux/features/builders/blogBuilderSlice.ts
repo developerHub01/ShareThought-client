@@ -948,6 +948,26 @@ export const blogBuilderSlice = createSlice({
       return state;
     },
 
+    changeCellContent: (
+      state,
+      action: PayloadAction<{
+        blogId: string;
+        id: string; // component id
+        type: "thead" | "tbody";
+        rowIndex: number;
+        colIndex: number;
+        content: string;
+      }>
+    ) => {
+      const { blogId, id, rowIndex, colIndex, type, content } = action.payload;
+
+      const tableData = state.blogs[blogId].components[id]
+        .children as TableInterface;
+
+      if (type === "thead") tableData.thead[rowIndex][colIndex] = content;
+      else tableData.tbody[rowIndex][colIndex] = content;
+    },
+
     /* table header */
     changeTableHeaderStyle: (
       state,
@@ -1131,6 +1151,7 @@ export const {
   clearTableStripedRow,
   changeTableHeaderStyle,
   changeTableContentStyle,
+  changeCellContent,
 } = blogBuilderSlice.actions;
 
 export default blogBuilderSlice.reducer;

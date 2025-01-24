@@ -1,3 +1,3 @@
 # Next Todo list:
 
-Table editor Padding property have to add
+## next to work with image components
