@@ -54,22 +54,6 @@ const BlockComponent = ({ ...props }: BlockInterface) => {
     );
   };
 
-  const actionsList = useMemo(
-    () => [
-      {
-        id: "remove",
-        Icon: RemoveIcon,
-        onClick: () => {},
-      },
-      {
-        id: "grip",
-        Icon: GripIcon,
-        onClick: () => {},
-      },
-    ],
-    []
-  );
-
   return (
     <div
       className={clsx(
@@ -81,13 +65,17 @@ const BlockComponent = ({ ...props }: BlockInterface) => {
       )}
       onClick={toggleActiveBlock}
     >
-      <div className={"flex"}>
-        <ActionButton key={actionsList[0].id} {...actionsList[0]} index={0} />
-      </div>
+      <ActionButton
+        key={"grip"}
+        {...{
+          id: "grip",
+          Icon: GripIcon,
+          onClick: () => {},
+        }}
+      />
       <div className="w-full max-w-3xl rounded-sm p-3">
         <Block {...props} styles={styles} />
       </div>
-      <ActionButton key={actionsList[1].id} {...actionsList[1]} index={1} />
     </div>
   );
 };
@@ -96,9 +84,8 @@ interface ActionButtonProps {
   id: string;
   Icon: LucideIcon;
   onClick: () => void;
-  index: number;
 }
-const ActionButton = ({ id, Icon, onClick, index }: ActionButtonProps) => {
+const ActionButton = ({ id, Icon, onClick }: ActionButtonProps) => {
   return (
     <Button
       key={id}
