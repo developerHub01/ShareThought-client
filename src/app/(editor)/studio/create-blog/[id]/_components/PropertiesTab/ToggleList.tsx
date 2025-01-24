@@ -37,17 +37,23 @@ const ToggleList = ({
         {toggleList.map(({ id, label, Icon }, index) => (
           <Tooltip key={id}>
             <TooltipTrigger asChild>
-              <ToggleGroupItem
-                value={id}
-                aria-label={label}
-                className={clsx("", {
-                  "rounded-r-none": index === 0,
-                  "rounded-s-none": index === toggleList.length - 1,
-                  "rounded-none": index > 0 && index < toggleList.length - 1,
-                })}
-              >
-                <Icon size={18} />
-              </ToggleGroupItem>
+              <span>
+                <ToggleGroupItem
+                  value={id}
+                  aria-label={label}
+                  className={clsx(
+                    "data-[state=on]:bg-primary data-[state=on]:text-primary-foreground",
+                    {
+                      "rounded-r-none": index === 0,
+                      "rounded-s-none": index === toggleList.length - 1,
+                      "rounded-none":
+                        index > 0 && index < toggleList.length - 1,
+                    }
+                  )}
+                >
+                  <Icon size={18} />
+                </ToggleGroupItem>
+              </span>
             </TooltipTrigger>
             <TooltipContent>
               <p>{label}</p>
