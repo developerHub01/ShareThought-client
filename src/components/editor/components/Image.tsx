@@ -31,7 +31,7 @@ const Image = ({ id, alt = "", caption = "", ...props }: ImageProps) => {
     >
       <figure>
         <img src={imageSrc} alt={alt} />
-        {caption && <figcaption>{caption}</figcaption>}
+        {caption && <figcaption className="mt-1">{caption}</figcaption>}
       </figure>
     </div>
   );

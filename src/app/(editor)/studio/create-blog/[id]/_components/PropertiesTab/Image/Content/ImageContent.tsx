@@ -1,5 +1,6 @@
 import React from "react";
 import ImageAlt from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Image/Content/ImageAlt";
+import ImageCaption from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Image/Content/ImageCaption";
 
 const ImageContent = () => {
   return (
@@ -8,6 +9,7 @@ const ImageContent = () => {
       {/* Alt Text: Input field for alternative text (for accessibility and SEO).  */}
       <ImageAlt />
       {/* Caption: Option to add a caption below the image. */}
+      <ImageCaption />
     </div>
   );
 };
