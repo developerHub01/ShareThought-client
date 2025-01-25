@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect } from "react";
-import PaddingBlock from "../../Blocks/PaddingBlock";
+import PaddingBlock from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/PaddingBlock";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useParams } from "next/navigation";
 import {
@@ -11,7 +11,7 @@ import {
   updatePaddingStyle,
 } from "@/redux/features/builders/blogBuilderSlice";
 
-const PaddingProperties = () => {
+const PaddingProperty = () => {
   const dispatch = useAppDispatch();
   const { id: blogId } = useParams() as { id: string };
 
@@ -40,8 +40,6 @@ const PaddingProperties = () => {
 
   console.log("styles[activeBlock]==============");
   console.log(styles[activeBlock]);
-  
-  
 
   if (styles[activeBlock].padding !== undefined)
     padding["padding"] = styles[activeBlock].padding as number;
@@ -49,11 +47,10 @@ const PaddingProperties = () => {
     padding["paddingTop"] = styles[activeBlock].paddingTop as number;
   if (styles[activeBlock].paddingBottom !== undefined)
     padding["paddingBottom"] = styles[activeBlock].paddingBottom as number;
-  if (styles[activeBlock].paddingLeft !== undefined){
+  if (styles[activeBlock].paddingLeft !== undefined) {
     console.log("styles[activeBlock].paddingLeft===========");
     console.log(styles[activeBlock].paddingLeft);
     padding["paddingLeft"] = styles[activeBlock].paddingLeft as number;
-
   }
   if (styles[activeBlock].paddingRight !== undefined)
     padding["paddingRight"] = styles[activeBlock].paddingRight as number;
@@ -88,4 +85,4 @@ const PaddingProperties = () => {
   );
 };
 
-export default PaddingProperties;
+export default PaddingProperty;

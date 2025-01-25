@@ -1,0 +1,39 @@
+1. Actions
+
+    Replace Image: Button to upload a new image.
+    Delete Image: Option to remove the image component.
+
+2. Layout
+
+    Alignment: Left, Center, Right.
+    Width: Slider or input for custom width (percentage or pixels).
+    Height: Slider or input for custom height (optional).
+    Aspect Ratio: Lock/unlock aspect ratio toggle.
+    Margin: Adjust margins around the image.
+    Position: Inline, Block, Float Left/Right.
+
+3. Content
+
+    Image URL: Textbox to add or edit the image's URL.
+    Alt Text: Input field for alternative text (for accessibility and SEO).
+    Caption: Option to add a caption below the image.
+
+4. Style
+
+    Border: Add border styles (e.g., width, color, style).
+    Shadow: Add shadow effects to the image.
+    Opacity: Adjust transparency level.
+    Border Radius: Add rounded corners.
+    Filters: Apply effects (e.g., grayscale, brightness, contrast).
+
+5. Padding
+
+    Padding: Adjust padding inside the image's container.
+
+Example Accordion Labels:
+
+    Actions
+    Layout
+    Content
+    Style
+    Padding

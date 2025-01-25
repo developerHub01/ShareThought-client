@@ -40,6 +40,7 @@ export interface BlockInterface {
   text?: string;
   link?: string;
   alt?: string;
+  caption?: string;
   locationPath?: Array<string>;
   children?: Array<BlockInterface> | TableInterface;
 }
@@ -1143,6 +1144,26 @@ export const blogBuilderSlice = createSlice({
 
       blogData.metaData.imgLinks[id] = image;
     },
+
+    updateImageContent: (
+      state,
+      action: PayloadAction<{
+        blogId: string;
+        id: string; // component id
+        url?: string;
+        alt?: string;
+        caption?: string;
+      }>
+    ) => {
+      const { blogId, id, url, alt, caption } = action.payload;
+
+      const blogData = state.blogs[blogId];
+      const blockComponent = state.blogs[blogId].components[id];
+
+      if (url) blogData.metaData.imgLinks[id] = url;
+      if (alt) blockComponent.alt = alt;
+      if (caption) blockComponent.caption = caption;
+    },
   },
 });
 
@@ -1175,6 +1196,7 @@ export const {
   changeTableContentStyle,
   changeCellContent,
   changeImage,
+  updateImageContent,
 } = blogBuilderSlice.actions;
 
 export default blogBuilderSlice.reducer;
