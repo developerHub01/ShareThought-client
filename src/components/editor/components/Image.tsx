@@ -4,14 +4,16 @@ import { useParams } from "next/navigation";
 import { useAppSelector } from "@/redux/hooks";
 interface ImageProps {
   id: string;
+  alt?: string;
+  caption?: string;
   [key: string]: unknown;
 }
 
-const Image = ({ id, ...props }: ImageProps) => {
+const Image = ({ id, alt = "", caption = "", ...props }: ImageProps) => {
   const { id: blogId } = useParams() as { id: string };
 
   const {
-    metaData: { imgLinks },
+    metaData: { imgLinks, styles },
   } = useAppSelector((state) => state.blogBuilder.blogs[blogId as string]);
 
   if (!blogId) return null;
@@ -19,9 +21,18 @@ const Image = ({ id, ...props }: ImageProps) => {
   const imageSrc = imgLinks && imgLinks[id];
   if (!imageSrc) return <ImageUploadCanvas id={id} blogId={blogId} />;
 
+  const imageStyles = styles[id];
+
   return (
-    <div>
-      <img src={imageSrc} alt="" />
+    <div
+      style={{
+        ...imageStyles,
+      }}
+    >
+      <figure>
+        <img src={imageSrc} alt={alt} />
+        {caption && <figcaption>{caption}</figcaption>}
+      </figure>
     </div>
   );
 };
