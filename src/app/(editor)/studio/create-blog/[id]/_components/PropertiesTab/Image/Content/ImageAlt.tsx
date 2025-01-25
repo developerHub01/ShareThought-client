@@ -5,6 +5,7 @@ import InputWithAttachLebel from "@/app/(editor)/studio/create-blog/[id]/_compon
 import { useParams } from "next/navigation";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { updateImageContent } from "@/redux/features/builders/blogBuilderSlice";
+import PropertyWrapper_v1 from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/PropertyWrapper_v1";
 
 const ImageAlt = () => {
   const [alt, setAlt] = useState("");
@@ -40,14 +41,14 @@ const ImageAlt = () => {
   };
 
   return (
-    <div>
+    <PropertyWrapper_v1>
       <InputWithAttachLebel
         label="Alt text"
         value={alt}
         onChange={handleChange}
         onBlur={handleBlur}
       />
-    </div>
+    </PropertyWrapper_v1>
   );
 };
 

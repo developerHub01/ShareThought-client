@@ -5,6 +5,7 @@ import InputWithAttachLebel from "@/app/(editor)/studio/create-blog/[id]/_compon
 import { useParams } from "next/navigation";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { updateImageContent } from "@/redux/features/builders/blogBuilderSlice";
+import PropertyWrapper_v1 from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/PropertyWrapper_v1";
 
 const ImageCaption = () => {
   const [caption, setCaption] = useState("");
@@ -40,14 +41,14 @@ const ImageCaption = () => {
   };
 
   return (
-    <div>
+    <PropertyWrapper_v1>
       <InputWithAttachLebel
         label="Caption"
         value={caption}
         onChange={handleChange}
         onBlur={handleBlur}
       />
-    </div>
+    </PropertyWrapper_v1>
   );
 };
 

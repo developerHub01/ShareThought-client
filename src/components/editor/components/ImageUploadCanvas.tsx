@@ -84,12 +84,6 @@ const ImageUploadCanvas = ({ id, blogId }: ImageUploadCanvasProps) => {
     [processImageFile]
   );
 
-  const handleUploadButton = () => {
-    if (imageInputRef.current) {
-      imageInputRef.current.click();
-    }
-  };
-
   return (
     <div
       onDrop={handleDrop}

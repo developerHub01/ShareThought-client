@@ -7,6 +7,8 @@ const defaultImageDetails = {
   url: "",
   alt: "",
   caption: "",
+  activeBlock: null,
+  blogId: null,
 };
 
 const useActiveImage = () => {
@@ -30,6 +32,8 @@ const useActiveImage = () => {
     url: activeImageUrl,
     alt,
     caption,
+    activeBlock,
+    blogId,
   };
 };
 
