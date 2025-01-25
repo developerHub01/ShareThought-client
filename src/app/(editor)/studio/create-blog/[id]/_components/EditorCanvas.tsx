@@ -1,6 +1,6 @@
 import React, { ChangeEvent, KeyboardEvent } from "react";
-import AddComponentSection from "@/app/(editor)/studio/create-blog/[id]/_components/AddComponentSection";
-import ComponentDialog from "@/app/(editor)/studio/create-blog/[id]/_components/ComponentDialog";
+import AddComponentSection from "@/app/(editor)/studio/create-blog/[id]/_components/BuilderPopover/AddComponentSection";
+import ComponentDialog from "@/app/(editor)/studio/create-blog/[id]/_components/BuilderPopover/ComponentDialog";
 import EditorSidebar from "@/app/(editor)/studio/create-blog/[id]/_components/EditorSidebar";
 import { AnimatePresence, motion } from "motion/react";
 import { MotionDivProps } from "@/types";

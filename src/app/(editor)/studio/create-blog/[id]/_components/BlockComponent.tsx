@@ -7,7 +7,7 @@ import {
   changeActiveBlock,
   TableInterface,
 } from "@/redux/features/builders/blogBuilderSlice";
-import React, { useMemo } from "react";
+import React from "react";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { BlogComponentBlock } from "@/types";
 import clsx from "clsx";
@@ -18,6 +18,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Table from "@/components/editor/components/Table";
+import Image from "@/components/editor/components/Image";
 
 export interface TableProps extends BlockInterface {
   children: TableInterface;
@@ -30,6 +31,8 @@ const Block = ({ ...props }: BlogComponentBlock) => {
     return <Section {...props} />;
   } else if (props.type === "table") {
     return <Table {...(props as TableProps)} />;
+  } else if (props.type === "image") {
+    return <Image {...props} />;
   }
   return <></>;
 };

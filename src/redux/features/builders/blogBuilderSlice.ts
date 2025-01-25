@@ -15,7 +15,8 @@ type BlockTypes =
   | "p"
   | "code"
   | "table"
-  | "section";
+  | "section"
+  | "image";
 
 type TableTypes = "thead" | "tbody" | "tr" | "th" | "td";
 export type BorderStyleType = "solid" | "dotted" | "dashed";
@@ -38,10 +39,9 @@ export interface BlockInterface {
   gridSize?: Array<number>;
   text?: string;
   link?: string;
-  src?: string;
   alt?: string;
-  locationPath: Array<string>;
-  children: Array<BlockInterface> | TableInterface;
+  locationPath?: Array<string>;
+  children?: Array<BlockInterface> | TableInterface;
 }
 
 export interface StripedRowInterface {
@@ -307,6 +307,12 @@ export const blogBuilderSlice = createSlice({
             gridSize,
             locationPath: [],
             children: tableInitialState,
+          };
+          break;
+        case "image":
+          block = {
+            id,
+            type,
           };
           break;
       }
@@ -1121,6 +1127,22 @@ export const blogBuilderSlice = createSlice({
       if (textDirection) content.textDirection = textDirection;
       if (lineHeight) content.lineHeight = lineHeight;
     },
+
+    /* image component */
+    changeImage: (
+      state,
+      action: PayloadAction<{
+        blogId: string;
+        id: string; // component id
+        image: string;
+      }>
+    ) => {
+      const { blogId, id, image } = action.payload;
+
+      const blogData = state.blogs[blogId];
+
+      blogData.metaData.imgLinks[id] = image;
+    },
   },
 });
 
@@ -1152,6 +1174,7 @@ export const {
   changeTableHeaderStyle,
   changeTableContentStyle,
   changeCellContent,
+  changeImage,
 } = blogBuilderSlice.actions;
 
 export default blogBuilderSlice.reducer;
