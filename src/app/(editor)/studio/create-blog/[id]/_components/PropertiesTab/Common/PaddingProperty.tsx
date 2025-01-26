@@ -38,20 +38,14 @@ const PaddingProperty = () => {
 
   if (!styles[activeBlock]) return null;
 
-  console.log("styles[activeBlock]==============");
-  console.log(styles[activeBlock]);
-
   if (styles[activeBlock].padding !== undefined)
     padding["padding"] = styles[activeBlock].padding as number;
   if (styles[activeBlock].paddingTop !== undefined)
     padding["paddingTop"] = styles[activeBlock].paddingTop as number;
   if (styles[activeBlock].paddingBottom !== undefined)
     padding["paddingBottom"] = styles[activeBlock].paddingBottom as number;
-  if (styles[activeBlock].paddingLeft !== undefined) {
-    console.log("styles[activeBlock].paddingLeft===========");
-    console.log(styles[activeBlock].paddingLeft);
+  if (styles[activeBlock].paddingLeft !== undefined)
     padding["paddingLeft"] = styles[activeBlock].paddingLeft as number;
-  }
   if (styles[activeBlock].paddingRight !== undefined)
     padding["paddingRight"] = styles[activeBlock].paddingRight as number;
 

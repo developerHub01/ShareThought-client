@@ -24,16 +24,16 @@ const Image = ({ id, alt = "", caption = "", ...props }: ImageProps) => {
   const imageStyles = styles[id];
 
   return (
-    <div
-      style={{
-        ...imageStyles,
-      }}
-    >
-      <figure>
-        <img src={imageSrc} alt={alt} />
-        {caption && <figcaption className="mt-1">{caption}</figcaption>}
-      </figure>
-    </div>
+    <figure>
+      <img
+        src={imageSrc}
+        alt={alt}
+        style={{
+          ...imageStyles,
+        }}
+      />
+      {caption && <figcaption className="mt-1">{caption}</figcaption>}
+    </figure>
   );
 };
 

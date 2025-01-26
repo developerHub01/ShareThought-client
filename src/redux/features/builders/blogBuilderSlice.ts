@@ -32,6 +32,13 @@ export type PaddingType =
   | "paddingLeft"
   | "paddingRight";
 
+export type BorderRadiusType =
+  | "borderRadius"
+  | "borderTopLeftRadius"
+  | "borderTopRightRadius"
+  | "borderBottomLeftRadius"
+  | "borderBottomRightRadius";
+
 export interface BlockInterface {
   postId?: string;
   id: string;
@@ -428,7 +435,6 @@ export const blogBuilderSlice = createSlice({
         return state;
 
       delete styles.padding;
-      console.log("padding.......................");
 
       /* padding left ========= */
       if (
@@ -486,7 +492,7 @@ export const blogBuilderSlice = createSlice({
         padding.paddingBottom !== undefined &&
         typeof padding.paddingBottom === "number"
       )
-        styles.paddingBottom = padding.paddingLeft ?? 0;
+        styles.paddingBottom = padding.paddingBottom ?? 0;
 
       if (
         padding.paddingBottom !== undefined &&
@@ -521,8 +527,6 @@ export const blogBuilderSlice = createSlice({
           styles.paddingBottom,
         ].some((padding) => typeof padding === "number")
       ) {
-        console.log("show one switch");
-
         styles.padding = Math.max(
           styles.paddingLeft as number,
           styles.paddingRight as number,
@@ -538,13 +542,214 @@ export const blogBuilderSlice = createSlice({
 
         return state;
       } else {
-        console.log("show four switch");
         styles.paddingLeft = styles.padding || 0;
         styles.paddingRight = styles.padding || 0;
         styles.paddingTop = styles.padding || 0;
         styles.paddingBottom = styles.padding || 0;
 
         delete styles.padding;
+
+        return state;
+      }
+    },
+
+    updateBorderRadiusStyle: (
+      state,
+      action: PayloadAction<{
+        blogId: string;
+        activeBlockId: string;
+        borderRadius: Partial<Record<BorderRadiusType, number | "inc" | "dec">>;
+      }>
+    ) => {
+      const { blogId, activeBlockId, borderRadius } = action.payload;
+
+      const styles = state.blogs[blogId].metaData.styles[activeBlockId];
+
+      if (borderRadius.borderRadius !== undefined) {
+        delete styles.borderTopLeftRadius;
+        delete styles.borderTopRightRadius;
+        delete styles.borderBottomLeftRadius;
+        delete styles.borderBottomRightRadius;
+
+        if (borderRadius.borderRadius === "inc")
+          styles.borderRadius = Number(styles.borderRadius ?? 0) + 1;
+        if (
+          borderRadius.borderRadius === "dec" &&
+          Number(styles.borderRadius) > 0
+        )
+          styles.borderRadius = Number(styles.borderRadius) - 1;
+        if (
+          typeof borderRadius.borderRadius === "number" &&
+          borderRadius.borderRadius >= 0
+        ) {
+          styles.borderRadius = borderRadius.borderRadius;
+        }
+
+        return state;
+      }
+
+      /* if there is not passed any of these padding */
+      if (
+        [
+          borderRadius.borderTopLeftRadius,
+          borderRadius.borderTopRightRadius,
+          borderRadius.borderBottomLeftRadius,
+          borderRadius.borderBottomRightRadius,
+        ].every((item) => item === undefined)
+      )
+        return state;
+
+      if (
+        (typeof borderRadius.borderTopLeftRadius === "number" &&
+          borderRadius.borderTopLeftRadius < 0) ||
+        (typeof borderRadius.borderTopRightRadius === "number" &&
+          borderRadius.borderTopRightRadius < 0) ||
+        (typeof borderRadius.borderBottomLeftRadius === "number" &&
+          borderRadius.borderBottomLeftRadius < 0) ||
+        (typeof borderRadius.borderBottomRightRadius === "number" &&
+          borderRadius.borderBottomRightRadius < 0) ||
+        (borderRadius.borderTopLeftRadius === "dec" &&
+          Number(styles.borderTopLeftRadius ?? 0) <= 0) ||
+        (borderRadius.borderTopRightRadius === "dec" &&
+          Number(styles.borderTopRightRadius) <= 0) ||
+        (borderRadius.borderBottomLeftRadius === "dec" &&
+          Number(styles.borderBottomLeftRadius ?? 0) <= 0) ||
+        (borderRadius.borderBottomRightRadius === "dec" &&
+          Number(styles.borderBottomRightRadius ?? 0) <= 0)
+      )
+        return state;
+
+      delete styles.borderRadius;
+
+      /* border Radius top left ========= */
+      if (
+        borderRadius.borderTopLeftRadius !== undefined &&
+        typeof borderRadius.borderTopLeftRadius === "number"
+      )
+        styles.borderTopLeftRadius = borderRadius.borderTopLeftRadius;
+
+      if (
+        borderRadius.borderTopLeftRadius !== undefined &&
+        borderRadius.borderTopLeftRadius === "inc"
+      )
+        styles.borderTopLeftRadius =
+          Number(styles.borderTopLeftRadius ?? 0) + 1;
+
+      if (
+        borderRadius.borderTopLeftRadius !== undefined &&
+        borderRadius.borderTopLeftRadius === "dec" &&
+        styles.borderTopLeftRadius
+      )
+        styles.borderTopLeftRadius = Number(styles.borderTopLeftRadius) - 1;
+
+      /* border radius top right ========= */
+      if (
+        borderRadius.borderTopRightRadius !== undefined &&
+        typeof borderRadius.borderTopRightRadius === "number"
+      )
+        styles.borderTopRightRadius = borderRadius.borderTopRightRadius;
+
+      if (
+        borderRadius.borderTopRightRadius !== undefined &&
+        borderRadius.borderTopRightRadius === "inc"
+      )
+        styles.borderTopRightRadius =
+          Number(styles.borderTopRightRadius ?? 0) + 1;
+
+      if (
+        borderRadius.borderTopRightRadius !== undefined &&
+        borderRadius.borderTopRightRadius === "dec" &&
+        styles.borderTopRightRadius
+      )
+        styles.borderTopRightRadius = Number(styles.borderTopRightRadius) - 1;
+
+      /* border radius bottom left ========= */
+      if (
+        borderRadius.borderBottomLeftRadius !== undefined &&
+        typeof borderRadius.borderBottomLeftRadius === "number"
+      )
+        styles.borderBottomLeftRadius =
+          borderRadius.borderBottomLeftRadius ?? 0;
+
+      if (
+        borderRadius.borderBottomLeftRadius !== undefined &&
+        borderRadius.borderBottomLeftRadius === "inc"
+      )
+        styles.borderBottomLeftRadius =
+          Number(styles.borderBottomLeftRadius ?? 0) + 1;
+
+      if (
+        borderRadius.borderBottomLeftRadius !== undefined &&
+        borderRadius.borderBottomLeftRadius === "dec" &&
+        styles.borderBottomLeftRadius
+      )
+        styles.borderBottomLeftRadius =
+          Number(styles.borderBottomLeftRadius) - 1;
+
+      /* border radius bottom right ========= */
+      if (
+        borderRadius.borderBottomRightRadius !== undefined &&
+        typeof borderRadius.borderBottomRightRadius === "number"
+      )
+        styles.borderBottomRightRadius =
+          borderRadius.borderBottomRightRadius ?? 0;
+
+      if (
+        borderRadius.borderBottomRightRadius !== undefined &&
+        borderRadius.borderBottomRightRadius === "inc"
+      )
+        styles.borderBottomRightRadius =
+          Number(styles.borderBottomRightRadius ?? 0) + 1;
+
+      if (
+        borderRadius.borderBottomRightRadius !== undefined &&
+        borderRadius.borderBottomRightRadius === "dec" &&
+        styles.borderBottomRightRadius
+      )
+        styles.borderBottomRightRadius =
+          Number(styles.borderBottomRightRadius) - 1;
+    },
+
+    toggleBorderRadiusAll: (
+      state,
+      action: PayloadAction<{
+        blogId: string;
+        activeBlockId: string;
+      }>
+    ) => {
+      const { blogId, activeBlockId } = action.payload;
+
+      const styles = state.blogs[blogId].metaData.styles[activeBlockId];
+
+      if (
+        [
+          styles.borderTopLeftRadius,
+          styles.borderTopRightRadius,
+          styles.borderBottomLeftRadius,
+          styles.borderBottomRightRadius,
+        ].some((borderRadius) => typeof borderRadius === "number")
+      ) {
+        styles.borderRadius = Math.max(
+          styles.borderTopLeftRadius as number,
+          styles.borderTopRightRadius as number,
+          styles.borderBottomLeftRadius as number,
+          styles.borderBottomRightRadius as number,
+          0
+        );
+
+        delete styles.borderTopLeftRadius;
+        delete styles.borderTopRightRadius;
+        delete styles.borderBottomLeftRadius;
+        delete styles.borderBottomRightRadius;
+
+        return state;
+      } else {
+        styles.borderTopLeftRadius = styles.borderRadius || 0;
+        styles.borderTopRightRadius = styles.borderRadius || 0;
+        styles.borderBottomLeftRadius = styles.borderRadius || 0;
+        styles.borderBottomRightRadius = styles.borderRadius || 0;
+
+        delete styles.borderRadius;
 
         return state;
       }
@@ -1177,6 +1382,8 @@ export const {
   createActiveBlockStyle,
   updatePaddingStyle,
   togglePaddingAll,
+  toggleBorderRadiusAll,
+  updateBorderRadiusStyle,
   addTableRows,
   removeTableRows,
   changeTableRowsCount,
