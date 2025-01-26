@@ -23,13 +23,28 @@ const Image = ({ id, alt = "", caption = "", ...props }: ImageProps) => {
 
   const imageStyles = styles[id];
 
+  const formattedStyles: Record<string, unknown> = {
+    ...imageStyles,
+  };
+
+  if (Array.isArray(imageStyles?.border))
+    formattedStyles.border = `${imageStyles.border[0]}px ${imageStyles.border[1]} ${imageStyles.border[2]}`;
+  if (Array.isArray(imageStyles?.borderTop))
+    formattedStyles.borderTop = `${imageStyles.borderTop[0]}px ${imageStyles.borderTop[1]} ${imageStyles.borderTop[2]}`;
+  if (Array.isArray(imageStyles?.borderBottom))
+    formattedStyles.borderBottom = `${imageStyles.borderBottom[0]}px ${imageStyles.borderBottom[1]} ${imageStyles.borderBottom[2]}`;
+  if (Array.isArray(imageStyles?.borderLeft))
+    formattedStyles.borderLeft = `${imageStyles.borderLeft[0]}px ${imageStyles.borderLeft[1]} ${imageStyles.borderLeft[2]}`;
+  if (Array.isArray(imageStyles?.borderRight))
+    formattedStyles.borderRight = `${imageStyles.borderRight[0]}px ${imageStyles.borderRight[1]} ${imageStyles.borderRight[2]}`;
+
   return (
     <figure>
       <img
         src={imageSrc}
         alt={alt}
         style={{
-          ...imageStyles,
+          ...formattedStyles,
         }}
       />
       {caption && <figcaption className="mt-1">{caption}</figcaption>}

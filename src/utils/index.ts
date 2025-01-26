@@ -16,3 +16,12 @@ export const isValidHexColor = (hex: string) => {
 
   return hexRegex.test(hex);
 };
+
+export const isBlobURL = (string: string) => {
+  return typeof string === "string" && string.startsWith("blob:");
+};
+
+export const isValidURL = (string: string) => {
+  const regex = /^(https?:\/\/)?([\w-]+\.)+[\w-]{2,}(\/[\w-./?%&=]*)?$/i;
+  return regex.test(string);
+};

@@ -77,7 +77,7 @@ const BlockComponent = ({ ...props }: BlockInterface) => {
           className=""
         />
       </span>
-      <div className="w-full max-w-3xl rounded-sm p-3">
+      <div className="w-full max-w-3xl rounded-sm">
         <Block {...props} styles={styles} />
       </div>
     </div>

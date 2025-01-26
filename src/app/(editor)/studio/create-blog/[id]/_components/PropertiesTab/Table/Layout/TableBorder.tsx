@@ -1,27 +1,17 @@
 "use client";
 
 import React, { ChangeEvent, FocusEvent, useEffect, useState } from "react";
-import PropertyWrapper_v1 from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/PropertyWrapper_v1";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { ColorResult } from "react-color";
 import { isValidHexColor } from "@/utils";
-import ColorPicker from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/ColorPicker";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useParams } from "next/navigation";
-import ValueCounter from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/ValueCounter";
 import {
   addTableBorderStyle,
   BorderStyleType,
   TableInterface,
 } from "@/redux/features/builders/blogBuilderSlice";
 import { EDITOR_TABLE_SIZE } from "@/constant";
+import BorderBlock from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/BorderBlock";
 
 const TableBorder = () => {
   const dispatch = useAppDispatch();
@@ -197,38 +187,18 @@ const TableBorder = () => {
   };
 
   return (
-    <PropertyWrapper_v1>
-      <p className="text-sm">Border</p>
-      <div className="flex items-center gap-1.5 ml-auto">
-        <Select defaultValue="solid" onValueChange={handleChangeStyle}>
-          <SelectTrigger className="max-w-28">
-            <SelectValue placeholder="Border style" />
-          </SelectTrigger>
-          <SelectContent align="end">
-            <SelectGroup>
-              <SelectItem value="solid">Solid</SelectItem>
-              <SelectItem value="dotted">Dotted</SelectItem>
-              <SelectItem value="dashed">Dashed</SelectItem>
-            </SelectGroup>
-          </SelectContent>
-        </Select>
-        <ValueCounter
-          value={borderState.size}
-          handleChange={handleBorderSizeChange}
-          handleIncrement={handleBorderSizeIncrease}
-          handleDecrement={handleBorderSizeDecrease}
-          min={EDITOR_TABLE_SIZE.MIN_BORDER_SIZE}
-          max={EDITOR_TABLE_SIZE.MAX_BORDER_SIZE}
-          separate={false}
-        />
-        <ColorPicker
-          color={borderState.color}
-          handleColorPicker={handleColorPicker}
-          handleColorChange={handleColorChange}
-          handleColorBlur={handleColorBlur}
-        />
-      </div>
-    </PropertyWrapper_v1>
+    <BorderBlock
+      borderState={borderState}
+      onChangeStyle={handleChangeStyle}
+      onChangeSize={handleBorderSizeChange}
+      onIncreaseSize={handleBorderSizeIncrease}
+      onDecreaseSize={handleBorderSizeDecrease}
+      onBlurColor={handleColorBlur}
+      onChangeColor={handleColorChange}
+      onColorPick={handleColorPicker}
+      minSize={EDITOR_TABLE_SIZE.MIN_BORDER_SIZE}
+      maxSize={EDITOR_TABLE_SIZE.MAX_BORDER_SIZE}
+    />
   );
 };
 

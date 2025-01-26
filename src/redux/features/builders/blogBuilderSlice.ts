@@ -39,6 +39,13 @@ export type BorderRadiusType =
   | "borderBottomLeftRadius"
   | "borderBottomRightRadius";
 
+export type BorderType =
+  | "border"
+  | "borderTop"
+  | "borderBottom"
+  | "borderLeft"
+  | "borderRight";
+
 export interface BlockInterface {
   postId?: string;
   id: string;
@@ -90,6 +97,19 @@ export interface TableInterface {
   content?: TableContentInterface;
 }
 
+export interface BorderInterface {
+  border?: [number, string, string];
+  borderTop?: [number, string, string];
+  borderBottom?: [number, string, string];
+  borderLeft?: [number, string, string];
+  borderRight?: [number, string, string];
+}
+
+export interface StylesInterface {
+  [key: string]: Record<string, string | number | Array<string | number>> &
+    BorderInterface;
+}
+
 export interface BlogBuilderState {
   blogs: {
     [id: string]: {
@@ -97,9 +117,7 @@ export interface BlogBuilderState {
       content: Array<string>;
       metaData: {
         imgLinks: Record<string, string>;
-        styles: {
-          [key: string]: Record<string, string | number>;
-        };
+        styles: StylesInterface;
         mobileStyles: {
           [key: string]: Record<string, string | number>;
         };
@@ -124,7 +142,10 @@ const blogInitialState = {
   content: [],
   metaData: {
     imgLinks: {} as Record<string, string>,
-    styles: {} as Record<string, Record<string, string | number>>,
+    styles: {} as Record<
+      string,
+      Record<string, string | number | Array<string | number>>
+    >,
     mobileStyles: {} as Record<string, Record<string, string | number>>,
     hoverStyles: {} as Record<string, Record<string, string | number>>,
     globalStyles: defaultGlobalStyles,
@@ -385,7 +406,6 @@ export const blogBuilderSlice = createSlice({
       }>
     ) => {
       const { blogId, activeBlockId, padding } = action.payload;
-      console.log(padding);
 
       const styles = state.blogs[blogId].metaData.styles[activeBlockId];
 
@@ -755,9 +775,146 @@ export const blogBuilderSlice = createSlice({
       }
     },
 
-    /**
-     * Table=============
-     * ***/
+    toggleBorderAll: (
+      state,
+      action: PayloadAction<{
+        blogId: string;
+        activeBlockId: string;
+      }>
+    ) => {
+      const { blogId, activeBlockId } = action.payload;
+
+      const styles = state.blogs[blogId].metaData.styles[activeBlockId];
+
+      const defaultValue: [number, string, string] = [
+        0,
+        "solid",
+        "transparent",
+      ];
+
+      /* Hide details border */
+      if (
+        [
+          styles.borderTop,
+          styles.borderBottom,
+          styles.borderLeft,
+          styles.borderRight,
+        ].some((border) => Array.isArray(border))
+      ) {
+        const validBorder = [
+          styles.borderLeft,
+          styles.borderRight,
+          styles.borderTop,
+          styles.borderBottom,
+        ].reduce(
+          (acc: [number, string, string], curr) => {
+            if (!curr || !Array.isArray(curr)) return acc;
+
+            acc[0] = Math.max(acc[0], curr[0] ?? 0);
+
+            /* if there any valid color then update it */
+            if (isValidHexColor(curr[2])) acc[2] = curr[2];
+
+            return acc;
+          },
+          [...defaultValue]
+        );
+
+        delete styles.borderTop;
+        delete styles.borderBottom;
+        delete styles.borderLeft;
+        delete styles.borderRight;
+
+        styles.border = validBorder;
+
+        return state;
+      } else {
+        styles.borderLeft = styles.border ?? defaultValue;
+        styles.borderRight = styles.border ?? defaultValue;
+        styles.borderTop = styles.border ?? defaultValue;
+        styles.borderBottom = styles.border ?? defaultValue;
+
+        delete styles.border;
+
+        return state;
+      }
+    },
+
+    addBorderStyle: (
+      state,
+      action: PayloadAction<{
+        blogId: string;
+        activeBlockId: string;
+        border: Partial<{
+          [key in BorderType]: {
+            color?: string;
+            style?: BorderStyleType;
+            size?: number | "inc" | "dec";
+          };
+        }>;
+      }>
+    ) => {
+      const {
+        blogId,
+        activeBlockId,
+        border: { border, borderTop, borderBottom, borderLeft, borderRight },
+      } = action.payload;
+      const styles = state.blogs[blogId].metaData.styles[activeBlockId];
+
+      const defaultValue: [number, string, string] = [
+        0,
+        "solid",
+        "transparent",
+      ];
+
+      const getNewBorder = (
+        borderType: BorderType,
+        border: {
+          color?: string;
+          style?: BorderStyleType;
+          size?: number | "inc" | "dec";
+        }
+      ) => {
+        let borderValue = styles[borderType] ?? defaultValue;
+
+        if (typeof border.size === "number") borderValue[0] = border.size;
+        else if (typeof border.size === "string" && border.size === "inc")
+          borderValue[0] = borderValue[0] + 1;
+        else if (typeof border.size === "string" && border.size === "dec")
+          borderValue[0] = borderValue[0] + 1;
+
+        if (border.style) borderValue[1] = border.style;
+        if (border.color && isValidHexColor(border.color))
+          borderValue[2] = border.color;
+
+        return borderValue;
+      };
+
+      if (border) {
+        styles.border = getNewBorder("border", border);
+
+        delete styles.borderTop;
+        delete styles.borderBottom;
+        delete styles.borderLeft;
+        delete styles.borderRight;
+
+        return state;
+      }
+
+      if (borderTop) styles.borderTop = getNewBorder("borderTop", borderTop);
+      if (borderBottom)
+        styles.borderBottom = getNewBorder("borderBottom", borderBottom);
+      if (borderLeft)
+        styles.borderLeft = getNewBorder("borderLeft", borderLeft);
+      if (borderRight)
+        styles.borderRight = getNewBorder("borderRight", borderRight);
+
+      delete styles.border;
+
+      return state;
+    },
+
+    /*** Table============= ***/
     addTableRows: (
       state,
       action: PayloadAction<{
@@ -1024,6 +1181,8 @@ export const blogBuilderSlice = createSlice({
 
       const tableData = state.blogs[blogId].components[id]
         .children as TableInterface;
+
+      if (!tableData) return state;
 
       // Initialize border if not present
       tableData.border = tableData.border || {};
@@ -1384,6 +1543,8 @@ export const {
   togglePaddingAll,
   toggleBorderRadiusAll,
   updateBorderRadiusStyle,
+  addBorderStyle,
+  toggleBorderAll,
   addTableRows,
   removeTableRows,
   changeTableRowsCount,
