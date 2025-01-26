@@ -3,6 +3,7 @@ import { useEditor } from "@/app/(editor)/studio/create-blog/[id]/_components/Ed
 import clsx from "clsx";
 import { Button } from "@/components/ui/button";
 import { Plus as AddIcon } from "lucide-react";
+import Container from "@/app/(editor)/studio/create-blog/[id]/_components/Container";
 
 interface AddComponentSectionProps {
   className?: string;
@@ -16,7 +17,7 @@ const AddComponentSection = ({
   ...props
 }: AddComponentSectionProps) => {
   return (
-    <div
+    <Container
       className={clsx(
         "flex justify-center items-center relative before:content-[''] before:absolute before:w-full before:h-[2px] before:bg-primary/20 before:rounded-md before:top-1/2 before:left-1/2 before:-translate-x-1/2 before:-translate-y-1/2 before:pointer-events-none",
         className
@@ -24,7 +25,7 @@ const AddComponentSection = ({
       {...props}
     >
       <AddComponentButton index={index} />
-    </div>
+    </Container>
   );
 };
 

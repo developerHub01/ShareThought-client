@@ -19,6 +19,7 @@ import {
 import { Button } from "@/components/ui/button";
 import Table from "@/components/editor/components/Table";
 import Image from "@/components/editor/components/Image";
+import { cn } from "@/lib/utils";
 
 export interface TableProps extends BlockInterface {
   children: TableInterface;
@@ -60,22 +61,22 @@ const BlockComponent = ({ ...props }: BlockInterface) => {
   return (
     <div
       className={clsx(
-        "flex w-full group-hover:bg-accent justify-center gap-3 p-2",
+        "flex w-full group-hover:bg-accent justify-center gap-3 p-2 ring-2 ring-transparent relative group-hover:ring-primary",
         {
-          "bg-accent ring-2 ring-offset-2 ring-primary":
-            props.id === activeBlock,
+          "bg-accent ring-primary": props.id === activeBlock,
         }
       )}
       onClick={toggleActiveBlock}
     >
-      <ActionButton
-        key={"grip"}
-        {...{
-          id: "grip",
-          Icon: GripIcon,
-          onClick: () => {},
-        }}
-      />
+      <span className="group-hover:opacity-100 group-hover:pointer-events-auto opacity-0 pointer-events-none">
+        <ActionButton
+          key={"grip"}
+          id="grip"
+          Icon={GripIcon}
+          onClick={() => {}}
+          className=""
+        />
+      </span>
       <div className="w-full max-w-3xl rounded-sm p-3">
         <Block {...props} styles={styles} />
       </div>
@@ -86,19 +87,24 @@ const BlockComponent = ({ ...props }: BlockInterface) => {
 interface ActionButtonProps {
   id: string;
   Icon: LucideIcon;
+  className?: string;
   onClick: () => void;
 }
-const ActionButton = ({ id, Icon, onClick }: ActionButtonProps) => {
+const ActionButton = ({ id, Icon, onClick, className }: ActionButtonProps) => {
   return (
     <Button
       key={id}
       onClick={onClick}
       size="icon"
       type="button"
-      variant="outline"
-      className={clsx("", {
-        "cursor-grab": id === "grip",
-      })}
+      variant="default"
+      className={cn(
+        "absolute top-1/2 left-0 -translate-y-1/2 rounded-l-none",
+        {
+          "cursor-grab": id === "grip",
+        },
+        className
+      )}
     >
       <Icon size={16} />
     </Button>

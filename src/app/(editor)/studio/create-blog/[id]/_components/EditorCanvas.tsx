@@ -36,19 +36,24 @@ const EditorCanvas = () => {
   return (
     <section className="mx-auto w-full h-full">
       <section className="w-full h-full flex">
-        <ScrollArea className="h-full w-full flex-1 px-5 py-4">
-          <form className="w-full flex flex-col gap-3 max-w-4xl mx-auto mb-5">
-            <Input
-              type="text"
-              placeholder="Post Title"
-              className="text-lg md:text-xl h-auto py-3 font-bold"
-              onChange={handleTitle}
-              value={blogData.title}
-              onKeyUp={handleKeyEnter}
-            />
+        <ScrollArea className="h-full w-full flex-1 px-2 py-4">
+          <form className="w-full flex flex-col gap-3 mx-auto mb-5">
+            <div className="w-full max-w-3xl mx-auto">
+              <Input
+                type="text"
+                placeholder="Post Title"
+                className="text-lg md:text-xl h-auto py-3 font-bold"
+                onChange={handleTitle}
+                value={blogData.title}
+                onKeyUp={handleKeyEnter}
+              />
+            </div>
             <section className="py-5 px-1 flex flex-col">
               {blogData?.content.map((id, index, list) => (
-                <div key={id} className="group">
+                <div
+                  key={id}
+                  className="group"
+                >
                   <BlockComponent
                     {...blogData.components[id]}
                     postId={postId}
@@ -56,7 +61,7 @@ const EditorCanvas = () => {
                   <AnimatePresence>
                     {index !== list.length - 1 && (
                       <motion.div
-                        className="group-hover:opacity-100 group-hover:scale-y-100 opacity-0 scale-y-0 -translate-y-1/2 mt-1"
+                        className="group-hover:opacity-100 group-hover:scale-y-100 opacity-0 scale-y-0 -translate-y-1/2 mt-1 mx-auto"
                         {...({} as MotionDivProps)}
                         exit={{ opacity: 0 }}
                       >
