@@ -44,6 +44,7 @@ const ImageAlt = () => {
     <PropertyWrapper_v1>
       <InputWithAttachLebel
         label="Alt text"
+        placeholder="Image alternatives"
         value={alt}
         onChange={handleChange}
         onBlur={handleBlur}

@@ -46,6 +46,7 @@ const ComponentLinkProperty = () => {
   return (
     <PropertyWrapper_v1>
       <InputWithAttachLebel
+        placeholder="Link with external url"
         label="Link to"
         value={redirectLink}
         onChange={handleChange}

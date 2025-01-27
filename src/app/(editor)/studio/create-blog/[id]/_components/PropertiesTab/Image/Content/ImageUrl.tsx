@@ -99,6 +99,7 @@ const ImageUrl = () => {
 
       <InputWithAttachLebel
         label="Url"
+        placeholder="Add image throught external url"
         value={url}
         onChange={handleChange}
         onBlur={handleBlur}

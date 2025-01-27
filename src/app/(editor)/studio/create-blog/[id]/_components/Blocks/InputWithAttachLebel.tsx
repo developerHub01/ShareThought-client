@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 interface InputWithAttachLebelProps {
   value: string;
   label: string;
+  placeholder?: string;
   onChange: (value: string) => void;
   onBlur: (value: string) => void;
 }
@@ -15,6 +16,7 @@ const InputWithAttachLebel = ({
   value,
   onChange,
   onBlur,
+  placeholder = "",
 }: InputWithAttachLebelProps) => {
   const id = label?.toLowerCase()?.replaceAll(" ", "_");
 
@@ -29,6 +31,7 @@ const InputWithAttachLebel = ({
       <Input
         id={id}
         className="w-full rounded-l-none"
+        placeholder={placeholder}
         value={value}
         onChange={(e: ChangeEvent<HTMLInputElement>) =>
           onChange(e.target.value)

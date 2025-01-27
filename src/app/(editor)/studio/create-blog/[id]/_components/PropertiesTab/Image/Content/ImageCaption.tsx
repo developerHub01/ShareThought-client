@@ -44,6 +44,7 @@ const ImageCaption = () => {
     <PropertyWrapper_v1>
       <InputWithAttachLebel
         label="Caption"
+        placeholder="Image caption"
         value={caption}
         onChange={handleChange}
         onBlur={handleBlur}
