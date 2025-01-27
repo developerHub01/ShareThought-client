@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import { cn } from "@/lib/utils";
 import React from "react";
 
 interface PropertyWrapper_v1Props {
@@ -11,7 +11,7 @@ const PropertyWrapper_v1 = ({
 }: PropertyWrapper_v1Props) => {
   return (
     <div
-      className={clsx(
+      className={cn(
         "flex justify-between items-center p-3 border-b flex-wrap select-none gap-3",
         className
       )}

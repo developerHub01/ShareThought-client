@@ -914,6 +914,23 @@ export const blogBuilderSlice = createSlice({
       return state;
     },
 
+    updateOpacity: (
+      state,
+      action: PayloadAction<{
+        blogId: string;
+        activeBlockId: string;
+        opacity: number;
+      }>
+    ) => {
+      const { blogId, activeBlockId, opacity = 100 } = action.payload;
+
+      const styles = state.blogs[blogId].metaData.styles[activeBlockId];
+
+      if (opacity < 0 || opacity > 100) return state;
+
+      styles.opacity = opacity / 100;
+    },
+
     /*** Table============= ***/
     addTableRows: (
       state,
@@ -1544,6 +1561,7 @@ export const {
   toggleBorderRadiusAll,
   updateBorderRadiusStyle,
   addBorderStyle,
+  updateOpacity,
   toggleBorderAll,
   addTableRows,
   removeTableRows,
