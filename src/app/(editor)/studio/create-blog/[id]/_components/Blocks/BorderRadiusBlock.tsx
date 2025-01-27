@@ -27,7 +27,6 @@ const BorderRadiusBlock = ({
       ].some((BorderRadius) => typeof BorderRadius === "number"),
     [borderRadius]
   );
-  console.log({ borderRadius });
 
   return (
     <PropertyWrapper_v1 className="flex flex-col gap-3">

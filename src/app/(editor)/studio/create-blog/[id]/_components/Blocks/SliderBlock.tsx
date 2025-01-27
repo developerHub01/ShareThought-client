@@ -28,7 +28,7 @@ const SliderBlock = ({
         <Label className="flex-shrink-0">{min} %</Label>
         <div className="w-full relative">
           <Badge
-            className="min-w-8 text-center w-fit whitespace-nowrap absolute z-10 top-0 -translate-x-1/2 -translate-y-full -mt-4 before:size-4 before:bg-primary before:absolute before:bottom-0 before:left-1/2 before:-translate-x-1/2 before:translate-y-1/3 before:rotate-45 before:rounded-[2px] before:-z-10"
+            className="min-w-8 hover:hover:bg-primary text-center w-fit whitespace-nowrap absolute z-10 top-0 -translate-x-1/2 -translate-y-full -mt-4 rounded-md before:size-4 before:bg-primary before:absolute before:bottom-0 before:left-1/2 before:-translate-x-1/2 before:translate-y-1/3 before:rotate-45 before:rounded-[2px] before:-z-10"
             style={{
               left: `calc(${value}% ${value < 50 ? "+" : "-"} 10px)`,
             }}
@@ -36,15 +36,12 @@ const SliderBlock = ({
             {Math.round(value)} %
           </Badge>
           <Slider
-            defaultValue={[100]}
+            defaultValue={[defaultValue]}
             max={max}
             min={min}
             className={"w-full"}
             value={[value]}
-            onValueChange={(values: Array<number>) => {
-              console.log({ values });
-              onChange(values[0]);
-            }}
+            onValueChange={(values: Array<number>) => onChange(values[0])}
           />
         </div>
         <Label className="flex-shrink-0">{max} %</Label>
