@@ -2,6 +2,7 @@ import React from "react";
 import ImageUploadCanvas from "@/components/editor/components/ImageUploadCanvas";
 import { useParams } from "next/navigation";
 import { useAppSelector } from "@/redux/hooks";
+import useWrapperContentStyleSeparator from "@/hooks/editor/use-wrapper-content-style-separator";
 interface ImageProps {
   id: string;
   alt?: string;
@@ -23,41 +24,31 @@ const Image = ({ id, alt = "", caption = "", ...props }: ImageProps) => {
 
   const imageStyles = styles[id];
 
-  const formattedStyles: Record<string, unknown> = {
-    ...imageStyles,
-  };
-
-  const formattedFigureStyles: Record<string, unknown> = {};
-
-  for (const key in imageStyles) {
-    if (key.startsWith("padding")) {
-      formattedFigureStyles[key] = imageStyles[key];
-      delete formattedStyles[key];
-    }
-  }
+  const { contentStyles, wrapperStyles } =
+    useWrapperContentStyleSeparator(imageStyles);
 
   if (Array.isArray(imageStyles?.border))
-    formattedStyles.border = `${imageStyles.border[0]}px ${imageStyles.border[1]} ${imageStyles.border[2]}`;
+    contentStyles.border = `${imageStyles.border[0]}px ${imageStyles.border[1]} ${imageStyles.border[2]}`;
   if (Array.isArray(imageStyles?.borderTop))
-    formattedStyles.borderTop = `${imageStyles.borderTop[0]}px ${imageStyles.borderTop[1]} ${imageStyles.borderTop[2]}`;
+    contentStyles.borderTop = `${imageStyles.borderTop[0]}px ${imageStyles.borderTop[1]} ${imageStyles.borderTop[2]}`;
   if (Array.isArray(imageStyles?.borderBottom))
-    formattedStyles.borderBottom = `${imageStyles.borderBottom[0]}px ${imageStyles.borderBottom[1]} ${imageStyles.borderBottom[2]}`;
+    contentStyles.borderBottom = `${imageStyles.borderBottom[0]}px ${imageStyles.borderBottom[1]} ${imageStyles.borderBottom[2]}`;
   if (Array.isArray(imageStyles?.borderLeft))
-    formattedStyles.borderLeft = `${imageStyles.borderLeft[0]}px ${imageStyles.borderLeft[1]} ${imageStyles.borderLeft[2]}`;
+    contentStyles.borderLeft = `${imageStyles.borderLeft[0]}px ${imageStyles.borderLeft[1]} ${imageStyles.borderLeft[2]}`;
   if (Array.isArray(imageStyles?.borderRight))
-    formattedStyles.borderRight = `${imageStyles.borderRight[0]}px ${imageStyles.borderRight[1]} ${imageStyles.borderRight[2]}`;
+    contentStyles.borderRight = `${imageStyles.borderRight[0]}px ${imageStyles.borderRight[1]} ${imageStyles.borderRight[2]}`;
 
   return (
     <figure
       style={{
-        ...formattedFigureStyles,
+        ...wrapperStyles,
       }}
     >
       <img
         src={imageSrc}
         alt={alt}
         style={{
-          ...formattedStyles,
+          ...contentStyles,
         }}
       />
       {caption && <figcaption className="mt-1">{caption}</figcaption>}
