@@ -10,7 +10,13 @@ interface ImageProps {
   [key: string]: unknown;
 }
 
-const Image = ({ id, alt = "", caption = "", ...props }: ImageProps) => {
+const Image = ({
+  id,
+  alt = "",
+  caption = "",
+  redirect,
+  ...props
+}: ImageProps) => {
   const { id: blogId } = useParams() as { id: string };
 
   const {
@@ -38,21 +44,36 @@ const Image = ({ id, alt = "", caption = "", ...props }: ImageProps) => {
   if (Array.isArray(imageStyles?.borderRight))
     contentStyles.borderRight = `${imageStyles.borderRight[0]}px ${imageStyles.borderRight[1]} ${imageStyles.borderRight[2]}`;
 
-  return (
-    <figure
-      style={{
-        ...wrapperStyles,
-      }}
-    >
-      <img
-        src={imageSrc}
-        alt={alt}
+  const Comp = () => {
+    return (
+      <figure
         style={{
-          ...contentStyles,
+          ...wrapperStyles,
         }}
-      />
-      {caption && <figcaption className="mt-1">{caption}</figcaption>}
-    </figure>
+      >
+        <img
+          src={imageSrc}
+          alt={alt}
+          style={{
+            ...contentStyles,
+          }}
+        />
+        {caption && <figcaption className="mt-1">{caption}</figcaption>}
+      </figure>
+    );
+  };
+
+  if (!redirect) return <Comp />;
+
+  return (
+    <a
+      target="_blank"
+      href={redirect as string}
+      aria-label={alt || "Image link"}
+      title={alt || "Image link"}
+    >
+      <Comp />
+    </a>
   );
 };
 

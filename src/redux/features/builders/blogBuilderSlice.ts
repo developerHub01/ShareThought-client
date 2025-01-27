@@ -1,5 +1,5 @@
 import { defaultGlobalStyles, EDITOR_TABLE_SIZE } from "@/constant";
-import { isValidHexColor } from "@/utils";
+import { isValidHexColor, isValidURL } from "@/utils";
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { v4 as uuidv4 } from "uuid";
@@ -53,6 +53,7 @@ export interface BlockInterface {
   gridSize?: Array<number>;
   text?: string;
   link?: string;
+  redirect?: string; // if any component is linked with web.
   alt?: string;
   caption?: string;
   locationPath?: Array<string>;
@@ -931,6 +932,22 @@ export const blogBuilderSlice = createSlice({
       styles.opacity = opacity / 100;
     },
 
+    linkRedirect: (
+      state,
+      action: PayloadAction<{
+        blogId: string;
+        activeBlockId: string;
+        link: string;
+      }>
+    ) => {
+      const { blogId, activeBlockId, link } = action.payload;
+
+      const component = state.blogs[blogId].components[activeBlockId];
+
+      if (link && isValidURL(link)) component.redirect = link;
+      else delete component.redirect;
+    },
+
     /*** Table============= ***/
     addTableRows: (
       state,
@@ -1562,6 +1579,7 @@ export const {
   updateBorderRadiusStyle,
   addBorderStyle,
   updateOpacity,
+  linkRedirect,
   toggleBorderAll,
   addTableRows,
   removeTableRows,

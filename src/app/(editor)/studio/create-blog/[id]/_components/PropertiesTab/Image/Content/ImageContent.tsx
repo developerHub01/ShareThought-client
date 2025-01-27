@@ -5,6 +5,7 @@ import ImageAlt from "@/app/(editor)/studio/create-blog/[id]/_components/Propert
 import ImageCaption from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Image/Content/ImageCaption";
 import ImageUrl from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Image/Content/ImageUrl";
 import useActiveImage from "@/hooks/editor/use-active-image";
+import ComponentLinkProperty from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Common/ComponentLinkProperty";
 
 const ImageContent = () => {
   const { url } = useActiveImage();
@@ -17,6 +18,7 @@ const ImageContent = () => {
         <>
           <ImageAlt />
           <ImageCaption />
+          <ComponentLinkProperty />
         </>
       )}
     </div>
