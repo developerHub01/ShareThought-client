@@ -27,6 +27,15 @@ const Image = ({ id, alt = "", caption = "", ...props }: ImageProps) => {
     ...imageStyles,
   };
 
+  const formattedFigureStyles: Record<string, unknown> = {};
+
+  for (const key in imageStyles) {
+    if (key.startsWith("padding")) {
+      formattedFigureStyles[key] = imageStyles[key];
+      delete formattedStyles[key];
+    }
+  }
+
   if (Array.isArray(imageStyles?.border))
     formattedStyles.border = `${imageStyles.border[0]}px ${imageStyles.border[1]} ${imageStyles.border[2]}`;
   if (Array.isArray(imageStyles?.borderTop))
@@ -39,7 +48,11 @@ const Image = ({ id, alt = "", caption = "", ...props }: ImageProps) => {
     formattedStyles.borderRight = `${imageStyles.borderRight[0]}px ${imageStyles.borderRight[1]} ${imageStyles.borderRight[2]}`;
 
   return (
-    <figure>
+    <figure
+      style={{
+        ...formattedFigureStyles,
+      }}
+    >
       <img
         src={imageSrc}
         alt={alt}

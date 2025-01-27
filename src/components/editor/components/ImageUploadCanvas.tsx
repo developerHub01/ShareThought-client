@@ -98,7 +98,7 @@ const ImageUploadCanvas = ({ id, blogId }: ImageUploadCanvasProps) => {
       )}
     >
       <ImageIcon size={50} />
-      <p>Drop your file here...</p>
+      <p>Drop your image here...</p>
 
       <input
         type="file"
