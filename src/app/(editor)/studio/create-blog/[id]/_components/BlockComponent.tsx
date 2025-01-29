@@ -10,7 +10,6 @@ import {
 import React from "react";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { BlogComponentBlock } from "@/types";
-import clsx from "clsx";
 import {
   GripHorizontal as GripIcon,
   Trash as RemoveIcon,
@@ -60,7 +59,7 @@ const BlockComponent = ({ ...props }: BlockInterface) => {
 
   return (
     <div
-      className={clsx(
+      className={cn(
         "flex w-full group-hover:bg-accent justify-center gap-3 p-2 ring-2 ring-transparent relative group-hover:ring-primary",
         {
           "bg-accent ring-primary": props.id === activeBlock,
