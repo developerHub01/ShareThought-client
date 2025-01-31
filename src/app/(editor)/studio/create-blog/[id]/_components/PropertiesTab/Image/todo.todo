@@ -1,11 +1,9 @@
 1. Layout
 
-    Alignment: Left, Center, Right.
+    Alignment: Left, Center, Right. ✅✅✅
     Width: Slider or input for custom width (percentage or pixels).
     Height: Slider or input for custom height (optional).
     Aspect Ratio: Lock/unlock aspect ratio toggle.
-    Margin: Adjust margins around the image.
-    Position: Inline, Block, Float Left/Right.
 
 ✅✅✅
 2. Content

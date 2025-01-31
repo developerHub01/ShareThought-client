@@ -10,6 +10,7 @@ import ImageHueRotate from "@/app/(editor)/studio/create-blog/[id]/_components/P
 import ImageContrast from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Image/Filters/ImageContrast";
 import ImageSaturation from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Image/Filters/ImageSaturation";
 import ImageFilterReset from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Image/Filters/ImageFilterReset";
+import ImageOpacity from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Image/Filters/ImageOpacity";
 
 const ImageFilters = () => {
   return (
@@ -22,6 +23,7 @@ const ImageFilters = () => {
       <ImageSaturation />
       <ImageSepia />
       <ImageHueRotate />
+      <ImageOpacity />
       <ImageFilterReset />
     </div>
   );
