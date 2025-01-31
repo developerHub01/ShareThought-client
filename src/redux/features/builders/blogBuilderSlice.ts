@@ -46,6 +46,18 @@ export type BorderType =
   | "borderLeft"
   | "borderRight";
 
+export type FilterType = {
+  brightness?: number;
+  contrast?: number;
+  grayscale?: number;
+  sepia?: number;
+  hueRotate?: number;
+  saturate?: number;
+  blur?: number;
+  invert?: number;
+  opacity?: number;
+};
+
 export interface BlockInterface {
   postId?: string;
   id: string;
@@ -106,9 +118,16 @@ export interface BorderInterface {
   borderRight?: [number, string, string];
 }
 
+export type StyleType = Record<
+  string,
+  string | number | Array<string | number>
+> &
+  BorderInterface & {
+    filter?: FilterType;
+  };
+
 export interface StylesInterface {
-  [key: string]: Record<string, string | number | Array<string | number>> &
-    BorderInterface;
+  [key: string]: StyleType;
 }
 
 export interface BlogBuilderState {
@@ -143,10 +162,7 @@ const blogInitialState = {
   content: [],
   metaData: {
     imgLinks: {} as Record<string, string>,
-    styles: {} as Record<
-      string,
-      Record<string, string | number | Array<string | number>>
-    >,
+    styles: {} as StylesInterface,
     mobileStyles: {} as Record<string, Record<string, string | number>>,
     hoverStyles: {} as Record<string, Record<string, string | number>>,
     globalStyles: defaultGlobalStyles,
@@ -200,6 +216,18 @@ const tableInitialState: TableInterface = {
 const tableStripedInitialState: StripedRowInterface = {
   backgroundColor: EDITOR_TABLE_SIZE.STRIPED_ROW_DEFAULT_BACKGROUND_COLOR,
   stripedType: "even",
+};
+
+export const ImageFiltersInitial: FilterType = {
+  brightness: 100,
+  contrast: 100,
+  grayscale: 0,
+  sepia: 0,
+  hueRotate: 0,
+  saturate: 100,
+  blur: 0,
+  invert: 0,
+  opacity: 100,
 };
 
 const initialState: BlogBuilderState = {
@@ -1562,6 +1590,45 @@ export const blogBuilderSlice = createSlice({
       if (alt) blockComponent.alt = alt;
       if (caption) blockComponent.caption = caption;
     },
+
+    /* image filter  */
+    addImageFilter: (
+      state,
+      action: PayloadAction<{
+        blogId: string;
+        id: string; // component id
+        filter: FilterType;
+      }>
+    ) => {
+      const { blogId, id } = action.payload;
+      let { filter } = action.payload;
+
+      if (!state.blogs[blogId]?.metaData?.styles[id])
+        state.blogs[blogId].metaData.styles[id] = {};
+
+      const blockStyle = state.blogs[blogId]?.metaData?.styles[id];
+
+      blockStyle.filter = {
+        ...(blockStyle.filter || {}),
+        ...(filter as FilterType),
+      };
+    },
+
+    resetImageFilter: (
+      state,
+      action: PayloadAction<{
+        blogId: string;
+        id: string; // component id
+      }>
+    ) => {
+      const { blogId, id } = action.payload;
+
+      const blockStyle = state.blogs[blogId]?.metaData?.styles[id];
+
+      if (!blockStyle) return state;
+
+      delete blockStyle.filter;
+    },
   },
 });
 
@@ -1601,6 +1668,8 @@ export const {
   changeCellContent,
   changeImage,
   updateImageContent,
+  addImageFilter,
+  resetImageFilter,
 } = blogBuilderSlice.actions;
 
 export default blogBuilderSlice.reducer;

@@ -10,6 +10,7 @@ import PropertyTypeWrapper from "@/app/(editor)/studio/create-blog/[id]/_compone
 import ImageStyles from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Image/Style/ImageStyles";
 import ImageContent from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Image/Content/ImageContent";
 import PaddingProperty from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Common/PaddingProperty";
+import ImageFilters from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Image/Filters/ImageFilters";
 
 const PropertiesTab = () => {
   const { id: blogId } = useParams();
@@ -45,6 +46,9 @@ const PropertiesTab = () => {
             </PropertyTypeWrapper>
             <PropertyTypeWrapper id="image_content" label="Content">
               <ImageContent />
+            </PropertyTypeWrapper>
+            <PropertyTypeWrapper id="image_filters" label="Filters">
+              <ImageFilters />
             </PropertyTypeWrapper>
           </>
         )}

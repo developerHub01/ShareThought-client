@@ -26,8 +26,6 @@ const ImageUploadCanvas = ({ id, blogId }: ImageUploadCanvasProps) => {
 
   const processImageFile = useCallback(
     (file: File) => {
-      console.log(file);
-
       if (!file.type.startsWith("image/")) {
         return toast({
           title: "Oops! That's not an image!",
@@ -37,8 +35,6 @@ const ImageUploadCanvas = ({ id, blogId }: ImageUploadCanvasProps) => {
       }
 
       const imageURL = URL.createObjectURL(file);
-
-      console.log({ imageURL });
 
       dispatch(
         changeImage({

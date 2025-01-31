@@ -9,7 +9,7 @@ import PropertyWrapper_v1 from "@/app/(editor)/studio/create-blog/[id]/_componen
 
 const ImageCaption = () => {
   const [caption, setCaption] = useState("");
-  const { id: blogId } = useParams() as { id: string };
+  const { id: blogId } = useParams<{ id: string }>();
   const dispatch = useAppDispatch();
 
   if (!blogId) return null;
