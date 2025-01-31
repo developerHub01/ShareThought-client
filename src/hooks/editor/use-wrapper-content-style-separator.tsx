@@ -8,7 +8,7 @@ const useWrapperContentStyleSeparator = (
   const wrapperStyles: Record<string, unknown> = {};
 
   for (const key in imageStyles) {
-    if (key.startsWith("padding")) {
+    if (["padding", "justifyContent"].some((item) => key.startsWith(item))) {
       wrapperStyles[key] = imageStyles[key];
       delete contentStyles[key];
     }

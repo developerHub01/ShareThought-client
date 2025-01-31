@@ -1,6 +1,6 @@
 import { defaultGlobalStyles, EDITOR_TABLE_SIZE } from "@/constant";
 import { isValidHexColor, isValidURL } from "@/utils";
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, current } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { v4 as uuidv4 } from "uuid";
 
@@ -22,6 +22,11 @@ type TableTypes = "thead" | "tbody" | "tr" | "th" | "td";
 export type BorderStyleType = "solid" | "dotted" | "dashed";
 export type StripedType = "even" | "odd";
 export type AlignType = "left" | "center" | "right" | "justify";
+export type flexAlignType =
+  | "flex-start"
+  | "center"
+  | "flex-end"
+  | "flex-between";
 export type FontWeightType = "bold" | "normal";
 export type LineHeightType = 1.2 | 1.5 | 1.8 | 2.0;
 export type TextDirectionType = "ltr" | "rtl";
@@ -976,6 +981,23 @@ export const blogBuilderSlice = createSlice({
       else delete component.redirect;
     },
 
+    setAlignment: (
+      state,
+      action: PayloadAction<{
+        blogId: string;
+        activeBlockId: string;
+        alignment: flexAlignType;
+      }>
+    ) => {
+      const { blogId, activeBlockId, alignment } = action.payload;
+
+      if (!state.blogs[blogId].metaData.styles[activeBlockId])
+        state.blogs[blogId].metaData.styles[activeBlockId] = {};
+
+      state.blogs[blogId].metaData.styles[activeBlockId].justifyContent =
+        alignment ?? "flex-start";
+    },
+
     /*** Table============= ***/
     addTableRows: (
       state,
@@ -1648,6 +1670,7 @@ export const {
   updateOpacity,
   linkRedirect,
   toggleBorderAll,
+  setAlignment,
   addTableRows,
   removeTableRows,
   changeTableRowsCount,

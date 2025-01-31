@@ -41,12 +41,13 @@ const Image = ({
   contentStyles = { ...contentStyles, ...filteredBorder };
 
   const filterStyles = useHandleFilterStyle(imageStyles);
-  
+
   contentStyles = { ...contentStyles, ...filterStyles };
 
   const Comp = () => {
     return (
       <figure
+        className="flex"
         style={{
           ...wrapperStyles,
         }}
