@@ -5,6 +5,7 @@ import { useAppSelector } from "@/redux/hooks";
 import useWrapperContentStyleSeparator from "@/hooks/editor/use-wrapper-content-style-separator";
 import useHandleBorderStyle from "@/hooks/editor/use-handle-border-style";
 import { StyleType } from "@/redux/features/builders/blogBuilderSlice";
+import useHandleFilterStyle from "@/hooks/editor/use-handle-filter-style";
 interface ImageProps {
   id: string;
   alt?: string;
@@ -38,6 +39,10 @@ const Image = ({
   const filteredBorder = useHandleBorderStyle(imageStyles);
 
   contentStyles = { ...contentStyles, ...filteredBorder };
+
+  const filterStyles = useHandleFilterStyle(imageStyles);
+  
+  contentStyles = { ...contentStyles, ...filterStyles };
 
   const Comp = () => {
     return (
