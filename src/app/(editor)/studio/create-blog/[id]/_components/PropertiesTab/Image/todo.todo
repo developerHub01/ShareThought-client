@@ -10,9 +10,9 @@
 ✅✅✅
 2. Content
 
-    Image URL: Textbox to add or edit the image's URL.
-    Alt Text: Input field for alternative text (for accessibility and SEO).
-    Caption: Option to add a caption below the image.
+    Image URL: Textbox to add or edit the image's URL. ✅✅✅
+    Alt Text: Input field for alternative text (for accessibility and SEO). ✅✅✅
+    Caption: Option to add a caption below the image. ✅✅✅
 
 3. Style
 
@@ -20,12 +20,12 @@
     Shadow: Add shadow effects to the image.
     Opacity: Adjust transparency level. ✅✅✅
     Border Radius: Add rounded corners. ✅✅✅
-    Filters: Apply effects (e.g., grayscale, brightness, contrast).
+    Filters: Apply effects (e.g., grayscale, brightness, contrast). ✅✅✅
 
 ✅✅✅
 4. Padding
 
-    Padding: Adjust padding inside the image's container.
+    Padding: Adjust padding inside the image's container. ✅✅✅
 
 Example Accordion Labels:
 

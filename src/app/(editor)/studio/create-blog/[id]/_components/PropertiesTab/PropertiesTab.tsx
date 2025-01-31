@@ -11,12 +11,14 @@ import ImageStyles from "@/app/(editor)/studio/create-blog/[id]/_components/Prop
 import ImageContent from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Image/Content/ImageContent";
 import PaddingProperty from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Common/PaddingProperty";
 import ImageFilters from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Image/Filters/ImageFilters";
+import ImageLayout from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Image/Layout/ImageLayout";
 
 const PropertiesTab = () => {
   const { id: blogId } = useParams();
-  const { activeBlock, components } = useAppSelector(
-    (state) => state.blogBuilder.blogs[blogId as string]
-  );
+  const {
+    activeBlock,
+    components,
+  } = useAppSelector((state) => state.blogBuilder.blogs[blogId as string]);
 
   if (!activeBlock) return null;
 
@@ -41,15 +43,24 @@ const PropertiesTab = () => {
 
         {activeComponent.type === "image" && (
           <>
-            <PropertyTypeWrapper id="image_style" label="Styles">
-              <ImageStyles />
-            </PropertyTypeWrapper>
+            {activeComponent.link && (
+              <>
+                <PropertyTypeWrapper id="image_layout" label="Layout">
+                  <ImageLayout />
+                </PropertyTypeWrapper>
+                <PropertyTypeWrapper id="image_style" label="Styles">
+                  <ImageStyles />
+                </PropertyTypeWrapper>
+              </>
+            )}
             <PropertyTypeWrapper id="image_content" label="Content">
               <ImageContent />
             </PropertyTypeWrapper>
-            <PropertyTypeWrapper id="image_filters" label="Filters">
-              <ImageFilters />
-            </PropertyTypeWrapper>
+            {activeComponent.link && (
+              <PropertyTypeWrapper id="image_filters" label="Filters">
+                <ImageFilters />
+              </PropertyTypeWrapper>
+            )}
           </>
         )}
 
