@@ -1,6 +1,6 @@
 "use client";
 
-import React, { ChangeEvent, FocusEvent } from "react";
+import React, { ChangeEvent, FocusEvent, useMemo } from "react";
 import {
   Popover,
   PopoverContent,
@@ -21,6 +21,8 @@ const ColorPicker = ({
   handleColorChange,
   handleColorBlur,
 }: ColorPickerProps) => {
+  const transparentImage = useMemo(() => "/images/transparent.jpg", []);
+
   return (
     <div className="flex items-center gap-1 border rounded-sm p-0.5">
       <Popover>
@@ -29,7 +31,8 @@ const ColorPicker = ({
             type="button"
             className="size-6 md:size-7 border-2 rounded-sm"
             style={{
-              background: color,
+              background:
+                color === "transparent" ? `url(${transparentImage})` : color,
             }}
           ></button>
         </PopoverTrigger>
