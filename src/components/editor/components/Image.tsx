@@ -3,6 +3,8 @@ import ImageUploadCanvas from "@/components/editor/components/ImageUploadCanvas"
 import { useParams } from "next/navigation";
 import { useAppSelector } from "@/redux/hooks";
 import useWrapperContentStyleSeparator from "@/hooks/editor/use-wrapper-content-style-separator";
+import useHandleBorderStyle from "@/hooks/editor/use-handle-border-style";
+import { StyleType } from "@/redux/features/builders/blogBuilderSlice";
 interface ImageProps {
   id: string;
   alt?: string;
@@ -28,21 +30,14 @@ const Image = ({
   const imageSrc = imgLinks && imgLinks[id];
   if (!imageSrc) return <ImageUploadCanvas id={id} blogId={blogId} />;
 
-  const imageStyles = styles[id];
+  const imageStyles: StyleType = styles[id];
 
-  const { contentStyles, wrapperStyles } =
+  let { contentStyles, wrapperStyles } =
     useWrapperContentStyleSeparator(imageStyles);
 
-  if (Array.isArray(imageStyles?.border))
-    contentStyles.border = `${imageStyles.border[0]}px ${imageStyles.border[1]} ${imageStyles.border[2]}`;
-  if (Array.isArray(imageStyles?.borderTop))
-    contentStyles.borderTop = `${imageStyles.borderTop[0]}px ${imageStyles.borderTop[1]} ${imageStyles.borderTop[2]}`;
-  if (Array.isArray(imageStyles?.borderBottom))
-    contentStyles.borderBottom = `${imageStyles.borderBottom[0]}px ${imageStyles.borderBottom[1]} ${imageStyles.borderBottom[2]}`;
-  if (Array.isArray(imageStyles?.borderLeft))
-    contentStyles.borderLeft = `${imageStyles.borderLeft[0]}px ${imageStyles.borderLeft[1]} ${imageStyles.borderLeft[2]}`;
-  if (Array.isArray(imageStyles?.borderRight))
-    contentStyles.borderRight = `${imageStyles.borderRight[0]}px ${imageStyles.borderRight[1]} ${imageStyles.borderRight[2]}`;
+  const filteredBorder = useHandleBorderStyle(imageStyles);
+
+  contentStyles = { ...contentStyles, ...filteredBorder };
 
   const Comp = () => {
     return (
