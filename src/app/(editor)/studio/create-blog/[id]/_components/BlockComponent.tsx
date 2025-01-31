@@ -94,7 +94,7 @@ const ActionButton = ({ id, Icon, onClick, className }: ActionButtonProps) => {
     <Button
       key={id}
       onClick={onClick}
-      size="icon"
+      size="smIcon"
       type="button"
       variant="default"
       className={cn(

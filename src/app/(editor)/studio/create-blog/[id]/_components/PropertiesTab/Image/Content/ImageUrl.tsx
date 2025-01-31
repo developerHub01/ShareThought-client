@@ -14,13 +14,20 @@ import { updateImageContent } from "@/redux/features/builders/blogBuilderSlice";
 import { useAppDispatch } from "@/redux/hooks";
 import { isBlobURL, isValidURL } from "@/utils/index";
 import PropertyWrapper_v1 from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/PropertyWrapper_v1";
+import { Button } from "@/components/ui/button";
+import { Crop as EditIcon } from "lucide-react";
+import { LabelButton } from "@/components/ui/label-button";
+import useModifyQueryParams from "@/hooks/use-modify-query-params";
+import { useRouter } from "next/navigation";
 
 const ImageUrl = () => {
   const [url, setUrl] = useState("");
   const { toast } = useToast();
+  const router = useRouter();
   const dispatch = useAppDispatch();
   const imageInputRef = useRef<HTMLInputElement | null>(null);
   const { url: imageUrl, activeBlock, blogId } = useActiveImage();
+  const { buildFullPath, modifyParams } = useModifyQueryParams();
 
   const isBlob = isBlobURL(imageUrl);
 
@@ -77,9 +84,13 @@ const ImageUrl = () => {
     [processImageFile]
   );
 
+  const handleEdit = () => {
+    return router.push(buildFullPath(modifyParams("append", "edit", imageUrl)));
+  };
+
   return (
     <PropertyWrapper_v1>
-      <>
+      <div className="flex items-center gap-4">
         <input
           type="file"
           name="imageUploader"
@@ -89,13 +100,15 @@ const ImageUrl = () => {
           onChange={handleImageChange}
           hidden
         />
-        <label
-          htmlFor="imageUploader"
-          className="cursor-pointer bg-primary hover:bg-primary/80 text-primary-foreground px-4 py-1.5 rounded-sm"
-        >
+        <LabelButton size={"sm"} htmlFor="imageUploader">
           Upload
-        </label>
-      </>
+        </LabelButton>
+        {imageUrl && (
+          <Button size={"sm"} onClick={handleEdit}>
+            Edit <EditIcon size={18} />
+          </Button>
+        )}
+      </div>
 
       <InputWithAttachLebel
         label="Url"

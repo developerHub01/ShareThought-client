@@ -10,6 +10,7 @@ import { updateTitle } from "@/redux/features/builders/blogBuilderSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useParams } from "next/navigation";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import EditorPopover from "@/app/(editor)/studio/create-blog/[id]/_components/ImageEditor/EditorPopover";
 
 const EditorCanvas = () => {
   const { id: postId } = useParams<{ id: string }>();
@@ -50,10 +51,7 @@ const EditorCanvas = () => {
             </div>
             <section className="py-5 px-1 flex flex-col">
               {blogData?.content.map((id, index, list) => (
-                <div
-                  key={id}
-                  className="group"
-                >
+                <div key={id} className="group">
                   <BlockComponent
                     {...blogData.components[id]}
                     postId={postId}
@@ -78,6 +76,7 @@ const EditorCanvas = () => {
         <EditorSidebar />
       </section>
       <ComponentDialog />
+      <EditorPopover />
     </section>
   );
 };
