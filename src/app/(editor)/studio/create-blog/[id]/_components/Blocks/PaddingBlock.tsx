@@ -1,8 +1,8 @@
 import React, { ChangeEvent, useMemo } from "react";
 import { Switch } from "@/components/ui/switch";
-import PropertyWrapper_v1 from "../PropertiesTab/PropertyWrapper_v1";
+import PropertyWrapper_v1 from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/PropertyWrapper_v1";
 import { PaddingType } from "@/redux/features/builders/blogBuilderSlice";
-import ValueCounter from "../PropertiesTab/ValueCounter";
+import ValueCounter from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/ValueCounter";
 
 interface PaddingBlockProps {
   padding: Partial<Record<PaddingType, number>>;

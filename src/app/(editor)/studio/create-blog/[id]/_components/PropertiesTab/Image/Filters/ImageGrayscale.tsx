@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import SliderBlock from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/SliderBlock";
+import SliderBlockWithLabel from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/SliderBlockWithLabel";
 import {
   addImageFilter,
   ImageFiltersInitial,
@@ -40,7 +40,7 @@ const ImageGrayscale = () => {
   };
 
   return (
-    <SliderBlock
+    <SliderBlockWithLabel
       label="Grayscale"
       min={0}
       max={100}

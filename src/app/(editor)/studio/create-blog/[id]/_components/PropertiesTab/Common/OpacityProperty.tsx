@@ -3,7 +3,7 @@
 import React from "react";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useParams } from "next/navigation";
-import SliderBlock from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/SliderBlock";
+import SliderBlockWithLabel from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/SliderBlockWithLabel";
 import { updateOpacity } from "@/redux/features/builders/blogBuilderSlice";
 
 const OpacityProperty = () => {
@@ -32,7 +32,7 @@ const OpacityProperty = () => {
   };
 
   return (
-    <SliderBlock
+    <SliderBlockWithLabel
       label="Opacity"
       value={Number(componentStyles.opacity ?? 1) * 100}
       onChange={handleChange}

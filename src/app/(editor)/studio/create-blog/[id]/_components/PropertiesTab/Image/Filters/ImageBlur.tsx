@@ -7,7 +7,7 @@ import {
 } from "@/redux/features/builders/blogBuilderSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useParams } from "next/navigation";
-import SliderBlock from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/SliderBlock";
+import SliderBlockWithLabel from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/SliderBlockWithLabel";
 
 const ImageBlur = () => {
   const { id: blogId } = useParams<{ id: string }>();
@@ -40,7 +40,7 @@ const ImageBlur = () => {
   };
 
   return (
-    <SliderBlock
+    <SliderBlockWithLabel
       label="Blur"
       unit="px"
       defaultValue={0}

@@ -7,7 +7,7 @@ import {
 } from "@/redux/features/builders/blogBuilderSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useParams } from "next/navigation";
-import SliderBlock from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/SliderBlock";
+import SliderBlockWithLabel from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/SliderBlockWithLabel";
 
 const ImageContrast = () => {
   const { id: blogId } = useParams<{ id: string }>();
@@ -40,7 +40,7 @@ const ImageContrast = () => {
   };
 
   return (
-    <SliderBlock
+    <SliderBlockWithLabel
       label="Contrast"
       min={0}
       max={200}

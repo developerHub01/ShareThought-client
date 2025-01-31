@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import SliderBlock from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/SliderBlock";
+import SliderBlockWithLabel from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/SliderBlockWithLabel";
 import { useParams } from "next/navigation";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import {
@@ -40,7 +40,7 @@ const ImageInvert = () => {
   };
 
   return (
-    <SliderBlock
+    <SliderBlockWithLabel
       label="Invert"
       min={0}
       max={100}

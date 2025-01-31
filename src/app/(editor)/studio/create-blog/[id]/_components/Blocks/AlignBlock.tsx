@@ -2,12 +2,6 @@
 
 import React from "react";
 import PropertyWrapper_v1 from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/PropertyWrapper_v1";
-import { ColorResult } from "react-color";
-import {
-  BorderInterface,
-  BorderStyleType,
-  BorderType,
-} from "@/redux/features/builders/blogBuilderSlice";
 import { LucideIcon } from "lucide-react";
 import ToggleList from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/ToggleList";
 
