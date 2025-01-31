@@ -44,6 +44,9 @@ const Image = ({
 
   contentStyles = { ...contentStyles, ...filterStyles };
 
+  if (typeof contentStyles.width === "number")
+    contentStyles.width = `${contentStyles.width}%`;
+
   const Comp = () => {
     return (
       <figure

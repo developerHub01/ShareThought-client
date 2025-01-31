@@ -1651,6 +1651,24 @@ export const blogBuilderSlice = createSlice({
 
       delete blockStyle.filter;
     },
+
+    setImageWidth: (
+      state,
+      action: PayloadAction<{
+        blogId: string;
+        id: string; // component id
+        width: number | "auto";
+      }>
+    ) => {
+      const { blogId, id, width } = action.payload;
+
+      if (!state.blogs[blogId]?.metaData?.styles[id])
+        state.blogs[blogId].metaData.styles[id] = {};
+
+      const blockStyle = state.blogs[blogId]?.metaData?.styles[id];
+
+      blockStyle.width = width;
+    },
   },
 });
 
@@ -1693,6 +1711,7 @@ export const {
   updateImageContent,
   addImageFilter,
   resetImageFilter,
+  setImageWidth,
 } = blogBuilderSlice.actions;
 
 export default blogBuilderSlice.reducer;
