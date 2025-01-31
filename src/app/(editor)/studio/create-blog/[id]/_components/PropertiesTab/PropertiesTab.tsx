@@ -18,6 +18,7 @@ const PropertiesTab = () => {
   const {
     activeBlock,
     components,
+    metaData: { imgLinks },
   } = useAppSelector((state) => state.blogBuilder.blogs[blogId as string]);
 
   if (!activeBlock) return null;
@@ -43,7 +44,7 @@ const PropertiesTab = () => {
 
         {activeComponent.type === "image" && (
           <>
-            {activeComponent.link && (
+            {imgLinks && imgLinks[activeBlock] && (
               <>
                 <PropertyTypeWrapper id="image_layout" label="Layout">
                   <ImageLayout />
@@ -53,10 +54,12 @@ const PropertiesTab = () => {
                 </PropertyTypeWrapper>
               </>
             )}
+
             <PropertyTypeWrapper id="image_content" label="Content">
               <ImageContent />
             </PropertyTypeWrapper>
-            {activeComponent.link && (
+
+            {imgLinks && imgLinks[activeBlock] && (
               <PropertyTypeWrapper id="image_filters" label="Filters">
                 <ImageFilters />
               </PropertyTypeWrapper>
