@@ -1,7 +1,7 @@
 1. Layout
 
     Alignment: Left, Center, Right. ✅✅✅
-    Width: Slider or input for custom width (percentage or pixels).
+    Width: Slider or input for custom width (percentage or pixels). ✅✅✅
     Height: Slider or input for custom height (optional).
     Aspect Ratio: Lock/unlock aspect ratio toggle.
 
