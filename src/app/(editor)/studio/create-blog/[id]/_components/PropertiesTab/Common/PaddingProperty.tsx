@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import PaddingBlock from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/PaddingBlock";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useParams } from "next/navigation";
@@ -19,10 +19,10 @@ const PaddingProperty = () => {
 
   const {
     activeBlock,
-    metaData: { styles },
+    metaData: { styles = {} },
   } = useAppSelector((state) => state.blogBuilder.blogs[blogId]);
 
-  const padding: Record<string, number> = {};
+  if (!activeBlock) return null;
 
   useEffect(() => {
     if (activeBlock && !styles[activeBlock])
@@ -32,22 +32,16 @@ const PaddingProperty = () => {
           activeBlockId: activeBlock,
         })
       );
-  }, [activeBlock, styles]);
+  }, [activeBlock, dispatch, blogId, styles]);
 
-  if (!activeBlock) return null;
-
-  if (!styles[activeBlock]) return null;
-
-  if (styles[activeBlock].padding !== undefined)
-    padding["padding"] = styles[activeBlock].padding as number;
-  if (styles[activeBlock].paddingTop !== undefined)
-    padding["paddingTop"] = styles[activeBlock].paddingTop as number;
-  if (styles[activeBlock].paddingBottom !== undefined)
-    padding["paddingBottom"] = styles[activeBlock].paddingBottom as number;
-  if (styles[activeBlock].paddingLeft !== undefined)
-    padding["paddingLeft"] = styles[activeBlock].paddingLeft as number;
-  if (styles[activeBlock].paddingRight !== undefined)
-    padding["paddingRight"] = styles[activeBlock].paddingRight as number;
+  const padding = useMemo(() => {
+    const activeStyles = styles[activeBlock] ?? {};
+    return Object.fromEntries(
+      Object.entries(activeStyles).filter(
+        ([key, value]) => key.includes("padding") && value !== undefined
+      )
+    ) as Record<string, number>;
+  }, [styles, activeBlock]);
 
   const handleChangePadding = (
     padding: Partial<Record<PaddingType, number | "inc" | "dec">>
