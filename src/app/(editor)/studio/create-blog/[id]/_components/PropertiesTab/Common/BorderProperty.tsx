@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { ColorResult } from "react-color";
 import { isValidHexColor } from "@/utils";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useParams } from "next/navigation";
@@ -13,9 +12,7 @@ import {
 } from "@/redux/features/builders/blogBuilderSlice";
 import BorderAllSideBlock from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/BorderAllSideBlock";
 
-type BorderComboType = Partial<{
-  [key in BorderType]: [number, string, string];
-}>;
+type BorderComboType = Partial<Record<BorderType, [number, string, string]>>;
 
 const BorderProperty = () => {
   const dispatch = useAppDispatch();
@@ -26,7 +23,7 @@ const BorderProperty = () => {
   const {
     activeBlock,
     metaData: { styles = {} },
-  } = useAppSelector((state) => state.blogBuilder.blogs[blogId as string]);
+  } = useAppSelector((state) => state.blogBuilder.blogs[blogId]);
 
   if (!activeBlock) return null;
 
@@ -36,220 +33,106 @@ const BorderProperty = () => {
   const [borderState, setBorderState] = useState<BorderComboType>({});
 
   useEffect(() => {
-    if (activeBlock && componentStyles) {
-      const borders: BorderComboType = {};
+    if (!activeBlock) return;
 
-      if (componentStyles["border"]) borders.border = componentStyles["border"];
-      if (componentStyles["borderLeft"])
-        borders.borderLeft = componentStyles["borderLeft"];
-      if (componentStyles["borderRight"])
-        borders.borderRight = componentStyles["borderRight"];
-      if (componentStyles["borderTop"])
-        borders.borderTop = componentStyles["borderTop"];
-      if (componentStyles["borderBottom"])
-        borders.borderBottom = componentStyles["borderBottom"];
-
-      setBorderState((_) => ({
-        ...borders,
-      }));
-    }
+    setBorderState({
+      border: componentStyles["border"],
+      borderLeft: componentStyles["borderLeft"],
+      borderRight: componentStyles["borderRight"],
+      borderTop: componentStyles["borderTop"],
+      borderBottom: componentStyles["borderBottom"],
+    });
   }, [activeBlock, componentStyles]);
 
-  const handleColorPicker = (borderType: BorderType, color: ColorResult) => {
-    const newColor = color.hex;
-
-    if (isValidHexColor(newColor)) setLastValidColor(newColor);
-    setBorderState((prev) => ({
-      ...prev,
-      color: newColor,
-    }));
-
+  const updateBorder = (
+    borderType: BorderType,
+    update: Partial<Record<string, any>>
+  ) => {
     dispatch(
       addBorderStyle({
         blogId,
         activeBlockId: activeBlock,
-        border: {
-          [borderType as BorderType]: {
-            color: newColor,
-          },
-        },
+        border: { [borderType]: update },
       })
     );
   };
 
-  const handleColorChange = (borderType: BorderType, color: string) => {
+  const handleColorUpdate = (borderType: BorderType, color: string) => {
     if (isValidHexColor(color)) setLastValidColor(color);
 
     setBorderState((prev) => ({
       ...prev,
-      color,
-    }));
-
-    dispatch(
-      addBorderStyle({
-        blogId,
-        activeBlockId: activeBlock,
-        border: {
-          [borderType as BorderType]: {
-            color,
-          },
-        },
-      })
-    );
-  };
-
-  const handleColorBlur = (borderType: BorderType, color: string) => {
-    const dispatchData = {
-      blogId,
-      activeBlockId: activeBlock,
-      border: {
-        [borderType as BorderType]: {
-          color,
-        },
-      },
-    };
-
-    if (!isValidHexColor(color)) {
-      return setBorderState((prev) => ({
-        ...prev,
-        color: lastValidColor,
-      }));
-    }
-
-    setBorderState((prev) => ({
-      ...prev,
-      color,
-    }));
-    dispatch(addBorderStyle(dispatchData));
-  };
-
-  const handleBorderSizeIncrease = (borderType: BorderType) => {
-    setBorderState((prev: BorderComboType) => ({
-      ...prev,
       [borderType]: [
-        prev[borderType] && prev[borderType][0] + 1,
-        prev[borderType] && prev[borderType][1],
-        prev[borderType] && prev[borderType][2],
+        prev[borderType]?.[0] || 0,
+        prev[borderType]?.[1] || "solid",
+        color,
       ],
     }));
 
-    if (!borderState[borderType]) return;
-
-    dispatch(
-      addBorderStyle({
-        blogId,
-        activeBlockId: activeBlock,
-        border: {
-          [borderType as BorderType]: {
-            size: "inc",
-          },
-        },
-      })
-    );
+    updateBorder(borderType, { color });
   };
 
-  const handleBorderSizeDecrease = (borderType: BorderType) => {
-    if (borderState[borderType] && borderState[borderType][0] <= 0) return;
+  const handleBorderSizeUpdate = (borderType: BorderType, size: number) => {
+    const newSize = Math.max(0, size);
 
     setBorderState((prev) => ({
       ...prev,
       [borderType]: [
-        prev[borderType] && prev[borderType][0] - 1,
-        prev[borderType] && prev[borderType][1],
-        prev[borderType] && prev[borderType][2],
+        newSize,
+        prev[borderType]?.[1] || "solid",
+        prev[borderType]?.[2] || lastValidColor,
       ],
     }));
 
-    if (!borderState[borderType] && typeof borderState[borderType] !== "number")
-      return;
-
-    dispatch(
-      addBorderStyle({
-        blogId,
-        activeBlockId: activeBlock,
-        border: {
-          [borderType as BorderType]: {
-            size: "dec",
-          },
-        },
-      })
-    );
+    updateBorder(borderType, { size: newSize });
   };
 
-  const handleBorderSizeChange = (borderType: BorderType, value: number) => {
-    const size = value <= 0 ? 0 : value;
-
-    setBorderState((prev) => ({
-      ...prev,
-      [borderType]: [
-        size,
-        prev[borderType] && prev[borderType][1],
-        prev[borderType] && prev[borderType][2],
-      ],
-    }));
-
-    if (!borderState[borderType] && typeof borderState[borderType] !== "number")
-      return;
-
-    dispatch(
-      addBorderStyle({
-        blogId,
-        activeBlockId: activeBlock,
-        border: {
-          [borderType as BorderType]: {
-            size,
-          },
-        },
-      })
-    );
-  };
-
-  const handleChangeStyle = (
+  const handleBorderStyleChange = (
     borderType: BorderType,
     style: BorderStyleType
   ) => {
     setBorderState((prev) => ({
       ...prev,
       [borderType]: [
-        prev[borderType] && prev[borderType][0],
+        prev[borderType]?.[0] || 0,
         style,
-        prev[borderType] && prev[borderType][2],
+        prev[borderType]?.[2] || lastValidColor,
       ],
     }));
 
-    dispatch(
-      addBorderStyle({
-        blogId,
-        activeBlockId: activeBlock,
-        border: {
-          [borderType as BorderType]: {
-            style,
-          },
-        },
-      })
-    );
-  };
-
-  const handleToggleMore = () => {
-    dispatch(
-      toggleBorderAll({
-        blogId,
-        activeBlockId: activeBlock,
-      })
-    );
+    updateBorder(borderType, { style });
   };
 
   return (
     <BorderAllSideBlock
       borderState={borderState}
-      onChangeStyle={handleChangeStyle}
-      onChangeSize={handleBorderSizeChange}
-      onIncreaseSize={handleBorderSizeIncrease}
-      onDecreaseSize={handleBorderSizeDecrease}
-      onBlurColor={handleColorBlur}
-      onChangeColor={handleColorChange}
-      onColorPick={handleColorPicker}
-      onToggleMore={handleToggleMore}
+      onChangeStyle={handleBorderStyleChange}
+      onChangeSize={handleBorderSizeUpdate}
+      onIncreaseSize={(borderType) =>
+        handleBorderSizeUpdate(
+          borderType,
+          (borderState[borderType]?.[0] || 0) + 1
+        )
+      }
+      onDecreaseSize={(borderType) =>
+        handleBorderSizeUpdate(
+          borderType,
+          (borderState[borderType]?.[0] || 0) - 1
+        )
+      }
+      onBlurColor={(borderType, color) =>
+        handleColorUpdate(
+          borderType,
+          isValidHexColor(color) ? color : lastValidColor
+        )
+      }
+      onChangeColor={handleColorUpdate}
+      onColorPick={(borderType, color) =>
+        handleColorUpdate(borderType, color.hex)
+      }
+      onToggleMore={() =>
+        dispatch(toggleBorderAll({ blogId, activeBlockId: activeBlock }))
+      }
     />
   );
 };
