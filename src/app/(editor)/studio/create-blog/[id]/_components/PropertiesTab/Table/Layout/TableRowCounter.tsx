@@ -83,7 +83,7 @@ const TableRowCounter = () => {
 
   return (
     <CountBlock
-      title="Rows"
+      label="Rows"
       value={tableRowsCount}
       handleIncrement={handleRowsIncrement}
       handleDecrement={handleRowsDecrement}

@@ -85,7 +85,7 @@ const TableColumnCounter = () => {
 
   return (
     <CountBlock
-      title="Columns"
+      label="Columns"
       value={columnsCount}
       handleIncrement={handleColumnIncrement}
       handleDecrement={handleColumnDecrement}

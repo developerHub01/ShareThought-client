@@ -69,7 +69,7 @@ const TableContentFontSize = () => {
 
   return (
     <CountBlock
-      title="Font Size"
+      label="Font Size"
       value={
         tableContent?.fontSize || EDITOR_TABLE_SIZE.DEFAULT_CONTENT_FONT_SIZE
       }

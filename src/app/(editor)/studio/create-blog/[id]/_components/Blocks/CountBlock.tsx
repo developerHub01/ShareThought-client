@@ -5,7 +5,7 @@ import ValueCounter from "@/app/(editor)/studio/create-blog/[id]/_components/Pro
 import PropertyWrapper_v1 from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/PropertyWrapper_v1";
 
 interface CountBlockProps {
-  title: string;
+  label: string;
   value: number;
   handleIncrement: () => void;
   handleDecrement: () => void;
@@ -14,7 +14,7 @@ interface CountBlockProps {
 }
 
 const CountBlock = ({
-  title,
+  label,
   value,
   handleIncrement,
   handleDecrement,
@@ -23,7 +23,7 @@ const CountBlock = ({
 }: CountBlockProps) => {
   return (
     <PropertyWrapper_v1>
-      <p className="text-sm">{title}</p>
+      <p className="text-sm">{label}</p>
       <div className="flex">
         <ValueCounter
           min={0}

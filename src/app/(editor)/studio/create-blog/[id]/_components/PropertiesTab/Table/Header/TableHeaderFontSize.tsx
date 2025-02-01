@@ -69,7 +69,7 @@ const TableHeaderFontSize = () => {
 
   return (
     <CountBlock
-      title="Font Size"
+      label="Font Size"
       value={
         tableHeader?.fontSize || EDITOR_TABLE_SIZE.DEFAULT_HEADER_FONT_SIZE
       }

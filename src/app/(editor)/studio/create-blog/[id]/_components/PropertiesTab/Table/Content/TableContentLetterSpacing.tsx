@@ -69,7 +69,7 @@ const TableContentLetterSpacing = () => {
 
   return (
     <CountBlock
-      title="Letter Spacing"
+      label="Letter Spacing"
       value={
         tableContent?.letterSpacing ||
         EDITOR_TABLE_SIZE.DEFAULT_CONTENT_LETTER_SPACING

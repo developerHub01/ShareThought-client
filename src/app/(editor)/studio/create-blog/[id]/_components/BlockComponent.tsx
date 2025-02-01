@@ -19,8 +19,12 @@ import { Button } from "@/components/ui/button";
 import Table from "@/components/editor/components/Table";
 import Image from "@/components/editor/components/Image";
 import { cn } from "@/lib/utils";
+import Spacer from "@/components/editor/components/Spacer";
 
 export interface TableProps extends BlockInterface {
+  children: TableInterface;
+}
+export interface SpacerProps extends BlockInterface {
   children: TableInterface;
 }
 
@@ -33,6 +37,8 @@ const Block = ({ ...props }: BlogComponentBlock) => {
     return <Table {...(props as TableProps)} />;
   } else if (props.type === "image") {
     return <Image {...props} />;
+  } else if (props.type === "spacer") {
+    return <Spacer {...(props as SpacerProps)} />;
   }
   return <></>;
 };
