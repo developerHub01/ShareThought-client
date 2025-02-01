@@ -15,11 +15,11 @@ const OpacityProperty = () => {
   const {
     activeBlock,
     metaData: { styles = {} },
-  } = useAppSelector((state) => state.blogBuilder.blogs[blogId as string]);
+  } = useAppSelector((state) => state.blogBuilder.blogs[blogId]);
 
   if (!activeBlock) return null;
 
-  const componentStyles = styles[activeBlock] || {};
+  const componentStyles = styles?.[activeBlock] ?? {};
 
   const handleChange = (value: number) => {
     dispatch(

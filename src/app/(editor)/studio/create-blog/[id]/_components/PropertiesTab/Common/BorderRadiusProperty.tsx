@@ -20,7 +20,7 @@ const BorderRadiusProperty = () => {
   const {
     activeBlock,
     metaData: { styles },
-  } = useAppSelector((state) => state.blogBuilder.blogs[blogId as string]);
+  } = useAppSelector((state) => state.blogBuilder.blogs[blogId]);
 
   useEffect(() => {
     if (activeBlock && !styles[activeBlock])

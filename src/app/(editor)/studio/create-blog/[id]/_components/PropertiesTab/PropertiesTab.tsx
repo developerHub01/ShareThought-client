@@ -16,12 +16,12 @@ import SpacerLayout from "@/app/(editor)/studio/create-blog/[id]/_components/Pro
 import DividerLayout from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Divider/Layout/DividerLayout";
 
 const PropertiesTab = () => {
-  const { id: blogId } = useParams<{id: string}>();
+  const { id: blogId } = useParams<{ id: string }>();
   const {
     activeBlock,
     components,
     metaData: { imgLinks },
-  } = useAppSelector((state) => state.blogBuilder.blogs[blogId as string]);
+  } = useAppSelector((state) => state.blogBuilder.blogs[blogId]);
 
   if (!activeBlock) return null;
 

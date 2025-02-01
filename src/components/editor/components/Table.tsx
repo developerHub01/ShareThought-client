@@ -97,7 +97,7 @@ const Table = ({
   const {
     activeBlock,
     metaData: { styles },
-  } = useAppSelector((state) => state.blogBuilder.blogs[blogId as string]);
+  } = useAppSelector((state) => state.blogBuilder.blogs[blogId]);
 
   let activeBlockStyles = styles[id];
 

@@ -18,7 +18,7 @@ const ImageEditor = ({}: ImageEditorProps) => {
   if (!blogId) return null;
 
   const { activeBlock } = useAppSelector(
-    (state) => state.blogBuilder.blogs[blogId as string]
+    (state) => state.blogBuilder.blogs[blogId]
   );
 
   const { editorOpen } = useAppSelector((state) => state.blogBuilder);
@@ -50,7 +50,7 @@ const ImageEditor = ({}: ImageEditorProps) => {
       if (!blob) return console.error("Failed to generate Blob from canvas");
 
       const coverURL = URL.createObjectURL(blob);
-      
+
       dispatch(changeImage({ blogId, id: activeBlock, image: coverURL }));
       handleClose();
     }, "image/png");

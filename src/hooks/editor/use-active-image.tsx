@@ -20,7 +20,7 @@ const useActiveImage = () => {
     activeBlock,
     components,
     metaData: { imgLinks },
-  } = useAppSelector((state) => state.blogBuilder.blogs[blogId as string]);
+  } = useAppSelector((state) => state.blogBuilder.blogs[blogId]);
 
   if (!activeBlock) return defaultImageDetails;
 

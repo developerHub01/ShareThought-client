@@ -26,7 +26,7 @@ const ImageFilterReset = () => {
   const {
     activeBlock,
     metaData: { styles },
-  } = useAppSelector((state) => state.blogBuilder.blogs[blogId as string]);
+  } = useAppSelector((state) => state.blogBuilder.blogs[blogId]);
 
   if (!activeBlock) return null;
 

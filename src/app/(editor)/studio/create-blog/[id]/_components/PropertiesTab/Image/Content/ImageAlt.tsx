@@ -15,7 +15,7 @@ const ImageAlt = () => {
   if (!blogId) return null;
 
   const { activeBlock, components } = useAppSelector(
-    (state) => state.blogBuilder.blogs[blogId as string]
+    (state) => state.blogBuilder.blogs[blogId]
   );
 
   if (!activeBlock) return null;

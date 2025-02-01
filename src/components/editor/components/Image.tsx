@@ -24,7 +24,7 @@ const Image = ({
 
   const {
     metaData: { imgLinks, styles },
-  } = useAppSelector((state) => state.blogBuilder.blogs[blogId as string]);
+  } = useAppSelector((state) => state.blogBuilder.blogs[blogId]);
 
   if (!blogId) return null;
 
