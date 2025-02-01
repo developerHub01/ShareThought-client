@@ -20,7 +20,7 @@ const Image = ({
   redirect,
   ...props
 }: ImageProps) => {
-  const { id: blogId } = useParams() as { id: string };
+  const { id: blogId } = useParams<{ id: string }>();
 
   const {
     metaData: { imgLinks, styles },

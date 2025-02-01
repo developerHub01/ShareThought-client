@@ -14,7 +14,7 @@ import CountBlock from "@/app/(editor)/studio/create-blog/[id]/_components/Block
 
 const TableColumnCounter = () => {
   const dispatch = useAppDispatch();
-  const { id: blogId } = useParams() as { id: string };
+  const { id: blogId } = useParams<{ id: string }>();
 
   if (!blogId) return null;
 

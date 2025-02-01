@@ -12,7 +12,7 @@ import { useParams } from "next/navigation";
 
 const TableContentFontSize = () => {
   const dispatch = useAppDispatch();
-  const { id: blogId } = useParams() as { id: string };
+  const { id: blogId } = useParams<{ id: string }>();
 
   if (!blogId) return null;
 

@@ -14,7 +14,7 @@ import { EDITOR_TABLE_SIZE } from "@/constant";
 import ColorBlock from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/ColorBlock";
 
 const TableTextColor = () => {
-  const { id: blogId } = useParams() as { id: string };
+  const { id: blogId } = useParams<{ id: string }>();
 
   if (!blogId) return null;
 

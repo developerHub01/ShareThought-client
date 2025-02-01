@@ -16,7 +16,7 @@ import SpacerLayout from "@/app/(editor)/studio/create-blog/[id]/_components/Pro
 import DividerLayout from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Divider/Layout/DividerLayout";
 
 const PropertiesTab = () => {
-  const { id: blogId } = useParams();
+  const { id: blogId } = useParams<{id: string}>();
   const {
     activeBlock,
     components,

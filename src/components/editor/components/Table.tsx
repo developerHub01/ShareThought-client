@@ -90,7 +90,7 @@ const Table = ({
   const [focusedRow, setFocusedRow] = useState<boolean>(false);
   const [focusedColumn, setFocusedColumn] = useState<boolean>(false);
 
-  const { id: blogId } = useParams() as { id: string };
+  const { id: blogId } = useParams<{ id: string }>();
 
   if (!blogId) return null;
 

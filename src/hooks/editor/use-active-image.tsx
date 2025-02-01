@@ -12,7 +12,7 @@ const defaultImageDetails = {
 };
 
 const useActiveImage = () => {
-  const { id: blogId } = useParams() as { id: string };
+  const { id: blogId } = useParams<{ id: string }>();
 
   if (!blogId) return defaultImageDetails;
 

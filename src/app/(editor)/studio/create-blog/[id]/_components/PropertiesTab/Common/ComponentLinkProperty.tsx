@@ -10,7 +10,7 @@ import { isValidURL } from "@/utils";
 
 const ComponentLinkProperty = () => {
   const [redirectLink, setRedirectLink] = useState("");
-  const { id: blogId } = useParams() as { id: string };
+  const { id: blogId } = useParams<{ id: string }>();
   const dispatch = useAppDispatch();
 
   if (!blogId) return null;

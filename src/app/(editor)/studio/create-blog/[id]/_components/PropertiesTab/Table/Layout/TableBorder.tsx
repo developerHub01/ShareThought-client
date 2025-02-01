@@ -15,7 +15,7 @@ import BorderBlock from "@/app/(editor)/studio/create-blog/[id]/_components/Bloc
 
 const TableBorder = () => {
   const dispatch = useAppDispatch();
-  const { id: blogId } = useParams() as { id: string };
+  const { id: blogId } = useParams<{ id: string }>();
 
   if (!blogId) return null;
 

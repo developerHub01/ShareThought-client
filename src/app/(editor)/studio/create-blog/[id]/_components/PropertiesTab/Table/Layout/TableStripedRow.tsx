@@ -27,7 +27,7 @@ import {
 } from "@/components/ui/select";
 
 const TableStripedRow = () => {
-  const { id: blogId } = useParams() as { id: string };
+  const { id: blogId } = useParams<{ id: string }>();
 
   if (!blogId) return null;
 
