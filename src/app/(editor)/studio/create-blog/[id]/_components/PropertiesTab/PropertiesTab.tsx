@@ -12,7 +12,8 @@ import ImageContent from "@/app/(editor)/studio/create-blog/[id]/_components/Pro
 import PaddingProperty from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Common/PaddingProperty";
 import ImageFilters from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Image/Filters/ImageFilters";
 import ImageLayout from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Image/Layout/ImageLayout";
-import SpacerProperties from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Spacer/SpacerProperties";
+import SpacerLayout from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Spacer/Layout/SpacerLayout";
+import DividerLayout from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Divider/Layout/DividerLayout";
 
 const PropertiesTab = () => {
   const { id: blogId } = useParams();
@@ -42,7 +43,7 @@ const PropertiesTab = () => {
             </PropertyTypeWrapper>
           </>
         )}
-        
+
         {activeComponent.type === "image" && (
           <>
             {imgLinks && imgLinks[activeBlock] && (
@@ -70,11 +71,17 @@ const PropertiesTab = () => {
 
         {activeComponent.type === "spacer" && (
           <PropertyTypeWrapper id="spacer_layout" label="Layout">
-            <SpacerProperties />
+            <SpacerLayout />
           </PropertyTypeWrapper>
         )}
 
-        {["table", "image"].includes(activeComponent.type) && (
+        {activeComponent.type === "divider" && (
+          <PropertyTypeWrapper id="divider_layout" label="Layout">
+            <DividerLayout />
+          </PropertyTypeWrapper>
+        )}
+
+        {["table", "image", "divider"].includes(activeComponent.type) && (
           <PropertyTypeWrapper id="padding" label="Padding">
             <PaddingProperty />
           </PropertyTypeWrapper>

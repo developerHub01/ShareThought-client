@@ -2,7 +2,7 @@ import { cn } from "@/lib/utils";
 import { useAppSelector } from "@/redux/hooks";
 import React from "react";
 
-interface SpacerProps {
+export interface SpacerProps {
   id: string;
   postId: string;
   className?: string;
@@ -19,7 +19,6 @@ const Spacer = ({ id, postId, className, ...props }: SpacerProps) => {
   return (
     <div
       className={cn("", className)}
-      {...props}
       style={{
         ...(componentStyles as Record<string, string | number>),
       }}

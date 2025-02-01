@@ -19,15 +19,12 @@ import { Button } from "@/components/ui/button";
 import Table from "@/components/editor/components/Table";
 import Image from "@/components/editor/components/Image";
 import { cn } from "@/lib/utils";
-import Spacer from "@/components/editor/components/Spacer";
+import Spacer, { SpacerProps } from "@/components/editor/components/Spacer";
+import Divider, { DividerProps } from "@/components/editor/components/Divider";
 
 export interface TableProps extends BlockInterface {
   children: TableInterface;
 }
-export interface SpacerProps extends BlockInterface {
-  children: TableInterface;
-}
-
 const Block = ({ ...props }: BlogComponentBlock) => {
   if (["h1", "h2", "h3", "h4", "h5", "h6"].includes(props.type)) {
     return <Heading {...props} />;
@@ -39,6 +36,8 @@ const Block = ({ ...props }: BlogComponentBlock) => {
     return <Image {...props} />;
   } else if (props.type === "spacer") {
     return <Spacer {...(props as SpacerProps)} />;
+  } else if (props.type === "divider") {
+    return <Divider {...(props as DividerProps)} />;
   }
   return <></>;
 };

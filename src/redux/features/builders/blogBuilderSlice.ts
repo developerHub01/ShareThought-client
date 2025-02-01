@@ -392,14 +392,22 @@ export const blogBuilderSlice = createSlice({
             type,
           };
 
-          if (!state.blogs[blogId].metaData.styles[id])
-            state.blogs[blogId].metaData.styles[id] = {
-              height: Math.round(5 + Math.random() * 30),
-            };
-          else
-            state.blogs[blogId].metaData.styles[id].height = Math.round(
-              5 + Math.random() * 30
-            );
+          state.blogs[blogId].metaData.styles[id] = {
+            height: Math.round(5 + Math.random() * 30),
+          };
+
+          break;
+        case "divider":
+          block = {
+            id,
+            type,
+          };
+
+          state.blogs[blogId].metaData.styles[id] = {
+            borderTop: [1, "solid", "#dddddd"],
+            width: 100,
+            justifyContent: "center",
+          };
 
           break;
       }
@@ -1020,6 +1028,25 @@ export const blogBuilderSlice = createSlice({
 
       state.blogs[blogId].metaData.styles[activeBlockId].justifyContent =
         alignment ?? "flex-start";
+    },
+
+    /* it is only for simple styles propery like color, height, width like that
+    no multi element styles like border or padding
+    */
+    addSingularSimpleStyle: (
+      state,
+      action: PayloadAction<{
+        blogId: string;
+        activeBlockId: string;
+        styles: Record<string, string | number>;
+      }>
+    ) => {
+      const { blogId, activeBlockId, styles } = action.payload;
+
+      state.blogs[blogId].metaData.styles[activeBlockId] = {
+        ...(state.blogs[blogId].metaData.styles[activeBlockId] || {}),
+        ...styles,
+      };
     },
 
     /*** Table============= ***/
@@ -1739,6 +1766,7 @@ export const {
   linkRedirect,
   toggleBorderAll,
   setAlignment,
+  addSingularSimpleStyle,
   addTableRows,
   removeTableRows,
   changeTableRowsCount,
