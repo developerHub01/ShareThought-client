@@ -59,7 +59,7 @@ const AlignmentProperty = () => {
     <TextAlignBlock
       title="Align"
       activeAlign={
-        (activeStyles?.justifyContent || alignList[0].id) as flexAlignType
+        (activeStyles.justifyContent as flexAlignType) ?? alignList[0].id
       }
       handleChange={handleChangeAlign}
       alignList={alignList}
