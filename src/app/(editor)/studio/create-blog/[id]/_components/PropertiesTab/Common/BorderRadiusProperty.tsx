@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import BorderRadiusBlock from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/BorderRadiusBlock";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useParams } from "next/navigation";
@@ -22,8 +22,6 @@ const BorderRadiusProperty = () => {
     metaData: { styles },
   } = useAppSelector((state) => state.blogBuilder.blogs[blogId as string]);
 
-  const borderRadius: Record<string, number> = {};
-
   useEffect(() => {
     if (activeBlock && !styles[activeBlock])
       dispatch(
@@ -32,30 +30,20 @@ const BorderRadiusProperty = () => {
           activeBlockId: activeBlock,
         })
       );
-  }, [activeBlock, styles]);
+  }, [activeBlock, styles, dispatch, blogId]);
 
   if (!activeBlock) return null;
 
   if (!styles[activeBlock]) return null;
 
-  if (styles[activeBlock].borderRadius !== undefined)
-    borderRadius["borderRadius"] = styles[activeBlock].borderRadius as number;
-
-  if (styles[activeBlock].borderTopLeftRadius !== undefined)
-    borderRadius["borderTopLeftRadius"] = styles[activeBlock]
-      .borderTopLeftRadius as number;
-
-  if (styles[activeBlock].borderTopRightRadius !== undefined)
-    borderRadius["borderTopRightRadius"] = styles[activeBlock]
-      .borderTopRightRadius as number;
-
-  if (styles[activeBlock].borderBottomLeftRadius !== undefined)
-    borderRadius["borderBottomLeftRadius"] = styles[activeBlock]
-      .borderBottomLeftRadius as number;
-
-  if (styles[activeBlock].borderBottomRightRadius !== undefined)
-    borderRadius["borderBottomRightRadius"] = styles[activeBlock]
-      .borderBottomRightRadius as number;
+  const borderRadius = useMemo(() => {
+    const activeStyles = styles[activeBlock] ?? {};
+    return Object.fromEntries(
+      Object.entries(activeStyles).filter(
+        ([key, value]) => key.includes("Radius") && value !== undefined
+      )
+    ) as Record<BorderRadiusType, number>;
+  }, [styles, activeBlock]);
 
   const handleChangeBorderRadius = (
     borderRadius: Partial<Record<BorderRadiusType, number | "inc" | "dec">>
