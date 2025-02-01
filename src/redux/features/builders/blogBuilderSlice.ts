@@ -1,6 +1,6 @@
 import { defaultGlobalStyles, EDITOR_TABLE_SIZE } from "@/constant";
 import { isValidHexColor, isValidURL } from "@/utils";
-import { createSlice, current } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { v4 as uuidv4 } from "uuid";
 
@@ -16,7 +16,9 @@ type BlockTypes =
   | "code"
   | "table"
   | "section"
-  | "image";
+  | "image"
+  | "spacer"
+  | "divider";
 
 type TableTypes = "thead" | "tbody" | "tr" | "th" | "td";
 export type BorderStyleType = "solid" | "dotted" | "dashed";
@@ -383,6 +385,22 @@ export const blogBuilderSlice = createSlice({
             id,
             type,
           };
+          break;
+        case "spacer":
+          block = {
+            id,
+            type,
+          };
+
+          if (!state.blogs[blogId].metaData.styles[id])
+            state.blogs[blogId].metaData.styles[id] = {
+              height: Math.round(5 + Math.random() * 30),
+            };
+          else
+            state.blogs[blogId].metaData.styles[id].height = Math.round(
+              5 + Math.random() * 30
+            );
+
           break;
       }
 
@@ -1676,6 +1694,30 @@ export const blogBuilderSlice = createSlice({
 
       blockStyle.width = width;
     },
+
+    /* spacer ======== */
+    changeSpacerSize: (
+      state,
+      action: PayloadAction<{
+        blogId: string;
+        id: string; // component id
+        height: number | "inc" | "dec";
+      }>
+    ) => {
+      const { blogId, id, height } = action.payload;
+
+      if (!state.blogs[blogId]?.metaData?.styles[id])
+        state.blogs[blogId].metaData.styles[id] = {
+          height: 1,
+        };
+
+      const blockStyle = state.blogs[blogId]?.metaData?.styles[id];
+
+      if (height === "inc") blockStyle.height = Number(blockStyle.height) + 1;
+      else if (height === "dec")
+        blockStyle.height = Math.max(Number(blockStyle.height) - 1, 1);
+      else blockStyle.height = Math.max(height, 1);
+    },
   },
 });
 
@@ -1720,6 +1762,7 @@ export const {
   addImageFilter,
   resetImageFilter,
   setImageWidth,
+  changeSpacerSize,
 } = blogBuilderSlice.actions;
 
 export default blogBuilderSlice.reducer;

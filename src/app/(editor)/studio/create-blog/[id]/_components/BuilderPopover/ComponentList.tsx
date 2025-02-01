@@ -130,8 +130,6 @@ const ComponentList = () => {
   const dispatch = useAppDispatch();
   const { setIsComponentDialogOpen, selectedIndex } = useEditor();
   const handleClick = (blockId: string) => () => {
-    console.log({blockId});
-    
     setIsComponentDialogOpen(false);
     dispatch(
       addComponent({

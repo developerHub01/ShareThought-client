@@ -1,12 +1,30 @@
-import clsx from "clsx";
+import { cn } from "@/lib/utils";
+import { useAppSelector } from "@/redux/hooks";
 import React from "react";
 
 interface SpacerProps {
+  id: string;
+  postId: string;
   className?: string;
+  [key: string]: unknown;
 }
 
-const Spacer = ({ className, ...props }: SpacerProps) => {
-  return <div className={clsx("", className)} {...props}></div>;
+const Spacer = ({ id, postId, className, ...props }: SpacerProps) => {
+  const {
+    metaData: { styles = {} },
+  } = useAppSelector((state) => state.blogBuilder.blogs[postId]);
+
+  const componentStyles = styles[id] || {};
+
+  return (
+    <div
+      className={cn("", className)}
+      {...props}
+      style={{
+        ...(componentStyles as Record<string, string | number>),
+      }}
+    ></div>
+  );
 };
 
 export default Spacer;
