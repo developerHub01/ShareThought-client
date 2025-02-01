@@ -16,7 +16,7 @@ const ComponentLinkProperty = () => {
   if (!blogId) return null;
 
   const { activeBlock, components } = useAppSelector(
-    (state) => state.blogBuilder.blogs[blogId as string]
+    (state) => state.blogBuilder.blogs[blogId]
   );
 
   if (!activeBlock) return null;
@@ -25,11 +25,9 @@ const ComponentLinkProperty = () => {
 
   useEffect(() => {
     setRedirectLink(componentRedirect);
-  }, [activeBlock, componentRedirect]);
+  }, [componentRedirect]);
 
-  const handleChange = (value: string) => {
-    setRedirectLink(value);
-  };
+  const handleChange = (value: string) => setRedirectLink(value);
 
   const handleBlur = (value: string) => {
     if (value && !isValidURL(value)) return setRedirectLink("");
