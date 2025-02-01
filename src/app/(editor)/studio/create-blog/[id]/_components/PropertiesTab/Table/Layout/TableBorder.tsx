@@ -188,6 +188,7 @@ const TableBorder = () => {
 
   return (
     <BorderBlock
+      label="border"
       borderState={borderState}
       onChangeStyle={handleChangeStyle}
       onChangeSize={handleBorderSizeChange}
