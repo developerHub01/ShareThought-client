@@ -5,7 +5,7 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 import { v4 as uuidv4 } from "uuid";
 
 type editorOrPreviewTypes = "editor" | "preview";
-type BlockTypes =
+export type BlockTypes =
   | "h1"
   | "h2"
   | "h3"
@@ -18,7 +18,11 @@ type BlockTypes =
   | "section"
   | "image"
   | "spacer"
-  | "divider";
+  | "divider"
+  | "accordion"
+  | "collapse"
+  | "list"
+  | "blockquote";
 
 type TableTypes = "thead" | "tbody" | "tr" | "th" | "td";
 export type BorderStyleType = "solid" | "dotted" | "dashed";
@@ -76,7 +80,7 @@ export interface BlockInterface {
   alt?: string;
   caption?: string;
   locationPath?: Array<string>;
-  children?: Array<BlockInterface> | TableInterface;
+  children?: Array<BlockInterface> | TableInterface | AccordionInterface;
 }
 
 export interface StripedRowInterface {
@@ -115,6 +119,14 @@ export interface TableInterface {
   stripedRow?: StripedRowInterface;
   header?: TableHeaderInterface;
   content?: TableContentInterface;
+}
+
+export interface AccordionInterface {
+  data: Array<{
+    id: string;
+    title: string;
+    content: string;
+  }>;
 }
 
 export interface BorderInterface {
@@ -221,6 +233,21 @@ const tableInitialState: TableInterface = {
   },
 };
 
+const accordionInitialState: AccordionInterface = {
+  data: [
+    {
+      id: uuidv4(),
+      title: "Accordion 1",
+      content: "Accordion 1 content",
+    },
+    {
+      id: uuidv4(),
+      title: "Accordion 2",
+      content: "Accordion 2 content",
+    },
+  ],
+};
+
 const tableStripedInitialState: StripedRowInterface = {
   backgroundColor: EDITOR_TABLE_SIZE.STRIPED_ROW_DEFAULT_BACKGROUND_COLOR,
   stripedType: "even",
@@ -279,7 +306,7 @@ export const blogBuilderSlice = createSlice({
       state,
       action: PayloadAction<{
         id: string;
-        type: string;
+        type: BlockTypes;
         gridSize?: Array<number>;
         index: number;
       }>
@@ -407,6 +434,14 @@ export const blogBuilderSlice = createSlice({
             borderTop: [1, "solid", "#dddddd"],
             width: 100,
             justifyContent: "center",
+          };
+
+          break;
+        case "accordion":
+          block = {
+            id,
+            type,
+            children: { ...accordionInitialState },
           };
 
           break;
@@ -1745,6 +1780,40 @@ export const blogBuilderSlice = createSlice({
         blockStyle.height = Math.max(Number(blockStyle.height) - 1, 1);
       else blockStyle.height = Math.max(height, 1);
     },
+
+    /* accordion ========== */
+    changeAccordionContent: (
+      state,
+      action: PayloadAction<{
+        blogId: string;
+        id: string; // component id
+        data: {
+          index: number;
+          title?: string;
+          content?: string;
+        };
+      }>
+    ) => {
+      const { blogId, id, data } = action.payload;
+
+      const { index, title, content } = data;
+
+      const blogData = state.blogs[blogId];
+
+      if (!blogData.components[id]) return;
+
+      const blockComponent = blogData.components[id];
+
+      if (!blockComponent.children)
+        blockComponent.children = { ...accordionInitialState };
+
+      if (title)
+        (blockComponent.children as AccordionInterface).data[index].title =
+          title;
+      if (content)
+        (blockComponent.children as AccordionInterface).data[index].content =
+          content;
+    },
   },
 });
 
@@ -1791,6 +1860,7 @@ export const {
   resetImageFilter,
   setImageWidth,
   changeSpacerSize,
+  changeAccordionContent,
 } = blogBuilderSlice.actions;
 
 export default blogBuilderSlice.reducer;

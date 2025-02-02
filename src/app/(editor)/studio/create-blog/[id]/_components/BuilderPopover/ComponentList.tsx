@@ -29,11 +29,14 @@ import {
 import { useEditor } from "@/app/(editor)/studio/create-blog/[id]/_components/EditorProvider";
 import { useAppDispatch } from "@/redux/hooks";
 import { distance } from "react-advanced-cropper";
-import { addComponent } from "@/redux/features/builders/blogBuilderSlice";
+import {
+  addComponent,
+  BlockTypes,
+} from "@/redux/features/builders/blogBuilderSlice";
 import { useParams } from "next/navigation";
 
 interface componentItem {
-  id: string;
+  id: BlockTypes;
   label: string;
   Icon: LucideIcon;
 }
@@ -114,7 +117,7 @@ const ComponentList = () => {
         Icon: AccordionIcon,
       },
       {
-        id: "collaps",
+        id: "collapse",
         label: "collaps",
         Icon: CollapsIcon,
       },
@@ -129,7 +132,7 @@ const ComponentList = () => {
 
   const dispatch = useAppDispatch();
   const { setIsComponentDialogOpen, selectedIndex } = useEditor();
-  const handleClick = (blockId: string) => () => {
+  const handleClick = (blockId: BlockTypes) => () => {
     setIsComponentDialogOpen(false);
     dispatch(
       addComponent({
@@ -139,7 +142,7 @@ const ComponentList = () => {
       })
     );
   };
-  
+
   return (
     <div className="w-full grid grid-cols-2 md:grid-cols-3 gap-3 sm:gap-5 p-2">
       <TooltipProvider>

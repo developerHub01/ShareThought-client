@@ -3,6 +3,7 @@
 import Heading from "@/components/editor/components/Heading";
 import Section from "@/components/editor/components/Section";
 import {
+  AccordionInterface,
   BlockInterface,
   changeActiveBlock,
   TableInterface,
@@ -21,9 +22,14 @@ import Image from "@/components/editor/components/Image";
 import { cn } from "@/lib/utils";
 import Spacer, { SpacerProps } from "@/components/editor/components/Spacer";
 import Divider, { DividerProps } from "@/components/editor/components/Divider";
+import Code, { CodeProps } from "@/components/editor/components/Code";
+import Accordion from "@/components/editor/components/Accordion";
 
 export interface TableProps extends BlockInterface {
   children: TableInterface;
+}
+export interface AccordionProps extends BlockInterface {
+  children: AccordionInterface;
 }
 const Block = ({ ...props }: BlogComponentBlock) => {
   if (["h1", "h2", "h3", "h4", "h5", "h6"].includes(props.type)) {
@@ -38,6 +44,10 @@ const Block = ({ ...props }: BlogComponentBlock) => {
     return <Spacer {...(props as SpacerProps)} />;
   } else if (props.type === "divider") {
     return <Divider {...(props as DividerProps)} />;
+  } else if (props.type === "code") {
+    return <Code {...(props as CodeProps)} />;
+  } else if (props.type === "accordion") {
+    return <Accordion {...(props as AccordionProps)} />;
   }
   return <></>;
 };
