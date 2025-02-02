@@ -53,7 +53,7 @@ const Accordion = ({
       <AccordionWrapper type="single" collapsible className="w-full">
         {data.map(({ id, title, content }, index) => (
           <AccordionItem value={id} key={id}>
-            <AccordionTrigger>
+            <AccordionTrigger className="px-2">
               <div
                 contentEditable={true}
                 suppressContentEditableWarning
@@ -66,7 +66,7 @@ const Accordion = ({
               </div>
             </AccordionTrigger>
             <AccordionContent
-              className="py-4"
+              className="py-4 px-2"
               contentEditable={true}
               suppressContentEditableWarning
               onBlur={(e: FocusEvent<HTMLDivElement, Element>) =>

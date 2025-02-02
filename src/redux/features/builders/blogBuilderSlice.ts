@@ -246,6 +246,7 @@ const accordionInitialState: AccordionInterface = {
       content: "Accordion 2 content",
     },
   ],
+  
 };
 
 const tableStripedInitialState: StripedRowInterface = {

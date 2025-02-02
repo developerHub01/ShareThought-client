@@ -29,8 +29,7 @@ const ImageUploadCanvas = ({ id, blogId }: ImageUploadCanvasProps) => {
       if (!file.type.startsWith("image/")) {
         return toast({
           title: "Oops! That's not an image!",
-          description:
-            "Please upload a valid image file to set your avatar. 😊",
+          description: "Please upload a valid image file",
         });
       }
 

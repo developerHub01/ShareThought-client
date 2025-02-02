@@ -15,6 +15,10 @@ import ImageLayout from "@/app/(editor)/studio/create-blog/[id]/_components/Prop
 import SpacerLayout from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Spacer/Layout/SpacerLayout";
 import DividerLayout from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Divider/Layout/DividerLayout";
 import AccordionLayout from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Accordion/Layout/AccordionLayout";
+import AccordionBody from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Accordion/Body/AccordionBody";
+import AccordionTitle from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Accordion/Title/AccordionTitle";
+import AccordionContent from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Accordion/Content/AccordionContent";
+import AccordionContainer from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Accordion/Container/AccordionContainer";
 
 const PropertiesTab = () => {
   const { id: blogId } = useParams<{ id: string }>();
@@ -83,9 +87,23 @@ const PropertiesTab = () => {
         )}
 
         {activeComponent.type === "accordion" && (
-          <PropertyTypeWrapper id="accordion_layout" label="Layout">
-            <AccordionLayout />
-          </PropertyTypeWrapper>
+          <>
+            <PropertyTypeWrapper id="accordion_layout" label="Layout">
+              <AccordionLayout />
+            </PropertyTypeWrapper>
+            <PropertyTypeWrapper id="accordion_container" label="Container">
+              <AccordionContainer />
+            </PropertyTypeWrapper>
+            <PropertyTypeWrapper id="accordion_body" label="Body">
+              <AccordionBody />
+            </PropertyTypeWrapper>
+            <PropertyTypeWrapper id="accordion_title" label="Title">
+              <AccordionTitle />
+            </PropertyTypeWrapper>
+            <PropertyTypeWrapper id="accordion_content" label="Content">
+              <AccordionContent />
+            </PropertyTypeWrapper>
+          </>
         )}
 
         {["table", "image", "divider", "accordion"].includes(
