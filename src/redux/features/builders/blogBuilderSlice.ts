@@ -1795,24 +1795,63 @@ export const blogBuilderSlice = createSlice({
       }>
     ) => {
       const { blogId, id, data } = action.payload;
-
-      const { index, title, content } = data;
-
       const blogData = state.blogs[blogId];
-
-      if (!blogData.components[id]) return;
+      if (!blogData?.components[id]) return;
 
       const blockComponent = blogData.components[id];
-
-      if (!blockComponent.children)
+      if (!blockComponent.children) {
         blockComponent.children = { ...accordionInitialState };
+      }
 
-      if (title)
-        (blockComponent.children as AccordionInterface).data[index].title =
-          title;
-      if (content)
-        (blockComponent.children as AccordionInterface).data[index].content =
-          content;
+      const accordionData = blockComponent.children as AccordionInterface;
+      const item = accordionData.data[data.index];
+      if (!item) return;
+
+      if (data.title !== undefined) item.title = data.title;
+      if (data.content !== undefined) item.content = data.content;
+    },
+
+    changeAccordionCount: (
+      state,
+      action: PayloadAction<{
+        blogId: string;
+        id: string; // component id
+        count: number | "inc" | "dec";
+      }>
+    ) => {
+      const { blogId, id, count } = action.payload;
+      const blogData = state.blogs[blogId];
+      if (!blogData?.components[id]) return;
+
+      let blockComponent = blogData.components[id]
+        ?.children as AccordionInterface;
+      if (!blockComponent) {
+        blockComponent = { ...accordionInitialState };
+      }
+
+      const { data } = blockComponent;
+
+      if (count === "inc") {
+        data.push({
+          id: uuidv4(),
+          title: "Accordion",
+          content: "Accordion content",
+        });
+      } else if (count === "dec") {
+        if (data.length > 1) data.pop();
+      } else if (typeof count === "number" && count >= 1) {
+        if (count > data.length) {
+          data.push(
+            ...Array.from({ length: count - data.length }, () => ({
+              id: uuidv4(),
+              title: "Accordion",
+              content: "Accordion content",
+            }))
+          );
+        } else {
+          data.splice(count);
+        }
+      }
     },
   },
 });
@@ -1861,6 +1900,7 @@ export const {
   setImageWidth,
   changeSpacerSize,
   changeAccordionContent,
+  changeAccordionCount,
 } = blogBuilderSlice.actions;
 
 export default blogBuilderSlice.reducer;

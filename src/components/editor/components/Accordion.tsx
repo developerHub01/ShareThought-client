@@ -8,7 +8,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { changeAccordionContent } from "@/redux/features/builders/blogBuilderSlice";
-import { useAppDispatch } from "@/redux/hooks";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import React, { FocusEvent } from "react";
 
 const Accordion = ({
@@ -20,6 +20,12 @@ const Accordion = ({
   const dispatch = useAppDispatch();
 
   if (!postId) return null;
+
+  const {
+    metaData: { styles },
+  } = useAppSelector((state) => state.blogBuilder.blogs[postId]);
+
+  const blockStyles = styles[id];
 
   const handleBlur = (
     type: "title" | "content",
@@ -39,34 +45,40 @@ const Accordion = ({
   };
 
   return (
-    <AccordionWrapper type="single" collapsible className="w-full">
-      {data.map(({ id, title, content }, index) => (
-        <AccordionItem value={id} key={id}>
-          <AccordionTrigger>
-            <div
+    <div
+      style={{
+        ...(blockStyles as Record<string, string | number>),
+      }}
+    >
+      <AccordionWrapper type="single" collapsible className="w-full">
+        {data.map(({ id, title, content }, index) => (
+          <AccordionItem value={id} key={id}>
+            <AccordionTrigger>
+              <div
+                contentEditable={true}
+                suppressContentEditableWarning
+                onBlur={(e: FocusEvent<HTMLDivElement>) =>
+                  handleBlur("title", index, e.target.innerText ?? "")
+                }
+                className="w-full text-left"
+              >
+                {title}
+              </div>
+            </AccordionTrigger>
+            <AccordionContent
+              className="py-4"
               contentEditable={true}
               suppressContentEditableWarning
-              onBlur={(e: FocusEvent<HTMLDivElement>) =>
-                handleBlur("title", index, e.target.innerText ?? "")
+              onBlur={(e: FocusEvent<HTMLDivElement, Element>) =>
+                handleBlur("content", index, e.target.innerText ?? "")
               }
-              className="w-full text-left"
             >
-              {title}
-            </div>
-          </AccordionTrigger>
-          <AccordionContent
-            className="py-4"
-            contentEditable={true}
-            suppressContentEditableWarning
-            onBlur={(e: FocusEvent<HTMLDivElement, Element>) =>
-              handleBlur("content", index, e.target.innerText ?? "")
-            }
-          >
-            {content}
-          </AccordionContent>
-        </AccordionItem>
-      ))}
-    </AccordionWrapper>
+              {content}
+            </AccordionContent>
+          </AccordionItem>
+        ))}
+      </AccordionWrapper>
+    </div>
   );
 };
 

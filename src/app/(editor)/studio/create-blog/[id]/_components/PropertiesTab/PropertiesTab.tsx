@@ -14,6 +14,7 @@ import ImageFilters from "@/app/(editor)/studio/create-blog/[id]/_components/Pro
 import ImageLayout from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Image/Layout/ImageLayout";
 import SpacerLayout from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Spacer/Layout/SpacerLayout";
 import DividerLayout from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Divider/Layout/DividerLayout";
+import AccordionLayout from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Accordion/Layout/AccordionLayout";
 
 const PropertiesTab = () => {
   const { id: blogId } = useParams<{ id: string }>();
@@ -81,7 +82,15 @@ const PropertiesTab = () => {
           </PropertyTypeWrapper>
         )}
 
-        {["table", "image", "divider"].includes(activeComponent.type) && (
+        {activeComponent.type === "accordion" && (
+          <PropertyTypeWrapper id="accordion_layout" label="Layout">
+            <AccordionLayout />
+          </PropertyTypeWrapper>
+        )}
+
+        {["table", "image", "divider", "accordion"].includes(
+          activeComponent.type
+        ) && (
           <PropertyTypeWrapper id="padding" label="Padding">
             <PaddingProperty />
           </PropertyTypeWrapper>
