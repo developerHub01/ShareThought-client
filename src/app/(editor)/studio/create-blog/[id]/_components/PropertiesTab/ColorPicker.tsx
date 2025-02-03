@@ -1,6 +1,6 @@
 "use client";
 
-import React, { ChangeEvent, FocusEvent, useMemo } from "react";
+import React, { ChangeEvent, FocusEvent } from "react";
 import {
   Popover,
   PopoverContent,
@@ -15,14 +15,33 @@ interface ColorPickerProps {
   handleColorBlur: (e: FocusEvent<HTMLInputElement>) => void;
 }
 
+const colorList = [
+  "transparent",
+  "#1abc9c",
+  "#2ecc71",
+  "#3498db",
+  "#9b59b6",
+  "#34495e",
+  "#f1c40f",
+  "#d35400",
+  "#bdc3c7",
+  "#7f8c8d",
+  "#192a56",
+  "#7158e2",
+  "#d63031",
+  "#e84393",
+  "#6D214F",
+  "#1e272e",
+];
+
+const transparentImage = "/images/transparent.jpg";
+
 const ColorPicker = ({
   color,
   handleColorPicker,
   handleColorChange,
   handleColorBlur,
 }: ColorPickerProps) => {
-  const transparentImage = useMemo(() => "/images/transparent.jpg", []);
-
   return (
     <div className="flex items-center gap-1 border rounded-sm p-0.5">
       <Popover>
@@ -42,7 +61,13 @@ const ColorPicker = ({
           align="end"
           sideOffset={5}
         >
-          <SketchPicker color={color} onChangeComplete={handleColorPicker} />
+          <SketchPicker
+            color={color}
+            onChangeComplete={handleColorPicker}
+            // onChange={handleColorPicker}
+            disableAlpha={true}
+            presetColors={colorList}
+          />
         </PopoverContent>
       </Popover>
       <input

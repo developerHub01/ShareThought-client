@@ -12,7 +12,7 @@ import PropertyWrapper_v1 from "@/app/(editor)/studio/create-blog/[id]/_componen
 import ColorBlock from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/ColorBlock";
 import { ColorResult } from "react-color";
 import SelectBlock from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/SelectBlock";
-import ResetBlock from "../../Blocks/ResetBlock";
+import ResetBlock from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/ResetBlock";
 
 type boxShadowType = [number, number, number, number, string, string];
 

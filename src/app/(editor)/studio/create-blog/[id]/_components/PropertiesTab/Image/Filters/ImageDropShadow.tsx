@@ -3,7 +3,6 @@
 import React, { ChangeEvent, useEffect, useState } from "react";
 import {
   addImageFilter,
-  ImageFiltersInitial,
 } from "@/redux/features/builders/blogBuilderSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useParams } from "next/navigation";
