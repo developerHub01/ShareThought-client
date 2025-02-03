@@ -14,7 +14,7 @@ import { ColorResult } from "react-color";
 
 type dropShadowType = [number, number, number, string];
 
-const defaultDropShadow: dropShadowType = [0, 0, 0, "#121212"];
+const defaultDropShadow: dropShadowType = [0, 0, 0, "transparent"];
 
 const ImageDropShadow = () => {
   const { id: blogId } = useParams<{ id: string }>();
@@ -56,7 +56,7 @@ const ImageDropShadow = () => {
   };
 
   return (
-    <PropertyWrapper_v1 className="flex-col items-stretch">
+    <PropertyWrapper_v1 className="flex-col gap-0 items-stretch">
       <p className="text-sm">Drop Shadow</p>
       <SliderBlockWithLabel
         onChange={(value: number) => handleChange(0, value)}

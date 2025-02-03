@@ -27,8 +27,6 @@ const useWrapperContentStyleSeparator = (
     }
   }
 
-  console.log({ wrapperStyles });
-
   return {
     contentStyles,
     wrapperStyles,

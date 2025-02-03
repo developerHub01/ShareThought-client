@@ -281,7 +281,7 @@ export const ImageFiltersInitial: FilterType = {
 
 const initialState: BlogBuilderState = {
   blogs: {},
-  editorOpen: false,
+  editorOpen: true,
 };
 
 const ensureBlogExists = (state: BlogBuilderState, id: string) => {
@@ -1082,9 +1082,6 @@ export const blogBuilderSlice = createSlice({
         alignment ?? "flex-start";
     },
 
-    /* it is only for simple styles propery like color, height, width like that
-    no multi element styles like border or padding
-    */
     addStyle: (
       state,
       action: PayloadAction<{
@@ -1099,6 +1096,25 @@ export const blogBuilderSlice = createSlice({
         ...(state.blogs[blogId].metaData.styles[activeBlockId] || {}),
         ...styles,
       };
+    },
+
+    removetyle: (
+      state,
+      action: PayloadAction<{
+        blogId: string;
+        activeBlockId: string;
+        properyName: string;
+      }>
+    ) => {
+      const { blogId, activeBlockId, properyName } = action.payload;
+
+      if (
+        !state.blogs[blogId].metaData.styles[activeBlockId] ||
+        !state.blogs[blogId].metaData.styles[activeBlockId][properyName]
+      )
+        return state;
+
+      delete state.blogs[blogId].metaData.styles[activeBlockId][properyName];
     },
 
     /*** Table============= ***/
@@ -1694,7 +1710,6 @@ export const blogBuilderSlice = createSlice({
       const blogData = state.blogs[blogId];
 
       blogData.metaData.imgLinks[id] = image;
-      state.editorOpen = false;
     },
 
     updateImageContent: (
@@ -1892,6 +1907,7 @@ export const {
   toggleBorderAll,
   setAlignment,
   addStyle,
+  removetyle,
   addTableRows,
   removeTableRows,
   changeTableRowsCount,

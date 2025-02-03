@@ -1,7 +1,10 @@
 "use client";
 
 import React, { ChangeEvent, useEffect, useState } from "react";
-import { addStyle } from "@/redux/features/builders/blogBuilderSlice";
+import {
+  addStyle,
+  removetyle,
+} from "@/redux/features/builders/blogBuilderSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useParams } from "next/navigation";
 import SliderBlockWithLabel from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/SliderBlockWithLabel";
@@ -9,10 +12,11 @@ import PropertyWrapper_v1 from "@/app/(editor)/studio/create-blog/[id]/_componen
 import ColorBlock from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/ColorBlock";
 import { ColorResult } from "react-color";
 import SelectBlock from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/SelectBlock";
+import ResetBlock from "../../Blocks/ResetBlock";
 
 type boxShadowType = [number, number, number, number, string, string];
 
-const defaultBoxShadow: boxShadowType = [0, 0, 0, 0, "#121212", ""];
+const defaultBoxShadow: boxShadowType = [0, 0, 0, 0, "transparent", ""];
 
 const shadowTypeList = [
   {
@@ -64,8 +68,18 @@ const BoxShadowProperty = () => {
     );
   };
 
+  const handleResetFilters = () => {
+    dispatch(
+      removetyle({
+        blogId,
+        activeBlockId: activeBlock,
+        properyName: "boxShadow",
+      })
+    );
+  };
+
   return (
-    <PropertyWrapper_v1 className="flex-col items-stretch">
+    <PropertyWrapper_v1 className="flex-col gap-0 items-stretch">
       <p className="text-sm">Box Shadow</p>
       <SliderBlockWithLabel
         onChange={(value: number) => handleChange(0, value)}
@@ -119,6 +133,11 @@ const BoxShadowProperty = () => {
         itemList={shadowTypeList}
         handleChange={(value: string) => handleChange(5, value)}
         placeholder="Type"
+      />
+      <ResetBlock
+        lable="Reset shadow"
+        tooltip="Reset box shadow"
+        handleResetFilters={handleResetFilters}
       />
     </PropertyWrapper_v1>
   );

@@ -47,9 +47,6 @@ const Image = ({
   if (typeof contentStyles.width === "number")
     contentStyles.width = `${contentStyles.width}%`;
 
-  console.log("From Image component");
-  console.log({ wrapperStyles });
-
   const Comp = () => {
     return (
       <figure
