@@ -127,6 +127,12 @@ export interface AccordionInterface {
     title: string;
     content: string;
   }>;
+  styles: {
+    container: Record<string, string | number>;
+    body: Record<string, string | number>;
+    title: Record<string, string | number>;
+    content: Record<string, string | number>;
+  };
 }
 
 export interface BorderInterface {
@@ -246,7 +252,12 @@ const accordionInitialState: AccordionInterface = {
       content: "Accordion 2 content",
     },
   ],
-  
+  styles: {
+    container: {},
+    body: {},
+    title: {},
+    content: {},
+  },
 };
 
 const tableStripedInitialState: StripedRowInterface = {
@@ -885,6 +896,9 @@ export const blogBuilderSlice = createSlice({
       }>
     ) => {
       const { blogId, activeBlockId } = action.payload;
+
+      if (!state.blogs[blogId].metaData.styles[activeBlockId])
+        state.blogs[blogId].metaData.styles[activeBlockId] = {};
 
       const styles = state.blogs[blogId].metaData.styles[activeBlockId];
 
