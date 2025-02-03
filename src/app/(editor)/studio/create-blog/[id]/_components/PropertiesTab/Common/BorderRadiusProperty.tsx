@@ -19,7 +19,7 @@ const BorderRadiusProperty = () => {
 
   const {
     activeBlock,
-    metaData: { styles },
+    metaData: { styles = {} },
   } = useAppSelector((state) => state.blogBuilder.blogs[blogId]);
 
   useEffect(() => {
@@ -32,18 +32,17 @@ const BorderRadiusProperty = () => {
       );
   }, [activeBlock, styles, dispatch, blogId]);
 
-  if (!activeBlock) return null;
-
-  if (!styles[activeBlock]) return null;
-
   const borderRadius = useMemo(() => {
-    const activeStyles = styles[activeBlock] ?? {};
+    if (!activeBlock || !styles[activeBlock]) return {};
+
     return Object.fromEntries(
-      Object.entries(activeStyles).filter(
+      Object.entries(styles[activeBlock]).filter(
         ([key, value]) => key.includes("Radius") && value !== undefined
       )
     ) as Record<BorderRadiusType, number>;
   }, [styles, activeBlock]);
+
+  if (!activeBlock) return null;
 
   const handleChangeBorderRadius = (
     borderRadius: Partial<Record<BorderRadiusType, number | "inc" | "dec">>
