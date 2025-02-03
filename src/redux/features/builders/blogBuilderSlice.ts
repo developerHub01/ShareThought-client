@@ -62,11 +62,12 @@ export type FilterType = {
   contrast?: number;
   grayscale?: number;
   sepia?: number;
-  hueRotate?: number;
+  "hue-rotate"?: number;
   saturate?: number;
   blur?: number;
   invert?: number;
   opacity?: number;
+  "drop-shadow"?: [number, number, number, string];
 };
 
 export interface BlockInterface {
@@ -270,11 +271,12 @@ export const ImageFiltersInitial: FilterType = {
   contrast: 100,
   grayscale: 0,
   sepia: 0,
-  hueRotate: 0,
+  "hue-rotate": 0,
   saturate: 100,
   blur: 0,
   invert: 0,
   opacity: 100,
+  "drop-shadow": [0, 0, 0, "#212121"],
 };
 
 const initialState: BlogBuilderState = {

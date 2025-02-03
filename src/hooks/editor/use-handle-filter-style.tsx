@@ -14,14 +14,19 @@ const useHandleFilterStyle = (styles: StyleType) => {
     if (styles.filter[typedKey] !== undefined) {
       let value = styles.filter[typedKey];
 
-      // Convert camelCase to kebab-case where necessary
-      const cssKey = typedKey === "hueRotate" ? "hue-rotate" : typedKey;
+      if (typedKey === "drop-shadow" && Array.isArray(value)) {
+        const filterValueWithUnit = value.map((item, index) =>
+          index < value.length - 1 ? `${item}px` : item
+        );
+        filter.push(`${typedKey}(${filterValueWithUnit.join(" ")})`);
+        continue;
+      }
 
       // Determine the correct unit
       const unit =
         typedKey === "blur"
           ? "px"
-          : typedKey === "hueRotate"
+          : typedKey === "hue-rotate"
           ? "deg"
           : [
               "brightness",
@@ -35,7 +40,7 @@ const useHandleFilterStyle = (styles: StyleType) => {
           ? "%"
           : ""; // Default unitless
 
-      filter.push(`${cssKey}(${value}${unit})`);
+      filter.push(`${typedKey}(${value}${unit})`);
     }
   }
 

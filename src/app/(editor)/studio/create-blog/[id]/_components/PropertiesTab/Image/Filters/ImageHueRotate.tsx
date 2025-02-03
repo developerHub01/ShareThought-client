@@ -24,8 +24,8 @@ const ImageHueRotate = () => {
 
   const activeStyles = styles[activeBlock];
 
-  const imageHueRotate = (activeStyles?.filter?.hueRotate ??
-    ImageFiltersInitial.hueRotate) as number;
+  const imageHueRotate = (activeStyles?.filter?.["hue-rotate"] ??
+    ImageFiltersInitial["hue-rotate"]) as number;
 
   const handleChange = (value: number) => {
     dispatch(
@@ -33,7 +33,7 @@ const ImageHueRotate = () => {
         blogId,
         id: activeBlock,
         filter: {
-          hueRotate: value,
+          "hue-rotate": value,
         },
       })
     );
