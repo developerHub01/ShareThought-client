@@ -98,7 +98,7 @@ const TableBackground = () => {
 
   return (
     <ColorBlock
-      title="Background Color"
+      label="Background Color"
       colorState={backgroundState}
       handleColorPicker={handleColorPicker}
       handleColorChange={handleColorChange}

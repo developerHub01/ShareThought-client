@@ -98,7 +98,7 @@ const TableContentTextColor = () => {
 
   return (
     <ColorBlock
-      title="Text Color"
+      label="Text Color"
       colorState={textColorState}
       handleColorPicker={handleColorPicker}
       handleColorChange={handleColorChange}

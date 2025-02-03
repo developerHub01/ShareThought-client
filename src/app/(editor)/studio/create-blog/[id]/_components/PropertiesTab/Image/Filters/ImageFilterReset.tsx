@@ -11,10 +11,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import {
-  ImageFiltersInitial,
-  resetImageFilter,
-} from "@/redux/features/builders/blogBuilderSlice";
+import { resetImageFilter } from "@/redux/features/builders/blogBuilderSlice";
 import { useParams } from "next/navigation";
 
 const ImageFilterReset = () => {

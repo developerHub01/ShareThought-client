@@ -14,7 +14,6 @@ import ColorBlock from "@/app/(editor)/studio/create-blog/[id]/_components/Block
 
 const TableHeaderBackground = () => {
   const { id: blogId } = useParams<{ id: string }>();
-
   if (!blogId) return null;
 
   const { activeBlock, components } = useAppSelector(
@@ -42,28 +41,8 @@ const TableHeaderBackground = () => {
       setBackgroundState(tableHeaderBackgroundColor);
   }, [activeBlock, tableHeaderBackgroundColor]);
 
-  const handleColorPicker = (color: ColorResult, e: ChangeEvent) => {
-    const newColor = color.hex;
-    if (isValidHexColor(newColor)) setLastValidColor(newColor);
-
-    setBackgroundState(newColor);
-
-    dispatch(
-      changeTableHeaderStyle({
-        blogId,
-        id: activeBlock,
-        backgroundColor: newColor,
-      })
-    );
-  };
-
-  const handleColorChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const color = e.target.value;
-
-    if (isValidHexColor(color)) setLastValidColor(color);
-
+  const updateColor = (color: string) => {
     setBackgroundState(color);
-
     dispatch(
       changeTableHeaderStyle({
         blogId,
@@ -73,34 +52,42 @@ const TableHeaderBackground = () => {
     );
   };
 
+  const handleColorPicker = (color: ColorResult, e: ChangeEvent) => {
+    const newColor = color.hex;
+    if (isValidHexColor(newColor)) setLastValidColor(newColor);
+
+    setBackgroundState(newColor);
+
+    updateColor(color.hex);
+  };
+
+  const handleColorChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const color = e.target.value;
+
+    if (isValidHexColor(color)) setLastValidColor(color);
+
+    setBackgroundState(color);
+
+    updateColor(color);
+  };
+
   const handleColorBlur = (e: FocusEvent<HTMLInputElement>) => {
     let color = e.target.value;
 
-    const dispatchData = {
-      blogId,
-      id: activeBlock,
-      backgroundColor: color,
-    };
-
     if (!isValidHexColor(color)) {
-      dispatch(
-        changeTableHeaderStyle({
-          ...dispatchData,
-          backgroundColor: lastValidColor,
-        })
-      );
+      updateColor(lastValidColor);
 
       return setBackgroundState(lastValidColor);
     }
 
     setBackgroundState(color);
 
-    dispatch(changeTableHeaderStyle(dispatchData));
+    updateColor(color);
   };
 
   return (
     <ColorBlock
-      title="Background Color"
+      label="Background Color"
       colorState={backgroundState}
       handleColorPicker={handleColorPicker}
       handleColorChange={handleColorChange}

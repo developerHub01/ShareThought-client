@@ -6,23 +6,23 @@ import PropertyWrapper_v1 from "@/app/(editor)/studio/create-blog/[id]/_componen
 import { ColorResult } from "react-color";
 
 interface ColorBlockProps {
-  title: string;
+  label: string;
   colorState: string;
   handleColorPicker: (color: ColorResult, e: ChangeEvent) => void;
   handleColorChange: (e: ChangeEvent<HTMLInputElement>) => void;
-  handleColorBlur: (e: FocusEvent<HTMLInputElement>) => void;
+  handleColorBlur?: (e: FocusEvent<HTMLInputElement>) => void;
 }
 
 const ColorBlock = ({
-  title,
+  label,
   colorState,
   handleColorPicker,
   handleColorChange,
-  handleColorBlur,
+  handleColorBlur = (e: FocusEvent<HTMLInputElement>) => {},
 }: ColorBlockProps) => {
   return (
     <PropertyWrapper_v1>
-      <p className="text-sm">{title}</p>
+      <p className="text-sm">{label}</p>
       <div className="flex items-center gap-1.5 ml-auto">
         <ColorPicker
           color={colorState}
