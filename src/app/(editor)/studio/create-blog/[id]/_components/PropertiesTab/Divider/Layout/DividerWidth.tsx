@@ -4,7 +4,7 @@ import React from "react";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useParams } from "next/navigation";
 import SliderBlockWithLabel from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/SliderBlockWithLabel";
-import { addSingularSimpleStyle } from "@/redux/features/builders/blogBuilderSlice";
+import { addStyle } from "@/redux/features/builders/blogBuilderSlice";
 
 const DividerWidth = () => {
   const dispatch = useAppDispatch();
@@ -23,7 +23,7 @@ const DividerWidth = () => {
 
   const handleChange = (value: number) => {
     dispatch(
-      addSingularSimpleStyle({
+      addStyle({
         blogId,
         activeBlockId: activeBlock,
         styles: {

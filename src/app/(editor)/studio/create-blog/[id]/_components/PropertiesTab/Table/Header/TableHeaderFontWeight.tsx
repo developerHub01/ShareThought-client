@@ -50,7 +50,7 @@ const TableHeaderFontWeight = () => {
 
   return (
     <SelectBlock
-      title="Font Weight"
+      label="Font Weight"
       activeValue={tableHeader?.fontWeight || fontWeightList[1].id}
       itemList={fontWeightList}
       handleChange={handleChangeFontWeight}

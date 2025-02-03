@@ -1085,12 +1085,12 @@ export const blogBuilderSlice = createSlice({
     /* it is only for simple styles propery like color, height, width like that
     no multi element styles like border or padding
     */
-    addSingularSimpleStyle: (
+    addStyle: (
       state,
       action: PayloadAction<{
         blogId: string;
         activeBlockId: string;
-        styles: Record<string, string | number>;
+        styles: StyleType;
       }>
     ) => {
       const { blogId, activeBlockId, styles } = action.payload;
@@ -1891,7 +1891,7 @@ export const {
   linkRedirect,
   toggleBorderAll,
   setAlignment,
-  addSingularSimpleStyle,
+  addStyle,
   addTableRows,
   removeTableRows,
   changeTableRowsCount,

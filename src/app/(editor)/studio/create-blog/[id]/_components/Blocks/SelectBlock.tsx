@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/select";
 
 interface SelectBlockProps {
-  title: string;
+  label: string;
   placeholder?: string;
   activeValue: string;
   handleChange: (value: string) => void;
@@ -23,7 +23,7 @@ interface SelectBlockProps {
 }
 
 const SelectBlock = ({
-  title,
+  label,
   placeholder,
   handleChange,
   activeValue,
@@ -31,11 +31,11 @@ const SelectBlock = ({
 }: SelectBlockProps) => {
   return (
     <PropertyWrapper_v1>
-      <p className="text-sm">{title}</p>
+      <p className="text-sm">{label}</p>
       <div className="flex">
         <Select defaultValue={activeValue} onValueChange={handleChange}>
           <SelectTrigger className="min-w-32">
-            <SelectValue placeholder={placeholder || title} />
+            <SelectValue placeholder={placeholder || label} />
           </SelectTrigger>
           <SelectContent align="end">
             <SelectGroup>

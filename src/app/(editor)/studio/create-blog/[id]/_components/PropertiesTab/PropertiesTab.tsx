@@ -19,6 +19,7 @@ import AccordionBody from "@/app/(editor)/studio/create-blog/[id]/_components/Pr
 import AccordionTitle from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Accordion/Title/AccordionTitle";
 import AccordionContent from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Accordion/Content/AccordionContent";
 import AccordionContainer from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Accordion/Container/AccordionContainer";
+import BoxShadowProperty from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Common/BoxShadowProperty";
 
 const PropertiesTab = () => {
   const { id: blogId } = useParams<{ id: string }>();
@@ -113,6 +114,10 @@ const PropertiesTab = () => {
             <PaddingProperty />
           </PropertyTypeWrapper>
         )}
+
+        <PropertyTypeWrapper id="box_shadow" label="Box Shadow">
+          <BoxShadowProperty />
+        </PropertyTypeWrapper>
       </Accordion>
     </div>
   );

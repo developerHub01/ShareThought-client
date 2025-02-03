@@ -58,7 +58,7 @@ const TableContentLineHeight = () => {
 
   return (
     <SelectBlock
-      title="Line Weight"
+      label="Line Weight"
       activeValue={tableContent?.lineHeight?.toString() || lineHeightList[0].id}
       itemList={lineHeightList}
       handleChange={handleChangeLineHeight}
