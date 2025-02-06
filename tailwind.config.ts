@@ -8,6 +8,37 @@ const config: Config = {
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
+  safelist: [
+    "text-xs",
+    "text-sm",
+    "text-base",
+    "text-lg",
+    "text-xl",
+    "text-2xl",
+    "text-3xl",
+    "text-4xl",
+    "text-5xl",
+    "text-6xl",
+    "text-7xl",
+    "text-8xl",
+    "text-9xl",
+
+    "font-thin",
+    "font-extralight",
+    "font-light",
+    "font-normal",
+    "font-medium",
+    "font-semibold",
+    "font-bold",
+    "font-extrabold",
+    "font-black",
+
+    "text-left",
+    "text-center",
+    "font-light",
+    "text-right",
+    "text-justify",
+  ],
   theme: {
     extend: {
       aspectRatio: {

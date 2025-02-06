@@ -33,7 +33,7 @@ export type flexAlignType =
   | "center"
   | "flex-end"
   | "flex-between";
-export type FontWeightType = "bold" | "normal";
+// export type FontWeightType = "bold" | "normal";
 export type LineHeightType = 1.2 | 1.5 | 1.8 | 2.0;
 export type TextDirectionType = "ltr" | "rtl";
 export type PaddingType =
@@ -70,7 +70,44 @@ export type FilterType = {
   "drop-shadow"?: [number, number, number, string];
 };
 
-export type PropertyType = "font-size" | "font-weight";
+export type PropertyType =
+  | "font-size"
+  | "font-weight"
+  | "text-align"
+  | "line-height";
+
+export type FontSizeType =
+  | "text-xs"
+  | "text-sm"
+  | "text-base"
+  | "text-lg"
+  | "text-xl"
+  | "text-2xl"
+  | "text-3xl"
+  | "text-4xl"
+  | "text-5xl"
+  | "text-6xl"
+  | "text-7xl"
+  | "text-8xl"
+  | "text-9xl";
+
+export type FontWeightType =
+  | "font-thin"
+  | "font-extralight"
+  | "font-light"
+  | "font-normal"
+  | "font-medium"
+  | "font-semibold"
+  | "font-bold"
+  | "font-extrabold"
+  | "font-black";
+
+export type TextAlignType =
+  | "text-left"
+  | "text-center"
+  | "font-light"
+  | "text-right"
+  | "text-justify";
 
 export interface BlockInterface {
   postId?: string;
