@@ -461,7 +461,7 @@ export const blogBuilderSlice = createSlice({
           break;
       }
 
-      state.blogs[blogId].content.push(id);
+      state.blogs[blogId].content.splice(index, 0, id);
       state.blogs[blogId].components[id] = block;
     },
 

@@ -50,6 +50,9 @@ const EditorCanvas = () => {
               />
             </div>
             <section className="py-5 px-1 flex flex-col">
+              {Boolean(blogData?.content.length) && (
+                <AddComponentSection index={0} />
+              )}
               {blogData?.content.map((id, index, list) => (
                 <div key={id} className="group">
                   <BlockComponent
@@ -69,7 +72,7 @@ const EditorCanvas = () => {
                   </AnimatePresence>
                 </div>
               ))}
-              <AddComponentSection />
+              <AddComponentSection index={blogData?.content.length} />
             </section>
           </form>
         </ScrollArea>
