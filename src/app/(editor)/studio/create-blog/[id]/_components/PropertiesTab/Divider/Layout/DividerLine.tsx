@@ -61,7 +61,7 @@ const DividerLine = () => {
   );
 
   const handleColorChange = (color: string) => {
-    if (isValidHexColor(color)) {
+    if (isValidHexColor(color) || color === "transparent") {
       setLastValidColor(color);
       updateBorderStyle({ color });
     }
