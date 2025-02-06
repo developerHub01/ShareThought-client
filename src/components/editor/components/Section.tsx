@@ -41,7 +41,7 @@ const Section = ({ gridSize, children, ...props }: SectionProps) => {
               )}
             >
               {/* <BlockComponent {...children[index]} /> */}
-              <Button size="icon">
+              <Button size="icon" type="button">
                 <AddIcon />
               </Button>
             </div>

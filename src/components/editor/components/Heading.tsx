@@ -1,5 +1,4 @@
 import { BlockInterface } from "@/redux/features/builders/blogBuilderSlice";
-import clsx from "clsx";
 import React from "react";
 
 interface HeadingProps extends BlockInterface {

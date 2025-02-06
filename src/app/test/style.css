@@ -1,0 +1,19 @@
+div[contentEditable] {
+  outline: none;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 3px;
+  padding: 5px 10px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+button:hover {
+  background-color: #0056b3;
+}

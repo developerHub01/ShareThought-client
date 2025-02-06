@@ -6,7 +6,7 @@ interface SocialAuthButtonProps {
   authType: "google" | "github" | "facebook";
 }
 
-const SocialAuthButton = ({ authType }: SocialAuthButtonProps) => {
+const SocialAuthButton = ({ authType, ...props }: SocialAuthButtonProps) => {
   let iconLink = "";
   let iconLabel = "";
 
@@ -31,7 +31,11 @@ const SocialAuthButton = ({ authType }: SocialAuthButtonProps) => {
   return (
     <Button
       size={"icon"}
+      type="submit"
+      name="action"
+      value={authType}
       className="bg-white rounded-full p-1 hover:bg-white shadow-xl hover:scale-110 duration-150 transition-transform border"
+      {...props}
     >
       <SocialIcon />
     </Button>
