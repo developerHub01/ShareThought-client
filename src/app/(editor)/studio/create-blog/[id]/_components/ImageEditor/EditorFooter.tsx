@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { DrawerFooter } from "@/components/ui/drawer";
 import useModifyQueryParams from "@/hooks/use-modify-query-params";
-import { toggleEditorOpen } from "@/redux/features/builders/blogBuilderSlice";
+import { toggleisImageEditorOpen } from "@/redux/features/builders/blogBuilderSlice";
 import { useAppDispatch } from "@/redux/hooks";
 import { useRouter } from "next/navigation";
 import React from "react";
@@ -16,7 +16,7 @@ const EditorFooter = () => {
   const handleCancel = () =>
     router.push(buildFullPath(modifyParams("delete", "edit")));
 
-  const handleSave = () => dispatch(toggleEditorOpen());
+  const handleSave = () => dispatch(toggleisImageEditorOpen());
 
   return (
     <DrawerFooter>

@@ -1,7 +1,10 @@
 import { CenterScrollArea } from "@/components/scrollArea/CenterScrollArea";
 import useModifyQueryParams from "@/hooks/use-modify-query-params";
 import { useToast } from "@/hooks/use-toast";
-import { changeImage } from "@/redux/features/builders/blogBuilderSlice";
+import {
+  changeImage,
+  toggleisImageEditorOpen,
+} from "@/redux/features/builders/blogBuilderSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 import React, { useCallback, useEffect, useRef } from "react";
@@ -21,7 +24,7 @@ const ImageEditor = ({}: ImageEditorProps) => {
     (state) => state.blogBuilder.blogs[blogId]
   );
 
-  const { editorOpen } = useAppSelector((state) => state.blogBuilder);
+  const { isImageEditorOpen } = useAppSelector((state) => state.blogBuilder);
   const dispatch = useAppDispatch();
 
   if (!activeBlock) return null;
@@ -52,6 +55,7 @@ const ImageEditor = ({}: ImageEditorProps) => {
       const coverURL = URL.createObjectURL(blob);
 
       dispatch(changeImage({ blogId, id: activeBlock, image: coverURL }));
+      dispatch(toggleisImageEditorOpen());
       handleClose();
     }, "image/png");
   }, [dispatch, router, toast]);
@@ -62,8 +66,8 @@ const ImageEditor = ({}: ImageEditorProps) => {
   useEffect(() => {
     if (!targetImage) handleClose();
 
-    if (editorOpen) handleSaveCroppedImage();
-  }, [router, targetImage, editorOpen]);
+    if (isImageEditorOpen) handleSaveCroppedImage();
+  }, [router, targetImage, isImageEditorOpen]);
 
   return (
     <CenterScrollArea className="w-full h-full">

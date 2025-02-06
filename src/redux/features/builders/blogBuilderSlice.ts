@@ -181,7 +181,7 @@ export interface BlogBuilderState {
       };
     };
   };
-  editorOpen: boolean;
+  isImageEditorOpen: boolean;
 }
 
 const blogInitialState = {
@@ -281,7 +281,7 @@ export const ImageFiltersInitial: FilterType = {
 
 const initialState: BlogBuilderState = {
   blogs: {},
-  editorOpen: true,
+  isImageEditorOpen: false,
 };
 
 const ensureBlogExists = (state: BlogBuilderState, id: string) => {
@@ -312,8 +312,8 @@ export const blogBuilderSlice = createSlice({
       state.blogs[id].title = title;
     },
 
-    toggleEditorOpen: (state) => {
-      state.editorOpen = !state.editorOpen;
+    toggleisImageEditorOpen: (state) => {
+      state.isImageEditorOpen = !state.isImageEditorOpen;
     },
 
     addComponent: (
@@ -1892,7 +1892,7 @@ export const blogBuilderSlice = createSlice({
 export const {
   createBlog,
   addComponent,
-  toggleEditorOpen,
+  toggleisImageEditorOpen,
   updateTitle,
   toggleEditorOrPreview,
   changeActiveBlock,
