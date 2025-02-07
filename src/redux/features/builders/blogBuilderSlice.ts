@@ -15,7 +15,8 @@ export type BlockTypes =
   | "p"
   | "code"
   | "table"
-  | "section"
+  | "row"
+  | "column"
   | "image"
   | "spacer"
   | "divider"
@@ -81,7 +82,7 @@ export interface BlockInterface {
   alt?: string;
   caption?: string;
   locationPath?: Array<string>;
-  children?: Array<BlockInterface> | TableInterface | AccordionInterface;
+  children?: Array<string> | TableInterface | AccordionInterface;
 }
 
 export interface StripedRowInterface {
@@ -322,10 +323,11 @@ export const blogBuilderSlice = createSlice({
         id: string;
         type: BlockTypes;
         gridSize?: Array<number>;
+        parentId?: string; // Optional Parent ID
         index: number;
       }>
     ) => {
-      const { id: blogId, type, index, gridSize } = action.payload;
+      const { id: blogId, type, index, gridSize, parentId } = action.payload;
 
       /* if that blog is not exist then create */
       ensureBlogExists(state, blogId);
@@ -335,101 +337,108 @@ export const blogBuilderSlice = createSlice({
       let block: BlockInterface = {
         id,
         type: "p",
-        locationPath: [],
+        locationPath: parentId
+          ? [
+              ...(state.blogs[blogId].components[parentId]?.locationPath ?? []),
+              parentId,
+            ]
+          : [],
         children: [],
       };
 
       switch (type) {
         case "h1":
           block = {
-            id,
+            ...block,
             type,
             text: "heading 1",
-            locationPath: [],
-            children: [],
           };
           break;
         case "h2":
           block = {
-            id,
+            ...block,
             type,
             text: "heading 2",
-            locationPath: [],
-            children: [],
           };
           break;
         case "h3":
           block = {
-            id,
+            ...block,
             type,
             text: "heading 3",
-            locationPath: [],
-            children: [],
           };
           break;
         case "h4":
           block = {
-            id,
+            ...block,
             type,
             text: "heading 4",
-            locationPath: [],
-            children: [],
           };
           break;
         case "h5":
           block = {
-            id,
+            ...block,
             type,
             text: "heading 5",
-            locationPath: [],
-            children: [],
           };
           break;
         case "h6":
           block = {
-            id,
+            ...block,
             type,
             text: "heading 6",
-            locationPath: [],
-            children: [],
           };
           break;
         case "p":
           block = {
-            id,
+            ...block,
             type,
             text: "paragraph",
-            locationPath: [],
-            children: [],
           };
           break;
-        case "section":
+        case "row":
           block = {
-            id,
+            ...block,
             type,
             gridSize,
-            locationPath: [],
-            children: [],
+          };
+
+          for (let i = 0; i < (gridSize?.length ?? 1); i++) {
+            const id = uuidv4();
+
+            if (Array.isArray(block.children)) block.children.push(id);
+
+            state.blogs[blogId].components[id] = {
+              id,
+              type: "column",
+              children: [],
+            };
+          }
+
+          break;
+        case "column":
+          block = {
+            ...block,
+            type,
           };
           break;
         case "table":
           block = {
-            id,
+            ...block,
             type,
             gridSize,
-            locationPath: [],
             children: tableInitialState,
           };
           break;
         case "image":
           block = {
-            id,
+            ...block,
             type,
           };
           break;
         case "spacer":
           block = {
-            id,
+            ...block,
             type,
           };
 
@@ -440,7 +449,7 @@ export const blogBuilderSlice = createSlice({
           break;
         case "divider":
           block = {
-            id,
+            ...block,
             type,
           };
 
@@ -453,7 +462,7 @@ export const blogBuilderSlice = createSlice({
           break;
         case "accordion":
           block = {
-            id,
+            ...block,
             type,
             children: { ...accordionInitialState },
           };
@@ -461,7 +470,14 @@ export const blogBuilderSlice = createSlice({
           break;
       }
 
-      state.blogs[blogId].content.splice(index, 0, id);
+      /* if it have a parentId then add that component into that parent child */
+      if (
+        parentId &&
+        Array.isArray(state.blogs[blogId].components[parentId]?.children)
+      )
+        state.blogs[blogId].components[parentId].children.push(id);
+      else state.blogs[blogId].content.splice(index, 0, id);
+
       state.blogs[blogId].components[id] = block;
     },
 

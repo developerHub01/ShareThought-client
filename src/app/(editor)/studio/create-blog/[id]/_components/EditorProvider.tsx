@@ -5,6 +5,8 @@ import React, { createContext, Dispatch, useContext, useState } from "react";
 interface EditorContext {
   selectedIndex: number;
   setSelectedIndex: Dispatch<React.SetStateAction<number>>;
+  selectedParentId: string;
+  setSelectedParentId: Dispatch<React.SetStateAction<string>>;
   isComponentDialogOpen: boolean;
   setIsComponentDialogOpen: Dispatch<React.SetStateAction<boolean>>;
 }
@@ -26,14 +28,18 @@ interface EditorProviderProps {
 }
 
 const EditorProvider = ({ children }: EditorProviderProps) => {
-  const [selectedIndex, setSelectedIndex] = useState(-1);
-  const [isComponentDialogOpen, setIsComponentDialogOpen] = useState(false);
+  const [selectedIndex, setSelectedIndex] = useState<number>(-1);
+  const [selectedParentId, setSelectedParentId] = useState<string>("");
+  const [isComponentDialogOpen, setIsComponentDialogOpen] =
+    useState<boolean>(false);
 
   return (
     <EditorContext.Provider
       value={{
         selectedIndex,
         setSelectedIndex,
+        selectedParentId,
+        setSelectedParentId,
         isComponentDialogOpen,
         setIsComponentDialogOpen,
       }}

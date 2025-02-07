@@ -28,7 +28,6 @@ import {
 } from "lucide-react";
 import { useEditor } from "@/app/(editor)/studio/create-blog/[id]/_components/EditorProvider";
 import { useAppDispatch } from "@/redux/hooks";
-import { distance } from "react-advanced-cropper";
 import {
   addComponent,
   BlockTypes,
@@ -41,97 +40,97 @@ interface componentItem {
   Icon: LucideIcon;
 }
 
+const componentItemList: Array<componentItem> = [
+  {
+    id: "p",
+    label: "paragraph",
+    Icon: ParagraphIcon,
+  },
+  {
+    id: "h1",
+    label: "heading 1",
+    Icon: Heading1Icon,
+  },
+  {
+    id: "h2",
+    label: "heading 2",
+    Icon: Heading2Icon,
+  },
+  {
+    id: "h3",
+    label: "heading 3",
+    Icon: Heading3Icon,
+  },
+  {
+    id: "h4",
+    label: "heading 4",
+    Icon: Heading4Icon,
+  },
+  {
+    id: "h5",
+    label: "heading 5",
+    Icon: Heading5Icon,
+  },
+  {
+    id: "h6",
+    label: "heading 6",
+    Icon: Heading6Icon,
+  },
+  {
+    id: "code",
+    label: "code",
+    Icon: CodeIcon,
+  },
+  {
+    id: "divider",
+    label: "divider",
+    Icon: DividerIcon,
+  },
+  {
+    id: "image",
+    label: "image",
+    Icon: ImageIcon,
+  },
+  {
+    id: "list",
+    label: "list",
+    Icon: ListIcon,
+  },
+  {
+    id: "table",
+    label: "table",
+    Icon: TableIcon,
+  },
+  {
+    id: "blockquote",
+    label: "block quote",
+    Icon: BlockquoteIcon,
+  },
+  {
+    id: "accordion",
+    label: "accordion",
+    Icon: AccordionIcon,
+  },
+  {
+    id: "collapse",
+    label: "collaps",
+    Icon: CollapsIcon,
+  },
+  {
+    id: "spacer",
+    label: "spacer",
+    Icon: SpacerIcon,
+  },
+];
+
 const ComponentList = () => {
   const { id: blogId } = useParams<{ id: string }>();
 
-  const componentItemList = useMemo<Array<componentItem>>(
-    () => [
-      {
-        id: "p",
-        label: "paragraph",
-        Icon: ParagraphIcon,
-      },
-      {
-        id: "h1",
-        label: "heading 1",
-        Icon: Heading1Icon,
-      },
-      {
-        id: "h2",
-        label: "heading 2",
-        Icon: Heading2Icon,
-      },
-      {
-        id: "h3",
-        label: "heading 3",
-        Icon: Heading3Icon,
-      },
-      {
-        id: "h4",
-        label: "heading 4",
-        Icon: Heading4Icon,
-      },
-      {
-        id: "h5",
-        label: "heading 5",
-        Icon: Heading5Icon,
-      },
-      {
-        id: "h6",
-        label: "heading 6",
-        Icon: Heading6Icon,
-      },
-      {
-        id: "code",
-        label: "code",
-        Icon: CodeIcon,
-      },
-      {
-        id: "divider",
-        label: "divider",
-        Icon: DividerIcon,
-      },
-      {
-        id: "image",
-        label: "image",
-        Icon: ImageIcon,
-      },
-      {
-        id: "list",
-        label: "list",
-        Icon: ListIcon,
-      },
-      {
-        id: "table",
-        label: "table",
-        Icon: TableIcon,
-      },
-      {
-        id: "blockquote",
-        label: "block quote",
-        Icon: BlockquoteIcon,
-      },
-      {
-        id: "accordion",
-        label: "accordion",
-        Icon: AccordionIcon,
-      },
-      {
-        id: "collapse",
-        label: "collaps",
-        Icon: CollapsIcon,
-      },
-      {
-        id: "spacer",
-        label: "spacer",
-        Icon: SpacerIcon,
-      },
-    ],
-    []
-  );
-
   const dispatch = useAppDispatch();
-  const { setIsComponentDialogOpen, selectedIndex } = useEditor();
+
+  const { setIsComponentDialogOpen, selectedIndex, selectedParentId } =
+    useEditor();
+
   const handleClick = (blockId: BlockTypes) => () => {
     setIsComponentDialogOpen(false);
     dispatch(
@@ -139,6 +138,7 @@ const ComponentList = () => {
         id: blogId,
         type: blockId,
         index: selectedIndex,
+        parentId: selectedParentId,
       })
     );
   };

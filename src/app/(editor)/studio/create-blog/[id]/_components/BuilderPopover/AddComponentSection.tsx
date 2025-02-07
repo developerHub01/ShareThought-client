@@ -8,11 +8,13 @@ import Container from "@/app/(editor)/studio/create-blog/[id]/_components/Contai
 interface AddComponentSectionProps {
   className?: string;
   index?: number;
+  parentId?: string;
   [key: string]: unknown;
 }
 
 const AddComponentSection = ({
   className,
+  parentId = "",
   index = -1,
   ...props
 }: AddComponentSectionProps) => {
@@ -24,7 +26,7 @@ const AddComponentSection = ({
       )}
       {...props}
     >
-      <AddComponentButton index={index} />
+      <AddComponentButton index={index} parentId={parentId} />
     </Container>
   );
 };
@@ -32,19 +34,23 @@ const AddComponentSection = ({
 interface AddComponentButtonProps {
   className?: string;
   index?: number;
+  parentId?: string;
   [key: string]: unknown;
 }
 
 const AddComponentButton = ({
   className,
   index = -1,
+  parentId = "",
   ...props
 }: AddComponentButtonProps) => {
-  const { setIsComponentDialogOpen, setSelectedIndex } = useEditor();
+  const { setIsComponentDialogOpen, setSelectedIndex, setSelectedParentId } =
+    useEditor();
 
   const handleClick = () => {
     setIsComponentDialogOpen(true);
     setSelectedIndex(index);
+    setSelectedParentId(parentId);
   };
 
   return (

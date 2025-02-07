@@ -7,7 +7,10 @@ import {
 } from "@/components/ui/tooltip";
 import { useAppDispatch } from "@/redux/hooks";
 import { useEditor } from "@/app/(editor)/studio/create-blog/[id]/_components/EditorProvider";
-import { addComponent } from "@/redux/features/builders/blogBuilderSlice";
+import {
+  addComponent,
+  BlockTypes,
+} from "@/redux/features/builders/blogBuilderSlice";
 import { useParams } from "next/navigation";
 
 const layoutItemList = [
@@ -29,7 +32,7 @@ const LayoutList = () => {
   const { setIsComponentDialogOpen, selectedIndex } = useEditor();
   const modifiedLayoutList = useMemo(() => {
     return layoutItemList.map((item) => ({
-      id: `section_${item}`,
+      id: `row_${item}`,
       sizes: item.split("/").map((colSize) => Number(colSize)),
     }));
   }, []);
@@ -39,7 +42,7 @@ const LayoutList = () => {
       if (!index) return item;
 
       return item?.split("/")?.map(Number);
-    }) as [string, Array<number>];
+    }) as [BlockTypes, Array<number>];
 
     setIsComponentDialogOpen(false);
     dispatch(

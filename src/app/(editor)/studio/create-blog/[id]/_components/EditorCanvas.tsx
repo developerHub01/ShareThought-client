@@ -3,7 +3,6 @@ import AddComponentSection from "@/app/(editor)/studio/create-blog/[id]/_compone
 import ComponentDialog from "@/app/(editor)/studio/create-blog/[id]/_components/BuilderPopover/ComponentDialog";
 import EditorSidebar from "@/app/(editor)/studio/create-blog/[id]/_components/EditorSidebar";
 import { AnimatePresence, motion } from "motion/react";
-import { MotionDivProps } from "@/types";
 import BlockComponent from "@/app/(editor)/studio/create-blog/[id]/_components/BlockComponent";
 import { Input } from "@/components/ui/input";
 import { updateTitle } from "@/redux/features/builders/blogBuilderSlice";
@@ -63,7 +62,6 @@ const EditorCanvas = () => {
                     {index !== list.length - 1 && (
                       <motion.div
                         className="group-hover:opacity-100 group-hover:scale-y-100 opacity-0 scale-y-0 -translate-y-1/2 mt-1 mx-auto"
-                        {...({} as MotionDivProps)}
                         exit={{ opacity: 0 }}
                       >
                         <AddComponentSection index={index + 1} />

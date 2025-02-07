@@ -1,7 +1,7 @@
 "use client";
 
 import Heading from "@/components/editor/components/Heading";
-import Section from "@/components/editor/components/Section";
+import Row from "@/components/editor/components/Row";
 import {
   AccordionInterface,
   BlockInterface,
@@ -13,7 +13,6 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { BlogComponentBlock } from "@/types";
 import {
   GripHorizontal as GripIcon,
-  Trash as RemoveIcon,
   LucideIcon,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -34,9 +33,9 @@ export interface AccordionProps extends BlockInterface {
 const Block = ({ ...props }: BlogComponentBlock) => {
   if (["h1", "h2", "h3", "h4", "h5", "h6"].includes(props.type)) {
     return <Heading {...props} />;
-  } else if (props.type === "section") {
-    return <Section {...props} />;
-  } else if (props.type === "table") {
+  } else if (props.type === "row") {
+    return <Row {...props} />;
+  }else if (props.type === "table") {
     return <Table {...(props as TableProps)} />;
   } else if (props.type === "image") {
     return <Image {...props} />;
@@ -92,7 +91,7 @@ const BlockComponent = ({ ...props }: BlockInterface) => {
         />
       </span>
       <div className="w-full max-w-3xl rounded-sm">
-        <Block {...props} styles={styles} />
+        <Block {...props} postId={postId} styles={styles} />
       </div>
     </div>
   );

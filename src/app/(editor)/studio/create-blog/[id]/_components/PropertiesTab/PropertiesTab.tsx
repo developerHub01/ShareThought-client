@@ -110,14 +110,15 @@ const PropertiesTab = () => {
         {["table", "image", "divider", "accordion"].includes(
           activeComponent.type
         ) && (
-          <PropertyTypeWrapper id="padding" label="Padding">
-            <PaddingProperty />
-          </PropertyTypeWrapper>
+          <>
+            <PropertyTypeWrapper id="padding" label="Padding">
+              <PaddingProperty />
+            </PropertyTypeWrapper>
+            <PropertyTypeWrapper id="box_shadow" label="Box Shadow">
+              <BoxShadowProperty />
+            </PropertyTypeWrapper>
+          </>
         )}
-
-        <PropertyTypeWrapper id="box_shadow" label="Box Shadow">
-          <BoxShadowProperty />
-        </PropertyTypeWrapper>
       </Accordion>
     </div>
   );
