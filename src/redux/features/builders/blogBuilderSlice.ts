@@ -157,29 +157,38 @@ export interface StylesInterface {
   [key: string]: StyleType;
 }
 
+export interface BlogMetaDataInterface {
+  imgLinks: Record<string, string>;
+  styles: StylesInterface;
+  mobileStyles: {
+    [key: string]: Record<string, string | number>;
+  };
+  hoverStyles: {
+    [key: string]: Record<string, string | number>;
+  };
+  globalStyles: {
+    [key: string]: Record<string, string | number>;
+  };
+}
+
+export interface BlogComponentsDataInterface {
+  [key: string]: BlockInterface;
+}
+
+export type BlogContentType = Array<string>;
+
+export interface BlogStateInterface {
+  title: string;
+  content: BlogContentType;
+  metaData: BlogMetaDataInterface;
+  components: BlogComponentsDataInterface;
+}
+
 export interface BlogBuilderState {
   blogs: {
-    [id: string]: {
-      title: string;
-      content: Array<string>;
-      metaData: {
-        imgLinks: Record<string, string>;
-        styles: StylesInterface;
-        mobileStyles: {
-          [key: string]: Record<string, string | number>;
-        };
-        hoverStyles: {
-          [key: string]: Record<string, string | number>;
-        };
-        globalStyles: {
-          [key: string]: Record<string, string | number>;
-        };
-      };
+    [id: string]: BlogStateInterface & {
       editorOrPreview: editorOrPreviewTypes;
       activeBlock: string | null;
-      components: {
-        [key: string]: BlockInterface;
-      };
     };
   };
   isImageEditorOpen: boolean;

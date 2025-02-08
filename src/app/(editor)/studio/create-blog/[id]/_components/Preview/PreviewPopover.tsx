@@ -4,7 +4,6 @@ import { useRouter, useSearchParams } from "next/navigation";
 import React from "react";
 import {
   Drawer,
-  DrawerClose,
   DrawerContentWitoutHandler,
   DrawerDescription,
   DrawerHeader,
@@ -55,20 +54,12 @@ const PreviewPopover = () => {
           </Button>
         </DrawerHeader>
 
-        <ScrollArea className="px-3 py-2">
+        <ScrollArea className="px-3 w-full">
           <PreviewContent />
         </ScrollArea>
-
-        <DrawerClose className="inline-block absolute sm:hidden top-2.5 left-2.5 z-10 cursor-pointer">
-          <CloseIcon />
-        </DrawerClose>
       </DrawerContentWitoutHandler>
     </Drawer>
   );
 };
-
-interface PopoverTitleOrContentProps {
-  modalName: string;
-}
 
 export default PreviewPopover;
