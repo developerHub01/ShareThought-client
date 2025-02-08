@@ -10,6 +10,7 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useParams } from "next/navigation";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import EditorPopover from "@/app/(editor)/studio/create-blog/[id]/_components/ImageEditor/EditorPopover";
+import PreviewPopover from "@/app/(editor)/studio/create-blog/[id]/_components/Preview/PreviewPopover";
 
 const EditorCanvas = () => {
   const { id: postId } = useParams<{ id: string }>();
@@ -78,6 +79,7 @@ const EditorCanvas = () => {
       </section>
       <ComponentDialog />
       <EditorPopover />
+      <PreviewPopover />
     </section>
   );
 };

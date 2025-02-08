@@ -87,7 +87,6 @@ const BlockComponent = ({ ...props }: BlockInterface) => {
           id="grip"
           Icon={GripIcon}
           onClick={() => {}}
-          className=""
         />
       </span>
       <div className="w-full max-w-3xl rounded-sm">
@@ -103,6 +102,7 @@ interface ActionButtonProps {
   className?: string;
   onClick: () => void;
 }
+
 const ActionButton = ({ id, Icon, onClick, className }: ActionButtonProps) => {
   return (
     <Button
