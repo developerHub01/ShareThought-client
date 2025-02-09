@@ -7,6 +7,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { ColorResult, SketchPicker } from "react-color";
+import { hexToRgba, rgbaToHex } from "@/utils/color";
 
 interface ColorPickerProps {
   color: string;
@@ -62,10 +63,19 @@ const ColorPicker = ({
           sideOffset={5}
         >
           <SketchPicker
-            color={color}
+            color={hexToRgba(color)}
             onChangeComplete={handleColorPicker}
-            // onChange={handleColorPicker}
-            disableAlpha={true}
+            onChange={(color: ColorResult, e: ChangeEvent) => {
+              color.hex = rgbaToHex(
+                color.rgb.r,
+                color.rgb.g,
+                color.rgb.b,
+                color.rgb.a
+              );
+
+              handleColorPicker(color, e);
+            }}
+            disableAlpha={false}
             presetColors={colorList}
           />
         </PopoverContent>
@@ -73,7 +83,7 @@ const ColorPicker = ({
       <input
         type="text"
         value={color}
-        className="w-16 text-center rounded-none"
+        className="min-w-16 w-fit max-w-20 text-center rounded-none"
         onChange={handleColorChange}
         onBlur={handleColorBlur}
       />
