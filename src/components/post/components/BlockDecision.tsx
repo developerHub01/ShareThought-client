@@ -1,6 +1,7 @@
 import Divider from "@/components/editor/preview/Divider";
 import Heading from "@/components/editor/preview/Heading";
 import Image from "@/components/editor/preview/Image";
+import Row from "@/components/editor/preview/Row";
 import Spacer from "@/components/editor/preview/Spacer";
 import Table from "@/components/editor/preview/Table";
 import {
@@ -32,9 +33,9 @@ const ComponentSelector = (props: BlockDecisionProps) => {
     // return <Heading {...props} />;
     return <></>;
   }
-  // else if (component.type === "row") {
-  //   return <Row {...props} />;
-  // }
+  else if (component.type === "row") {
+    // return <Row    {...props} />;
+  }
   else if (component.type === "table") {
     return <Table {...props} />;
   }

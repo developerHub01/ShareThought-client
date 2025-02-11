@@ -11,10 +11,7 @@ import {
 import React from "react";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { BlogComponentBlock } from "@/types";
-import {
-  GripHorizontal as GripIcon,
-  LucideIcon,
-} from "lucide-react";
+import { GripHorizontal as GripIcon, LucideIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Table from "@/components/editor/components/Table";
 import Image from "@/components/editor/components/Image";
@@ -35,7 +32,7 @@ const Block = ({ ...props }: BlogComponentBlock) => {
     return <Heading {...props} />;
   } else if (props.type === "row") {
     return <Row {...props} />;
-  }else if (props.type === "table") {
+  } else if (props.type === "table") {
     return <Table {...(props as TableProps)} />;
   } else if (props.type === "image") {
     return <Image {...props} />;

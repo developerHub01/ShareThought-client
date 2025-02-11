@@ -49,7 +49,7 @@ const EditorCanvas = () => {
                 onKeyUp={handleKeyEnter}
               />
             </div>
-            <section className="py-5 px-1 flex flex-col">
+            <section className="w-full py-5 px-1 flex flex-col">
               {Boolean(blogData?.content.length) && (
                 <AddComponentSection index={0} />
               )}

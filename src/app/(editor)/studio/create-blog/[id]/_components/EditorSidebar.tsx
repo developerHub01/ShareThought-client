@@ -45,7 +45,7 @@ const EditorSidebar = () => {
             animate={{ x: 0, opacity: 1, width: "100%" }}
             exit={{ x: "100%", opacity: 0, width: "0" }}
             transition={{ duration: 0.3 }}
-            className="h-full shadow-xl border-accent flex-grow-0 bg-background w-full max-w-96"
+            className="h-full shadow-xl border-accent flex-grow-0 flex-shrink-0 bg-background w-full max-w-96"
           >
             <AnimatePresence>
               <SidebarTab />

@@ -27,7 +27,7 @@ const CreateBlogPostPage = () => {
   const blogData = blogsData[postId];
 
   return (
-    <section className="h-full overflow-hidden">
+    <section className="w-full h-full overflow-hidden">
       <>
         {blogData?.editorOrPreview !== "preview" ? (
           <EditorCanvas />

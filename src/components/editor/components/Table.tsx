@@ -95,7 +95,6 @@ const Table = ({
   if (!blogId) return null;
 
   const {
-    activeBlock,
     metaData: { styles },
   } = useAppSelector((state) => state.blogBuilder.blogs[blogId]);
 
@@ -241,12 +240,13 @@ const Table = ({
 
   return (
     <div
+      className="w-full"
       style={{
         ...wrapperStyles,
       }}
     >
       <table
-        className="border-collapse w-full text-sm text-left text-gray-500 dark:text-gray-400"
+        className="border-collapse w-full table-fixed text-sm text-left text-gray-500 dark:text-gray-400"
         style={{
           ...(activeBlockStyles as Record<string, string | number>),
           ...borderStyle,
@@ -504,7 +504,7 @@ const Th = ({
       contentEditable
       suppressContentEditableWarning
       {...props}
-      className={clsx("p-3 min-h-8", className)}
+      className={clsx("p-2 min-h-8 break-words whitespace-normal", className)}
       onBlur={(e: FocusEvent<HTMLTableCellElement>) =>
         onBlur("thead", rowIndex, colIndex, e.target.innerText || "")
       }
@@ -527,7 +527,7 @@ const Td = ({
       contentEditable
       suppressContentEditableWarning
       {...props}
-      className={clsx("p-3 min-h-8", className)}
+      className={clsx("p-2 min-h-8 break-words whitespace-normal", className)}
       onBlur={(e: FocusEvent<HTMLTableCellElement>) =>
         onBlur("tbody", rowIndex, colIndex, e.target.innerText || "")
       }
