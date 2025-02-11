@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/tooltip";
 import { EDITOR_TABLE_SIZE } from "@/constant";
 import useWrapperContentStyleSeparator from "@/hooks/editor/use-wrapper-content-style-separator";
+import { cn } from "@/lib/utils";
 import {
   addRowColumnBeforeAfterOfCurrent,
   AlignType,
@@ -25,7 +26,6 @@ import {
   TextDirectionType,
 } from "@/redux/features/builders/blogBuilderSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import clsx from "clsx";
 import { Plus as PlusIcon, Trash as TrashIcon } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { useParams } from "next/navigation";
@@ -271,7 +271,6 @@ const Table = ({
                     rowIndex={rowIndex}
                     colIndex={colIndex}
                     onBlur={handleChangeCellData}
-                    className="relative"
                     style={{
                       ...borderStyle,
                       fontWeight:
@@ -280,81 +279,83 @@ const Table = ({
                     }}
                     onMouseEnter={() => handleMouseEnter("column", colIndex)}
                     onMouseLeave={() => handleMouseLeave("column")}
-                  >
-                    <AnimatePresence>
-                      {(hoveredColumn === colIndex ||
-                        (hoveredColumn === colIndex && focusedColumn)) && (
-                        <motion.span {...actionButtonAnim}>
-                          <div className="absolute left-1/2 top-0 -translate-x-1/2 -translate-y-full flex items-center z-10">
-                            <TooltipProvider>
-                              {rows.length > 1 && (
+                    actionContent={
+                      <AnimatePresence>
+                        {(hoveredColumn === colIndex ||
+                          (hoveredColumn === colIndex && focusedColumn)) && (
+                          <motion.div {...actionButtonAnim}>
+                            <div className="absolute left-1/2 top-0 -translate-x-1/2 -translate-y-full flex items-center z-10">
+                              <TooltipProvider>
+                                {rows.length > 1 && (
+                                  <Tooltip>
+                                    <TooltipTrigger asChild>
+                                      <Button
+                                        type="button"
+                                        onClick={() =>
+                                          handleRemoveRowOrColumn(
+                                            colIndex,
+                                            "column"
+                                          )
+                                        }
+                                        size={"smIcon"}
+                                        className="rounded-r-none"
+                                      >
+                                        <TrashIcon size={14} />
+                                      </Button>
+                                    </TooltipTrigger>
+                                    <TooltipContent side="bottom">
+                                      <p className="text-xs">Remove Column</p>
+                                    </TooltipContent>
+                                  </Tooltip>
+                                )}
+
                                 <Tooltip>
-                                  <TooltipTrigger asChild>
-                                    <Button
-                                      type="button"
-                                      onClick={() =>
-                                        handleRemoveRowOrColumn(
-                                          colIndex,
-                                          "column"
+                                  <DropdownMenu
+                                    onOpenChange={(value) =>
+                                      handleAddDropDownChange("column", value)
+                                    }
+                                  >
+                                    <DropdownMenuTrigger asChild>
+                                      <Button
+                                        type="button"
+                                        size={"smIcon"}
+                                        className={cn("", {
+                                          "rounded-l-none": rows.length > 1,
+                                        })}
+                                      >
+                                        <PlusIcon size={14} />
+                                      </Button>
+                                    </DropdownMenuTrigger>
+                                    <DropdownMenuContent>
+                                      {dropdownColumnActionButtonList.map(
+                                        ({ id, label }) => (
+                                          <DropdownMenuItem
+                                            key={id}
+                                            onClick={() =>
+                                              handleAddRowOrColumn(
+                                                "column",
+                                                id as AddRowColumnType,
+                                                colIndex
+                                              )
+                                            }
+                                          >
+                                            {label}
+                                          </DropdownMenuItem>
                                         )
-                                      }
-                                      size={"smIcon"}
-                                      className="rounded-r-none"
-                                    >
-                                      <TrashIcon size={14} />
-                                    </Button>
-                                  </TooltipTrigger>
+                                      )}
+                                    </DropdownMenuContent>
+                                  </DropdownMenu>
                                   <TooltipContent side="bottom">
-                                    <p className="text-xs">Remove Column</p>
+                                    <p className="text-xs">Add Column</p>
                                   </TooltipContent>
                                 </Tooltip>
-                              )}
-
-                              <Tooltip>
-                                <DropdownMenu
-                                  onOpenChange={(value) =>
-                                    handleAddDropDownChange("column", value)
-                                  }
-                                >
-                                  <DropdownMenuTrigger asChild>
-                                    <Button
-                                      type="button"
-                                      size={"smIcon"}
-                                      className={clsx("", {
-                                        "rounded-l-none": rows.length > 1,
-                                      })}
-                                    >
-                                      <PlusIcon size={14} />
-                                    </Button>
-                                  </DropdownMenuTrigger>
-                                  <DropdownMenuContent>
-                                    {dropdownColumnActionButtonList.map(
-                                      ({ id, label }) => (
-                                        <DropdownMenuItem
-                                          key={id}
-                                          onClick={() =>
-                                            handleAddRowOrColumn(
-                                              "column",
-                                              id as AddRowColumnType,
-                                              colIndex
-                                            )
-                                          }
-                                        >
-                                          {label}
-                                        </DropdownMenuItem>
-                                      )
-                                    )}
-                                  </DropdownMenuContent>
-                                </DropdownMenu>
-                                <TooltipContent side="bottom">
-                                  <p className="text-xs">Add Column</p>
-                                </TooltipContent>
-                              </Tooltip>
-                            </TooltipProvider>
-                          </div>
-                        </motion.span>
-                      )}
-                    </AnimatePresence>
+                              </TooltipProvider>
+                            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    }
+                  >
                     {col}
                   </Th>
                 ))}
@@ -386,7 +387,6 @@ const Table = ({
               {rows.map((col, colIndex) => (
                 <Td
                   key={colIndex}
-                  className="relative"
                   rowIndex={rowIndex}
                   colIndex={colIndex}
                   onBlur={handleChangeCellData}
@@ -395,77 +395,79 @@ const Table = ({
                   }}
                   onMouseEnter={() => handleMouseEnter("column", colIndex)}
                   onMouseLeave={() => handleMouseLeave("column")}
-                >
-                  <AnimatePresence>
-                    {colIndex === 0 &&
-                      (hoveredRow === rowIndex ||
-                        (hoveredRow === rowIndex && focusedRow)) && (
-                        <motion.span {...actionButtonAnim}>
-                          <div className="absolute left-0 top-0 -translate-x-full flex items-center">
-                            <TooltipProvider>
-                              <Tooltip>
-                                <TooltipTrigger asChild>
-                                  <Button
-                                    type="button"
-                                    onClick={() =>
-                                      handleRemoveRowOrColumn(rowIndex, "row")
-                                    }
-                                    size={"smIcon"}
-                                    className="rounded-r-none"
-                                  >
-                                    <TrashIcon size={14} />
-                                  </Button>
-                                </TooltipTrigger>
-                                <TooltipContent side="bottom">
-                                  <p className="text-xs">Remove Row</p>
-                                </TooltipContent>
-                              </Tooltip>
-                              <Tooltip>
-                                <DropdownMenu
-                                  onOpenChange={(value) =>
-                                    handleAddDropDownChange("row", value)
-                                  }
-                                >
-                                  <DropdownMenuTrigger asChild>
+                  actionContent={
+                    <AnimatePresence>
+                      {colIndex === 0 &&
+                        (hoveredRow === rowIndex ||
+                          (hoveredRow === rowIndex && focusedRow)) && (
+                          <motion.span {...actionButtonAnim}>
+                            <div className="absolute left-0 top-0 -translate-x-full flex items-center">
+                              <TooltipProvider>
+                                <Tooltip>
+                                  <TooltipTrigger asChild>
                                     <Button
                                       type="button"
+                                      onClick={() =>
+                                        handleRemoveRowOrColumn(rowIndex, "row")
+                                      }
                                       size={"smIcon"}
-                                      className="rounded-l-none"
+                                      className="rounded-r-none"
                                     >
-                                      <PlusIcon size={14} />
+                                      <TrashIcon size={14} />
                                     </Button>
-                                  </DropdownMenuTrigger>
-                                  <DropdownMenuContent
-                                    className="w-56"
-                                    side="left"
+                                  </TooltipTrigger>
+                                  <TooltipContent side="bottom">
+                                    <p className="text-xs">Remove Row</p>
+                                  </TooltipContent>
+                                </Tooltip>
+                                <Tooltip>
+                                  <DropdownMenu
+                                    onOpenChange={(value) =>
+                                      handleAddDropDownChange("row", value)
+                                    }
                                   >
-                                    {dropdownRowActionButtonList.map(
-                                      ({ id, label }) => (
-                                        <DropdownMenuItem
-                                          key={id}
-                                          onClick={() =>
-                                            handleAddRowOrColumn(
-                                              "row",
-                                              id as AddRowColumnType,
-                                              rowIndex
-                                            )
-                                          }
-                                        >
-                                          {label}
-                                        </DropdownMenuItem>
-                                      )
-                                    )}
-                                  </DropdownMenuContent>
-                                </DropdownMenu>
-                                <TooltipContent side="bottom">
-                                  <p className="text-xs">Add Column</p>
-                                </TooltipContent>
-                              </Tooltip>
-                            </TooltipProvider>
-                          </div>
-                        </motion.span>
-                      )}
-                  </AnimatePresence>
+                                    <DropdownMenuTrigger asChild>
+                                      <Button
+                                        type="button"
+                                        size={"smIcon"}
+                                        className="rounded-l-none"
+                                      >
+                                        <PlusIcon size={14} />
+                                      </Button>
+                                    </DropdownMenuTrigger>
+                                    <DropdownMenuContent
+                                      className="w-56"
+                                      side="left"
+                                    >
+                                      {dropdownRowActionButtonList.map(
+                                        ({ id, label }) => (
+                                          <DropdownMenuItem
+                                            key={id}
+                                            onClick={() =>
+                                              handleAddRowOrColumn(
+                                                "row",
+                                                id as AddRowColumnType,
+                                                rowIndex
+                                              )
+                                            }
+                                          >
+                                            {label}
+                                          </DropdownMenuItem>
+                                        )
+                                      )}
+                                    </DropdownMenuContent>
+                                  </DropdownMenu>
+                                  <TooltipContent side="bottom">
+                                    <p className="text-xs">Add Column</p>
+                                  </TooltipContent>
+                                </Tooltip>
+                              </TooltipProvider>
+                            </div>
+                          </motion.span>
+                        )}
+                    </AnimatePresence>
+                  }
+                >
                   {col}
                 </Td>
               ))}
@@ -482,6 +484,7 @@ interface TdThProps {
   className?: string;
   rowIndex: number;
   colIndex: number;
+  actionContent?: React.ReactNode;
   onBlur: (
     type: "thead" | "tbody",
     rowIndex: number,
@@ -496,20 +499,23 @@ const Th = ({
   className,
   rowIndex,
   colIndex,
+  actionContent = <></>,
   onBlur,
   ...props
 }: TdThProps) => {
   return (
-    <th
-      contentEditable
-      suppressContentEditableWarning
-      {...props}
-      className={clsx("p-2 min-h-8 break-words whitespace-normal", className)}
-      onBlur={(e: FocusEvent<HTMLTableCellElement>) =>
-        onBlur("thead", rowIndex, colIndex, e.target.innerText || "")
-      }
-    >
-      {children}&nbsp;
+    <th {...props} className="break-words whitespace-normal relative">
+      {actionContent}
+      <div
+        contentEditable
+        suppressContentEditableWarning
+        onBlur={(e: FocusEvent<HTMLTableCellElement>) =>
+          onBlur("thead", rowIndex, colIndex, e.target.innerText || "")
+        }
+        className={cn("p-2 min-h-8 h-full", className)}
+      >
+        {children}
+      </div>
     </th>
   );
 };
@@ -519,20 +525,23 @@ const Td = ({
   className,
   rowIndex,
   colIndex,
+  actionContent = <></>,
   onBlur,
   ...props
 }: TdThProps) => {
   return (
-    <td
-      contentEditable
-      suppressContentEditableWarning
-      {...props}
-      className={clsx("p-2 min-h-8 break-words whitespace-normal", className)}
-      onBlur={(e: FocusEvent<HTMLTableCellElement>) =>
-        onBlur("tbody", rowIndex, colIndex, e.target.innerText || "")
-      }
-    >
-      {children}&nbsp;
+    <td {...props} className="break-words whitespace-normal relative">
+      {actionContent}
+      <div
+        contentEditable
+        suppressContentEditableWarning
+        onBlur={(e: FocusEvent<HTMLTableCellElement>) =>
+          onBlur("tbody", rowIndex, colIndex, e.target.innerText || "")
+        }
+        className={cn("p-2 min-h-8 h-full", className)}
+      >
+        {children}
+      </div>
     </td>
   );
 };

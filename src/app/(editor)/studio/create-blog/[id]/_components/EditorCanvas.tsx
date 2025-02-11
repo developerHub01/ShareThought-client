@@ -1,3 +1,5 @@
+"use client";
+
 import React, { ChangeEvent, KeyboardEvent } from "react";
 import AddComponentSection from "@/app/(editor)/studio/create-blog/[id]/_components/BuilderPopover/AddComponentSection";
 import ComponentDialog from "@/app/(editor)/studio/create-blog/[id]/_components/BuilderPopover/ComponentDialog";
