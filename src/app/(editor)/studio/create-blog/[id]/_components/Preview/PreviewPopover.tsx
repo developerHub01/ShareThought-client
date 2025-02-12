@@ -54,7 +54,7 @@ const PreviewPopover = () => {
           </Button>
         </DrawerHeader>
 
-        <ScrollArea className="px-3 w-full">
+        <ScrollArea className="p-3 w-full">
           <PreviewContent />
         </ScrollArea>
       </DrawerContentWitoutHandler>

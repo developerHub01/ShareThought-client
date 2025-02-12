@@ -15,7 +15,6 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { EDITOR_TABLE_SIZE } from "@/constant";
-import useWrapperContentStyleSeparator from "@/hooks/editor/use-wrapper-content-style-separator";
 import { cn } from "@/lib/utils";
 import {
   addRowColumnBeforeAfterOfCurrent,
@@ -26,6 +25,7 @@ import {
   TextDirectionType,
 } from "@/redux/features/builders/blogBuilderSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import handleWrapperContentStyleSeparator from "@/utils/editor/handleWrapperContentStyleSeparator";
 import { Plus as PlusIcon, Trash as TrashIcon } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { useParams } from "next/navigation";
@@ -236,7 +236,7 @@ const Table = ({
   };
 
   const { contentStyles, wrapperStyles } =
-    useWrapperContentStyleSeparator(activeBlockStyles);
+    handleWrapperContentStyleSeparator(activeBlockStyles);
 
   return (
     <div

@@ -75,14 +75,14 @@ const Table = ({ id, components, metaData }: TableProps) => {
     handleWrapperContentStyleSeparator(activeBlockStyles);
 
   return (
-    <ScrollArea
+    <div
       className="w-full"
       style={{
         ...wrapperStyles,
       }}
     >
       <table
-        className="border-collapse w-full text-sm text-left text-gray-500 dark:text-gray-400"
+        className="border-collapse w-full table-fixed text-sm text-left text-gray-500 dark:text-gray-400"
         style={{
           ...(activeBlockStyles as Record<string, string | number>),
           ...borderStyle,
@@ -104,7 +104,6 @@ const Table = ({ id, components, metaData }: TableProps) => {
                 {rows.map((col, colIndex) => (
                   <Th
                     key={colIndex}
-                    className="relative"
                     style={{
                       ...borderStyle,
                       fontWeight:
@@ -141,7 +140,6 @@ const Table = ({ id, components, metaData }: TableProps) => {
               {rows.map((col, colIndex) => (
                 <Td
                   key={colIndex}
-                  className="relative"
                   style={{
                     ...borderStyle,
                   }}
@@ -153,9 +151,7 @@ const Table = ({ id, components, metaData }: TableProps) => {
           ))}
         </tbody>
       </table>
-
-      <ScrollBar orientation="horizontal" />
-    </ScrollArea>
+    </div>
   );
 };
 
@@ -167,7 +163,10 @@ interface TdThProps {
 
 const Th = ({ children, className, ...props }: TdThProps) => {
   return (
-    <th {...props} className={cn("p-3 min-h-8", className)}>
+    <th
+      {...props}
+      className={cn("p-3 min-h-8 break-words whitespace-normal", className)}
+    >
       {children}&nbsp;
     </th>
   );
@@ -175,7 +174,10 @@ const Th = ({ children, className, ...props }: TdThProps) => {
 
 const Td = ({ children, className, ...props }: TdThProps) => {
   return (
-    <td {...props} className={cn("p-3 min-h-8", className)}>
+    <td
+      {...props}
+      className={cn("p-3 min-h-8 break-words whitespace-normal", className)}
+    >
       {children}&nbsp;
     </td>
   );
