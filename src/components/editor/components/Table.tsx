@@ -29,7 +29,7 @@ import handleWrapperContentStyleSeparator from "@/utils/editor/handleWrapperCont
 import { Plus as PlusIcon, Trash as TrashIcon } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { useParams } from "next/navigation";
-import React, { FocusEvent, useMemo, useState } from "react";
+import React, { FocusEvent, useMemo, useRef, useState } from "react";
 
 const actionButtonAnim = {
   initial: { scale: 0, opacity: 0 },
@@ -503,8 +503,14 @@ const Th = ({
   onBlur,
   ...props
 }: TdThProps) => {
+  const trRef = useRef<HTMLDivElement>(null);
+
   return (
-    <th {...props} className="break-words whitespace-normal relative">
+    <th
+      {...props}
+      className="break-words whitespace-normal relative align-top group focus-within:outline focus-within:outline-2 focus-within:outline-primary"
+      onClick={() => trRef.current && trRef.current.focus()}
+    >
       {actionContent}
       <div
         contentEditable
@@ -512,7 +518,8 @@ const Th = ({
         onBlur={(e: FocusEvent<HTMLTableCellElement>) =>
           onBlur("thead", rowIndex, colIndex, e.target.innerText || "")
         }
-        className={cn("p-2 min-h-8 h-full", className)}
+        className={cn("p-2 min-h-8 h-full outline-none", className)}
+        ref={trRef}
       >
         {children}
       </div>
@@ -529,8 +536,14 @@ const Td = ({
   onBlur,
   ...props
 }: TdThProps) => {
+  const tdRef = useRef<HTMLDivElement>(null);
+
   return (
-    <td {...props} className="break-words whitespace-normal relative">
+    <td
+      {...props}
+      className="break-words whitespace-normal relative align-top group focus-within:outline focus-within:outline-2 focus-within:outline-primary"
+      onClick={() => tdRef.current && tdRef.current.focus()}
+    >
       {actionContent}
       <div
         contentEditable
@@ -538,7 +551,8 @@ const Td = ({
         onBlur={(e: FocusEvent<HTMLTableCellElement>) =>
           onBlur("tbody", rowIndex, colIndex, e.target.innerText || "")
         }
-        className={cn("p-2 min-h-8 h-full", className)}
+        className={cn("p-2 min-h-8 h-full outline-none", className)}
+        ref={tdRef}
       >
         {children}
       </div>
