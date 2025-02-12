@@ -71,9 +71,9 @@ const BlockComponent = ({ ...props }: BlockInterface) => {
   return (
     <div
       className={cn(
-        "flex w-full group-hover:bg-accent justify-center gap-3 p-2 ring-2 ring-transparent relative group-hover:ring-primary",
+        "flex w-full group-hover:bg-accent/80 justify-center gap-3 p-2 px-16 ring-2 ring-transparent relative group-hover:ring-primary",
         {
-          "bg-accent ring-primary": props.id === activeBlock,
+          "bg-accent/80 ring-primary": props.id === activeBlock,
         }
       )}
       onClick={toggleActiveBlock}
