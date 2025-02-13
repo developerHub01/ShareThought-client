@@ -508,7 +508,7 @@ const Th = ({
   return (
     <th
       {...props}
-      className="break-words whitespace-normal relative align-top group focus-within:outline focus-within:outline-2 focus-within:outline-primary"
+      className="break-words whitespace-normal relative align-top group focus-within:outline focus-within:outline-2 focus-within:outline-primary cursor-text"
       onClick={() => trRef.current && trRef.current.focus()}
     >
       {actionContent}
@@ -541,7 +541,7 @@ const Td = ({
   return (
     <td
       {...props}
-      className="break-words whitespace-normal relative align-top group focus-within:outline focus-within:outline-2 focus-within:outline-primary"
+      className="break-words whitespace-normal relative align-top group focus-within:outline focus-within:outline-2 focus-within:outline-primary cursor-text"
       onClick={() => tdRef.current && tdRef.current.focus()}
     >
       {actionContent}
