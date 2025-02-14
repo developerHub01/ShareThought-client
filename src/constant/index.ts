@@ -80,5 +80,15 @@ export const EDITOR_TABLE_SIZE = {
 };
 
 export const EDITOR_TYPOGRAPHY_SIZE = {
-  
+  MIN_SIZE: 8,
+  MAX_SIZE: 40,
+  DEFAULT_SIZE: {
+    h1: 36,
+    h2: 30,
+    h3: 24,
+    h4: 20,
+    h5: 18,
+    h6: 16,
+    p: 16,
+  },
 };

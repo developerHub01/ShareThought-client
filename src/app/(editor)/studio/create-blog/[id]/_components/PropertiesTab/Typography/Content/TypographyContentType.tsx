@@ -5,14 +5,9 @@ import SelectBlock from "@/app/(editor)/studio/create-blog/[id]/_components/Bloc
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useParams } from "next/navigation";
 import {
-  BlockTypes,
   changeType,
+  TypographyType,
 } from "@/redux/features/builders/blogBuilderSlice";
-
-type TypographyType = Extract<
-  BlockTypes,
-  "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "p"
->;
 
 const typographyTypeList: Array<{
   id: TypographyType;

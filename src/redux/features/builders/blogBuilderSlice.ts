@@ -25,6 +25,11 @@ export type BlockTypes =
   | "list"
   | "blockquote";
 
+export type TypographyType = Extract<
+  BlockTypes,
+  "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "p"
+>;
+
 type TableTypes = "thead" | "tbody" | "tr" | "th" | "td";
 export type BorderStyleType = "solid" | "dotted" | "dashed";
 export type StripedType = "even" | "odd";
