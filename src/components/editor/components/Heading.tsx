@@ -1,5 +1,5 @@
+import { cn } from "@/lib/utils";
 import { BlockInterface } from "@/redux/features/builders/blogBuilderSlice";
-import clsx from "clsx";
 import React from "react";
 
 interface HeadingProps extends BlockInterface {
@@ -17,50 +17,80 @@ const Heading = ({
   ...props
 }: HeadingProps) => {
   switch (type) {
-    case "h1":
+    case "p":
       return (
-        <h1
+        <p
           contentEditable
           suppressContentEditableWarning
           style={styles}
-          className={className}
+          className={cn("text-base", className)}
         >
           {text}
-        </h1>
+        </p>
       );
     case "h2":
       return (
-        <h2 style={styles} className={className}>
+        <h2
+          contentEditable
+          suppressContentEditableWarning
+          style={styles}
+          className={cn("text-3xl font-bold", className)}
+        >
           {text}
         </h2>
       );
     case "h3":
       return (
-        <h3 style={styles} className={className}>
+        <h3
+          contentEditable
+          suppressContentEditableWarning
+          style={styles}
+          className={cn("text-2xl font-bold", className)}
+        >
           {text}
         </h3>
       );
     case "h4":
       return (
-        <h4 style={styles} className={className}>
+        <h4
+          contentEditable
+          suppressContentEditableWarning
+          style={styles}
+          className={cn("text-xl font-bold", className)}
+        >
           {text}
         </h4>
       );
     case "h5":
       return (
-        <h5 style={styles} className={className}>
+        <h5
+          contentEditable
+          suppressContentEditableWarning
+          style={styles}
+          className={cn("text-lg font-bold", className)}
+        >
           {text}
         </h5>
       );
     case "h6":
       return (
-        <h6 style={styles} className={className}>
+        <h6
+          contentEditable
+          suppressContentEditableWarning
+          style={styles}
+          className={cn("text-base font-bold", className)}
+        >
           {text}
         </h6>
       );
     default:
       return (
-        <h1 style={styles} className={className}>
+        <h1
+          contentEditable
+          suppressContentEditableWarning
+          style={styles}
+          className={cn("text-4xl font-bold", className)}
+        >
           {text}
         </h1>
       );

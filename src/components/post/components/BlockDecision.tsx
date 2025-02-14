@@ -29,22 +29,18 @@ const BlockDecision = (props: BlockDecisionProps) => {
 const ComponentSelector = (props: BlockDecisionProps) => {
   const { id, components } = props;
   const component = components[id];
-  if (["h1", "h2", "h3", "h4", "h5", "h6"].includes(component.type)) {
-    // return <Heading {...props} />;
-    return <></>;
-  }
-  else if (component.type === "row") {
+
+  if (["h1", "h2", "h3", "h4", "h5", "h6", "p"].includes(component.type)) {
+    return <Heading {...props} />;
+  } else if (component.type === "row") {
     // return <Row    {...props} />;
-  }
-  else if (component.type === "table") {
+  } else if (component.type === "table") {
     return <Table {...props} />;
-  }
-  else if (component.type === "image") {
+  } else if (component.type === "image") {
     return <Image {...props} />;
   } else if (component.type === "spacer") {
     return <Spacer {...props} />;
-  }
-  else if (component.type === "divider") {
+  } else if (component.type === "divider") {
     return <Divider {...props} />;
   }
   // else if (component.type === "code") {
