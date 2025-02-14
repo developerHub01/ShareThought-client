@@ -4,20 +4,31 @@ import React, { CSSProperties } from "react";
 import SelectBlock from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/SelectBlock";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useParams } from "next/navigation";
-import { addStyle } from "@/redux/features/builders/blogBuilderSlice";
+import {
+  addStyle,
+  LineHeightType,
+} from "@/redux/features/builders/blogBuilderSlice";
 
-const fontWeightList = [
+const lineHeightList = [
   {
-    id: "normal",
-    label: "Normal",
+    id: "1.2",
+    label: "1.2",
   },
   {
-    id: "bold",
-    label: "Bold",
+    id: "1.5",
+    label: "1.5",
+  },
+  {
+    id: "1.8",
+    label: "1.8",
+  },
+  {
+    id: "2",
+    label: "2.0",
   },
 ];
 
-const TypographyContentFontWeight = () => {
+const TypographyStyleLineHeight = () => {
   const dispatch = useAppDispatch();
   const { id: blogId } = useParams<{ id: string }>();
 
@@ -32,13 +43,13 @@ const TypographyContentFontWeight = () => {
 
   const activeStyle = styles[activeBlock] as CSSProperties;
 
-  const handleChangeFontWeight = (value: string) => {
+  const handleChangeLineHeight = (value: string) => {
     dispatch(
       addStyle({
         blogId,
         activeBlockId: activeBlock,
         styles: {
-          fontWeight: value,
+          lineHeight: Number(value) as LineHeightType,
         },
       })
     );
@@ -46,12 +57,12 @@ const TypographyContentFontWeight = () => {
 
   return (
     <SelectBlock
-      label="Font Weight"
-      activeValue={String(activeStyle?.fontWeight || fontWeightList[0].id)}
-      itemList={fontWeightList}
-      handleChange={handleChangeFontWeight}
+      label="Line Height"
+      activeValue={String(activeStyle?.lineHeight || lineHeightList[0].id)}
+      itemList={lineHeightList}
+      handleChange={handleChangeLineHeight}
     />
   );
 };
 
-export default TypographyContentFontWeight;
+export default TypographyStyleLineHeight;

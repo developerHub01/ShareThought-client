@@ -2,9 +2,9 @@
 
 import React, { CSSProperties } from "react";
 import TextAlignBlock from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/TextAlignBlock";
-import { AlignCenter, AlignJustify, AlignLeft, AlignRight } from "lucide-react";
+import { PilcrowRight as LRTIcon, PilcrowLeft as RTLIcon } from "lucide-react";
 import {
-  AlignType,
+  TextDirectionType,
   addStyle,
 } from "@/redux/features/builders/blogBuilderSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
@@ -12,28 +12,18 @@ import { useParams } from "next/navigation";
 
 const alignList = [
   {
-    id: "left",
-    label: "Align Left",
-    Icon: AlignLeft,
+    id: "ltr",
+    label: "Left to Right",
+    Icon: LRTIcon,
   },
   {
-    id: "center",
-    label: "Align Center",
-    Icon: AlignCenter,
-  },
-  {
-    id: "right",
-    label: "Align Right",
-    Icon: AlignRight,
-  },
-  {
-    id: "justify",
-    label: "Align Justify",
-    Icon: AlignJustify,
+    id: "rtl",
+    label: "Right to Left",
+    Icon: RTLIcon,
   },
 ];
 
-const TypographyContentTextAlign = () => {
+const TypographyStyleTextDirection = () => {
   const dispatch = useAppDispatch();
   const { id: blogId } = useParams<{ id: string }>();
 
@@ -54,7 +44,7 @@ const TypographyContentTextAlign = () => {
         blogId,
         activeBlockId: activeBlock,
         styles: {
-          textAlign: value as AlignType,
+          direction: value as TextDirectionType,
         },
       })
     );
@@ -62,12 +52,12 @@ const TypographyContentTextAlign = () => {
 
   return (
     <TextAlignBlock
-      title="Align"
-      activeAlign={activeStyle?.textAlign || (alignList[0].id as AlignType)}
+      title="Text Direction"
+      activeAlign={activeStyle?.direction || alignList[0].id}
       handleChange={handleChangeAlign}
       alignList={alignList}
     />
   );
 };
 
-export default TypographyContentTextAlign;
+export default TypographyStyleTextDirection;

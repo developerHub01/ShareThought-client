@@ -14,7 +14,7 @@ import { addStyle } from "@/redux/features/builders/blogBuilderSlice";
 import { useParams } from "next/navigation";
 import ColorBlock from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/ColorBlock";
 
-const TypographyContentTextColor = () => {
+const TypographyStyleTextColor = () => {
   const { id: blogId } = useParams<{ id: string }>();
 
   if (!blogId) return null;
@@ -113,4 +113,4 @@ const TypographyContentTextColor = () => {
   );
 };
 
-export default TypographyContentTextColor;
+export default TypographyStyleTextColor;

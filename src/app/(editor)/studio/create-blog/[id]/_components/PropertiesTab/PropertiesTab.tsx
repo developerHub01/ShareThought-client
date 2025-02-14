@@ -21,6 +21,7 @@ import AccordionContent from "@/app/(editor)/studio/create-blog/[id]/_components
 import AccordionContainer from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Accordion/Container/AccordionContainer";
 import BoxShadowProperty from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Common/BoxShadowProperty";
 import TypographyContent from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Typography/Content/TypographyContent";
+import TypographyStyle from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Typography/Style/TypographyStyle";
 
 const PropertiesTab = () => {
   const { id: blogId } = useParams<{ id: string }>();
@@ -43,6 +44,9 @@ const PropertiesTab = () => {
           <>
             <PropertyTypeWrapper id="typography_content" label="Content">
               <TypographyContent />
+            </PropertyTypeWrapper>
+            <PropertyTypeWrapper id="typography_style" label="Style">
+              <TypographyStyle />
             </PropertyTypeWrapper>
           </>
         )}

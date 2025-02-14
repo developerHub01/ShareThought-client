@@ -2,43 +2,38 @@
 
 import React, { CSSProperties } from "react";
 import TextAlignBlock from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/TextAlignBlock";
+import { AlignCenter, AlignJustify, AlignLeft, AlignRight } from "lucide-react";
 import {
-  ALargeSmall as CapitalizeIcon,
-  CaseUpper as UppercaseIcon,
-  CaseLower as LowercaseIcon,
-  X as ClearIcon,
-} from "lucide-react";
-import {
-  TextTransformType,
+  AlignType,
   addStyle,
 } from "@/redux/features/builders/blogBuilderSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useParams } from "next/navigation";
 
-const transformList = [
+const alignList = [
   {
-    id: "capitalize",
-    label: "capitalize",
-    Icon: CapitalizeIcon,
+    id: "left",
+    label: "Align Left",
+    Icon: AlignLeft,
   },
   {
-    id: "uppercase",
-    label: "uppercase",
-    Icon: UppercaseIcon,
+    id: "center",
+    label: "Align Center",
+    Icon: AlignCenter,
   },
   {
-    id: "lowercase",
-    label: "lowercase",
-    Icon: LowercaseIcon,
+    id: "right",
+    label: "Align Right",
+    Icon: AlignRight,
   },
   {
-    id: "none",
-    label: "Clear",
-    Icon: ClearIcon,
+    id: "justify",
+    label: "Align Justify",
+    Icon: AlignJustify,
   },
 ];
 
-const TypographyContentTextTransform = () => {
+const TypographyStyleTextAlign = () => {
   const dispatch = useAppDispatch();
   const { id: blogId } = useParams<{ id: string }>();
 
@@ -53,13 +48,13 @@ const TypographyContentTextTransform = () => {
 
   const activeStyle = styles[activeBlock] as CSSProperties;
 
-  const handleChangeTransform = (value: string) => {
+  const handleChangeAlign = (value: string) => {
     dispatch(
       addStyle({
         blogId,
         activeBlockId: activeBlock,
         styles: {
-          textTransform: value as TextTransformType,
+          textAlign: value as AlignType,
         },
       })
     );
@@ -67,12 +62,12 @@ const TypographyContentTextTransform = () => {
 
   return (
     <TextAlignBlock
-      title="Text Transform"
-      activeAlign={activeStyle?.textTransform || "none"}
-      handleChange={handleChangeTransform}
-      alignList={transformList}
+      title="Align"
+      activeAlign={activeStyle?.textAlign || (alignList[0].id as AlignType)}
+      handleChange={handleChangeAlign}
+      alignList={alignList}
     />
   );
 };
 
-export default TypographyContentTextTransform;
+export default TypographyStyleTextAlign;

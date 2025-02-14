@@ -2,28 +2,43 @@
 
 import React, { CSSProperties } from "react";
 import TextAlignBlock from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/TextAlignBlock";
-import { PilcrowRight as LRTIcon, PilcrowLeft as RTLIcon } from "lucide-react";
 import {
-  TextDirectionType,
+  ALargeSmall as CapitalizeIcon,
+  CaseUpper as UppercaseIcon,
+  CaseLower as LowercaseIcon,
+  X as ClearIcon,
+} from "lucide-react";
+import {
+  TextTransformType,
   addStyle,
 } from "@/redux/features/builders/blogBuilderSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useParams } from "next/navigation";
 
-const alignList = [
+const transformList = [
   {
-    id: "ltr",
-    label: "Left to Right",
-    Icon: LRTIcon,
+    id: "capitalize",
+    label: "capitalize",
+    Icon: CapitalizeIcon,
   },
   {
-    id: "rtl",
-    label: "Right to Left",
-    Icon: RTLIcon,
+    id: "uppercase",
+    label: "uppercase",
+    Icon: UppercaseIcon,
+  },
+  {
+    id: "lowercase",
+    label: "lowercase",
+    Icon: LowercaseIcon,
+  },
+  {
+    id: "none",
+    label: "Clear",
+    Icon: ClearIcon,
   },
 ];
 
-const TypographyContentTextDirection = () => {
+const TypographyStyleTextTransform = () => {
   const dispatch = useAppDispatch();
   const { id: blogId } = useParams<{ id: string }>();
 
@@ -38,13 +53,13 @@ const TypographyContentTextDirection = () => {
 
   const activeStyle = styles[activeBlock] as CSSProperties;
 
-  const handleChangeAlign = (value: string) => {
+  const handleChangeTransform = (value: string) => {
     dispatch(
       addStyle({
         blogId,
         activeBlockId: activeBlock,
         styles: {
-          direction: value as TextDirectionType,
+          textTransform: value as TextTransformType,
         },
       })
     );
@@ -52,12 +67,12 @@ const TypographyContentTextDirection = () => {
 
   return (
     <TextAlignBlock
-      title="Text Direction"
-      activeAlign={activeStyle?.direction || alignList[0].id}
-      handleChange={handleChangeAlign}
-      alignList={alignList}
+      title="Text Transform"
+      activeAlign={activeStyle?.textTransform || "none"}
+      handleChange={handleChangeTransform}
+      alignList={transformList}
     />
   );
 };
 
-export default TypographyContentTextDirection;
+export default TypographyStyleTextTransform;

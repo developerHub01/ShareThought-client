@@ -10,7 +10,7 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useParams } from "next/navigation";
 import { EDITOR_TYPOGRAPHY_SIZE } from "@/constant";
 
-const TypographyContentFontSize = () => {
+const TypographyStyleFontSize = () => {
   const dispatch = useAppDispatch();
   const { id: blogId } = useParams<{ id: string }>();
 
@@ -88,4 +88,4 @@ const TypographyContentFontSize = () => {
   );
 };
 
-export default TypographyContentFontSize;
+export default TypographyStyleFontSize;
