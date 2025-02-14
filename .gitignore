@@ -3,6 +3,8 @@
 .vscode
 test.css
 
+src/app/(home)/test/*
+
 # dependencies
 /node_modules
 /.pnp

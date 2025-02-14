@@ -20,6 +20,7 @@ import AccordionTitle from "@/app/(editor)/studio/create-blog/[id]/_components/P
 import AccordionContent from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Accordion/Content/AccordionContent";
 import AccordionContainer from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Accordion/Container/AccordionContainer";
 import BoxShadowProperty from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Common/BoxShadowProperty";
+import TypographyContent from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Typography/Content/TypographyContent";
 
 const PropertiesTab = () => {
   const { id: blogId } = useParams<{ id: string }>();
@@ -36,6 +37,16 @@ const PropertiesTab = () => {
   return (
     <div className="w-full h-full">
       <Accordion type="multiple" className="h-full w-full">
+        {["h1", "h2", "h3", "h4", "h5", "h6", "p"].includes(
+          activeComponent.type
+        ) && (
+          <>
+            <PropertyTypeWrapper id="typography_content" label="Content">
+              <TypographyContent />
+            </PropertyTypeWrapper>
+          </>
+        )}
+
         {activeComponent.type === "table" && (
           <>
             <PropertyTypeWrapper id="table_layout" label="Layout">
@@ -107,9 +118,19 @@ const PropertiesTab = () => {
           </>
         )}
 
-        {["table", "image", "divider", "accordion"].includes(
-          activeComponent.type
-        ) && (
+        {[
+          "h1",
+          "h2",
+          "h3",
+          "h4",
+          "h5",
+          "h6",
+          "p",
+          "table",
+          "image",
+          "divider",
+          "accordion",
+        ].includes(activeComponent.type) && (
           <>
             <PropertyTypeWrapper id="padding" label="Padding">
               <PaddingProperty />

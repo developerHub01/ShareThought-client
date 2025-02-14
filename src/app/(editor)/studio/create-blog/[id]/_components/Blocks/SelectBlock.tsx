@@ -33,7 +33,11 @@ const SelectBlock = ({
     <PropertyWrapper_v1>
       <p className="text-sm">{label}</p>
       <div className="flex">
-        <Select defaultValue={activeValue} onValueChange={handleChange}>
+        <Select
+          defaultValue={activeValue}
+          value={activeValue}
+          onValueChange={handleChange}
+        >
           <SelectTrigger className="min-w-32">
             <SelectValue placeholder={placeholder || label} />
           </SelectTrigger>

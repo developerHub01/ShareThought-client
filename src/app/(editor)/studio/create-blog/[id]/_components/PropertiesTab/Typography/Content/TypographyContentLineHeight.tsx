@@ -1,13 +1,12 @@
 "use client";
 
-import React from "react";
+import React, { CSSProperties } from "react";
 import SelectBlock from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/SelectBlock";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useParams } from "next/navigation";
 import {
-  changeTableContentStyle,
+  addStyle,
   LineHeightType,
-  TableInterface,
 } from "@/redux/features/builders/blogBuilderSlice";
 
 const lineHeightList = [
@@ -29,29 +28,29 @@ const lineHeightList = [
   },
 ];
 
-const TableContentLineHeight = () => {
+const TypographyContentLineHeight = () => {
   const dispatch = useAppDispatch();
   const { id: blogId } = useParams<{ id: string }>();
 
   if (!blogId) return null;
 
-  const { activeBlock, components } = useAppSelector(
-    (state) => state.blogBuilder.blogs[blogId]
-  );
+  const {
+    activeBlock,
+    metaData: { styles },
+  } = useAppSelector((state) => state.blogBuilder.blogs[blogId]);
 
   if (!activeBlock) return null;
 
-  const tableData = components[activeBlock as string]
-    ?.children as TableInterface;
-
-  const tableContent = tableData.content;
+  const activeStyle = styles[activeBlock] as CSSProperties;
 
   const handleChangeLineHeight = (value: string) => {
     dispatch(
-      changeTableContentStyle({
+      addStyle({
         blogId,
-        id: activeBlock,
-        lineHeight: Number(value) as LineHeightType,
+        activeBlockId: activeBlock,
+        styles: {
+          lineHeight: Number(value) as LineHeightType,
+        },
       })
     );
   };
@@ -59,11 +58,11 @@ const TableContentLineHeight = () => {
   return (
     <SelectBlock
       label="Line Height"
-      activeValue={String(tableContent?.lineHeight || lineHeightList[0].id)}
+      activeValue={String(activeStyle?.lineHeight || lineHeightList[0].id)}
       itemList={lineHeightList}
       handleChange={handleChangeLineHeight}
     />
   );
 };
 
-export default TableContentLineHeight;
+export default TypographyContentLineHeight;

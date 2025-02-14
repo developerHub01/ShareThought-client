@@ -1117,6 +1117,23 @@ export const blogBuilderSlice = createSlice({
     ) => {
       const { blogId, activeBlockId, styles } = action.payload;
 
+      // for (const key in styles) {
+      //   const value = styles[key];
+
+      //   console.log(
+      //     key,
+      //     value,
+      //     state.blogs[blogId].metaData.styles[activeBlockId]
+      //   );
+
+      //   const currentValue = Number(
+      //     state.blogs[blogId].metaData.styles[activeBlockId][key]
+      //   );
+
+      //   if (value === "inc") styles[key] = currentValue + 1;
+      //   else if (value === "dec") styles[key] = currentValue - 1;
+      // }
+
       state.blogs[blogId].metaData.styles[activeBlockId] = {
         ...(state.blogs[blogId].metaData.styles[activeBlockId] || {}),
         ...styles,
