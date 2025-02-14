@@ -44,7 +44,7 @@ const TypographyContentTextDirection = () => {
         blogId,
         activeBlockId: activeBlock,
         styles: {
-          textDirection: value as TextDirectionType,
+          direction: value as TextDirectionType,
         },
       })
     );
