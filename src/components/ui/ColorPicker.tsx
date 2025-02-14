@@ -2,7 +2,7 @@
 
 import React, { ChangeEvent } from "react";
 import { ColorResult, SketchPicker } from "react-color";
-import { hexToRgba, rgbaToHex } from "@/utils/color";
+import { rgbaToHex } from "@/utils/color";
 
 interface ColorPickerProps {
   color: string;
@@ -31,7 +31,7 @@ const colorList = [
 const ColorPicker = ({ color, onChange }: ColorPickerProps) => {
   return (
     <SketchPicker
-      color={hexToRgba(color)}
+      color={color}
       onChangeComplete={onChange}
       onChange={(color: ColorResult, e: ChangeEvent) => {
         color.hex = rgbaToHex(
