@@ -1159,6 +1159,19 @@ export const blogBuilderSlice = createSlice({
       delete state.blogs[blogId].metaData.styles[activeBlockId][properyName];
     },
 
+    changeType: (
+      state,
+      action: PayloadAction<{
+        blogId: string;
+        activeBlockId: string;
+        type: BlockTypes;
+      }>
+    ) => {
+      const { blogId, activeBlockId, type } = action.payload;
+
+      state.blogs[blogId].components[activeBlockId].type = type;
+    },
+
     /*** Table============= ***/
     addTableRows: (
       state,
@@ -1950,6 +1963,7 @@ export const {
   setAlignment,
   addStyle,
   removetyle,
+  changeType,
   addTableRows,
   removeTableRows,
   changeTableRowsCount,

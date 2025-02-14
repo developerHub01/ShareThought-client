@@ -7,16 +7,18 @@ import TypographyLineHeight from "@/app/(editor)/studio/create-blog/[id]/_compon
 import TypographyTextAlign from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Typography/Content/TypographyContentTextAlign";
 import TypographyTextColor from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Typography/Content/TypographyContentTextColor";
 import TypographyTextDirection from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Typography/Content/TypographyContentTextDirection";
+import TypographyContentType from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Typography/Content/TypographyContentType";
 
 const TypographyContent = () => {
   return (
     <div className="flex flex-col h-full">
+      <TypographyContentType />
       <TypographyFontSize />
       <TypographyFontWeight />
+      <TypographyTextColor />
       <TypographyLetterSpacing />
       <TypographyLineHeight />
       <TypographyTextAlign />
-      <TypographyTextColor />
       <TypographyTextDirection />
     </div>
   );
