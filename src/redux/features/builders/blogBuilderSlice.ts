@@ -42,6 +42,11 @@ export type flexAlignType =
 export type FontWeightType = "bold" | "normal";
 export type LineHeightType = 1.2 | 1.5 | 1.8 | 2.0;
 export type TextDirectionType = "ltr" | "rtl";
+export type TextTransformType =
+  | "none"
+  | "capitalize"
+  | "uppercase"
+  | "lowercase";
 export type PaddingType =
   | "padding"
   | "paddingTop"

@@ -8,6 +8,7 @@ import TypographyTextAlign from "@/app/(editor)/studio/create-blog/[id]/_compone
 import TypographyTextColor from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Typography/Content/TypographyContentTextColor";
 import TypographyTextDirection from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Typography/Content/TypographyContentTextDirection";
 import TypographyContentType from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Typography/Content/TypographyContentType";
+import TypographyContentTextTransform from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Typography/Content/TypographyContentTextTransform";
 
 const TypographyContent = () => {
   return (
@@ -18,6 +19,7 @@ const TypographyContent = () => {
       <TypographyTextColor />
       <TypographyLetterSpacing />
       <TypographyLineHeight />
+      <TypographyContentTextTransform />
       <TypographyTextAlign />
       <TypographyTextDirection />
     </div>
