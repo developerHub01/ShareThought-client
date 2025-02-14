@@ -2,7 +2,7 @@
 
 import React, { ChangeEvent, FocusEvent, useEffect, useState } from "react";
 import PropertyWrapper_v1 from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/PropertyWrapper_v1";
-import ColorPicker from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/ColorPicker";
+import ColorPickerBlock from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/ColorPickerBlock";
 import { useParams } from "next/navigation";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import {
@@ -138,7 +138,7 @@ const TableStripedRow = () => {
         <>
           <div className="w-full flex items-center justify-between gap-1.5">
             <p className="text-sm">Background Color</p>
-            <ColorPicker
+            <ColorPickerBlock
               color={backgroundState}
               handleColorPicker={handleColorPicker}
               handleColorChange={handleColorChange}

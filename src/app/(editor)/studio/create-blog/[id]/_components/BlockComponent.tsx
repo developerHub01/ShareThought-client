@@ -28,7 +28,7 @@ export interface AccordionProps extends BlockInterface {
   children: AccordionInterface;
 }
 const Block = ({ ...props }: BlogComponentBlock) => {
-  if (["h1", "h2", "h3", "h4", "h5", "h6"].includes(props.type)) {
+  if (["h1", "h2", "h3", "h4", "h5", "h6", "p"].includes(props.type)) {
     return <Heading {...props} />;
   } else if (props.type === "row") {
     return <Row {...props} />;

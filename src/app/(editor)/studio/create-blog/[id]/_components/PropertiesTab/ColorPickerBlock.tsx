@@ -6,43 +6,25 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { ColorResult, SketchPicker } from "react-color";
-import { hexToRgba, rgbaToHex } from "@/utils/color";
+import { ColorResult } from "react-color";
+import { hexToRgba } from "@/utils/color";
+import ColorPicker from "@/components/ui/ColorPicker";
 
-interface ColorPickerProps {
+interface ColorPickerBlockProps {
   color: string;
   handleColorPicker: (color: ColorResult, e: ChangeEvent) => void;
   handleColorChange: (e: ChangeEvent<HTMLInputElement>) => void;
   handleColorBlur: (e: FocusEvent<HTMLInputElement>) => void;
 }
 
-const colorList = [
-  "transparent",
-  "#1abc9c",
-  "#2ecc71",
-  "#3498db",
-  "#9b59b6",
-  "#34495e",
-  "#f1c40f",
-  "#d35400",
-  "#bdc3c7",
-  "#7f8c8d",
-  "#192a56",
-  "#7158e2",
-  "#d63031",
-  "#e84393",
-  "#6D214F",
-  "#1e272e",
-];
-
 const transparentImage = "/images/transparent.jpg";
 
-const ColorPicker = ({
+const ColorPickerBlock = ({
   color,
   handleColorPicker,
   handleColorChange,
   handleColorBlur,
-}: ColorPickerProps) => {
+}: ColorPickerBlockProps) => {
   return (
     <div className="flex items-center gap-1 border rounded-sm p-0.5">
       <Popover>
@@ -62,22 +44,7 @@ const ColorPicker = ({
           align="end"
           sideOffset={5}
         >
-          <SketchPicker
-            color={hexToRgba(color)}
-            onChangeComplete={handleColorPicker}
-            onChange={(color: ColorResult, e: ChangeEvent) => {
-              color.hex = rgbaToHex(
-                color.rgb.r,
-                color.rgb.g,
-                color.rgb.b,
-                color.rgb.a
-              );
-
-              handleColorPicker(color, e);
-            }}
-            disableAlpha={false}
-            presetColors={colorList}
-          />
+          <ColorPicker color={hexToRgba(color)} onChange={handleColorPicker} />
         </PopoverContent>
       </Popover>
       <input
@@ -91,4 +58,4 @@ const ColorPicker = ({
   );
 };
 
-export default ColorPicker;
+export default ColorPickerBlock;

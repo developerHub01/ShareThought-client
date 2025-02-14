@@ -1,7 +1,7 @@
 "use client";
 
 import React, { ChangeEvent, FocusEvent } from "react";
-import ColorPicker from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/ColorPicker";
+import ColorPickerBlock from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/ColorPickerBlock";
 import PropertyWrapper_v1 from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/PropertyWrapper_v1";
 import { ColorResult } from "react-color";
 
@@ -24,7 +24,7 @@ const ColorBlock = ({
     <PropertyWrapper_v1>
       <p className="text-sm">{label}</p>
       <div className="flex items-center gap-1.5 ml-auto">
-        <ColorPicker
+        <ColorPickerBlock
           color={colorState}
           handleColorPicker={handleColorPicker}
           handleColorChange={handleColorChange}

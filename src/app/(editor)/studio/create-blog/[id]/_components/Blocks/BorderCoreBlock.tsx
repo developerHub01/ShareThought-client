@@ -10,7 +10,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { ColorResult } from "react-color";
-import ColorPicker from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/ColorPicker";
+import ColorPickerBlock from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/ColorPickerBlock";
 import ValueCounter from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/ValueCounter";
 import { BorderStyleType } from "@/redux/features/builders/blogBuilderSlice";
 import { cn } from "@/lib/utils";
@@ -44,7 +44,7 @@ const BorderCoreBlock = ({
   onColorPick,
   minSize,
   maxSize,
-  className = ""
+  className = "",
 }: BorderBlockProps) => {
   return (
     <div className={cn("flex items-center gap-1.5", className)}>
@@ -73,7 +73,7 @@ const BorderCoreBlock = ({
         max={maxSize}
         separate={false}
       />
-      <ColorPicker
+      <ColorPickerBlock
         color={borderState.color}
         handleColorPicker={onColorPick}
         handleColorChange={onChangeColor}

@@ -12,7 +12,7 @@ import {
 } from "@/redux/features/builders/blogBuilderSlice";
 import { ChangeEvent, FocusEvent } from "react";
 import { ColorResult } from "react-color";
-import ColorPicker from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/ColorPicker";
+import ColorPickerBlock from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/ColorPickerBlock";
 import ValueCounter from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/ValueCounter";
 
 interface BorderOptionBlockProps {
@@ -81,7 +81,7 @@ const BorderOptionBlock = ({
           max={maxSize}
           separate={false}
         />
-        <ColorPicker
+        <ColorPickerBlock
           color={color}
           handleColorPicker={(color: ColorResult, _) =>
             onColorPick(borderType, color)
