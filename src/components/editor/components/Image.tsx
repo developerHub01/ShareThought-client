@@ -1,11 +1,13 @@
+"use client";
+
 import React from "react";
 import ImageUploadCanvas from "@/components/editor/components/ImageUploadCanvas";
 import { useParams } from "next/navigation";
 import { useAppSelector } from "@/redux/hooks";
-import useWrapperContentStyleSeparator from "@/hooks/editor/use-wrapper-content-style-separator";
-import useHandleBorderStyle from "@/hooks/editor/use-handle-border-style";
 import { StyleType } from "@/redux/features/builders/blogBuilderSlice";
-import useHandleFilterStyle from "@/hooks/editor/use-handle-filter-style";
+import handleHandleFilterStyle from "@/utils/editor/handleHandleFilterStyle";
+import handleBorderStyle from "@/utils/editor/handleBorderStyle";
+import handleWrapperContentStyleSeparator from "@/utils/editor/handleWrapperContentStyleSeparator";
 interface ImageProps {
   id: string;
   alt?: string;
@@ -34,13 +36,13 @@ const Image = ({
   const imageStyles: StyleType = styles[id];
 
   let { contentStyles, wrapperStyles } =
-    useWrapperContentStyleSeparator(imageStyles);
+    handleWrapperContentStyleSeparator(imageStyles);
 
-  const filteredBorder = useHandleBorderStyle(imageStyles);
+  const filteredBorder = handleBorderStyle(imageStyles);
 
   contentStyles = { ...contentStyles, ...filteredBorder };
 
-  const filterStyles = useHandleFilterStyle(imageStyles);
+  const filterStyles = handleHandleFilterStyle(imageStyles);
 
   contentStyles = { ...contentStyles, ...filterStyles };
 

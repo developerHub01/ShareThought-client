@@ -1,8 +1,8 @@
-import useHandleBorderStyle from "@/hooks/editor/use-handle-border-style";
-import useWrapperContentStyleSeparator from "@/hooks/editor/use-wrapper-content-style-separator";
 import { cn } from "@/lib/utils";
 import { StyleType } from "@/redux/features/builders/blogBuilderSlice";
 import { useAppSelector } from "@/redux/hooks";
+import handleBorderStyle from "@/utils/editor/handleBorderStyle";
+import handleWrapperContentStyleSeparator from "@/utils/editor/handleWrapperContentStyleSeparator";
 import React from "react";
 
 export interface DividerProps {
@@ -20,11 +20,11 @@ const Divider = ({ id, postId, className, ...props }: DividerProps) => {
   const componentStyles = styles[id] || {};
 
   let { contentStyles, wrapperStyles } =
-    useWrapperContentStyleSeparator(componentStyles);
+    handleWrapperContentStyleSeparator(componentStyles);
 
   contentStyles = {
     ...contentStyles,
-    ...useHandleBorderStyle(contentStyles as StyleType),
+    ...handleBorderStyle(contentStyles as StyleType),
   };
 
   if (contentStyles.width) contentStyles.width = `${contentStyles.width}%`;
