@@ -1,29 +1,42 @@
+"use client";
+
 import { cn } from "@/lib/utils";
 import { BlockInterface } from "@/redux/features/builders/blogBuilderSlice";
-import React from "react";
+import { useAppSelector } from "@/redux/hooks";
+import { useParams } from "next/navigation";
+import React, { CSSProperties } from "react";
 
 interface HeadingProps extends BlockInterface {
   className?: string;
-  styles?: Record<string, string | number>;
 }
 
 const Heading = ({
   id,
   className,
-  styles = {},
   text,
   type,
-  children,
   ...props
 }: HeadingProps) => {
+  const { id: blogId } = useParams<{ id: string }>();
+
+  const {
+    metaData: { styles },
+  } = useAppSelector((state) => state.blogBuilder.blogs[blogId]);
+
+  if (!blogId) return null;
+
+  const typographyStyles = styles[id] as CSSProperties;
+
   switch (type) {
     case "p":
       return (
         <p
           contentEditable
           suppressContentEditableWarning
-          style={styles}
           className={cn("text-base", className)}
+          style={{
+            ...typographyStyles,
+          }}
         >
           {text}
         </p>
@@ -33,8 +46,10 @@ const Heading = ({
         <h2
           contentEditable
           suppressContentEditableWarning
-          style={styles}
           className={cn("text-3xl font-bold", className)}
+          style={{
+            ...typographyStyles,
+          }}
         >
           {text}
         </h2>
@@ -44,8 +59,10 @@ const Heading = ({
         <h3
           contentEditable
           suppressContentEditableWarning
-          style={styles}
           className={cn("text-2xl font-bold", className)}
+          style={{
+            ...typographyStyles,
+          }}
         >
           {text}
         </h3>
@@ -55,8 +72,10 @@ const Heading = ({
         <h4
           contentEditable
           suppressContentEditableWarning
-          style={styles}
           className={cn("text-xl font-bold", className)}
+          style={{
+            ...typographyStyles,
+          }}
         >
           {text}
         </h4>
@@ -66,8 +85,10 @@ const Heading = ({
         <h5
           contentEditable
           suppressContentEditableWarning
-          style={styles}
           className={cn("text-lg font-bold", className)}
+          style={{
+            ...typographyStyles,
+          }}
         >
           {text}
         </h5>
@@ -77,8 +98,10 @@ const Heading = ({
         <h6
           contentEditable
           suppressContentEditableWarning
-          style={styles}
           className={cn("text-base font-bold", className)}
+          style={{
+            ...typographyStyles,
+          }}
         >
           {text}
         </h6>
@@ -88,8 +111,10 @@ const Heading = ({
         <h1
           contentEditable
           suppressContentEditableWarning
-          style={styles}
           className={cn("text-4xl font-bold", className)}
+          style={{
+            ...typographyStyles,
+          }}
         >
           {text}
         </h1>
