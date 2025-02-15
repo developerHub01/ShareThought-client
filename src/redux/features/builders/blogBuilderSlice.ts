@@ -540,6 +540,19 @@ export const blogBuilderSlice = createSlice({
       state.blogs[blogId].activeBlock = activeBlockId || null;
     },
 
+    updateComponentText: (
+      state,
+      action: PayloadAction<{
+        blogId: string;
+        id: string; // component id
+        text: string;
+      }>
+    ) => {
+      const { blogId, id, text } = action.payload;
+
+      state.blogs[blogId].components[id].text = text;
+    },
+
     createActiveBlockStyle: (
       state,
       action: PayloadAction<{
@@ -1989,6 +2002,7 @@ export const {
   updateTitle,
   toggleEditorOrPreview,
   changeActiveBlock,
+  updateComponentText,
   createActiveBlockStyle,
   updatePaddingStyle,
   togglePaddingAll,
@@ -2002,6 +2016,7 @@ export const {
   addStyle,
   removetyle,
   changeType,
+  /*** Table============= ***/
   addTableRows,
   removeTableRows,
   changeTableRowsCount,
@@ -2017,15 +2032,21 @@ export const {
   addTableStripedRow,
   changeTableStripedTypeRow,
   clearTableStripedRow,
-  changeTableHeaderStyle,
-  changeTableContentStyle,
   changeCellContent,
+  /* table header */
+  changeTableHeaderStyle,
+  /* table content */
+  changeTableContentStyle,
+  /* image component */
   changeImage,
   updateImageContent,
+  /* image filter  */
   addImageFilter,
   resetImageFilter,
   setImageWidth,
+  /* spacer ======== */
   changeSpacerSize,
+  /* accordion ========== */
   changeAccordionContent,
   changeAccordionCount,
 } = blogBuilderSlice.actions;

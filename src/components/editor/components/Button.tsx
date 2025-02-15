@@ -3,10 +3,11 @@
 import {
   BlockInterface,
   StyleType,
+  updateComponentText,
 } from "@/redux/features/builders/blogBuilderSlice";
-import { useAppSelector } from "@/redux/hooks";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useParams } from "next/navigation";
-import React from "react";
+import React, { FocusEvent } from "react";
 import handleWrapperContentStyleSeparator from "@/utils/editor/handleWrapperContentStyleSeparator";
 import handleBorderStyle from "@/utils/editor/handleBorderStyle";
 import Link from "next/link";
@@ -19,6 +20,7 @@ interface ButtonProps extends BlockInterface {
 
 const Button = ({ id, text, redirect, ...props }: ButtonProps) => {
   const { id: blogId } = useParams<{ id: string }>();
+  const dispatch = useAppDispatch();
 
   const {
     metaData: { styles },
@@ -36,6 +38,16 @@ const Button = ({ id, text, redirect, ...props }: ButtonProps) => {
 
   contentStyles = { ...contentStyles, ...filteredBorder };
 
+  const handleBlur = (e: FocusEvent<HTMLButtonElement>) => {
+    dispatch(
+      updateComponentText({
+        blogId,
+        id,
+        text: e.target.innerText ?? "",
+      })
+    );
+  };
+
   const Comp = () => (
     <button
       type="button"
@@ -48,6 +60,7 @@ const Button = ({ id, text, redirect, ...props }: ButtonProps) => {
       style={{
         ...contentStyles,
       }}
+      onBlur={handleBlur}
     >
       {text}
     </button>
@@ -59,8 +72,9 @@ const Button = ({ id, text, redirect, ...props }: ButtonProps) => {
         ...wrapperStyles,
       }}
     >
-      {redirect ? (
-        <Link href={redirect}>
+      {/* id === activeBlock so that user can edit text without that redirect issue */}
+      {redirect && id !== activeBlock ? (
+        <Link href={redirect} target="_blank">
           <Comp />
         </Link>
       ) : (
