@@ -4,16 +4,17 @@ import TableHeaderTextColor from "@/app/(editor)/studio/create-blog/[id]/_compon
 import TableHeaderFontSize from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Table/Header/TableHeaderFontSize";
 import TableHeaderFontWeight from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Table/Header/TableHeaderFontWeight";
 import TableHeaderTextAlign from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Table/Header/TableHeaderTextAlign";
+import PropertyTypeWrapper from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Common/PropertyTypeWrapper";
 
 const TableHeader = () => {
   return (
-    <div className="flex flex-col h-full">
+    <PropertyTypeWrapper>
       <TableHeaderBackground />
       <TableHeaderTextColor />
       <TableHeaderFontSize />
       <TableHeaderFontWeight />
       <TableHeaderTextAlign />
-    </div>
+    </PropertyTypeWrapper>
   );
 };
 

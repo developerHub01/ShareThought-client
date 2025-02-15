@@ -1,5 +1,3 @@
-"use client";
-
 import React from "react";
 import ImageBlur from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Image/Filters/ImageBlur";
 import ImageBrightness from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Image/Filters/ImageBrightness";
@@ -12,10 +10,11 @@ import ImageSaturation from "@/app/(editor)/studio/create-blog/[id]/_components/
 import ImageFilterReset from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Image/Filters/ImageFilterReset";
 import ImageOpacity from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Image/Filters/ImageOpacity";
 import ImageDropShadow from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Image/Filters/ImageDropShadow";
+import PropertyTypeWrapper from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Common/PropertyTypeWrapper";
 
 const ImageFilters = () => {
   return (
-    <div className="flex flex-col h-full">
+    <PropertyTypeWrapper>
       <ImageBlur />
       <ImageBrightness />
       <ImageContrast />
@@ -27,7 +26,7 @@ const ImageFilters = () => {
       <ImageOpacity />
       <ImageDropShadow />
       <ImageFilterReset />
-    </div>
+    </PropertyTypeWrapper>
   );
 };
 

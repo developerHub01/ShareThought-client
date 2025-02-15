@@ -1,7 +1,8 @@
 import React from "react";
+import PropertyTypeWrapper from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Common/PropertyTypeWrapper";
 
 const ButtonStyle = () => {
-  return <div className="flex flex-col h-full"></div>;
+  return <PropertyTypeWrapper>ButtonStyle</PropertyTypeWrapper>;
 };
 
 export default ButtonStyle;

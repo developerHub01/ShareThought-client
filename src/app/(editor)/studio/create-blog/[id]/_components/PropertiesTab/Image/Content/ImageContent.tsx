@@ -7,12 +7,13 @@ import ImageUrl from "@/app/(editor)/studio/create-blog/[id]/_components/Propert
 import ImageActions from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Image/Content/ImageActions";
 import useActiveImage from "@/hooks/editor/use-active-image";
 import ComponentLinkProperty from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Common/ComponentLinkProperty";
+import PropertyTypeWrapper from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Common/PropertyTypeWrapper";
 
 const ImageContent = () => {
   const { url } = useActiveImage();
 
   return (
-    <div className="flex flex-col h-full">
+    <PropertyTypeWrapper>
       <ImageActions />
       <ImageUrl />
 
@@ -23,7 +24,7 @@ const ImageContent = () => {
           <ComponentLinkProperty />
         </>
       )}
-    </div>
+    </PropertyTypeWrapper>
   );
 };
 

@@ -8,10 +8,11 @@ import TypographyStyleTextAlign from "@/app/(editor)/studio/create-blog/[id]/_co
 import TypographyStyleTextColor from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Typography/Style/TypographyStyleTextColor";
 import TypographyStyleTextDirection from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Typography/Style/TypographyStyleTextDirection";
 import TypographyStyleTextTransform from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Typography/Style/TypographyStyleTextTransform";
+import PropertyTypeWrapper from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Common/PropertyTypeWrapper";
 
 const TypographyStyle = () => {
   return (
-    <div className="flex flex-col h-full">
+    <PropertyTypeWrapper>
       <TypographyStyleFontSize />
       <TypographyStyleFontWeight />
       <TypographyStyleTextColor />
@@ -20,7 +21,7 @@ const TypographyStyle = () => {
       <TypographyStyleTextTransform />
       <TypographyStyleTextAlign />
       <TypographyStyleTextDirection />
-    </div>
+    </PropertyTypeWrapper>
   );
 };
 

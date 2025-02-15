@@ -6,10 +6,11 @@ import TableContentTextAlign from "@/app/(editor)/studio/create-blog/[id]/_compo
 import TableContentTextDirection from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Table/Content/TableContentTextDirection";
 import TableContentLetterSpacing from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Table/Content/TableContentLetterSpacing";
 import TableContentLineHeight from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Table/Content/TableContentLineHeight";
+import PropertyTypeWrapper from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Common/PropertyTypeWrapper";
 
 const TableContent = () => {
   return (
-    <div className="flex flex-col h-full">
+    <PropertyTypeWrapper>
       <TableContentFontWeight />
       <TableContentFontSize />
       <TableContentTextColor />
@@ -17,7 +18,7 @@ const TableContent = () => {
       <TableContentTextDirection />
       <TableContentLetterSpacing />
       <TableContentLineHeight />
-    </div>
+    </PropertyTypeWrapper>
   );
 };
 

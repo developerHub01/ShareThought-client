@@ -4,17 +4,18 @@ import TableBorder from "@/app/(editor)/studio/create-blog/[id]/_components/Prop
 import TableStripedRow from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Table/Layout/TableStripedRow";
 import TableRowCounter from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Table/Layout/TableRowCounter";
 import TableColumnCounter from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Table/Layout/TableColumnCounter";
+import PropertyTypeWrapper from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Common/PropertyTypeWrapper";
 
 const TableLayout = () => {
   return (
-    <div className="flex flex-col h-full">
+    <PropertyTypeWrapper>
       <TableColumnCounter />
       <TableRowCounter />
       <TableBorder />
       <TableBackground />
       <TableTextColor />
       <TableStripedRow />
-    </div>
+    </PropertyTypeWrapper>
   );
 };
 

@@ -80,6 +80,10 @@ const PropertiesTab = () => {
 
         {activeComponent.type === "image" && (
           <>
+            <PropertyTypeWrapper id="image_content" label="Content">
+              <ImageContent />
+            </PropertyTypeWrapper>
+
             {imgLinks && imgLinks[activeBlock] && (
               <>
                 <PropertyTypeWrapper id="image_layout" label="Layout">
@@ -90,10 +94,6 @@ const PropertiesTab = () => {
                 </PropertyTypeWrapper>
               </>
             )}
-
-            <PropertyTypeWrapper id="image_content" label="Content">
-              <ImageContent />
-            </PropertyTypeWrapper>
 
             {imgLinks && imgLinks[activeBlock] && (
               <PropertyTypeWrapper id="image_filters" label="Filters">
