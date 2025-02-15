@@ -2,7 +2,7 @@
 
 import React, { ChangeEvent, CSSProperties } from "react";
 import CountBlock from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/CountBlock";
-import { EDITOR_TABLE_SIZE } from "@/constant";
+import { EDITOR_TABLE_SIZE, EDITOR_TYPOGRAPHY_SIZE } from "@/constant";
 import { addStyle } from "@/redux/features/builders/blogBuilderSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useParams } from "next/navigation";
@@ -62,12 +62,15 @@ const TypographyStyleLetterSpacing = () => {
   return (
     <CountBlock
       label="Letter Spacing"
-      value={Number(activeStyle?.letterSpacing) || 1}
+      value={
+        Number(activeStyle?.letterSpacing) ||
+        EDITOR_TYPOGRAPHY_SIZE.LETTER_SPACING.DEFAULT
+      }
       handleIncrement={handleLetterSpacingIncrement}
       handleDecrement={handleLetterSpacingDecrement}
       handleChange={handleLetterSpacingChange}
-      min={EDITOR_TABLE_SIZE.MIN_CONTENT_LETTER_SPACING}
-      max={EDITOR_TABLE_SIZE.MAX_CONTENT_LETTER_SPACING}
+      min={EDITOR_TYPOGRAPHY_SIZE.LETTER_SPACING.MIN}
+      max={EDITOR_TYPOGRAPHY_SIZE.LETTER_SPACING.MAX}
     />
   );
 };

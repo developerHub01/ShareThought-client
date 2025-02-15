@@ -80,15 +80,33 @@ export const EDITOR_TABLE_SIZE = {
 };
 
 export const EDITOR_TYPOGRAPHY_SIZE = {
-  MIN_SIZE: 8,
-  MAX_SIZE: 40,
-  DEFAULT_SIZE: {
-    h1: 36,
-    h2: 30,
-    h3: 24,
-    h4: 20,
-    h5: 18,
-    h6: 16,
-    p: 16,
+  FONT_SIZE: {
+    MIN: 8,
+    MAX: 40,
+    DEFAULT: {
+      h1: 36,
+      h2: 30,
+      h3: 24,
+      h4: 20,
+      h5: 18,
+      h6: 16,
+      p: 16,
+    },
+  },
+  LETTER_SPACING: {
+    MIN: -10,
+    MAX: 20,
+    DEFAULT: 0,
+  },
+  COLOR: {
+    DEFAULT: {
+      h1: "#212121",
+      h2: "#212121",
+      h3: "#212121",
+      h4: "#212121",
+      h5: "#212121",
+      h6: "#212121",
+      p: "#343434",
+    },
   },
 };

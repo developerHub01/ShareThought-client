@@ -55,10 +55,10 @@ const TypographyStyleFontSize = () => {
   const handleFontSizeChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = Number(e.target.value);
     const fontSize =
-      value < EDITOR_TYPOGRAPHY_SIZE.MIN_SIZE
-        ? EDITOR_TYPOGRAPHY_SIZE.MIN_SIZE
-        : value > EDITOR_TYPOGRAPHY_SIZE.MAX_SIZE
-        ? EDITOR_TYPOGRAPHY_SIZE.MAX_SIZE
+      value < EDITOR_TYPOGRAPHY_SIZE.FONT_SIZE.MIN
+        ? EDITOR_TYPOGRAPHY_SIZE.FONT_SIZE.MIN
+        : value > EDITOR_TYPOGRAPHY_SIZE.FONT_SIZE.MAX
+        ? EDITOR_TYPOGRAPHY_SIZE.FONT_SIZE.MAX
         : value;
 
     dispatch(
@@ -77,13 +77,13 @@ const TypographyStyleFontSize = () => {
       label="Font Size"
       value={
         Number(activeStyle?.fontSize) ||
-        EDITOR_TYPOGRAPHY_SIZE.DEFAULT_SIZE[typographyType]
+        EDITOR_TYPOGRAPHY_SIZE.FONT_SIZE.DEFAULT[typographyType]
       }
       handleIncrement={handleFontSizeIncrement}
       handleDecrement={handleFontSizeDecrement}
       handleChange={handleFontSizeChange}
-      min={EDITOR_TYPOGRAPHY_SIZE.MIN_SIZE}
-      max={EDITOR_TYPOGRAPHY_SIZE.MAX_SIZE}
+      min={EDITOR_TYPOGRAPHY_SIZE.FONT_SIZE.MIN}
+      max={EDITOR_TYPOGRAPHY_SIZE.FONT_SIZE.MAX}
     />
   );
 };
