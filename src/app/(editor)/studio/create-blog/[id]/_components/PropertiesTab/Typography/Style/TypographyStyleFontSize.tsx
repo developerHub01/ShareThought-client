@@ -1,6 +1,6 @@
 "use client";
 
-import React, { ChangeEvent, CSSProperties, useCallback } from "react";
+import React, { ChangeEvent, CSSProperties, useCallback, useMemo } from "react";
 import CountBlock from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/CountBlock";
 import {
   addStyle,
@@ -26,7 +26,10 @@ const TypographyStyleFontSize = () => {
 
   const typographyType = components[activeBlock].type as TypographyType;
 
-  const activeStyle = styles[activeBlock] as CSSProperties;
+  const activeStyle = useMemo(
+    () => styles[activeBlock] as CSSProperties,
+    [styles, activeBlock]
+  );
 
   const handleDispatchSize = useCallback(
     (fontSize: number | "inc" | "dec") => {
@@ -40,6 +43,12 @@ const TypographyStyleFontSize = () => {
           defaultStyles: {
             fontSize: EDITOR_TYPOGRAPHY_SIZE.FONT_SIZE.DEFAULT[typographyType],
           },
+          minStyles: {
+            fontSize: EDITOR_TYPOGRAPHY_SIZE.FONT_SIZE.MIN,
+          },
+          maxStyles: {
+            fontSize: EDITOR_TYPOGRAPHY_SIZE.FONT_SIZE.MAX,
+          },
         })
       );
     },
@@ -47,15 +56,12 @@ const TypographyStyleFontSize = () => {
   );
 
   const handleFontSizeChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const value = Number(e.target.value);
-    const fontSize =
-      value < EDITOR_TYPOGRAPHY_SIZE.FONT_SIZE.MIN
-        ? EDITOR_TYPOGRAPHY_SIZE.FONT_SIZE.MIN
-        : value > EDITOR_TYPOGRAPHY_SIZE.FONT_SIZE.MAX
-        ? EDITOR_TYPOGRAPHY_SIZE.FONT_SIZE.MAX
-        : value;
+    const value = Math.min(
+      Math.max(Number(e.target.value), EDITOR_TYPOGRAPHY_SIZE.FONT_SIZE.MIN),
+      EDITOR_TYPOGRAPHY_SIZE.FONT_SIZE.MAX
+    )
 
-    handleDispatchSize(fontSize);
+    handleDispatchSize(value);
   };
 
   return (

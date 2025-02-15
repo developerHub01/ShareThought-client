@@ -1127,21 +1127,41 @@ export const blogBuilderSlice = createSlice({
         these will handle default style if that already not exist in the style state. 
         Mainly for syncing default style of the properties tab
         */;
+        minStyles?: StyleType;
+        maxStyles?: StyleType;
+        /* 
+        minStyles, maxStyles
+        are for limiting the size or any style
+        */
       }>
     ) => {
-      const { blogId, activeBlockId, styles, defaultStyles } = action.payload;
+      const {
+        blogId,
+        activeBlockId,
+        styles,
+        defaultStyles,
+        minStyles,
+        maxStyles,
+      } = action.payload;
 
       for (const key in styles) {
         const value = styles[key];
 
-        const currentValue = Number(
+        const currentValue =
           state.blogs[blogId].metaData.styles[activeBlockId]?.[key] ??
-            defaultStyles?.[key] ??
-            0
-        );
+          defaultStyles?.[key];
 
-        if (value === "inc") styles[key] = currentValue + 1;
-        else if (value === "dec") styles[key] = currentValue - 1;
+        /* Handling for number type values start========== */
+        if (value === "inc") styles[key] = Number(currentValue ?? 0) + 1;
+        else if (value === "dec") styles[key] = Number(currentValue ?? 0) - 1;
+        else if (typeof value === "number") styles[key] = value;
+
+        // Apply min and max constraints after updating the value
+        if (minStyles && typeof minStyles[key] === "number")
+          styles[key] = Math.max(minStyles[key], Number(styles[key]));
+        if (maxStyles && typeof maxStyles[key] === "number")
+          styles[key] = Math.min(maxStyles[key], Number(styles[key]));
+        /* Handling for number type values end ========== */
       }
 
       state.blogs[blogId].metaData.styles[activeBlockId] = {
