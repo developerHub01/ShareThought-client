@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo } from "react";
+import React from "react";
 import {
   Tooltip,
   TooltipContent,
@@ -37,8 +37,16 @@ import { useParams } from "next/navigation";
 interface componentItem {
   id: BlockTypes;
   label: string;
-  Icon: LucideIcon;
+  Icon: LucideIcon | React.ComponentType<unknown>;
 }
+
+const ButtonIcon = () => {
+  return (
+    <label className="bg-primary text-primary-foreground rounded-sm shadow-lg px-4 py-2 inline-block pointer-events-none">
+      Button
+    </label>
+  );
+};
 
 const componentItemList: Array<componentItem> = [
   {
@@ -75,6 +83,11 @@ const componentItemList: Array<componentItem> = [
     id: "h6",
     label: "heading 6",
     Icon: Heading6Icon,
+  },
+  {
+    id: "button",
+    label: "Button",
+    Icon: ButtonIcon,
   },
   {
     id: "code",

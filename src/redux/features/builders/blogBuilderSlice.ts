@@ -13,6 +13,7 @@ export type BlockTypes =
   | "h5"
   | "h6"
   | "p"
+  | "button"
   | "code"
   | "table"
   | "row"
@@ -413,6 +414,13 @@ export const blogBuilderSlice = createSlice({
             ...block,
             type,
             text: "paragraph",
+          };
+          break;
+        case "button":
+          block = {
+            ...block,
+            type,
+            text: "Button",
           };
           break;
         case "row":

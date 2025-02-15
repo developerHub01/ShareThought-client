@@ -22,6 +22,8 @@ import AccordionContainer from "@/app/(editor)/studio/create-blog/[id]/_componen
 import BoxShadowProperty from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Common/BoxShadowProperty";
 import TypographyContent from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Typography/Content/TypographyContent";
 import TypographyStyle from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Typography/Style/TypographyStyle";
+import ButtonContent from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Button/Content/ButtonContent";
+import ButtonStyle from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Button/Style/ButtonStyle";
 
 const PropertiesTab = () => {
   const { id: blogId } = useParams<{ id: string }>();
@@ -47,6 +49,17 @@ const PropertiesTab = () => {
             </PropertyTypeWrapper>
             <PropertyTypeWrapper id="typography_style" label="Style">
               <TypographyStyle />
+            </PropertyTypeWrapper>
+          </>
+        )}
+
+        {activeComponent.type === "button" && (
+          <>
+            <PropertyTypeWrapper id="button_content" label="Content">
+              <ButtonContent />
+            </PropertyTypeWrapper>
+            <PropertyTypeWrapper id="button_style" label="Style">
+              <ButtonStyle />
             </PropertyTypeWrapper>
           </>
         )}

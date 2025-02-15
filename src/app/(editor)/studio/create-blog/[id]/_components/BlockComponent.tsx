@@ -15,6 +15,7 @@ import { GripHorizontal as GripIcon, LucideIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Table from "@/components/editor/components/Table";
 import Image from "@/components/editor/components/Image";
+import ButtonComponent from "@/components/editor/components/Button";
 import { cn } from "@/lib/utils";
 import Spacer, { SpacerProps } from "@/components/editor/components/Spacer";
 import Divider, { DividerProps } from "@/components/editor/components/Divider";
@@ -30,6 +31,8 @@ export interface AccordionProps extends BlockInterface {
 const Block = ({ ...props }: BlogComponentBlock) => {
   if (["h1", "h2", "h3", "h4", "h5", "h6", "p"].includes(props.type)) {
     return <Heading {...props} />;
+  } else if (props.type === "button") {
+    return <ButtonComponent {...props} />;
   } else if (props.type === "row") {
     return <Row {...props} />;
   } else if (props.type === "table") {
