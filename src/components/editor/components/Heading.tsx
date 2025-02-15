@@ -1,23 +1,21 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { BlockInterface } from "@/redux/features/builders/blogBuilderSlice";
-import { useAppSelector } from "@/redux/hooks";
+import {
+  BlockInterface,
+  updateComponentText,
+} from "@/redux/features/builders/blogBuilderSlice";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useParams } from "next/navigation";
-import React, { CSSProperties } from "react";
+import React, { CSSProperties, FocusEvent } from "react";
 
 interface HeadingProps extends BlockInterface {
   className?: string;
 }
 
-const Heading = ({
-  id,
-  className,
-  text,
-  type,
-  ...props
-}: HeadingProps) => {
+const Heading = ({ id, className, text, type, ...props }: HeadingProps) => {
   const { id: blogId } = useParams<{ id: string }>();
+  const dispatch = useAppDispatch();
 
   const {
     metaData: { styles },
@@ -27,12 +25,25 @@ const Heading = ({
 
   const typographyStyles = styles[id] as CSSProperties;
 
+  const handleBlur = (
+    e: FocusEvent<HTMLHeadElement | HTMLParagraphElement>
+  ) => {
+    dispatch(
+      updateComponentText({
+        blogId,
+        id,
+        text: e.target.innerText ?? "",
+      })
+    );
+  };
+
   switch (type) {
     case "p":
       return (
         <p
           contentEditable
           suppressContentEditableWarning
+          onBlur={handleBlur}
           className={cn("text-base", className)}
           style={{
             ...typographyStyles,
@@ -46,6 +57,7 @@ const Heading = ({
         <h2
           contentEditable
           suppressContentEditableWarning
+          onBlur={handleBlur}
           className={cn("text-3xl font-bold", className)}
           style={{
             ...typographyStyles,
@@ -59,6 +71,7 @@ const Heading = ({
         <h3
           contentEditable
           suppressContentEditableWarning
+          onBlur={handleBlur}
           className={cn("text-2xl font-bold", className)}
           style={{
             ...typographyStyles,
@@ -72,6 +85,7 @@ const Heading = ({
         <h4
           contentEditable
           suppressContentEditableWarning
+          onBlur={handleBlur}
           className={cn("text-xl font-bold", className)}
           style={{
             ...typographyStyles,
@@ -85,6 +99,7 @@ const Heading = ({
         <h5
           contentEditable
           suppressContentEditableWarning
+          onBlur={handleBlur}
           className={cn("text-lg font-bold", className)}
           style={{
             ...typographyStyles,
@@ -98,6 +113,7 @@ const Heading = ({
         <h6
           contentEditable
           suppressContentEditableWarning
+          onBlur={handleBlur}
           className={cn("text-base font-bold", className)}
           style={{
             ...typographyStyles,
@@ -111,6 +127,7 @@ const Heading = ({
         <h1
           contentEditable
           suppressContentEditableWarning
+          onBlur={handleBlur}
           className={cn("text-4xl font-bold", className)}
           style={{
             ...typographyStyles,
