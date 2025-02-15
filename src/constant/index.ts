@@ -82,7 +82,7 @@ export const EDITOR_TABLE_SIZE = {
 export const EDITOR_TYPOGRAPHY_SIZE = {
   FONT_SIZE: {
     MIN: 8,
-    MAX: 40,
+    MAX: 60,
     DEFAULT: {
       h1: 36,
       h2: 30,

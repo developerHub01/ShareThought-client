@@ -6,6 +6,7 @@ import React, {
   useEffect,
   useState,
   CSSProperties,
+  useCallback,
 } from "react";
 import { ColorResult } from "react-color";
 import { isValidHexColor } from "@/utils";
@@ -46,21 +47,28 @@ const TypographyStyleTextColor = () => {
     if (activeBlock && textColor) setTextColorState(textColor);
   }, [activeBlock, textColor]);
 
+  const handleColorDispatch = useCallback(
+    (color: string) => {
+      dispatch(
+        addStyle({
+          blogId,
+          activeBlockId: activeBlock,
+          styles: {
+            color,
+          },
+        })
+      );
+    },
+    [blogId, activeBlock]
+  );
+
   const handleColorPicker = (color: ColorResult, e: ChangeEvent) => {
     const newColor = color.hex;
     if (isValidHexColor(newColor)) setLastValidColor(newColor);
 
     setTextColorState(newColor);
 
-    dispatch(
-      addStyle({
-        blogId,
-        activeBlockId: activeBlock,
-        styles: {
-          color: newColor,
-        },
-      })
-    );
+    handleColorDispatch(newColor);
   };
 
   const handleColorChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -70,44 +78,21 @@ const TypographyStyleTextColor = () => {
 
     setTextColorState(color);
 
-    dispatch(
-      addStyle({
-        blogId,
-        activeBlockId: activeBlock,
-        styles: {
-          color,
-        },
-      })
-    );
+    handleColorDispatch(color);
   };
 
   const handleColorBlur = (e: FocusEvent<HTMLInputElement>) => {
     let color = e.target.value;
 
-    const dispatchData = {
-      blogId,
-      activeBlockId: activeBlock,
-      styles: {
-        color,
-      },
-    };
-
     if (!isValidHexColor(color)) {
-      dispatch(
-        addStyle({
-          ...dispatchData,
-          styles: {
-            color: lastValidColor,
-          },
-        })
-      );
+      handleColorDispatch(lastValidColor);
 
       return setTextColorState(lastValidColor);
     }
 
     setTextColorState(color);
 
-    dispatch(addStyle(dispatchData));
+    handleColorDispatch(color);
   };
 
   return (
