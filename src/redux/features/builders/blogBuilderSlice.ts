@@ -1123,26 +1123,26 @@ export const blogBuilderSlice = createSlice({
         blogId: string;
         activeBlockId: string;
         styles: StyleType;
+        defaultStyles?: StyleType /* 
+        these will handle default style if that already not exist in the style state. 
+        Mainly for syncing default style of the properties tab
+        */;
       }>
     ) => {
-      const { blogId, activeBlockId, styles } = action.payload;
+      const { blogId, activeBlockId, styles, defaultStyles } = action.payload;
 
-      // for (const key in styles) {
-      //   const value = styles[key];
+      for (const key in styles) {
+        const value = styles[key];
 
-      //   console.log(
-      //     key,
-      //     value,
-      //     state.blogs[blogId].metaData.styles[activeBlockId]
-      //   );
+        const currentValue = Number(
+          state.blogs[blogId].metaData.styles[activeBlockId]?.[key] ??
+            defaultStyles?.[key] ??
+            0
+        );
 
-      //   const currentValue = Number(
-      //     state.blogs[blogId].metaData.styles[activeBlockId][key]
-      //   );
-
-      //   if (value === "inc") styles[key] = currentValue + 1;
-      //   else if (value === "dec") styles[key] = currentValue - 1;
-      // }
+        if (value === "inc") styles[key] = currentValue + 1;
+        else if (value === "dec") styles[key] = currentValue - 1;
+      }
 
       state.blogs[blogId].metaData.styles[activeBlockId] = {
         ...(state.blogs[blogId].metaData.styles[activeBlockId] || {}),

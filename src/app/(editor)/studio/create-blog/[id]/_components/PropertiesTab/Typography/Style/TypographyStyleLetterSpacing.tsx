@@ -1,6 +1,6 @@
 "use client";
 
-import React, { ChangeEvent, CSSProperties } from "react";
+import React, { ChangeEvent, CSSProperties, useCallback } from "react";
 import CountBlock from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/CountBlock";
 import { EDITOR_TABLE_SIZE, EDITOR_TYPOGRAPHY_SIZE } from "@/constant";
 import { addStyle } from "@/redux/features/builders/blogBuilderSlice";
@@ -22,41 +22,35 @@ const TypographyStyleLetterSpacing = () => {
 
   const activeStyle = styles[activeBlock] as CSSProperties;
 
-  /* Columns content =========== */
-  const handleLetterSpacingIncrement = () => {
-    // dispatch(
-    //   changeTableContentStyle({
-    //     blogId,
-    //     id: activeBlock,
-    //     letterSpacing: "inc",
-    //   })
-    // );
-  };
-
-  const handleLetterSpacingDecrement = () => {
-    // dispatch(
-    //   changeTableContentStyle({
-    //     blogId,
-    //     id: activeBlock,
-    //     letterSpacing: "dec",
-    //   })
-    // );
-  };
+  const handleDispatchSpacing = useCallback(
+    (letterSpacing: number | "inc" | "dec") => {
+      dispatch(
+        addStyle({
+          blogId,
+          activeBlockId: activeBlock,
+          styles: {
+            letterSpacing: letterSpacing,
+          },
+          defaultStyles: {
+            letterSpacing: EDITOR_TYPOGRAPHY_SIZE.LETTER_SPACING.DEFAULT,
+          },
+        })
+      );
+    },
+    [blogId, activeBlock]
+  );
 
   const handleLetterSpacingChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = Number(e.target.value);
 
-    const letterSpacing = value < 0 ? 0 : value > 8 ? 8 : value;
+    const letterSpacing =
+      value < EDITOR_TYPOGRAPHY_SIZE.LETTER_SPACING.MIN
+        ? EDITOR_TYPOGRAPHY_SIZE.LETTER_SPACING.MIN
+        : value > EDITOR_TYPOGRAPHY_SIZE.LETTER_SPACING.MAX
+        ? EDITOR_TYPOGRAPHY_SIZE.LETTER_SPACING.MAX
+        : value;
 
-    dispatch(
-      addStyle({
-        blogId,
-        activeBlockId: activeBlock,
-        styles: {
-          letterSpacing: letterSpacing,
-        },
-      })
-    );
+    handleDispatchSpacing(letterSpacing);
   };
 
   return (
@@ -66,8 +60,8 @@ const TypographyStyleLetterSpacing = () => {
         Number(activeStyle?.letterSpacing) ||
         EDITOR_TYPOGRAPHY_SIZE.LETTER_SPACING.DEFAULT
       }
-      handleIncrement={handleLetterSpacingIncrement}
-      handleDecrement={handleLetterSpacingDecrement}
+      handleIncrement={() => handleDispatchSpacing("inc")}
+      handleDecrement={() => handleDispatchSpacing("dec")}
       handleChange={handleLetterSpacingChange}
       min={EDITOR_TYPOGRAPHY_SIZE.LETTER_SPACING.MIN}
       max={EDITOR_TYPOGRAPHY_SIZE.LETTER_SPACING.MAX}

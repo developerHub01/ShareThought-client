@@ -1,6 +1,6 @@
 "use client";
 
-import React, { ChangeEvent, CSSProperties } from "react";
+import React, { ChangeEvent, CSSProperties, useCallback } from "react";
 import CountBlock from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/CountBlock";
 import {
   addStyle,
@@ -28,29 +28,23 @@ const TypographyStyleFontSize = () => {
 
   const activeStyle = styles[activeBlock] as CSSProperties;
 
-  const handleFontSizeIncrement = () => {
-    // dispatch(
-    //   addStyle({
-    //     blogId,
-    //     activeBlockId: activeBlock,
-    //     styles: {
-    //       fontSize: "inc",
-    //     },
-    //   })
-    // );
-  };
-
-  const handleFontSizeDecrement = () => {
-    // dispatch(
-    //   addStyle({
-    //     blogId,
-    //     activeBlockId: activeBlock,
-    //     styles: {
-    //       fontSize: "dec",
-    //     },
-    //   })
-    // );
-  };
+  const handleDispatchSize = useCallback(
+    (fontSize: number | "inc" | "dec") => {
+      dispatch(
+        addStyle({
+          blogId,
+          activeBlockId: activeBlock,
+          styles: {
+            fontSize,
+          },
+          defaultStyles: {
+            fontSize: EDITOR_TYPOGRAPHY_SIZE.FONT_SIZE.DEFAULT[typographyType],
+          },
+        })
+      );
+    },
+    [blogId, activeBlock, typographyType]
+  );
 
   const handleFontSizeChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = Number(e.target.value);
@@ -61,15 +55,7 @@ const TypographyStyleFontSize = () => {
         ? EDITOR_TYPOGRAPHY_SIZE.FONT_SIZE.MAX
         : value;
 
-    dispatch(
-      addStyle({
-        blogId,
-        activeBlockId: activeBlock,
-        styles: {
-          fontSize,
-        },
-      })
-    );
+    handleDispatchSize(fontSize);
   };
 
   return (
@@ -79,8 +65,8 @@ const TypographyStyleFontSize = () => {
         Number(activeStyle?.fontSize) ||
         EDITOR_TYPOGRAPHY_SIZE.FONT_SIZE.DEFAULT[typographyType]
       }
-      handleIncrement={handleFontSizeIncrement}
-      handleDecrement={handleFontSizeDecrement}
+      handleIncrement={() => handleDispatchSize("inc")}
+      handleDecrement={() => handleDispatchSize("dec")}
       handleChange={handleFontSizeChange}
       min={EDITOR_TYPOGRAPHY_SIZE.FONT_SIZE.MIN}
       max={EDITOR_TYPOGRAPHY_SIZE.FONT_SIZE.MAX}
