@@ -19,6 +19,10 @@ interface ImageProps {
 const Image = ({ id, components, metaData }: ImageProps) => {
   const component = components[id];
 
+  if (!component) return null;
+
+  const { alt, caption, redirect } = component;
+
   if (!metaData?.imgLinks?.[id]) return null;
 
   const imageSrc = metaData.imgLinks[id];
@@ -39,36 +43,48 @@ const Image = ({ id, components, metaData }: ImageProps) => {
   if (typeof contentStyles.width === "number")
     contentStyles.width = `${contentStyles.width}%`;
 
+  const figureStyle: Record<string, string | number> = {};
+
+  if (typeof contentStyles.width === "string") {
+    figureStyle["width"] = contentStyles.width;
+    delete contentStyles.width;
+  }
+
   const Comp = () => {
     return (
-      <figure
+      <div
         className="flex"
         style={{
           ...wrapperStyles,
         }}
       >
-        <img
-          src={imageSrc}
-          alt={component.alt}
+        <figure
           style={{
-            ...contentStyles,
+            ...figureStyle,
           }}
-        />
-        {component.caption && (
-          <figcaption className="mt-1">{component.caption}</figcaption>
-        )}
-      </figure>
+        >
+          <img
+            style={{
+              ...contentStyles,
+            }}
+            className="w-full"
+            src={imageSrc}
+            alt={alt}
+          />
+          {caption && <figcaption className="mt-1">{caption}</figcaption>}
+        </figure>
+      </div>
     );
   };
 
-  if (!component.redirect) return <Comp />;
+  if (!redirect) return <Comp />;
 
   return (
     <a
       target="_blank"
-      href={component.redirect as string}
-      aria-label={component.alt ?? "Image link"}
-      title={component.alt ?? "Image link"}
+      href={redirect as string}
+      aria-label={alt ?? "Image link"}
+      title={alt ?? "Image link"}
     >
       <Comp />
     </a>

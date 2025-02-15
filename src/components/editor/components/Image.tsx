@@ -49,23 +49,37 @@ const Image = ({
   if (typeof contentStyles.width === "number")
     contentStyles.width = `${contentStyles.width}%`;
 
+  const figureStyle: Record<string, string | number> = {};
+
+  if (typeof contentStyles.width === "string") {
+    figureStyle["width"] = contentStyles.width;
+    delete contentStyles.width;
+  }
+
   const Comp = () => {
     return (
-      <figure
+      <div
         className="flex"
         style={{
           ...wrapperStyles,
         }}
       >
-        <img
-          src={imageSrc}
-          alt={alt}
+        <figure
           style={{
-            ...contentStyles,
+            ...figureStyle,
           }}
-        />
-        {caption && <figcaption className="mt-1">{caption}</figcaption>}
-      </figure>
+        >
+          <img
+            style={{
+              ...contentStyles,
+            }}
+            className="w-full"
+            src={imageSrc}
+            alt={alt}
+          />
+          {caption && <figcaption className="mt-1">{caption}</figcaption>}
+        </figure>
+      </div>
     );
   };
 
