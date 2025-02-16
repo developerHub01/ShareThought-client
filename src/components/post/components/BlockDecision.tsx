@@ -35,7 +35,7 @@ const ComponentSelector = (props: BlockDecisionProps) => {
   if (["h1", "h2", "h3", "h4", "h5", "h6", "p"].includes(component.type)) {
     return <Heading {...props} />;
   } else if (component.type === "row") {
-    // return <Row    {...props} />;
+    return <Row  {...props} />;
   } else if (component.type === "table") {
     return <Table {...props} />;
   } else if (component.type === "image") {

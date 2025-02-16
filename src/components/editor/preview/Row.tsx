@@ -1,13 +1,17 @@
-"use client";
-
-import { BlockInterface } from "@/redux/features/builders/blogBuilderSlice";
-import { useAppSelector } from "@/redux/hooks";
+import {
+  BlogComponentsDataInterface,
+  BlogContentType,
+  BlogMetaDataInterface,
+} from "@/redux/features/builders/blogBuilderSlice";
 import React from "react";
-import Column from "@/components/editor/components/Column";
 import { cn } from "@/lib/utils";
+import Column from "@/components/editor/preview/Column";
 
-interface RowProps extends BlockInterface {
-  className?: string;
+interface RowProps {
+  id: string;
+  content: BlogContentType;
+  components: BlogComponentsDataInterface;
+  metaData: BlogMetaDataInterface;
 }
 
 const getColSpan = (column: number) => {
@@ -25,12 +29,15 @@ const getColSpan = (column: number) => {
 };
 
 const Row = (props: RowProps) => {
-  const { postId, children, gridSize } = props;
+  const { id, ...restProps } = props;
 
-  if (!postId) return;
+  const { components } = restProps;
 
-  const { components } =
-    useAppSelector((state) => state?.blogBuilder?.blogs[postId]) || {};
+  const component = components[id];
+
+  if (!component) return null;
+
+  const { children, gridSize } = component;
 
   return (
     <section className="grid grid-cols-12 gap-1">
@@ -43,7 +50,7 @@ const Row = (props: RowProps) => {
               getColSpan(gridSize?.[index] ?? 12)
             )}
           >
-            <Column {...components[id]} parentId={props.id} />
+            <Column {...restProps} id={id} />
           </div>
         ))}
     </section>

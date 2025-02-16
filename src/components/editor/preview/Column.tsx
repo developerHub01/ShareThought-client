@@ -1,48 +1,38 @@
-"use client";
-
-import BlockComponent from "@/app/(editor)/studio/create-blog/[id]/_components/BlockComponent";
-import AddComponentSection from "@/app/(editor)/studio/create-blog/[id]/_components/BuilderPopover/AddComponentSection";
-import { BlockInterface } from "@/redux/features/builders/blogBuilderSlice";
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { AnimatePresence, motion } from "motion/react";
-import { useParams } from "next/navigation";
+import BlockDecision from "@/components/post/components/BlockDecision";
+import {
+  BlogComponentsDataInterface,
+  BlogContentType,
+  BlogMetaDataInterface,
+} from "@/redux/features/builders/blogBuilderSlice";
 import React from "react";
 
-interface RowProps extends BlockInterface {
-  className?: string;
-  parentId: string;
+interface RowProps {
+  id: string;
+  content: BlogContentType;
+  components: BlogComponentsDataInterface;
+  metaData: BlogMetaDataInterface;
 }
 
-const Column = ({ id, gridSize, children, ...props }: RowProps) => {
-  const dispatch = useAppDispatch();
-  const { id: postId } = useParams<{ id: string }>();
+const Column = (props: RowProps) => {
+  const { id, ...restProps } = props;
 
-  if (!postId) return;
+  const { components } = restProps;
 
-  const { components } =
-    useAppSelector((state) => state?.blogBuilder?.blogs[postId]) || {};
+  const component = components[id];
+
+  if (!component) return null;
+
+  const { children } = component;
 
   return (
     <section className="w-full flex flex-col">
       {Array.isArray(children) && (
         <>
-          {Boolean(children.length) && <AddComponentSection index={0} />}
-          {children.map((id, index, list) => (
+          {children.map((id) => (
             <div key={id} className="group">
-              <BlockComponent {...components[id]} postId={postId} />
-              <AnimatePresence>
-                {index !== list.length - 1 && (
-                  <motion.div
-                    className="group-hover:opacity-100 group-hover:scale-y-100 opacity-0 scale-y-0 -translate-y-1/2 mt-1 mx-auto"
-                    exit={{ opacity: 0 }}
-                  >
-                    <AddComponentSection index={index + 1} parentId={id} />
-                  </motion.div>
-                )}
-              </AnimatePresence>
+              <BlockDecision {...restProps} id={id} />
             </div>
           ))}
-          <AddComponentSection index={children.length} parentId={id} />
         </>
       )}
     </section>
