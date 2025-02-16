@@ -1,14 +1,15 @@
 "use client";
 
 import React, { useMemo } from "react";
-import { useAppDispatch } from "@/redux/hooks";
 import { useEditor } from "@/app/(editor)/studio/create-blog/[id]/_components/EditorProvider";
+import { useAppDispatch } from "@/redux/hooks";
 import {
   addComponent,
   BlockTypes,
 } from "@/redux/features/builders/blogBuilderSlice";
 import { useParams } from "next/navigation";
 import { layoutItemList } from "@/app/(editor)/studio/create-blog/[id]/_constant";
+import ComponentItemList from "@/app/(editor)/studio/create-blog/[id]/_components/ComponentsTab/ComponentItemList";
 import LayoutButton from "@/app/(editor)/studio/create-blog/[id]/_components/LayoutButton";
 
 const LayoutList = () => {
@@ -41,11 +42,19 @@ const LayoutList = () => {
   };
 
   return (
-    <div className="w-full flex flex-col gap-3 sm:gap-5 p-2">
-      {modifiedLayoutList.map(({ id, sizes }) => (
-        <LayoutButton key={id} sizes={sizes} onClick={() => handleClick(id)} />
-      ))}
-    </div>
+    <ComponentItemList.Wrapper className="flex flex-col gap-3">
+      <ComponentItemList.Title>Layouts</ComponentItemList.Title>
+      <div className="w-full flex flex-col gap-3 sm:gap-5 p-2">
+        {modifiedLayoutList.map(({ id, sizes }) => (
+          <LayoutButton
+            key={id}
+            className="cursor-grabbing"
+            sizes={sizes}
+            onClick={() => handleClick(id)}
+          />
+        ))}
+      </div>
+    </ComponentItemList.Wrapper>
   );
 };
 

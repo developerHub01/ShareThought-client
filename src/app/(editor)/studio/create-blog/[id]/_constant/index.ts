@@ -113,3 +113,15 @@ export const componentItemList: Array<ComponentItem> = [
     Icon: SpacerIcon,
   },
 ];
+
+export const layoutItemList = [
+  "12",
+  "6/6",
+  "8/4",
+  "4/8",
+  "4/4/4",
+  "3/3/6",
+  "6/3/3",
+  "3/6/3",
+  "3/3/3/3",
+];
