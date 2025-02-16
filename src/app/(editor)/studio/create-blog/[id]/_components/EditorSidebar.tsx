@@ -5,13 +5,16 @@ import { useAppSelector } from "@/redux/hooks";
 import { useParams } from "next/navigation";
 import dynamic from "next/dynamic";
 import { motion, AnimatePresence } from "motion/react";
+import ComponentsTabSk from "@/app/(editor)/studio/create-blog/[id]/_skeleton/ComponentsTab/ComponentsTabSk";
+import PropertiesTabSk from "@/app/(editor)/studio/create-blog/[id]/_skeleton/PropertiesTab/PropertiesTabSk";
+import SettingsTabSk from "@/app/(editor)/studio/create-blog/[id]/_skeleton/SettingsTab/SettingsTabSk";
 const ComponentsTab = dynamic(
   () =>
     import(
       "@/app/(editor)/studio/create-blog/[id]/_components/ComponentsTab/ComponentsTab"
     ),
   {
-    loading: () => <>ComponentsTab loading...</>,
+    loading: () => <ComponentsTabSk />,
     ssr: false,
   }
 );
@@ -21,7 +24,7 @@ const PropertiesTab = dynamic(
       "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/PropertiesTab"
     ),
   {
-    loading: () => <>PropertiesTab loading...</>,
+    loading: () => <PropertiesTabSk />,
     ssr: false,
   }
 );
@@ -31,7 +34,7 @@ const SettingTab = dynamic(
       "@/app/(editor)/studio/create-blog/[id]/_components/SettingsTab/SettingTab"
     ),
   {
-    loading: () => <>SettingTab loading...</>,
+    loading: () => <SettingsTabSk />,
     ssr: false,
   }
 );

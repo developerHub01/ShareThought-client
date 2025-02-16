@@ -4,6 +4,7 @@
 test.css
 
 src/app/(home)/test/*
+test.css
 
 # dependencies
 /node_modules
