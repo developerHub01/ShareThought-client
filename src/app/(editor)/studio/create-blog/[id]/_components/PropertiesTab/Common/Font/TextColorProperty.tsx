@@ -36,8 +36,6 @@ const TextColorProperty = () => {
 
   const typographyType = components[activeBlock].type as TypographyType;
 
-  console.log({ typographyType });
-
   const textColor =
     activeStyle?.color || EDITOR_TYPOGRAPHY_SIZE.COLOR.DEFAULT[typographyType];
 
@@ -96,8 +94,6 @@ const TextColorProperty = () => {
 
     handleColorDispatch(color);
   };
-
-  console.log({ textColorState });
 
   return (
     <ColorBlock
