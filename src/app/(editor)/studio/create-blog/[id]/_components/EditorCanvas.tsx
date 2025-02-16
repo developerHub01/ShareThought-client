@@ -1,12 +1,6 @@
 "use client";
 
-import React, {
-  ChangeEvent,
-  KeyboardEvent,
-  MouseEvent,
-  useRef,
-  useState,
-} from "react";
+import React, { ChangeEvent, KeyboardEvent } from "react";
 import AddComponentSection from "@/app/(editor)/studio/create-blog/[id]/_components/BuilderPopover/AddComponentSection";
 import ComponentDialog from "@/app/(editor)/studio/create-blog/[id]/_components/BuilderPopover/ComponentDialog";
 import EditorSidebar from "@/app/(editor)/studio/create-blog/[id]/_components/EditorSidebar";
@@ -23,14 +17,9 @@ import PreviewPopover from "@/app/(editor)/studio/create-blog/[id]/_components/P
 const EditorCanvas = () => {
   const { id: postId } = useParams<{ id: string }>();
   const dispatch = useAppDispatch();
-  const [activeAddComponent, setActiveAddComponent] = useState<
-    "top" | "bottom" | null
-  >(null);
 
   const blogsData = useAppSelector((state) => state?.blogBuilder?.blogs);
   const blogData = blogsData[postId];
-
-  const canvasRef = useRef<HTMLDivElement>(null);
 
   if (!blogData) return null;
 
@@ -47,21 +36,6 @@ const EditorCanvas = () => {
     if (e.key === "Enter") e.preventDefault();
   };
 
-  const handleCanvasMouseMove = (e: MouseEvent<HTMLDivElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const cusrsorY = e.clientY - rect.top;
-    const canvasHeight = rect.height;
-    const threshold = canvasHeight * (40 / 100);
-
-    if (cusrsorY < threshold) setActiveAddComponent("top");
-    else if (cusrsorY > canvasHeight - threshold)
-      setActiveAddComponent("bottom");
-    else setActiveAddComponent(null);
-  };
-
-  const handleCanvasLeave = (e: MouseEvent<HTMLDivElement>) =>
-    setActiveAddComponent(null);
-
   return (
     <section className="mx-auto w-full h-full">
       <section className="w-full h-full flex">
@@ -77,19 +51,11 @@ const EditorCanvas = () => {
                 onKeyUp={handleKeyEnter}
               />
             </div>
-            <section
-              className="w-full py-5 px-1 flex flex-col"
-              ref={canvasRef}
-              onMouseMove={handleCanvasMouseMove}
-              onMouseLeave={handleCanvasLeave}
-            >
+            <section className="w-full py-5 px-1 flex flex-col">
               <AnimatePresence>
-                {Boolean(blogData?.content.length) &&
-                  activeAddComponent === "top" && (
-                    <motion.div exit={{ opacity: 0 }}>
-                      <AddComponentSection index={0} />
-                    </motion.div>
-                  )}
+                {Boolean(blogData?.content.length) && (
+                  <AddComponentSection index={0} />
+                )}
               </AnimatePresence>
 
               {blogData?.content.map((id, index, list) => (
@@ -111,14 +77,7 @@ const EditorCanvas = () => {
                 </div>
               ))}
 
-              <AnimatePresence>
-                {(!blogData?.content.length ||
-                  activeAddComponent === "bottom") && (
-                  <motion.div exit={{ opacity: 0 }}>
-                    <AddComponentSection index={blogData?.content.length} />
-                  </motion.div>
-                )}
-              </AnimatePresence>
+              <AddComponentSection index={blogData?.content.length} />
             </section>
           </form>
         </ScrollArea>
