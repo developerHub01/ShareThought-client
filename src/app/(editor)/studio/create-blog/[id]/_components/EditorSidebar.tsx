@@ -1,16 +1,44 @@
 "use client";
 
 import React, { memo, useCallback, useState, useEffect } from "react";
-import SettingTab from "@/app/(editor)/studio/create-blog/[id]/_components/SettingsTab/SettingTab";
-import PropertiesTab from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/PropertiesTab";
-import ComponentsTab from "@/app/(editor)/studio/create-blog/[id]/_components/ComponentsTab/ComponentsTab";
+import { useAppSelector } from "@/redux/hooks";
+import { useParams } from "next/navigation";
+import dynamic from "next/dynamic";
+import { motion, AnimatePresence } from "motion/react";
+const ComponentsTab = dynamic(
+  () =>
+    import(
+      "@/app/(editor)/studio/create-blog/[id]/_components/ComponentsTab/ComponentsTab"
+    ),
+  {
+    loading: () => <>ComponentsTab loading...</>,
+    ssr: false,
+  }
+);
+const PropertiesTab = dynamic(
+  () =>
+    import(
+      "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/PropertiesTab"
+    ),
+  {
+    loading: () => <>PropertiesTab loading...</>,
+    ssr: false,
+  }
+);
+const SettingTab = dynamic(
+  () =>
+    import(
+      "@/app/(editor)/studio/create-blog/[id]/_components/SettingsTab/SettingTab"
+    ),
+  {
+    loading: () => <>SettingTab loading...</>,
+    ssr: false,
+  }
+);
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
 import TopActionList from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/TopActionList";
 import SidebarToogler from "@/app/(editor)/studio/create-blog/[id]/_components/SidebarToogler";
-import { motion, AnimatePresence } from "motion/react";
-import { useAppSelector } from "@/redux/hooks";
-import { useParams } from "next/navigation";
 
 type TabType = "components" | "properties" | "settings";
 
@@ -46,16 +74,18 @@ const EditorSidebar = () => {
   );
 
   useEffect(() => {
-    setTabListState((_) => {
-      return tabList.filter((tab) => {
-        if (
-          (!!activeBlock && tab.id === "components") ||
-          (!activeBlock && tab.id === "properties")
-        )
-          return false;
-        else return true;
-      });
+    const newTabList = tabList.filter((tab) => {
+      if (
+        (!!activeBlock && tab.id === "components") ||
+        (!activeBlock && tab.id === "properties")
+      )
+        return false;
+      else return true;
     });
+
+    setTabListState((prev) =>
+      JSON.stringify(prev) !== JSON.stringify(newTabList) ? newTabList : prev
+    );
 
     if (activeBlock) setTab("properties");
     else setTab("components");
@@ -105,17 +135,17 @@ const SidebarTab = memo(({ tabs, activeTab, onChange }: SidebarTabProps) => {
     <section className="h-full flex flex-col">
       <TabHead tabs={tabs} activeTab={activeTab} onChange={onChange} />
       <TopActionList />
-      <TabContent tabs={tabs} activeTab={activeTab} />
+      <TabContent activeTab={activeTab} />
     </section>
   );
 });
 
 interface TabBase {
   activeTab: TabType;
-  tabs: Array<ITabList>;
 }
 
 interface TabHeadProps extends TabBase {
+  tabs: Array<ITabList>;
   onChange: (value: TabType) => void;
 }
 
