@@ -1,6 +1,6 @@
 "use client";
 
-import React, { memo, MouseEvent, useCallback, useState } from "react";
+import React, { memo, useCallback, useState, useEffect } from "react";
 import SettingTab from "@/app/(editor)/studio/create-blog/[id]/_components/SettingsTab/SettingTab";
 import PropertiesTab from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/PropertiesTab";
 import ComponentsTab from "@/app/(editor)/studio/create-blog/[id]/_components/ComponentsTab/ComponentsTab";
@@ -9,6 +9,8 @@ import { Button } from "@/components/ui/button";
 import TopActionList from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/TopActionList";
 import SidebarToogler from "@/app/(editor)/studio/create-blog/[id]/_components/SidebarToogler";
 import { motion, AnimatePresence } from "motion/react";
+import { useAppSelector } from "@/redux/hooks";
+import { useParams } from "next/navigation";
 
 type TabType = "components" | "properties" | "settings";
 
@@ -33,7 +35,33 @@ const tabList: Array<ITabList> = [
 ];
 
 const EditorSidebar = () => {
+  const { id: postId } = useParams<{ id: string }>();
+
   const [sidebarShowState, setSidebarShowState] = useState<boolean>(true);
+  const [tabListState, setTabListState] = useState<Array<ITabList>>(tabList);
+  const [tab, setTab] = useState<TabType>("components");
+
+  const { activeBlock } = useAppSelector(
+    (state) => state.blogBuilder.blogs?.[postId] ?? {}
+  );
+
+  useEffect(() => {
+    setTabListState((_) => {
+      return tabList.filter((tab) => {
+        if (
+          (!!activeBlock && tab.id === "components") ||
+          (!activeBlock && tab.id === "properties")
+        )
+          return false;
+        else return true;
+      });
+    });
+
+    if (activeBlock) setTab("properties");
+    else setTab("components");
+  }, [activeBlock]);
+
+  const handleTab = useCallback((value: TabType) => setTab(value), []);
 
   const toggleSidebar = () => setSidebarShowState((prev: boolean) => !prev);
 
@@ -53,7 +81,11 @@ const EditorSidebar = () => {
             className="h-full shadow-xl border-accent flex-grow-0 flex-shrink-0 bg-background w-full max-w-96"
           >
             <AnimatePresence>
-              <SidebarTab />
+              <SidebarTab
+                tabs={tabListState}
+                activeTab={tab}
+                onChange={handleTab}
+              />
             </AnimatePresence>
           </motion.section>
         )}
@@ -62,37 +94,40 @@ const EditorSidebar = () => {
   );
 };
 
-const SidebarTab = memo(() => {
-  const [tab, setTab] = useState<TabType>("components");
+interface SidebarTabProps {
+  tabs: Array<ITabList>;
+  activeTab: TabType;
+  onChange: (value: TabType) => void;
+}
 
-  const handleTab = useCallback((value: TabType) => setTab(value), []);
-
+const SidebarTab = memo(({ tabs, activeTab, onChange }: SidebarTabProps) => {
   return (
     <section className="h-full flex flex-col">
-      <TabHead tab={tab} onChange={handleTab} />
+      <TabHead tabs={tabs} activeTab={activeTab} onChange={onChange} />
       <TopActionList />
-      <TabContent tab={tab} />
+      <TabContent tabs={tabs} activeTab={activeTab} />
     </section>
   );
 });
 
 interface TabBase {
-  tab: TabType;
+  activeTab: TabType;
+  tabs: Array<ITabList>;
 }
 
 interface TabHeadProps extends TabBase {
   onChange: (value: TabType) => void;
 }
 
-const TabHead = memo(({ tab, onChange }: TabHeadProps) => {
+const TabHead = memo(({ tabs, activeTab, onChange }: TabHeadProps) => {
   return (
     <div className="w-full flex-1 flex p-2 gap-2 border-b">
-      {tabList.map(({ id, label }) => (
+      {tabs.map(({ id, label }) => (
         <Button
           key={id}
           id={id}
           className="w-full capitalize"
-          variant={id === tab ? "default" : "ghost"}
+          variant={id === activeTab ? "default" : "ghost"}
           aria-controls={`${id}-tab`}
           onClick={(e) => onChange(e.currentTarget.id as TabType)}
         >
@@ -103,20 +138,20 @@ const TabHead = memo(({ tab, onChange }: TabHeadProps) => {
   );
 });
 
-const TabContent = memo(({ tab }: TabBase) => {
+const TabContent = memo(({ activeTab }: TabBase) => {
   return (
     <ScrollArea className="h-full">
       <motion.div
         className="w-full h-full"
-        key={tab}
+        key={activeTab}
         initial={{ opacity: 0, x: 20 }}
         animate={{ opacity: 1, x: 0 }}
         exit={{ opacity: 0, x: -20 }}
         transition={{ duration: 0.2 }}
       >
-        {tab === "components" && <ComponentsTab />}
-        {tab === "properties" && <PropertiesTab />}
-        {tab === "settings" && <SettingTab />}
+        {activeTab === "components" && <ComponentsTab />}
+        {activeTab === "properties" && <PropertiesTab />}
+        {activeTab === "settings" && <SettingTab />}
       </motion.div>
     </ScrollArea>
   );
