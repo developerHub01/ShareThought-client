@@ -8,7 +8,7 @@ import {
   changeActiveBlock,
   TableInterface,
 } from "@/redux/features/builders/blogBuilderSlice";
-import React from "react";
+import React, { MouseEvent } from "react";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { BlogComponentBlock } from "@/types";
 import { GripHorizontal as GripIcon, LucideIcon } from "lucide-react";
@@ -51,7 +51,10 @@ const Block = ({ ...props }: BlogComponentBlock) => {
   return <></>;
 };
 
-const BlockComponent = ({ ...props }: BlockInterface) => {
+const BlockComponent = ({
+  lavel,
+  ...props
+}: BlockInterface & { lavel?: number }) => {
   const dispatch = useAppDispatch();
   const { postId } = props;
 
@@ -62,7 +65,10 @@ const BlockComponent = ({ ...props }: BlockInterface) => {
 
   const styles = metaData?.globalStyles[props.type] || {};
 
-  const toggleActiveBlock = () => {
+  const toggleActiveBlock = (e: MouseEvent<HTMLDivElement>) => {
+    /* so that only that element will active not parent element */
+    e.stopPropagation();
+
     dispatch(
       changeActiveBlock({
         blogId: postId,
@@ -74,9 +80,10 @@ const BlockComponent = ({ ...props }: BlockInterface) => {
   return (
     <div
       className={cn(
-        "flex w-full group-hover:bg-accent/80 justify-center gap-3 p-2 px-16 ring-2 ring-transparent relative group-hover:ring-primary",
+        "flex w-full group-hover:bg-accent/80 justify-center gap-3 p-2 px-2 ring-2 ring-transparent relative hover:ring-primary",
         {
           "bg-accent/80 ring-primary": props.id === activeBlock,
+          "px-16": lavel === 1,
         }
       )}
       onClick={toggleActiveBlock}

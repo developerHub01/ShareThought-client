@@ -61,6 +61,7 @@ const EditorCanvas = () => {
               {blogData?.content.map((id, index, list) => (
                 <div key={id} className="group w-full">
                   <BlockComponent
+                    lavel={1}
                     {...blogData.components[id]}
                     postId={postId}
                   />
