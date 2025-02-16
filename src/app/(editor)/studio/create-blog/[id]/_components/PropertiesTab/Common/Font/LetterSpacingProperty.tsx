@@ -38,10 +38,10 @@ const LetterSpacingProperty = () => {
             letterSpacing: EDITOR_TYPOGRAPHY_SIZE.LETTER_SPACING.DEFAULT,
           },
           minStyles: {
-            letterSpacing: EDITOR_TYPOGRAPHY_SIZE.LETTER_SPACING.MAX,
+            letterSpacing: EDITOR_TYPOGRAPHY_SIZE.LETTER_SPACING.MIN,
           },
           maxStyles: {
-            letterSpacing: EDITOR_TYPOGRAPHY_SIZE.LETTER_SPACING.MIN,
+            letterSpacing: EDITOR_TYPOGRAPHY_SIZE.LETTER_SPACING.MAX,
           },
         })
       );
@@ -73,6 +73,7 @@ const LetterSpacingProperty = () => {
       handleChange={handleLetterSpacingChange}
       min={EDITOR_TYPOGRAPHY_SIZE.LETTER_SPACING.MIN}
       max={EDITOR_TYPOGRAPHY_SIZE.LETTER_SPACING.MAX}
+      step="0.01"
     />
   );
 };
