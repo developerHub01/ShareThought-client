@@ -5,9 +5,9 @@ import { useAppSelector } from "@/redux/hooks";
 import { useParams } from "next/navigation";
 import dynamic from "next/dynamic";
 import { motion, AnimatePresence } from "motion/react";
-import ComponentsTabSk from "@/app/(editor)/studio/create-blog/[id]/_skeleton/ComponentsTab/ComponentsTabSk";
-import PropertiesTabSk from "@/app/(editor)/studio/create-blog/[id]/_skeleton/PropertiesTab/PropertiesTabSk";
-import SettingsTabSk from "@/app/(editor)/studio/create-blog/[id]/_skeleton/SettingsTab/SettingsTabSk";
+import ComponentsTabSk from "@/app/(editor)/studio/create-blog/[id]/_skeleton/ComponentsTabSk";
+import PropertiesTabSk from "@/app/(editor)/studio/create-blog/[id]/_skeleton/PropertiesTabSk";
+import SettingsTabSk from "@/app/(editor)/studio/create-blog/[id]/_skeleton/SettingsTabSk";
 const ComponentsTab = dynamic(
   () =>
     import(
