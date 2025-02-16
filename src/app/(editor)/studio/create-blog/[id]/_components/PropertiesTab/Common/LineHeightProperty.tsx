@@ -28,7 +28,7 @@ const lineHeightList = [
   },
 ];
 
-const TypographyStyleLineHeight = () => {
+const LineHeightProperty = () => {
   const dispatch = useAppDispatch();
   const { id: blogId } = useParams<{ id: string }>();
 
@@ -65,4 +65,4 @@ const TypographyStyleLineHeight = () => {
   );
 };
 
-export default TypographyStyleLineHeight;
+export default LineHeightProperty;

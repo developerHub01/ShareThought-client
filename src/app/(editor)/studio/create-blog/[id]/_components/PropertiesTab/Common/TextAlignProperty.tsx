@@ -33,7 +33,7 @@ const alignList = [
   },
 ];
 
-const TypographyStyleTextAlign = () => {
+const TextAlignProperty = () => {
   const dispatch = useAppDispatch();
   const { id: blogId } = useParams<{ id: string }>();
 
@@ -70,4 +70,4 @@ const TypographyStyleTextAlign = () => {
   );
 };
 
-export default TypographyStyleTextAlign;
+export default TextAlignProperty;

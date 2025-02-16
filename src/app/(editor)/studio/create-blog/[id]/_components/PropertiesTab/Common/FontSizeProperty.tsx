@@ -10,7 +10,7 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useParams } from "next/navigation";
 import { EDITOR_TYPOGRAPHY_SIZE } from "@/constant";
 
-const TypographyStyleFontSize = () => {
+const FontSizeProperty = () => {
   const dispatch = useAppDispatch();
   const { id: blogId } = useParams<{ id: string }>();
 
@@ -59,7 +59,7 @@ const TypographyStyleFontSize = () => {
     const value = Math.min(
       Math.max(Number(e.target.value), EDITOR_TYPOGRAPHY_SIZE.FONT_SIZE.MIN),
       EDITOR_TYPOGRAPHY_SIZE.FONT_SIZE.MAX
-    )
+    );
 
     handleDispatchSize(value);
   };
@@ -80,4 +80,4 @@ const TypographyStyleFontSize = () => {
   );
 };
 
-export default TypographyStyleFontSize;
+export default FontSizeProperty;

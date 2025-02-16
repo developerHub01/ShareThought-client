@@ -1,26 +1,26 @@
 import React from "react";
 
-import TypographyStyleFontSize from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Typography/Style/TypographyStyleFontSize";
-import TypographyStyleFontWeight from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Typography/Style/TypographyStyleFontWeight";
-import TypographyStyleLetterSpacing from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Typography/Style/TypographyStyleLetterSpacing";
-import TypographyStyleLineHeight from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Typography/Style/TypographyStyleLineHeight";
-import TypographyStyleTextAlign from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Typography/Style/TypographyStyleTextAlign";
-import TypographyStyleTextColor from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Typography/Style/TypographyStyleTextColor";
-import TypographyStyleTextDirection from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Typography/Style/TypographyStyleTextDirection";
-import TypographyStyleTextTransform from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Typography/Style/TypographyStyleTextTransform";
 import PropertyTypeWrapper from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Common/PropertyTypeWrapper";
+import FontSizeProperty from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Common/FontSizeProperty";
+import FontWeightProperty from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Common/FontWeightProperty";
+import TextColorProperty from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Common/TextColorProperty";
+import LetterSpacingProperty from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Common/LetterSpacingProperty";
+import LineHeightProperty from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Common/LineHeightProperty";
+import TextTransformProperty from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Common/TextTransformProperty";
+import TextAlignProperty from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Common/TextAlignProperty";
+import TextDirectionProperty from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Common/TextDirectionProperty";
 
 const TypographyStyle = () => {
   return (
     <PropertyTypeWrapper>
-      <TypographyStyleFontSize />
-      <TypographyStyleFontWeight />
-      <TypographyStyleTextColor />
-      <TypographyStyleLetterSpacing />
-      <TypographyStyleLineHeight />
-      <TypographyStyleTextTransform />
-      <TypographyStyleTextAlign />
-      <TypographyStyleTextDirection />
+      <FontSizeProperty />
+      <FontWeightProperty />
+      <TextColorProperty />
+      <LetterSpacingProperty />
+      <LineHeightProperty />
+      <TextTransformProperty />
+      <TextAlignProperty />
+      <TextDirectionProperty />
     </PropertyTypeWrapper>
   );
 };

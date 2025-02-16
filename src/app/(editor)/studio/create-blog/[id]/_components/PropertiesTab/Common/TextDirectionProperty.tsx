@@ -23,7 +23,7 @@ const alignList = [
   },
 ];
 
-const TypographyStyleTextDirection = () => {
+const TextDirectionProperty = () => {
   const dispatch = useAppDispatch();
   const { id: blogId } = useParams<{ id: string }>();
 
@@ -60,4 +60,4 @@ const TypographyStyleTextDirection = () => {
   );
 };
 
-export default TypographyStyleTextDirection;
+export default TextDirectionProperty;

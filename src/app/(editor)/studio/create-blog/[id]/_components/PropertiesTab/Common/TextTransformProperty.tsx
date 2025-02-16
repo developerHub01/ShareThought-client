@@ -38,7 +38,7 @@ const transformList = [
   },
 ];
 
-const TypographyStyleTextTransform = () => {
+const TextTransformProperty = () => {
   const dispatch = useAppDispatch();
   const { id: blogId } = useParams<{ id: string }>();
 
@@ -75,4 +75,4 @@ const TypographyStyleTextTransform = () => {
   );
 };
 
-export default TypographyStyleTextTransform;
+export default TextTransformProperty;

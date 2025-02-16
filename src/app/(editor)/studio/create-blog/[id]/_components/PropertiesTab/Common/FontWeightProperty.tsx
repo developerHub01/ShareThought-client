@@ -17,7 +17,7 @@ const fontWeightList = [
   },
 ];
 
-const TypographyStyleFontWeight = () => {
+const FontWeightProperty = () => {
   const dispatch = useAppDispatch();
   const { id: blogId } = useParams<{ id: string }>();
 
@@ -54,4 +54,4 @@ const TypographyStyleFontWeight = () => {
   );
 };
 
-export default TypographyStyleFontWeight;
+export default FontWeightProperty;

@@ -91,6 +91,7 @@ export const EDITOR_TYPOGRAPHY_SIZE = {
       h5: 18,
       h6: 16,
       p: 16,
+      button: 16,
     },
   },
   LETTER_SPACING: {
@@ -107,6 +108,7 @@ export const EDITOR_TYPOGRAPHY_SIZE = {
       h5: "#212121",
       h6: "#212121",
       p: "#343434",
+      button: "#ffffff",
     },
   },
 };

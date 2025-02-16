@@ -7,7 +7,7 @@ import { addStyle } from "@/redux/features/builders/blogBuilderSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useParams } from "next/navigation";
 
-const TypographyStyleLetterSpacing = () => {
+const LetterSpacingProperty = () => {
   const dispatch = useAppDispatch();
   const { id: blogId } = useParams<{ id: string }>();
 
@@ -77,4 +77,4 @@ const TypographyStyleLetterSpacing = () => {
   );
 };
 
-export default TypographyStyleLetterSpacing;
+export default LetterSpacingProperty;
