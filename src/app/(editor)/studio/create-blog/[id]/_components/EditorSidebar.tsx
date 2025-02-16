@@ -1,20 +1,27 @@
 "use client";
 
-import React, { MouseEvent, useState } from "react";
+import React, { memo, MouseEvent, useCallback, useState } from "react";
 import SettingTab from "@/app/(editor)/studio/create-blog/[id]/_components/SettingsTab/SettingTab";
 import PropertiesTab from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/PropertiesTab";
+import ComponentsTab from "@/app/(editor)/studio/create-blog/[id]/_components/ComponentsTab/ComponentsTab";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
 import TopActionList from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/TopActionList";
 import SidebarToogler from "@/app/(editor)/studio/create-blog/[id]/_components/SidebarToogler";
 import { motion, AnimatePresence } from "motion/react";
 
+type TabType = "components" | "properties" | "settings";
+
 interface ITabList {
-  id: string;
+  id: TabType;
   label: string;
 }
 
 const tabList: Array<ITabList> = [
+  {
+    id: "components",
+    label: "Components",
+  },
   {
     id: "properties",
     label: "Properties",
@@ -28,9 +35,7 @@ const tabList: Array<ITabList> = [
 const EditorSidebar = () => {
   const [sidebarShowState, setSidebarShowState] = useState<boolean>(true);
 
-  const toggleSidebar = () => {
-    setSidebarShowState((prev: boolean) => !prev);
-  };
+  const toggleSidebar = () => setSidebarShowState((prev: boolean) => !prev);
 
   return (
     <>
@@ -57,34 +62,64 @@ const EditorSidebar = () => {
   );
 };
 
-const SidebarTab = () => {
-  const [tab, setTab] = useState<string>("properties");
+const SidebarTab = memo(() => {
+  const [tab, setTab] = useState<TabType>("components");
 
-  const handleTab = (e: MouseEvent<HTMLButtonElement>) =>
-    setTab(e.currentTarget.id);
+  const handleTab = useCallback((value: TabType) => setTab(value), []);
 
   return (
     <section className="h-full flex flex-col">
-      <div className="w-full flex-1 flex p-2 gap-2 border-b">
-        {tabList.map(({ id, label }) => (
-          <Button
-            key={id}
-            id={id}
-            className="w-full capitalize"
-            variant={id === tab ? "default" : "ghost"}
-            onClick={handleTab}
-          >
-            {label}
-          </Button>
-        ))}
-      </div>
+      <TabHead tab={tab} onChange={handleTab} />
       <TopActionList />
-      <ScrollArea className="h-full">
-        {tab === "properties" && <PropertiesTab />}
-        {tab === "settings" && <SettingTab />}
-      </ScrollArea>
+      <TabContent tab={tab} />
     </section>
   );
-};
+});
+
+interface TabBase {
+  tab: TabType;
+}
+
+interface TabHeadProps extends TabBase {
+  onChange: (value: TabType) => void;
+}
+
+const TabHead = memo(({ tab, onChange }: TabHeadProps) => {
+  return (
+    <div className="w-full flex-1 flex p-2 gap-2 border-b">
+      {tabList.map(({ id, label }) => (
+        <Button
+          key={id}
+          id={id}
+          className="w-full capitalize"
+          variant={id === tab ? "default" : "ghost"}
+          aria-controls={`${id}-tab`}
+          onClick={(e) => onChange(e.currentTarget.id as TabType)}
+        >
+          {label}
+        </Button>
+      ))}
+    </div>
+  );
+});
+
+const TabContent = memo(({ tab }: TabBase) => {
+  return (
+    <ScrollArea className="h-full">
+      <motion.div
+        className="w-full h-full"
+        key={tab}
+        initial={{ opacity: 0, x: 20 }}
+        animate={{ opacity: 1, x: 0 }}
+        exit={{ opacity: 0, x: -20 }}
+        transition={{ duration: 0.2 }}
+      >
+        {tab === "components" && <ComponentsTab />}
+        {tab === "properties" && <PropertiesTab />}
+        {tab === "settings" && <SettingTab />}
+      </motion.div>
+    </ScrollArea>
+  );
+});
 
 export default EditorSidebar;
