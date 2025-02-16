@@ -10,6 +10,7 @@ import TextTransformProperty from "@/app/(editor)/studio/create-blog/[id]/_compo
 import TextDirectionProperty from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Common/Font/TextDirectionProperty";
 import BorderProperty from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Common/BorderProperty";
 import BorderRadiusProperty from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Common/BorderRadiusProperty";
+import AlignmentProperty from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Common/AlignmentProperty";
 
 const ButtonStyle = () => {
   return (
@@ -23,6 +24,7 @@ const ButtonStyle = () => {
       <TextDirectionProperty />
       <BorderProperty />
       <BorderRadiusProperty />
+      <AlignmentProperty />
     </PropertyTypeWrapper>
   );
 };

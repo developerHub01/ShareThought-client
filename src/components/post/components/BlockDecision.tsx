@@ -1,3 +1,6 @@
+import React from "react";
+
+import Button from "@/components/editor/preview/Button";
 import Divider from "@/components/editor/preview/Divider";
 import Heading from "@/components/editor/preview/Heading";
 import Image from "@/components/editor/preview/Image";
@@ -9,7 +12,6 @@ import {
   BlogContentType,
   BlogMetaDataInterface,
 } from "@/redux/features/builders/blogBuilderSlice";
-import React from "react";
 
 interface BlockDecisionProps {
   id: string;
@@ -38,6 +40,8 @@ const ComponentSelector = (props: BlockDecisionProps) => {
     return <Table {...props} />;
   } else if (component.type === "image") {
     return <Image {...props} />;
+  } else if (component.type === "button") {
+    return <Button {...props} />;
   } else if (component.type === "spacer") {
     return <Spacer {...props} />;
   } else if (component.type === "divider") {

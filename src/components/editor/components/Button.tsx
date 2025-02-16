@@ -68,6 +68,7 @@ const Button = ({ id, text, redirect, ...props }: ButtonProps) => {
 
   return (
     <div
+      className="flex"
       style={{
         ...wrapperStyles,
       }}
