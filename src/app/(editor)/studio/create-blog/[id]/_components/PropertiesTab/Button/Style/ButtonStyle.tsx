@@ -8,6 +8,8 @@ import LetterSpacingProperty from "@/app/(editor)/studio/create-blog/[id]/_compo
 import LineHeightProperty from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Common/Font/LineHeightProperty";
 import TextTransformProperty from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Common/Font/TextTransformProperty";
 import TextDirectionProperty from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Common/Font/TextDirectionProperty";
+import BorderProperty from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Common/BorderProperty";
+import BorderRadiusProperty from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Common/BorderRadiusProperty";
 
 const ButtonStyle = () => {
   return (
@@ -19,6 +21,8 @@ const ButtonStyle = () => {
       <LineHeightProperty />
       <TextTransformProperty />
       <TextDirectionProperty />
+      <BorderProperty />
+      <BorderRadiusProperty />
     </PropertyTypeWrapper>
   );
 };
