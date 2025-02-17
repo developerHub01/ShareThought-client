@@ -21,6 +21,7 @@ const ComponentList = () => {
 
   const handleClick = (blockId: BlockTypes) => {
     setIsComponentDialogOpen(false);
+    
     dispatch(
       addComponent({
         id: blogId,

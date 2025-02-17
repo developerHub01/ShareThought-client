@@ -8,6 +8,7 @@ import {
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useParams } from "next/navigation";
 import React, { CSSProperties, FocusEvent } from "react";
+import { typographyList } from "@/components/editor/constant";
 
 interface HeadingProps extends BlockInterface {
   className?: string;
@@ -37,106 +38,22 @@ const Heading = ({ id, className, text, type, ...props }: HeadingProps) => {
     );
   };
 
-  switch (type) {
-    case "p":
-      return (
-        <p
-          contentEditable
-          suppressContentEditableWarning
-          onBlur={handleBlur}
-          className={cn("text-base", className)}
-          style={{
-            ...typographyStyles,
-          }}
-        >
-          {text}
-        </p>
-      );
-    case "h2":
-      return (
-        <h2
-          contentEditable
-          suppressContentEditableWarning
-          onBlur={handleBlur}
-          className={cn("text-3xl font-bold", className)}
-          style={{
-            ...typographyStyles,
-          }}
-        >
-          {text}
-        </h2>
-      );
-    case "h3":
-      return (
-        <h3
-          contentEditable
-          suppressContentEditableWarning
-          onBlur={handleBlur}
-          className={cn("text-2xl font-bold", className)}
-          style={{
-            ...typographyStyles,
-          }}
-        >
-          {text}
-        </h3>
-      );
-    case "h4":
-      return (
-        <h4
-          contentEditable
-          suppressContentEditableWarning
-          onBlur={handleBlur}
-          className={cn("text-xl font-bold", className)}
-          style={{
-            ...typographyStyles,
-          }}
-        >
-          {text}
-        </h4>
-      );
-    case "h5":
-      return (
-        <h5
-          contentEditable
-          suppressContentEditableWarning
-          onBlur={handleBlur}
-          className={cn("text-lg font-bold", className)}
-          style={{
-            ...typographyStyles,
-          }}
-        >
-          {text}
-        </h5>
-      );
-    case "h6":
-      return (
-        <h6
-          contentEditable
-          suppressContentEditableWarning
-          onBlur={handleBlur}
-          className={cn("text-base font-bold", className)}
-          style={{
-            ...typographyStyles,
-          }}
-        >
-          {text}
-        </h6>
-      );
-    default:
-      return (
-        <h1
-          contentEditable
-          suppressContentEditableWarning
-          onBlur={handleBlur}
-          className={cn("text-4xl font-bold", className)}
-          style={{
-            ...typographyStyles,
-          }}
-        >
-          {text}
-        </h1>
-      );
-  }
+  const { tag: Tag, className: defaultClassName } =
+    typographyList[type] || typographyList.h1;
+
+  return (
+    <Tag
+      contentEditable
+      suppressContentEditableWarning
+      onBlur={handleBlur}
+      className={cn(defaultClassName, className)}
+      style={{
+        ...typographyStyles,
+      }}
+    >
+      {text}
+    </Tag>
+  );
 };
 
 export default Heading;

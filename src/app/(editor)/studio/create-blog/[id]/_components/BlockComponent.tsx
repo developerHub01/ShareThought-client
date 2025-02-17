@@ -1,5 +1,7 @@
 "use client";
 
+import React, { MouseEvent } from "react";
+import { useDroppable } from "@dnd-kit/core";
 import Heading from "@/components/editor/components/Heading";
 import Row from "@/components/editor/components/Row";
 import {
@@ -8,7 +10,6 @@ import {
   changeActiveBlock,
   TableInterface,
 } from "@/redux/features/builders/blogBuilderSlice";
-import React, { MouseEvent } from "react";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { BlogComponentBlock } from "@/types";
 import { GripHorizontal as GripIcon, LucideIcon } from "lucide-react";
@@ -55,6 +56,13 @@ const BlockComponent = ({
   lavel,
   ...props
 }: BlockInterface & { lavel?: number }) => {
+  const { isOver, setNodeRef } = useDroppable({
+    id: "droppable",
+  });
+  const style = {
+    color: isOver ? "green" : undefined,
+  };
+
   const dispatch = useAppDispatch();
   const { postId } = props;
 
@@ -87,6 +95,8 @@ const BlockComponent = ({
         }
       )}
       onClick={toggleActiveBlock}
+      ref={setNodeRef}
+      style={style}
     >
       <span className="group-hover:opacity-100 group-hover:pointer-events-auto opacity-0 pointer-events-none">
         <ActionButton

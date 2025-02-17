@@ -1,6 +1,7 @@
 "use client";
 
 import React, { ChangeEvent, KeyboardEvent } from "react";
+import { DndContext } from "@dnd-kit/core";
 import AddComponentSection from "@/app/(editor)/studio/create-blog/[id]/_components/BuilderPopover/AddComponentSection";
 import ComponentDialog from "@/app/(editor)/studio/create-blog/[id]/_components/BuilderPopover/ComponentDialog";
 import EditorSidebar from "@/app/(editor)/studio/create-blog/[id]/_components/EditorSidebar";
@@ -37,57 +38,59 @@ const EditorCanvas = () => {
   };
 
   return (
-    <section className="mx-auto w-full h-full">
-      <section className="w-full h-full flex">
-        <ScrollArea className="h-full w-full flex-1 px-2 py-4">
-          <form className="w-full flex flex-col gap-3 mx-auto mb-5">
-            <div className="w-full max-w-3xl mx-auto">
-              <Input
-                type="text"
-                placeholder="Post Title"
-                className="text-lg md:text-xl h-auto py-3 font-bold"
-                onChange={handleTitle}
-                value={blogData.title}
-                onKeyUp={handleKeyEnter}
-              />
-            </div>
-            <section className="w-full py-5 px-1 flex flex-col">
-              <AnimatePresence>
-                {Boolean(blogData?.content.length) && (
-                  <AddComponentSection index={0} />
-                )}
-              </AnimatePresence>
+    <DndContext>
+      <section className="mx-auto w-full h-full">
+        <section className="w-full h-full flex">
+          <ScrollArea className="h-full w-full flex-1 px-2 py-4">
+            <form className="w-full flex flex-col gap-3 mx-auto mb-5">
+              <div className="w-full max-w-3xl mx-auto">
+                <Input
+                  type="text"
+                  placeholder="Post Title"
+                  className="text-lg md:text-xl h-auto py-3 font-bold"
+                  onChange={handleTitle}
+                  value={blogData.title}
+                  onKeyUp={handleKeyEnter}
+                />
+              </div>
+              <section className="w-full py-5 px-1 flex flex-col">
+                <AnimatePresence>
+                  {Boolean(blogData?.content.length) && (
+                    <AddComponentSection index={0} />
+                  )}
+                </AnimatePresence>
 
-              {blogData?.content.map((id, index, list) => (
-                <div key={id} className="group w-full">
-                  <BlockComponent
-                    lavel={1}
-                    {...blogData.components[id]}
-                    postId={postId}
-                  />
-                  <AnimatePresence>
-                    {index !== list.length - 1 && (
-                      <motion.div
-                        className="group-hover:opacity-100 group-hover:scale-y-100 opacity-0 scale-y-0 -translate-y-1/2 mt-1 mx-auto"
-                        exit={{ opacity: 0 }}
-                      >
-                        <AddComponentSection index={index + 1} />
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </div>
-              ))}
+                {blogData?.content.map((id, index, list) => (
+                  <div key={id} className="group w-full">
+                    <BlockComponent
+                      lavel={1}
+                      {...blogData.components[id]}
+                      postId={postId}
+                    />
+                    <AnimatePresence>
+                      {index !== list.length - 1 && (
+                        <motion.div
+                          className="group-hover:opacity-100 group-hover:scale-y-100 opacity-0 scale-y-0 -translate-y-1/2 mt-1 mx-auto"
+                          exit={{ opacity: 0 }}
+                        >
+                          <AddComponentSection index={index + 1} />
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+                ))}
 
-              <AddComponentSection index={blogData?.content.length} />
-            </section>
-          </form>
-        </ScrollArea>
-        <EditorSidebar />
+                <AddComponentSection index={blogData?.content.length} />
+              </section>
+            </form>
+          </ScrollArea>
+          <EditorSidebar />
+        </section>
+        <ComponentDialog />
+        <EditorPopover />
+        <PreviewPopover />
       </section>
-      <ComponentDialog />
-      <EditorPopover />
-      <PreviewPopover />
-    </section>
+    </DndContext>
   );
 };
 

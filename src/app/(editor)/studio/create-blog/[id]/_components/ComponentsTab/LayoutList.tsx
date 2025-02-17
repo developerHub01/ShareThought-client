@@ -1,21 +1,12 @@
 "use client";
 
 import React, { useMemo } from "react";
-import { useEditor } from "@/app/(editor)/studio/create-blog/[id]/_components/EditorProvider";
-import { useAppDispatch } from "@/redux/hooks";
-import {
-  addComponent,
-  BlockTypes,
-} from "@/redux/features/builders/blogBuilderSlice";
-import { useParams } from "next/navigation";
+import { BlockTypes } from "@/redux/features/builders/blogBuilderSlice";
 import { layoutItemList } from "@/app/(editor)/studio/create-blog/[id]/_constant";
 import ComponentItemList from "@/app/(editor)/studio/create-blog/[id]/_components/ComponentsTab/ComponentItemList";
 import LayoutButton from "@/app/(editor)/studio/create-blog/[id]/_components/LayoutButton";
 
 const LayoutList = () => {
-  const { id: blogId } = useParams<{ id: string }>();
-  const dispatch = useAppDispatch();
-  const { setIsComponentDialogOpen, selectedIndex } = useEditor();
   const modifiedLayoutList = useMemo(() => {
     return layoutItemList.map((item) => ({
       id: `row_${item}`,
@@ -29,16 +20,6 @@ const LayoutList = () => {
 
       return item?.split("/")?.map(Number);
     }) as [BlockTypes, Array<number>];
-
-    setIsComponentDialogOpen(false);
-    dispatch(
-      addComponent({
-        id: blogId,
-        type,
-        gridSize,
-        index: selectedIndex,
-      })
-    );
   };
 
   return (
@@ -50,7 +31,7 @@ const LayoutList = () => {
             key={id}
             className="cursor-grabbing"
             sizes={sizes}
-            onClick={() => handleClick(id)}
+            onClick={() => {}}
           />
         ))}
       </div>

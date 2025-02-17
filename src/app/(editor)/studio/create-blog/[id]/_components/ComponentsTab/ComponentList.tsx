@@ -1,37 +1,11 @@
 "use client";
 
 import React from "react";
-import { useEditor } from "@/app/(editor)/studio/create-blog/[id]/_components/EditorProvider";
-import { useAppDispatch } from "@/redux/hooks";
-import {
-  addComponent,
-  BlockTypes,
-} from "@/redux/features/builders/blogBuilderSlice";
-import { useParams } from "next/navigation";
 import ComponentButton from "@/app/(editor)/studio/create-blog/[id]/_components/ComponentButton";
 import { componentItemList } from "@/app/(editor)/studio/create-blog/[id]/_constant";
 import ComponentItemList from "@/app/(editor)/studio/create-blog/[id]/_components/ComponentsTab/ComponentItemList";
 
 const ComponentList = () => {
-  const { id: blogId } = useParams<{ id: string }>();
-
-  const dispatch = useAppDispatch();
-
-  const { setIsComponentDialogOpen, selectedIndex, selectedParentId } =
-    useEditor();
-
-  const handleClick = (blockId: BlockTypes) => {
-    setIsComponentDialogOpen(false);
-    dispatch(
-      addComponent({
-        id: blogId,
-        type: blockId,
-        index: selectedIndex,
-        parentId: selectedParentId,
-      })
-    );
-  };
-
   return (
     <ComponentItemList.Wrapper className="flex flex-col gap-3">
       <ComponentItemList.Title>Components</ComponentItemList.Title>
@@ -39,10 +13,11 @@ const ComponentList = () => {
         {componentItemList.map(({ id, label, Icon }) => (
           <ComponentButton
             key={id}
+            id={id}
             className="cursor-grabbing"
             label={label}
             Icon={Icon}
-            onClick={() => handleClick(id)}
+            onClick={() => {}}
           />
         ))}
       </div>
