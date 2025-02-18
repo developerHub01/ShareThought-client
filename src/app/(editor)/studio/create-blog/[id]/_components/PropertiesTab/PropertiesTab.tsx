@@ -135,6 +135,18 @@ const PropertiesTab = () => {
           </>
         )}
 
+        {activeComponent.type === "row" && (
+          <>
+            <h1>Row</h1>
+          </>
+        )}
+
+        {activeComponent.type === "column" && (
+          <>
+            <h1>Column</h1>
+          </>
+        )}
+
         {[
           "h1",
           "h2",

@@ -1,18 +1,24 @@
+"use client";
+
 import { cn } from "@/lib/utils";
 import { useAppSelector } from "@/redux/hooks";
+import { useParams } from "next/navigation";
 import React, { CSSProperties } from "react";
 
-export interface SpacerProps {
+interface SpacerProps {
   id: string;
-  postId: string;
   className?: string;
   [key: string]: unknown;
 }
 
-const Spacer = ({ id, postId, className, ...props }: SpacerProps) => {
+const Spacer = ({ id, className, ...props }: SpacerProps) => {
+  const { id: blogId } = useParams<{ id: string }>();
+
+  if (!blogId) return null;
+
   const {
     metaData: { styles = {} },
-  } = useAppSelector((state) => state.blogBuilder.blogs[postId]);
+  } = useAppSelector((state) => state.blogBuilder.blogs[blogId]);
 
   const componentStyles = (styles[id] as CSSProperties) || {};
 

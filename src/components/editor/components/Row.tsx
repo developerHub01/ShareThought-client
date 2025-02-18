@@ -1,13 +1,13 @@
 "use client";
 
-import { BlockInterface } from "@/redux/features/builders/blogBuilderSlice";
 import { useAppSelector } from "@/redux/hooks";
 import React from "react";
 import Column from "@/components/editor/components/Column";
 import { cn } from "@/lib/utils";
+import { useParams } from "next/navigation";
 
-interface RowProps extends BlockInterface {
-  className?: string;
+interface RowProps {
+  id: string;
 }
 
 const getColSpan = (column: number) => {
@@ -24,13 +24,15 @@ const getColSpan = (column: number) => {
   return colSpanMap[column] || "md:col-span-12"; // Fallback to col-span-12
 };
 
-const Row = (props: RowProps) => {
-  const { postId, children, gridSize } = props;
+const Row = ({ id }: RowProps) => {
+  const { id: blogId } = useParams<{ id: string }>();
 
-  if (!postId) return;
+  if (!blogId) return null;
 
   const { components } =
-    useAppSelector((state) => state?.blogBuilder?.blogs[postId]) || {};
+    useAppSelector((state) => state?.blogBuilder?.blogs[blogId]) || {};
+
+  const { children, gridSize } = components[id];
 
   return (
     <section className="grid grid-cols-12 gap-1">
@@ -43,7 +45,7 @@ const Row = (props: RowProps) => {
               getColSpan(gridSize?.[index] ?? 12)
             )}
           >
-            <Column {...components[id]} parentId={props.id} />
+            <Column id={id} parentId={id} />
           </div>
         ))}
     </section>

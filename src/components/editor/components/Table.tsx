@@ -1,6 +1,5 @@
 "use client";
 
-import { TableProps } from "@/app/(editor)/studio/create-blog/[id]/_components/BlockComponent";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -22,6 +21,7 @@ import {
   changeCellContent,
   removeTableFullColumn,
   removeTableFullRow,
+  TableInterface,
   TextDirectionType,
 } from "@/redux/features/builders/blogBuilderSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
@@ -71,19 +71,12 @@ const dropdownRowActionButtonList = [
   },
 ];
 
+interface TableProps {
+  id: string;
+}
+
 const Table = ({
-  children: {
-    thead,
-    tbody,
-    border,
-    backgroundColor: tableBackgroundColor,
-    textColor: tableTextColor,
-    stripedRow,
-    header,
-    content,
-  },
   id,
-  ...props
 }: TableProps) => {
   const [hoveredRow, setHoveredRow] = useState<number | null>(null);
   const [hoveredColumn, setHoveredColumn] = useState<number | null>(null);
@@ -96,11 +89,28 @@ const Table = ({
 
   const {
     metaData: { styles },
+    activeBlock,
+    components,
   } = useAppSelector((state) => state.blogBuilder.blogs[blogId]);
+  
+  const dispatch = useAppDispatch();
+
+  if (!activeBlock) return null;
+
+  const {
+    thead,
+    tbody,
+    border,
+    backgroundColor: tableBackgroundColor,
+    textColor: tableTextColor,
+    stripedRow,
+    header,
+    content,
+  } = components[activeBlock].children as TableInterface;
 
   let activeBlockStyles = styles[id];
 
-  const dispatch = useAppDispatch();
+
 
   const handleRemoveRowOrColumn = (
     index: number,

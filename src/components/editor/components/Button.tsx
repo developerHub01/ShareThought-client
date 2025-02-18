@@ -1,7 +1,6 @@
 "use client";
 
 import {
-  BlockInterface,
   StyleType,
   updateComponentText,
 } from "@/redux/features/builders/blogBuilderSlice";
@@ -13,21 +12,23 @@ import handleBorderStyle from "@/utils/editor/handleBorderStyle";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 
-interface ButtonProps extends BlockInterface {
-  className?: string;
-  [key: string]: unknown;
+interface ButtonProps {
+  id: string;
 }
 
-const Button = ({ id, text, redirect, ...props }: ButtonProps) => {
+const Button = ({ id, ...props }: ButtonProps) => {
   const { id: blogId } = useParams<{ id: string }>();
   const dispatch = useAppDispatch();
 
   const {
     metaData: { styles },
     activeBlock,
+    components,
   } = useAppSelector((state) => state.blogBuilder.blogs[blogId]);
 
   if (!blogId) return null;
+
+  const { text, redirect } = components[id];
 
   const buttonStyles: StyleType = styles[id];
 

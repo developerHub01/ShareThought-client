@@ -1,20 +1,22 @@
 "use client";
 
+import { useParams } from "next/navigation";
 import React, { useState } from "react";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 
 interface CodeProps {
   id: string;
-  postId: string;
-  className?: string;
-  [key: string]: unknown;
 }
 
 export type { CodeProps };
 
-const Code = ({ id, postId, className, ...props }: CodeProps) => {
+const Code = ({ id, ...props }: CodeProps) => {
   const [code, setCode] = useState("");
+
+  const { id: blogId } = useParams<{ id: string }>();
+
+  if (!blogId) return null;
 
   const handleCodeChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setCode(e.target.value);

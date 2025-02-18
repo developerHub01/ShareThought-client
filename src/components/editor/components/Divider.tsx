@@ -1,21 +1,24 @@
-import { cn } from "@/lib/utils";
+"use client";
+
 import { StyleType } from "@/redux/features/builders/blogBuilderSlice";
 import { useAppSelector } from "@/redux/hooks";
 import handleBorderStyle from "@/utils/editor/handleBorderStyle";
 import handleWrapperContentStyleSeparator from "@/utils/editor/handleWrapperContentStyleSeparator";
+import { useParams } from "next/navigation";
 import React from "react";
 
-export interface DividerProps {
+interface DividerProps {
   id: string;
-  postId: string;
-  className?: string;
-  [key: string]: unknown;
 }
 
-const Divider = ({ id, postId, className, ...props }: DividerProps) => {
+const Divider = ({ id, ...props }: DividerProps) => {
+  const { id: blogId } = useParams<{ id: string }>();
+
+  if (!blogId) return null;
+
   const {
     metaData: { styles = {} },
-  } = useAppSelector((state) => state.blogBuilder.blogs[postId]);
+  } = useAppSelector((state) => state.blogBuilder.blogs[blogId]);
 
   const componentStyles = styles[id] || {};
 
@@ -31,7 +34,7 @@ const Divider = ({ id, postId, className, ...props }: DividerProps) => {
 
   return (
     <div
-      className={cn("flex", className)}
+      className={"flex"}
       style={{
         ...(wrapperStyles as Record<string, string | number>),
       }}

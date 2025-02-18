@@ -1,15 +1,20 @@
-"use client";
-
-import { AccordionProps } from "@/app/(editor)/studio/create-blog/[id]/_components/BlockComponent";
 import {
   Accordion as AccordionWrapper,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { changeAccordionContent } from "@/redux/features/builders/blogBuilderSlice";
+import {
+  AccordionInterface,
+  BlockInterface,
+  changeAccordionContent,
+} from "@/redux/features/builders/blogBuilderSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import React, { FocusEvent } from "react";
+
+export interface AccordionProps extends BlockInterface {
+  children: AccordionInterface;
+}
 
 const Accordion = ({
   children: { data },

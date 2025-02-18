@@ -1,10 +1,8 @@
-import { cn } from "@/lib/utils";
 import {
   BlogComponentsDataInterface,
   BlogContentType,
   BlogMetaDataInterface,
 } from "@/redux/features/builders/blogBuilderSlice";
-import { useAppSelector } from "@/redux/hooks";
 import React from "react";
 
 export interface SpacerProps {

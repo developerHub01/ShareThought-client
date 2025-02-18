@@ -1,29 +1,40 @@
 "use client";
 
-import { AccordionProps } from "@/app/(editor)/studio/create-blog/[id]/_components/BlockComponent";
 import {
   Accordion as AccordionWrapper,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { changeAccordionContent } from "@/redux/features/builders/blogBuilderSlice";
+import {
+  AccordionInterface,
+  changeAccordionContent,
+} from "@/redux/features/builders/blogBuilderSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { useParams } from "next/navigation";
 import React, { FocusEvent } from "react";
 
-const Accordion = ({
-  children: { data },
-  id,
-  postId,
-  ...props
-}: AccordionProps) => {
+interface AccordionProps {
+  id: string;
+}
+
+const Accordion = ({ id, ...props }: AccordionProps) => {
+  const { id: blogId } = useParams<{ id: string }>();
   const dispatch = useAppDispatch();
 
-  if (!postId) return null;
+  if (!blogId) return null;
 
   const {
+    components,
+    activeBlock,
     metaData: { styles },
-  } = useAppSelector((state) => state.blogBuilder.blogs[postId]);
+  } = useAppSelector((state) => state.blogBuilder.blogs[blogId]);
+
+  if (!activeBlock) return null;
+
+  const component = components[activeBlock];
+
+  const { data } = component.children as AccordionInterface;
 
   const blockStyles = styles[id];
 
@@ -34,7 +45,7 @@ const Accordion = ({
   ) => {
     dispatch(
       changeAccordionContent({
-        blogId: postId as string,
+        blogId: blogId as string,
         id,
         data: {
           [type]: value,

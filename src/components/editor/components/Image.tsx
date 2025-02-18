@@ -17,18 +17,18 @@ interface ImageProps {
 
 const Image = ({
   id,
-  alt = "",
-  caption = "",
-  redirect,
   ...props
 }: ImageProps) => {
   const { id: blogId } = useParams<{ id: string }>();
 
+  if (!blogId) return null;
+  
   const {
     metaData: { imgLinks, styles },
+    components,
   } = useAppSelector((state) => state.blogBuilder.blogs[blogId]);
 
-  if (!blogId) return null;
+  const {alt = "", caption = "", redirect} = components[id];
 
   const imageSrc = imgLinks && imgLinks[id];
   if (!imageSrc) return <ImageUploadCanvas id={id} blogId={blogId} />;
