@@ -11,6 +11,7 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useDroppable } from "@dnd-kit/core";
 import { GripHorizontal as GripIcon, LucideIcon } from "lucide-react";
 import { useParams } from "next/navigation";
+import { AnimatePresence, motion } from "motion/react";
 
 interface BlockComponentWrapperProps {
   id: string;
@@ -56,10 +57,12 @@ const BlockComponentWrapper = ({
     );
   };
 
-  const handleHovering = (e: MouseEvent<HTMLDivElement>, value: boolean) => {
+  const handleMouseHover = (e: MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
 
-    dispatch(changeHoveringComponentId(value ? id : null));
+    if (isHovering) return null;
+
+    dispatch(changeHoveringComponentId(id));
   };
 
   return (
@@ -74,17 +77,19 @@ const BlockComponentWrapper = ({
       onClick={toggleActiveBlock}
       ref={setNodeRef}
       style={style}
-      onMouseEnter={(e) => handleHovering(e, true)}
-      onMouseLeave={(e) => handleHovering(e, false)}
+      onMouseMove={handleMouseHover}
     >
-      {(isHovering || id === activeBlock) && (
-        <ActionButton
-          key={"grip"}
-          id="grip"
-          Icon={GripIcon}
-          onClick={() => {}}
-        />
-      )}
+      <AnimatePresence>
+        {(isHovering || id === activeBlock) && (
+          <ActionButton
+            key={"grip"}
+            id="grip"
+            Icon={GripIcon}
+            onClick={() => {}}
+          />
+        )}
+      </AnimatePresence>
+
       <div className="w-full max-w-3xl rounded-sm">{children}</div>
     </div>
   );
@@ -99,22 +104,21 @@ interface ActionButtonProps {
 
 const ActionButton = ({ id, Icon, onClick, className }: ActionButtonProps) => {
   return (
-    <Button
-      key={id}
-      onClick={onClick}
-      size="smIcon"
-      type="button"
-      variant="default"
-      className={cn(
-        "absolute top-1/2 left-0 -translate-y-1/2 rounded-l-none",
-        {
-          "cursor-grab": id === "grip",
-        },
-        className
-      )}
+    <motion.span
+      className="absolute top-1/2 left-0 -translate-y-1/2 cursor-grab"
+      exit={{ opacity: 0 }}
     >
-      <Icon size={16} />
-    </Button>
+      <Button
+        key={id}
+        onClick={onClick}
+        size="smIcon"
+        type="button"
+        variant="default"
+        className={cn("rounded-l-none", className)}
+      >
+        <Icon size={16} />
+      </Button>
+    </motion.span>
   );
 };
 
