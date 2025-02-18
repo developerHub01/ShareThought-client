@@ -1,12 +1,12 @@
 import React from "react";
 
-import Button from "@/components/editor/preview/Button";
-import Divider from "@/components/editor/preview/Divider";
-import Heading from "@/components/editor/preview/Heading";
-import Image from "@/components/editor/preview/Image";
-import Row from "@/components/editor/preview/Row";
-import Spacer from "@/components/editor/preview/Spacer";
-import Table from "@/components/editor/preview/Table";
+import Button from "@/components/post/components/Button";
+import Divider from "@/components/post/components/Divider";
+import Heading from "@/components/post/components/Heading";
+import Image from "@/components/post/components/Image";
+import Row from "@/components/post/components/Row";
+import Spacer from "@/components/post/components/Spacer";
+import Table from "@/components/post/components/Table";
 import {
   BlogComponentsDataInterface,
   BlogContentType,
@@ -35,7 +35,7 @@ const ComponentSelector = (props: BlockDecisionProps) => {
   if (["h1", "h2", "h3", "h4", "h5", "h6", "p"].includes(component.type)) {
     return <Heading {...props} />;
   } else if (component.type === "row") {
-    return <Row  {...props} />;
+    return <Row {...props} />;
   } else if (component.type === "table") {
     return <Table {...props} />;
   } else if (component.type === "image") {

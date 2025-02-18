@@ -25,7 +25,7 @@ const Column = ({ id, ...props }: RowProps) => {
 
   return (
     <BlockComponentWrapper id={id} className="w-full max-w-3xl rounded-sm">
-      <section className="w-full flex flex-col border">
+      <section className="w-full flex flex-col">
         {Array.isArray(children) && (
           <>
             {Boolean(children.length) && <AddComponentSection index={0} />}

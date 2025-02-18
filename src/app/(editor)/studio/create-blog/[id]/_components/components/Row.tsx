@@ -2,7 +2,7 @@
 
 import { useAppSelector } from "@/redux/hooks";
 import React from "react";
-import Column from "@/components/editor/components/Column";
+import Column from "@/app/(editor)/studio/create-blog/[id]/_components/components/Column";
 import { cn } from "@/lib/utils";
 import { useParams } from "next/navigation";
 

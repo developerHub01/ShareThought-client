@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import ImageUploadCanvas from "@/components/editor/components/ImageUploadCanvas";
+import ImageUploadCanvas from "@/app/(editor)/studio/create-blog/[id]/_components/components/ImageUploadCanvas";
 import { useParams } from "next/navigation";
 import { useAppSelector } from "@/redux/hooks";
 import { StyleType } from "@/redux/features/builders/blogBuilderSlice";
@@ -15,20 +15,17 @@ interface ImageProps {
   [key: string]: unknown;
 }
 
-const Image = ({
-  id,
-  ...props
-}: ImageProps) => {
+const Image = ({ id, ...props }: ImageProps) => {
   const { id: blogId } = useParams<{ id: string }>();
 
   if (!blogId) return null;
-  
+
   const {
     metaData: { imgLinks, styles },
     components,
   } = useAppSelector((state) => state.blogBuilder.blogs[blogId]);
 
-  const {alt = "", caption = "", redirect} = components[id];
+  const { alt = "", caption = "", redirect } = components[id];
 
   const imageSrc = imgLinks && imgLinks[id];
   if (!imageSrc) return <ImageUploadCanvas id={id} blogId={blogId} />;

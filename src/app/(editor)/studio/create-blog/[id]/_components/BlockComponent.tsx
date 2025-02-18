@@ -1,15 +1,15 @@
 "use client";
 
 import React from "react";
-import Heading from "@/components/editor/components/Heading";
-import Row from "@/components/editor/components/Row";
-import Table from "@/components/editor/components/Table";
-import Image from "@/components/editor/components/Image";
-import ButtonComponent from "@/components/editor/components/Button";
-import Spacer from "@/components/editor/components/Spacer";
-import Divider from "@/components/editor/components/Divider";
-import Code from "@/components/editor/components/Code";
-import Accordion from "@/components/editor/components/Accordion";
+import Heading from "@/app/(editor)/studio/create-blog/[id]/_components/components/Heading";
+import Row from "@/app/(editor)/studio/create-blog/[id]/_components/components/Row";
+import Table from "@/app/(editor)/studio/create-blog/[id]/_components/components/Table";
+import Image from "@/app/(editor)/studio/create-blog/[id]/_components/components/Image";
+import ButtonComponent from "@/app/(editor)/studio/create-blog/[id]/_components/components/Button";
+import Spacer from "@/app/(editor)/studio/create-blog/[id]/_components/components/Spacer";
+import Divider from "@/app/(editor)/studio/create-blog/[id]/_components/components/Divider";
+import Code from "@/app/(editor)/studio/create-blog/[id]/_components/components/Code";
+import Accordion from "@/app/(editor)/studio/create-blog/[id]/_components/components/Accordion";
 import BlockComponentWrapper from "@/app/(editor)/studio/create-blog/[id]/_components/BlockComponentWrapper";
 import { useParams } from "next/navigation";
 import { useAppSelector } from "@/redux/hooks";

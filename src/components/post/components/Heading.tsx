@@ -1,10 +1,10 @@
+import { typographyList } from "@/constant";
 import {
   BlogComponentsDataInterface,
   BlogContentType,
   BlogMetaDataInterface,
 } from "@/redux/features/builders/blogBuilderSlice";
 import { CSSProperties } from "react";
-import { typographyList } from "@/components/editor/constant";
 
 interface HeadingProps {
   id: string;

@@ -4,7 +4,7 @@ import { updateComponentText } from "@/redux/features/builders/blogBuilderSlice"
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useParams } from "next/navigation";
 import React, { CSSProperties, FocusEvent } from "react";
-import { typographyList } from "@/components/editor/constant";
+import { typographyList } from "@/constant";
 
 interface HeadingProps {
   id: string;

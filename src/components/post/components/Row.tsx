@@ -5,7 +5,7 @@ import {
 } from "@/redux/features/builders/blogBuilderSlice";
 import React from "react";
 import { cn } from "@/lib/utils";
-import Column from "@/components/editor/preview/Column";
+import Column from "@/components/post/components/Column";
 
 interface RowProps {
   id: string;
