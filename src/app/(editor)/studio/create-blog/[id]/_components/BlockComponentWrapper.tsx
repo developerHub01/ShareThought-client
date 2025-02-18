@@ -1,16 +1,16 @@
 "use client";
 
+import React, { MouseEvent } from "react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import {
-  BlockInterface,
   changeActiveBlock,
+  changeHoveringComponentId,
 } from "@/redux/features/builders/blogBuilderSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useDroppable } from "@dnd-kit/core";
 import { GripHorizontal as GripIcon, LucideIcon } from "lucide-react";
 import { useParams } from "next/navigation";
-import React, { MouseEvent } from "react";
 
 interface BlockComponentWrapperProps {
   id: string;
@@ -27,6 +27,8 @@ const BlockComponentWrapper = ({
   ...props
 }: BlockComponentWrapperProps) => {
   const { id: blogId } = useParams<{ id: string }>();
+  const isHovering =
+    useAppSelector((state) => state.blogBuilder.hoveringComponentId) === id;
 
   const { isOver, setNodeRef } = useDroppable({
     id: "droppable",
@@ -54,27 +56,35 @@ const BlockComponentWrapper = ({
     );
   };
 
+  const handleHovering = (e: MouseEvent<HTMLDivElement>, value: boolean) => {
+    e.stopPropagation();
+
+    dispatch(changeHoveringComponentId(value ? id : null));
+  };
+
   return (
     <div
       className={cn(
-        "flex w-full group-hover:bg-accent/80 justify-center gap-3 p-2 px-2 ring-2 ring-transparent relative hover:ring-primary",
+        "flex w-full justify-center gap-3 p-2 px-2 ring-2 ring-transparent relative",
         {
-          "bg-accent/80 ring-primary": id === activeBlock,
+          "bg-accent/80 ring-primary": id === activeBlock || isHovering,
           "px-16": lavel === 1,
         }
       )}
       onClick={toggleActiveBlock}
       ref={setNodeRef}
       style={style}
+      onMouseEnter={(e) => handleHovering(e, true)}
+      onMouseLeave={(e) => handleHovering(e, false)}
     >
-      <span className="group-hover:opacity-100 group-hover:pointer-events-auto opacity-0 pointer-events-none">
+      {(isHovering || id === activeBlock) && (
         <ActionButton
           key={"grip"}
           id="grip"
           Icon={GripIcon}
           onClick={() => {}}
         />
-      </span>
+      )}
       <div className="w-full max-w-3xl rounded-sm">{children}</div>
     </div>
   );

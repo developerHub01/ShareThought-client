@@ -203,6 +203,7 @@ export interface BlogBuilderState {
     };
   };
   isImageEditorOpen: boolean;
+  hoveringComponentId?: string | null;
 }
 
 const blogInitialState = {
@@ -218,6 +219,7 @@ const blogInitialState = {
   editorOrPreview: "editor" as editorOrPreviewTypes,
   activeBlock: null,
   components: {},
+  hoveringComponentId: null,
 };
 
 const tableHeaderInitialState: TableHeaderInterface = {
@@ -335,6 +337,13 @@ export const blogBuilderSlice = createSlice({
 
     toggleisImageEditorOpen: (state) => {
       state.isImageEditorOpen = !state.isImageEditorOpen;
+    },
+
+    changeHoveringComponentId: (
+      state,
+      action: PayloadAction<string | null>
+    ) => {
+      state.hoveringComponentId = action.payload;
     },
 
     addComponent: (
@@ -1999,6 +2008,7 @@ export const {
   createBlog,
   addComponent,
   toggleisImageEditorOpen,
+  changeHoveringComponentId,
   updateTitle,
   toggleEditorOrPreview,
   changeActiveBlock,

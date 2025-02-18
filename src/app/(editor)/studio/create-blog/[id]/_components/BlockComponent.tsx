@@ -3,10 +3,6 @@
 import React from "react";
 import Heading from "@/components/editor/components/Heading";
 import Row from "@/components/editor/components/Row";
-import {
-  BlockInterface,
-  TableInterface,
-} from "@/redux/features/builders/blogBuilderSlice";
 import Table from "@/components/editor/components/Table";
 import Image from "@/components/editor/components/Image";
 import ButtonComponent from "@/components/editor/components/Button";
@@ -14,7 +10,7 @@ import Spacer from "@/components/editor/components/Spacer";
 import Divider from "@/components/editor/components/Divider";
 import Code from "@/components/editor/components/Code";
 import Accordion from "@/components/editor/components/Accordion";
-import BlockComponentWrapper from "./BlockComponentWrapper";
+import BlockComponentWrapper from "@/app/(editor)/studio/create-blog/[id]/_components/BlockComponentWrapper";
 import { useParams } from "next/navigation";
 import { useAppSelector } from "@/redux/hooks";
 
