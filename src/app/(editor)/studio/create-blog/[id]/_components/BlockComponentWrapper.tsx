@@ -65,6 +65,12 @@ const BlockComponentWrapper = ({
     dispatch(changeHoveringComponentId(id));
   };
 
+  const handleMouseLeave = (e: MouseEvent<HTMLDivElement>) => {
+    e.stopPropagation();
+
+    dispatch(changeHoveringComponentId(null));
+  };
+
   return (
     <div
       className={cn(
@@ -78,6 +84,7 @@ const BlockComponentWrapper = ({
       ref={setNodeRef}
       style={style}
       onMouseMove={handleMouseHover}
+      onMouseLeave={handleMouseLeave}
     >
       <AnimatePresence>
         {(isHovering || id === activeBlock) && (
