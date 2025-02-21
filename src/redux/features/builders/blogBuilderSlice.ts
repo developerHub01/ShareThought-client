@@ -204,6 +204,7 @@ export interface BlogBuilderState {
   };
   isImageEditorOpen: boolean;
   hoveringComponentId?: string | null;
+  testMap: Record<string, number>;
 }
 
 const blogInitialState = {
@@ -305,6 +306,7 @@ export const ImageFiltersInitial: FilterType = {
 const initialState: BlogBuilderState = {
   blogs: {},
   isImageEditorOpen: false,
+  testMap: {},
 };
 
 const ensureBlogExists = (state: BlogBuilderState, id: string) => {
@@ -362,6 +364,13 @@ export const blogBuilderSlice = createSlice({
       ensureBlogExists(state, blogId);
 
       const id = uuidv4();
+
+      if (type === "row" && Array.isArray(gridSize)) {
+        if (!state.testMap[id]) state.testMap[id] = 0;
+        state.testMap[id] += gridSize.length;
+      }
+
+      console.log(JSON.parse(JSON.stringify(state.testMap)));
 
       let block: BlockInterface = {
         id,
@@ -531,17 +540,59 @@ export const blogBuilderSlice = createSlice({
       const collectRemoveIdRecursive = (
         id: string,
         list: Set<string> = new Set(),
+        parentChildCount: Record<string, number> = {}
       ) => {
         const component = state.blogs[blogId].components[id];
+        console.log(JSON.parse(JSON.stringify(component)));
+
+        const parentId = component.parentId;
+
+        if (state.testMap && parentId && (state.testMap[parentId] ?? false)) {
+          state.testMap[parentId] -= 1;
+
+          if (!state.testMap[parentId]) {
+            delete state.blogs[blogId].components[parentId];
+            delete state.blogs[blogId].metaData?.styles[parentId];
+            delete state.blogs[blogId].metaData?.imgLinks[parentId];
+
+            state.blogs[blogId].content = state.blogs[blogId].content.filter(
+              (id) => id !== parentId
+            );
+          }
+        }
+
+        console.log({ parentId });
+
+        const parentChildren =
+          (parentId &&
+            Array.isArray(
+              state.blogs[blogId]?.components[parentId]?.children
+            ) &&
+            state.blogs[blogId]?.components[parentId]?.children) ||
+          [];
 
         if (component) {
+          if (parentId) {
+            if (!parentChildCount[parentId]) parentChildCount[parentId] = 1;
+            else parentChildCount[parentId] += 1;
+
+            console.log({ parentChildCount });
+          }
+
+          if (
+            parentId &&
+            parentChildren.length === parentChildCount[parentId]
+          ) {
+            list.add(parentId);
+          }
+
           list.add(id);
         } else return list;
 
         if (!Array.isArray(component?.children)) return list;
 
         component.children.forEach((currentId) =>
-          collectRemoveIdRecursive(currentId, list)
+          collectRemoveIdRecursive(currentId, list, parentChildCount)
         );
 
         return list;
@@ -564,6 +615,8 @@ export const blogBuilderSlice = createSlice({
       state.blogs[blogId].content = state.blogs[blogId].content.filter(
         (id) => !idsToRemove.includes(id)
       );
+
+      // console.log(JSON.parse(JSON.stringify(state.blogs[blogId].content)));
     },
 
     duplicateComponent: (
