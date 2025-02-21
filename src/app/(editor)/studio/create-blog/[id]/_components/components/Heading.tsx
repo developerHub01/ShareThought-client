@@ -8,9 +8,10 @@ import { typographyList } from "@/constant";
 
 interface HeadingProps {
   id: string;
+  parentId?: string;
 }
 
-const Heading = ({ id, ...props }: HeadingProps) => {
+const Heading = ({ id, parentId, ...props }: HeadingProps) => {
   const { id: blogId } = useParams<{ id: string }>();
   const dispatch = useAppDispatch();
 

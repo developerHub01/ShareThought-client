@@ -7,11 +7,12 @@ import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 
 interface CodeProps {
   id: string;
+  parentId?: string;
 }
 
 export type { CodeProps };
 
-const Code = ({ id, ...props }: CodeProps) => {
+const Code = ({ id, parentId, ...props }: CodeProps) => {
   const [code, setCode] = useState("");
 
   const { id: blogId } = useParams<{ id: string }>();

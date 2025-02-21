@@ -14,7 +14,7 @@ import BlockComponentWrapper from "@/app/(editor)/studio/create-blog/[id]/_compo
 import { useParams } from "next/navigation";
 import { useAppSelector } from "@/redux/hooks";
 
-const Block = ({ id }: { id: string }) => {
+const Block = ({ id, parentId }: { id: string; parentId?: string }) => {
   const { id: blogId } = useParams<{ id: string }>();
 
   if (!blogId) return null;
@@ -29,23 +29,23 @@ const Block = ({ id }: { id: string }) => {
   const { type } = component;
 
   if (["h1", "h2", "h3", "h4", "h5", "h6", "p"].includes(type)) {
-    return <Heading id={id} />;
+    return <Heading id={id} parentId={parentId} />;
   } else if (type === "button") {
-    return <ButtonComponent id={id} />;
+    return <ButtonComponent id={id} parentId={parentId} />;
   } else if (type === "row") {
-    return <Row id={id} />;
+    return <Row id={id} parentId={parentId} />;
   } else if (type === "table") {
-    return <Table id={id} />;
+    return <Table id={id} parentId={parentId} />;
   } else if (type === "image") {
-    return <Image id={id} />;
+    return <Image id={id} parentId={parentId} />;
   } else if (type === "spacer") {
-    return <Spacer id={id} />;
+    return <Spacer id={id} parentId={parentId} />;
   } else if (type === "divider") {
-    return <Divider id={id} />;
+    return <Divider id={id} parentId={parentId} />;
   } else if (type === "code") {
-    return <Code id={id} />;
+    return <Code id={id} parentId={parentId} />;
   } else if (type === "accordion") {
-    return <Accordion id={id} />;
+    return <Accordion id={id} parentId={parentId} />;
   }
   return null;
 };
@@ -53,10 +53,12 @@ const Block = ({ id }: { id: string }) => {
 const BlockComponent = ({
   lavel,
   id,
+  parentId,
   ...props
 }: {
   lavel?: number;
   id: string;
+  parentId?: string;
 }) => {
   return (
     <BlockComponentWrapper
@@ -64,7 +66,7 @@ const BlockComponent = ({
       className="w-full max-w-3xl rounded-sm"
       lavel={lavel}
     >
-      <Block id={id} />
+      <Block id={id} parentId={parentId} />
     </BlockComponentWrapper>
   );
 };

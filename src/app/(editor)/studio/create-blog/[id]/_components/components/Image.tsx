@@ -10,12 +10,13 @@ import handleBorderStyle from "@/utils/editor/handleBorderStyle";
 import handleWrapperContentStyleSeparator from "@/utils/editor/handleWrapperContentStyleSeparator";
 interface ImageProps {
   id: string;
+  parentId?: string
   alt?: string;
   caption?: string;
   [key: string]: unknown;
 }
 
-const Image = ({ id, ...props }: ImageProps) => {
+const Image = ({ id, parentId, ...props }: ImageProps) => {
   const { id: blogId } = useParams<{ id: string }>();
 
   if (!blogId) return null;

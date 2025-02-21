@@ -16,9 +16,10 @@ import React, { FocusEvent } from "react";
 
 interface AccordionProps {
   id: string;
+  parentId?: string;
 }
 
-const Accordion = ({ id, ...props }: AccordionProps) => {
+const Accordion = ({ id, parentId, ...props }: AccordionProps) => {
   const { id: blogId } = useParams<{ id: string }>();
   const dispatch = useAppDispatch();
 

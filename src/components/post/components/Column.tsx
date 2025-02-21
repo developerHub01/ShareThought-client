@@ -17,6 +17,8 @@ const Column = (props: RowProps) => {
   const { id, ...restProps } = props;
 
   const { components } = restProps;
+  
+  if (!components) return null;
 
   const component = components[id];
 

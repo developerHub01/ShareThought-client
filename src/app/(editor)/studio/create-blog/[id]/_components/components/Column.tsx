@@ -21,6 +21,8 @@ const Column = ({ id, ...props }: RowProps) => {
   const { components } =
     useAppSelector((state) => state?.blogBuilder?.blogs[postId]) || {};
 
+  if (!components[id]) return null;
+
   const { children } = components[id];
 
   return (
@@ -29,9 +31,9 @@ const Column = ({ id, ...props }: RowProps) => {
         {Array.isArray(children) && (
           <>
             {Boolean(children.length) && <AddComponentSection index={0} />}
-            {children.map((id, index, list) => (
-              <div key={id} className="group">
-                <BlockComponent id={id} />
+            {children.map((currentId, index, list) => (
+              <div key={currentId} className="group">
+                <BlockComponent id={currentId} parentId={id} />
                 <AnimatePresence>
                   {index !== list.length - 1 && (
                     <motion.div

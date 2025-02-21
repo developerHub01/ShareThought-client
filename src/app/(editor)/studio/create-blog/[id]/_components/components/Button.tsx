@@ -14,9 +14,10 @@ import { cn } from "@/lib/utils";
 
 interface ButtonProps {
   id: string;
+  parentId?: string
 }
 
-const Button = ({ id, ...props }: ButtonProps) => {
+const Button = ({ id, parentId, ...props }: ButtonProps) => {
   const { id: blogId } = useParams<{ id: string }>();
   const dispatch = useAppDispatch();
 

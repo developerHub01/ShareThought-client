@@ -7,11 +7,12 @@ import React, { CSSProperties } from "react";
 
 interface SpacerProps {
   id: string;
+  parentId?: string;
   className?: string;
   [key: string]: unknown;
 }
 
-const Spacer = ({ id, className, ...props }: SpacerProps) => {
+const Spacer = ({ id, parentId, className, ...props }: SpacerProps) => {
   const { id: blogId } = useParams<{ id: string }>();
 
   if (!blogId) return null;

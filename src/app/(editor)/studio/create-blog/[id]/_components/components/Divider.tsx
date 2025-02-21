@@ -9,9 +9,10 @@ import React from "react";
 
 interface DividerProps {
   id: string;
+  parentId?: string
 }
 
-const Divider = ({ id, ...props }: DividerProps) => {
+const Divider = ({ id, parentId, ...props }: DividerProps) => {
   const { id: blogId } = useParams<{ id: string }>();
 
   if (!blogId) return null;

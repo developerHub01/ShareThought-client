@@ -8,6 +8,7 @@ import { useParams } from "next/navigation";
 
 interface RowProps {
   id: string;
+  parentId?: string
 }
 
 const getColSpan = (column: number) => {
@@ -24,7 +25,7 @@ const getColSpan = (column: number) => {
   return colSpanMap[column] || "md:col-span-12"; // Fallback to col-span-12
 };
 
-const Row = ({ id }: RowProps) => {
+const Row = ({ id, parentId }: RowProps) => {
   const { id: blogId } = useParams<{ id: string }>();
 
   if (!blogId) return null;

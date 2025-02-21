@@ -73,11 +73,10 @@ const dropdownRowActionButtonList = [
 
 interface TableProps {
   id: string;
+  parentId? :string
 }
 
-const Table = ({
-  id,
-}: TableProps) => {
+const Table = ({ id, parentId }: TableProps) => {
   const [hoveredRow, setHoveredRow] = useState<number | null>(null);
   const [hoveredColumn, setHoveredColumn] = useState<number | null>(null);
   const [focusedRow, setFocusedRow] = useState<boolean>(false);
@@ -92,7 +91,7 @@ const Table = ({
     activeBlock,
     components,
   } = useAppSelector((state) => state.blogBuilder.blogs[blogId]);
-  
+
   const dispatch = useAppDispatch();
 
   if (!activeBlock) return null;
@@ -109,8 +108,6 @@ const Table = ({
   } = components[activeBlock].children as TableInterface;
 
   let activeBlockStyles = styles[id];
-
-
 
   const handleRemoveRowOrColumn = (
     index: number,
