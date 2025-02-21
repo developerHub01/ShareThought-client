@@ -100,9 +100,7 @@ const EditorSidebar = () => {
 
   return (
     <>
-      <div className="w-6 h-full flex-shrink-0 flex-grow-0 relative bg-accent border border-l-2">
-        <SidebarToogler state={sidebarShowState} toggleState={toggleSidebar} />
-      </div>
+      <SidebarToogler state={sidebarShowState} toggleState={toggleSidebar} />
       <AnimatePresence>
         {sidebarShowState && (
           <motion.section
