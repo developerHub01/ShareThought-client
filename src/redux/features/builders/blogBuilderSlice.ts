@@ -92,7 +92,7 @@ export interface BlockInterface {
   redirect?: string; // if any component is linked with web.
   alt?: string;
   caption?: string;
-  locationPath?: Array<string>;
+  parentId?: string | null;
   children?: Array<string> | TableInterface | AccordionInterface;
 }
 
@@ -357,7 +357,7 @@ export const blogBuilderSlice = createSlice({
       }>
     ) => {
       const { id: blogId, type, index, gridSize, parentId } = action.payload;
-
+      console.log({ parentId });
       /* if that blog is not exist then create */
       ensureBlogExists(state, blogId);
 
@@ -366,12 +366,7 @@ export const blogBuilderSlice = createSlice({
       let block: BlockInterface = {
         id,
         type: "p",
-        locationPath: parentId
-          ? [
-              ...(state.blogs[blogId].components[parentId]?.locationPath ?? []),
-              parentId,
-            ]
-          : [],
+        parentId,
         children: [],
       };
 
@@ -439,6 +434,8 @@ export const blogBuilderSlice = createSlice({
             gridSize,
           };
 
+          console.log({ block });
+
           for (let i = 0; i < (gridSize?.length ?? 1); i++) {
             const id = uuidv4();
 
@@ -447,6 +444,7 @@ export const blogBuilderSlice = createSlice({
             state.blogs[blogId].components[id] = {
               id,
               type: "column",
+              parentId: block.id,
               children: [],
             };
           }
@@ -517,25 +515,72 @@ export const blogBuilderSlice = createSlice({
       state.blogs[blogId].components[id] = block;
     },
 
+    removeComponent: (
+      state,
+      action: PayloadAction<{
+        blogId: string;
+        id: string;
+      }>
+    ) => {
+      const { id, blogId } = action.payload;
+
+      if (!state.blogs[blogId] || !state.blogs[blogId].components[id]) return;
+
+      state.blogs[blogId].activeBlock = null;
+
+      const collectRemoveIdRecursive = (
+        id: string,
+        list: Set<string> = new Set(),
+      ) => {
+        const component = state.blogs[blogId].components[id];
+
+        if (component) {
+          list.add(id);
+        } else return list;
+
+        if (!Array.isArray(component?.children)) return list;
+
+        component.children.forEach((currentId) =>
+          collectRemoveIdRecursive(currentId, list)
+        );
+
+        return list;
+      };
+
+      /* finding list of ids that need to remove */
+      const idsToRemove = Array.from(collectRemoveIdRecursive(id));
+
+      /* removig components, styles, imgLinks with ids of idsToRemove */
+      idsToRemove.map((id) => {
+        delete state.blogs[blogId].components[id];
+        delete state.blogs[blogId].metaData?.styles[id];
+        delete state.blogs[blogId].metaData?.imgLinks[id];
+      });
+
+      // console.log(JSON.parse(JSON.stringify(idsToRemove)));
+      // console.log(JSON.parse(JSON.stringify(state.blogs[blogId].content)));
+
+      /* removig content with ids of idsToRemove */
+      state.blogs[blogId].content = state.blogs[blogId].content.filter(
+        (id) => !idsToRemove.includes(id)
+      );
+    },
+
+    duplicateComponent: (
+      state,
+      action: PayloadAction<{
+        blogId: string;
+        id: string;
+      }>
+    ) => {
+      const { id, blogId } = action.payload;
+    },
+
     toggleEditorOrPreview: (state, action: PayloadAction<string>) => {
       const activeEditorOrPreview = state.blogs[action.payload].editorOrPreview;
 
       state.blogs[action.payload].editorOrPreview =
         activeEditorOrPreview === "editor" ? "preview" : "editor";
-    },
-
-    removeComponent: (
-      state,
-      action: PayloadAction<{
-        postId: string;
-        id: string;
-      }>
-    ) => {
-      const { postId, id } = action.payload;
-
-      delete state.blogs[postId].metaData.styles[id];
-      delete state.blogs[postId].metaData.mobileStyles[id];
-      delete state.blogs[postId].metaData.hoverStyles[id];
     },
 
     changeActiveBlock: (
@@ -2007,6 +2052,8 @@ export const blogBuilderSlice = createSlice({
 export const {
   createBlog,
   addComponent,
+  removeComponent,
+  duplicateComponent,
   toggleisImageEditorOpen,
   changeHoveringComponentId,
   updateTitle,

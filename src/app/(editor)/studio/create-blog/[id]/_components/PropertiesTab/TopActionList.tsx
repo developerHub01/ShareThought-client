@@ -15,7 +15,11 @@ import {
 } from "lucide-react";
 import clsx from "clsx";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { changeActiveBlock } from "@/redux/features/builders/blogBuilderSlice";
+import {
+  changeActiveBlock,
+  removeComponent,
+  duplicateComponent,
+} from "@/redux/features/builders/blogBuilderSlice";
 import { useParams } from "next/navigation";
 
 const TopActionList = () => {
@@ -28,32 +32,46 @@ const TopActionList = () => {
     (state) => state.blogBuilder.blogs[blogId]
   );
 
-  const clearActiveComponent = () => {
-    dispatch(changeActiveBlock({ blogId }));
-  };
-
   const actionList = useMemo(
     () => [
       {
         id: "delete",
         Icon: DeleteIcon,
         label: "Delete",
-        onClick: () => console.log("delete"),
+        onClick: () => {
+          if (!activeBlock) return null;
+
+          dispatch(
+            removeComponent({
+              blogId,
+              id: activeBlock,
+            })
+          );
+        },
       },
       {
         id: "duplicate",
         Icon: DuplicateIcon,
         label: "Duplicate",
-        onClick: () => console.log("duplicate"),
+        onClick: () => {
+          if (!activeBlock) return null;
+
+          dispatch(
+            duplicateComponent({
+              blogId,
+              id: activeBlock,
+            })
+          );
+        },
       },
       {
         id: "clear",
         Icon: ClearIcon,
         label: "Clear Selection",
-        onClick: clearActiveComponent,
+        onClick: () => dispatch(changeActiveBlock({ blogId })),
       },
     ],
-    [blogId]
+    [blogId, activeBlock]
   );
 
   if (!activeBlock) return null;

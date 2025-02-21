@@ -37,6 +37,8 @@ const PropertiesTab = () => {
 
   const activeComponent = components[activeBlock];
 
+  if (!activeComponent) return null;
+
   return (
     <div className="w-full h-full">
       <Accordion type="multiple" className="h-full w-full">
