@@ -528,7 +528,9 @@ export const blogBuilderSlice = createSlice({
 
       state.blogs[blogId].activeBlock = null;
 
-      /* process is that we will start from a starting component and traverse through childrens and each time we will check if its parent is a deletion-candidate or not. if not then traverse upwards and check untill parent children count is more then 1. and children count are 1 then also add them into candidate  */
+      /* 
+      process is that we will start from a starting component and traverse through childrens and each time we will check if its parent is a deletion-candidate or not. if not then traverse upwards and check untill parent children count is more then 1. and children count are 1 then also add them into candidate  
+      */
       const removeIdCandidatesRecursive = (
         id: string,
         candidates: Record<string, true> = {}
@@ -545,7 +547,13 @@ export const blogBuilderSlice = createSlice({
             state.blogs[blogId]?.components[parentId]?.children) ||
           [];
 
-        if (parentId && parentChildren.length === 1 && !candidates[parentId]) {
+        if (
+          parentId &&
+          parentChildren.length === 1 &&
+          !candidates[parentId] &&
+          state.blogs[blogId]?.components[parentId].type !==
+            "column" /* because we don't want to remove parent which is column when its have only one children to remove */
+        ) {
           /* here go through upwards and check untill parents children count is 1 */
           let currentId = id;
 
@@ -589,8 +597,6 @@ export const blogBuilderSlice = createSlice({
 
       /* finding list of ids that need to remove */
       const idsToRemove = Object.keys(removeIdCandidatesRecursive(id));
-
-      console.log({ idsToRemove });
 
       /* removig components, styles, imgLinks with ids of idsToRemove */
       idsToRemove.map((id) => {
