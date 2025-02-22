@@ -1,6 +1,6 @@
 import { defaultGlobalStyles, EDITOR_TABLE_SIZE } from "@/constant";
 import { isValidHexColor, isValidURL } from "@/utils";
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, current } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { v4 as uuidv4 } from "uuid";
 
@@ -204,7 +204,6 @@ export interface BlogBuilderState {
   };
   isImageEditorOpen: boolean;
   hoveringComponentId?: string | null;
-  testMap: Record<string, number>;
 }
 
 const blogInitialState = {
@@ -306,7 +305,6 @@ export const ImageFiltersInitial: FilterType = {
 const initialState: BlogBuilderState = {
   blogs: {},
   isImageEditorOpen: false,
-  testMap: {},
 };
 
 const ensureBlogExists = (state: BlogBuilderState, id: string) => {
@@ -364,13 +362,6 @@ export const blogBuilderSlice = createSlice({
       ensureBlogExists(state, blogId);
 
       const id = uuidv4();
-
-      if (type === "row" && Array.isArray(gridSize)) {
-        if (!state.testMap[id]) state.testMap[id] = 0;
-        state.testMap[id] += gridSize.length;
-      }
-
-      console.log(JSON.parse(JSON.stringify(state.testMap)));
 
       let block: BlockInterface = {
         id,
@@ -537,31 +528,14 @@ export const blogBuilderSlice = createSlice({
 
       state.blogs[blogId].activeBlock = null;
 
-      const collectRemoveIdRecursive = (
+      /* process is that we will start from a starting component and traverse through childrens and each time we will check if its parent is a deletion-candidate or not. if not then traverse upwards and check untill parent children count is more then 1. and children count are 1 then also add them into candidate  */
+      const removeIdCandidatesRecursive = (
         id: string,
-        list: Set<string> = new Set(),
-        parentChildCount: Record<string, number> = {}
+        candidates: Record<string, true> = {}
       ) => {
         const component = state.blogs[blogId].components[id];
-        console.log(JSON.parse(JSON.stringify(component)));
 
         const parentId = component.parentId;
-
-        if (state.testMap && parentId && (state.testMap[parentId] ?? false)) {
-          state.testMap[parentId] -= 1;
-
-          if (!state.testMap[parentId]) {
-            delete state.blogs[blogId].components[parentId];
-            delete state.blogs[blogId].metaData?.styles[parentId];
-            delete state.blogs[blogId].metaData?.imgLinks[parentId];
-
-            state.blogs[blogId].content = state.blogs[blogId].content.filter(
-              (id) => id !== parentId
-            );
-          }
-        }
-
-        console.log({ parentId });
 
         const parentChildren =
           (parentId &&
@@ -571,52 +545,79 @@ export const blogBuilderSlice = createSlice({
             state.blogs[blogId]?.components[parentId]?.children) ||
           [];
 
+        if (parentId && parentChildren.length === 1 && !candidates[parentId]) {
+          /* here go through upwards and check untill parents children count is 1 */
+          let currentId = id;
+
+          while (true) {
+            const component = state.blogs[blogId].components[currentId];
+            const parentId = component.parentId;
+
+            /* 
+            if parentid not exist or if parentId exist then 
+            if that parentId is already in deletion candidate or 
+            if that parentId exist but children count is more than 1 then
+            */
+            if (
+              !parentId ||
+              candidates[parentId] ||
+              (Array.isArray(
+                state.blogs[blogId].components[parentId].children
+              ) &&
+                state.blogs[blogId].components[parentId].children.length > 1)
+            )
+              break;
+
+            candidates[parentId] = true;
+
+            currentId = parentId;
+          }
+        }
+
         if (component) {
-          if (parentId) {
-            if (!parentChildCount[parentId]) parentChildCount[parentId] = 1;
-            else parentChildCount[parentId] += 1;
+          candidates[id] = true;
+        } else return candidates;
 
-            console.log({ parentChildCount });
-          }
-
-          if (
-            parentId &&
-            parentChildren.length === parentChildCount[parentId]
-          ) {
-            list.add(parentId);
-          }
-
-          list.add(id);
-        } else return list;
-
-        if (!Array.isArray(component?.children)) return list;
+        if (!Array.isArray(component?.children)) return candidates;
 
         component.children.forEach((currentId) =>
-          collectRemoveIdRecursive(currentId, list, parentChildCount)
+          removeIdCandidatesRecursive(currentId, candidates)
         );
 
-        return list;
+        return candidates;
       };
 
       /* finding list of ids that need to remove */
-      const idsToRemove = Array.from(collectRemoveIdRecursive(id));
+      const idsToRemove = Object.keys(removeIdCandidatesRecursive(id));
+
+      console.log({ idsToRemove });
 
       /* removig components, styles, imgLinks with ids of idsToRemove */
       idsToRemove.map((id) => {
+        const component = state.blogs[blogId].components[id];
         delete state.blogs[blogId].components[id];
         delete state.blogs[blogId].metaData?.styles[id];
         delete state.blogs[blogId].metaData?.imgLinks[id];
-      });
 
-      // console.log(JSON.parse(JSON.stringify(idsToRemove)));
-      // console.log(JSON.parse(JSON.stringify(state.blogs[blogId].content)));
+        if (!component?.parentId) return;
+
+        const parentId = component?.parentId;
+
+        if (
+          !parentId ||
+          !Array.isArray(state.blogs[blogId].components[parentId]?.children)
+        )
+          return;
+
+        state.blogs[blogId].components[parentId].children = state.blogs[
+          blogId
+        ].components[parentId].children.filter((currentId) => currentId !== id);
+      });
 
       /* removig content with ids of idsToRemove */
       state.blogs[blogId].content = state.blogs[blogId].content.filter(
         (id) => !idsToRemove.includes(id)
       );
-
-      // console.log(JSON.parse(JSON.stringify(state.blogs[blogId].content)));
     },
 
     duplicateComponent: (
