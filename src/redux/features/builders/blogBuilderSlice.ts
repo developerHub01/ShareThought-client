@@ -357,7 +357,7 @@ export const blogBuilderSlice = createSlice({
       }>
     ) => {
       const { id: blogId, type, index, gridSize, parentId } = action.payload;
-      
+
       /* if that blog is not exist then create */
       ensureBlogExists(state, blogId);
 
@@ -537,6 +537,8 @@ export const blogBuilderSlice = createSlice({
       ) => {
         const component = state.blogs[blogId].components[id];
 
+        if (!component) return candidates;
+
         const parentId = component.parentId;
 
         const parentChildren =
@@ -634,6 +636,78 @@ export const blogBuilderSlice = createSlice({
       }>
     ) => {
       const { id, blogId } = action.payload;
+      if (!state.blogs[blogId] || !state.blogs[blogId].components[id])
+        return state;
+
+      const replicateComponentChildrens = (
+        id: string,
+        parentId: string | null = null,
+        isRoot: boolean = false
+      ) => {
+        console.log({ parentId });
+        const newId = uuidv4();
+
+        const component = state.blogs[blogId].components[id];
+
+        if (!component) return;
+
+        const newComponent = {
+          ...component,
+          id: newId,
+          parentId,
+        };
+
+        if (
+          component.parentId &&
+          newComponent.parentId &&
+          Array.isArray(newComponent?.children)
+        ) {
+          const componentIndex = (
+            state.blogs[blogId].components[newComponent.parentId]
+              .children as Array<string>
+          ).indexOf(id);
+
+          if (isRoot)
+            (
+              state.blogs[blogId].components[newComponent.parentId]
+                .children as Array<string>
+            ).splice(componentIndex + 1, 0, newId);
+          else
+            (
+              state.blogs[blogId].components[newComponent.parentId]
+                .children as Array<string>
+            )[componentIndex] = newId;
+        } else {
+          const componentIndex = state.blogs[blogId]?.content?.indexOf(id);
+
+          if (isRoot)
+            state.blogs[blogId]?.content.splice(componentIndex + 1, 0, newId);
+          else state.blogs[blogId].content[componentIndex] = newId;
+        }
+
+        state.blogs[blogId].components[newId] = newComponent;
+
+        if (state.blogs[blogId].metaData.styles[id]) {
+          state.blogs[blogId].metaData.styles[newId] =
+            state.blogs[blogId].metaData.styles[id];
+        }
+        if (state.blogs[blogId].metaData.imgLinks[id]) {
+          state.blogs[blogId].metaData.imgLinks[newId] =
+            state.blogs[blogId].metaData.imgLinks[id];
+        }
+
+        if (!Array.isArray(newComponent.children)) return;
+
+        newComponent.children.forEach((childrenId) => {
+          replicateComponentChildrens(childrenId, newId);
+        });
+      };
+
+      replicateComponentChildrens(
+        id,
+        state.blogs[blogId].components[id]?.parentId ?? null,
+        true
+      );
     },
 
     toggleEditorOrPreview: (state, action: PayloadAction<string>) => {
