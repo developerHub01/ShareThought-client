@@ -11,7 +11,11 @@ import {
   updatePaddingStyle,
 } from "@/redux/features/builders/blogBuilderSlice";
 
-const PaddingProperty = () => {
+interface PaddingPropertyProps {
+  label?: string;
+}
+
+const PaddingProperty = ({ label }: PaddingPropertyProps) => {
   const dispatch = useAppDispatch();
   const { id: blogId } = useParams<{ id: string }>();
 
@@ -66,6 +70,7 @@ const PaddingProperty = () => {
 
   return (
     <PaddingBlock
+      label={label}
       padding={padding}
       handleChange={handleChangePadding}
       handleToggleMore={handleToggleMore}

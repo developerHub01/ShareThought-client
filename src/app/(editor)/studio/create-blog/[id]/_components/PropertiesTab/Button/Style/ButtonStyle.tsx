@@ -12,6 +12,7 @@ import BorderProperty from "@/app/(editor)/studio/create-blog/[id]/_components/P
 import BorderRadiusProperty from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Common/BorderRadiusProperty";
 import AlignmentProperty from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Common/AlignmentProperty";
 import ButtonWidth from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Button/Style/ButtonWidth";
+import PaddingProperty from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Common/PaddingProperty";
 
 const ButtonStyle = () => {
   return (
@@ -27,6 +28,7 @@ const ButtonStyle = () => {
       <BorderProperty />
       <BorderRadiusProperty />
       <AlignmentProperty />
+      <PaddingProperty label="Inner Padding" />
     </PropertyTypeWrapper>
   );
 };

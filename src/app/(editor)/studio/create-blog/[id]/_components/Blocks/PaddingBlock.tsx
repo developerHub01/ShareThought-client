@@ -5,6 +5,7 @@ import { PaddingType } from "@/redux/features/builders/blogBuilderSlice";
 import ValueCounter from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/ValueCounter";
 
 interface PaddingBlockProps {
+  label?: string;
   padding: Partial<Record<PaddingType, number>>;
   handleChange: (
     padding: Partial<Record<PaddingType, number | "inc" | "dec">>
@@ -13,6 +14,7 @@ interface PaddingBlockProps {
 }
 
 const PaddingBlock = ({
+  label,
   padding,
   handleChange,
   handleToggleMore,
@@ -32,7 +34,7 @@ const PaddingBlock = ({
     <PropertyWrapper_v1 className="flex flex-col gap-3">
       <div className="w-full flex justify-between items-center gap-3 flex-wrap">
         <label htmlFor="padding" className="text-sm">
-          Padding
+          {label ?? "Padding"}
         </label>
         <Switch
           id="padding"
