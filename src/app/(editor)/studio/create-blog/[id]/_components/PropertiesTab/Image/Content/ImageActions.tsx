@@ -70,7 +70,7 @@ const ImageActions = () => {
           hidden
         />
         <LabelButton size={"sm"} htmlFor="imageUploader" className="w-full">
-          Upload
+          {imageUrl ? "Change" : "Upload"}
         </LabelButton>
         {imageUrl && (
           <Button size={"sm"} onClick={handleEdit} className="w-full">
