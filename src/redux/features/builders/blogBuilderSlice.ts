@@ -639,66 +639,50 @@ export const blogBuilderSlice = createSlice({
       if (!state.blogs[blogId] || !state.blogs[blogId].components[id])
         return state;
 
+      const styles: StylesInterface = {};
+      const imgLinks: Record<string, string> = {};
+      const components: Record<string, BlockInterface> = {};
+      const startId = uuidv4();
+
       const replicateComponentChildrens = (
         id: string,
         parentId: string | null = null,
         isRoot: boolean = false
       ) => {
-        console.log({ parentId });
-        const newId = uuidv4();
-
         const component = state.blogs[blogId].components[id];
-
         if (!component) return;
 
-        const newComponent = {
-          ...component,
+        const newId = isRoot ? startId : uuidv4();
+
+        components[newId] = {
+          ...structuredClone(
+            current(component)
+          ) /* to make sure to deep copy */,
           id: newId,
           parentId,
         };
 
-        if (
-          component.parentId &&
-          newComponent.parentId &&
-          Array.isArray(newComponent?.children)
-        ) {
+        /* if the component is first component or not */
+        if (parentId && components[parentId]) {
           const componentIndex = (
-            state.blogs[blogId].components[newComponent.parentId]
-              .children as Array<string>
+            components[parentId].children as Array<string>
           ).indexOf(id);
 
-          if (isRoot)
-            (
-              state.blogs[blogId].components[newComponent.parentId]
-                .children as Array<string>
-            ).splice(componentIndex + 1, 0, newId);
-          else
-            (
-              state.blogs[blogId].components[newComponent.parentId]
-                .children as Array<string>
-            )[componentIndex] = newId;
-        } else {
-          const componentIndex = state.blogs[blogId]?.content?.indexOf(id);
-
-          if (isRoot)
-            state.blogs[blogId]?.content.splice(componentIndex + 1, 0, newId);
-          else state.blogs[blogId].content[componentIndex] = newId;
+          (components[parentId].children as Array<string>)[componentIndex] =
+            newId;
         }
-
-        state.blogs[blogId].components[newId] = newComponent;
 
         if (state.blogs[blogId].metaData.styles[id]) {
-          state.blogs[blogId].metaData.styles[newId] =
-            state.blogs[blogId].metaData.styles[id];
+          styles[newId] = state.blogs[blogId].metaData.styles[id];
         }
+
         if (state.blogs[blogId].metaData.imgLinks[id]) {
-          state.blogs[blogId].metaData.imgLinks[newId] =
-            state.blogs[blogId].metaData.imgLinks[id];
+          imgLinks[newId] = state.blogs[blogId].metaData.imgLinks[id];
         }
 
-        if (!Array.isArray(newComponent.children)) return;
+        if (!Array.isArray(component.children)) return;
 
-        newComponent.children.forEach((childrenId) => {
+        component.children.forEach((childrenId) => {
           replicateComponentChildrens(childrenId, newId);
         });
       };
@@ -708,6 +692,45 @@ export const blogBuilderSlice = createSlice({
         state.blogs[blogId].components[id]?.parentId ?? null,
         true
       );
+
+      const parentId = state.blogs[blogId].components[id].parentId;
+
+      if (
+        parentId &&
+        Array.isArray(state.blogs[blogId].components[parentId]?.children)
+      ) {
+        const indexToInsertComponent =
+          state.blogs[blogId].components[parentId].children.indexOf(id);
+
+        state.blogs[blogId].components[parentId].children.splice(
+          indexToInsertComponent + 1,
+          0,
+          startId
+        );
+      } else if (state.blogs[blogId].content.includes(id)) {
+        const indexToInsertComponent = state.blogs[blogId].content.indexOf(id);
+
+        state.blogs[blogId].content.splice(
+          indexToInsertComponent + 1,
+          0,
+          startId
+        );
+      }
+
+      state.blogs[blogId].components = {
+        ...state.blogs[blogId].components,
+        ...components,
+      };
+
+      state.blogs[blogId].metaData.styles = {
+        ...state.blogs[blogId].metaData.styles,
+        ...styles,
+      };
+
+      state.blogs[blogId].metaData.imgLinks = {
+        ...state.blogs[blogId].metaData.imgLinks,
+        ...imgLinks,
+      };
     },
 
     toggleEditorOrPreview: (state, action: PayloadAction<string>) => {
