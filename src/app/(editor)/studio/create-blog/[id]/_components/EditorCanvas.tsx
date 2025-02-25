@@ -56,7 +56,7 @@ const EditorCanvas = () => {
               <section className="w-full py-5 px-1 flex flex-col">
                 <AnimatePresence>
                   {Boolean(blogData?.content.length) && (
-                    <AddComponentSection index={0} />
+                    <AddComponentSection lavel={0} index={0} />
                   )}
                 </AnimatePresence>
 
@@ -69,14 +69,17 @@ const EditorCanvas = () => {
                           className="group-hover:opacity-100 group-hover:scale-y-100 opacity-0 scale-y-0 -translate-y-1/2 mt-1 mx-auto"
                           exit={{ opacity: 0 }}
                         >
-                          <AddComponentSection index={index + 1} />
+                          <AddComponentSection lavel={0} index={index + 1} />
                         </motion.div>
                       )}
                     </AnimatePresence>
                   </div>
                 ))}
 
-                <AddComponentSection index={blogData?.content.length} />
+                <AddComponentSection
+                  lavel={0}
+                  index={blogData?.content.length}
+                />
               </section>
             </form>
           </ScrollArea>

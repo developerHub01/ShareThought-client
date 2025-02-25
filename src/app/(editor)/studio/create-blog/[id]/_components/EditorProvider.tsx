@@ -9,6 +9,8 @@ interface EditorContext {
   setSelectedParentId: Dispatch<React.SetStateAction<string>>;
   isComponentDialogOpen: boolean;
   setIsComponentDialogOpen: Dispatch<React.SetStateAction<boolean>>;
+  showLayoutTab: boolean;
+  setShowLayoutTab: Dispatch<React.SetStateAction<boolean>>;
 }
 
 const EditorContext = createContext<EditorContext | null>(null);
@@ -32,6 +34,7 @@ const EditorProvider = ({ children }: EditorProviderProps) => {
   const [selectedParentId, setSelectedParentId] = useState<string>("");
   const [isComponentDialogOpen, setIsComponentDialogOpen] =
     useState<boolean>(false);
+  const [showLayoutTab, setShowLayoutTab] = useState<boolean>(false);
 
   return (
     <EditorContext.Provider
@@ -42,6 +45,8 @@ const EditorProvider = ({ children }: EditorProviderProps) => {
         setSelectedParentId,
         isComponentDialogOpen,
         setIsComponentDialogOpen,
+        showLayoutTab,
+        setShowLayoutTab,
       }}
     >
       {children}

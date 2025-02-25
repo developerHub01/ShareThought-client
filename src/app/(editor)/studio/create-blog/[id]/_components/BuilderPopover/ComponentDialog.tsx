@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState } from "react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import LayoutList from "@/app/(editor)/studio/create-blog/[id]/_components/BuilderPopover/LayoutList";
@@ -45,6 +47,7 @@ const ComponentDialog = () => {
 
 const EditorComponentPopup = () => {
   const [isComponentListOpen, setIsComponentListOpen] = useState(true);
+  const { showLayoutTab } = useEditor();
 
   return (
     <div className="w-full h-full flex flex-col gap-3">
@@ -56,16 +59,22 @@ const EditorComponentPopup = () => {
         >
           Components
         </Button>
-        <Button
-          className="w-full"
-          variant={!isComponentListOpen ? "default" : "outline"}
-          onClick={() => setIsComponentListOpen(false)}
-        >
-          Layouts
-        </Button>
+        {showLayoutTab && (
+          <Button
+            className="w-full"
+            variant={!isComponentListOpen ? "default" : "outline"}
+            onClick={() => setIsComponentListOpen(false)}
+          >
+            Layouts
+          </Button>
+        )}
       </div>
       <ScrollArea className="w-full h-full">
-        {isComponentListOpen ? <ComponentList /> : <LayoutList />}
+        {isComponentListOpen ? (
+          <ComponentList />
+        ) : (
+          <>{showLayoutTab && <LayoutList />}</>
+        )}
       </ScrollArea>
     </div>
   );

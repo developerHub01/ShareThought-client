@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import { useEditor } from "@/app/(editor)/studio/create-blog/[id]/_components/EditorProvider";
 import clsx from "clsx";
@@ -6,6 +8,7 @@ import { Plus as AddIcon } from "lucide-react";
 import Container from "@/app/(editor)/studio/create-blog/[id]/_components/Container";
 
 interface AddComponentSectionProps {
+  lavel?: number;
   className?: string;
   index?: number;
   parentId?: string;
@@ -13,6 +16,7 @@ interface AddComponentSectionProps {
 }
 
 const AddComponentSection = ({
+  lavel,
   className,
   parentId = "",
   index = -1,
@@ -26,12 +30,13 @@ const AddComponentSection = ({
       )}
       {...props}
     >
-      <AddComponentButton index={index} parentId={parentId} />
+      <AddComponentButton lavel={lavel} index={index} parentId={parentId} />
     </Container>
   );
 };
 
 interface AddComponentButtonProps {
+  lavel?: number;
   className?: string;
   index?: number;
   parentId?: string;
@@ -39,18 +44,24 @@ interface AddComponentButtonProps {
 }
 
 const AddComponentButton = ({
+  lavel,
   className,
   index = -1,
   parentId = "",
   ...props
 }: AddComponentButtonProps) => {
-  const { setIsComponentDialogOpen, setSelectedIndex, setSelectedParentId } =
-    useEditor();
+  const {
+    setIsComponentDialogOpen,
+    setSelectedIndex,
+    setSelectedParentId,
+    setShowLayoutTab,
+  } = useEditor();
 
   const handleClick = () => {
     setIsComponentDialogOpen(true);
     setSelectedIndex(index);
     setSelectedParentId(parentId);
+    setShowLayoutTab(lavel === 0);
   };
 
   return (
