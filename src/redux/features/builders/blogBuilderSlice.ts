@@ -357,7 +357,7 @@ export const blogBuilderSlice = createSlice({
       }>
     ) => {
       const { id: blogId, type, index, gridSize, parentId } = action.payload;
-      console.log({ parentId });
+      
       /* if that blog is not exist then create */
       ensureBlogExists(state, blogId);
 
@@ -1991,24 +1991,6 @@ export const blogBuilderSlice = createSlice({
       delete blockStyle.filter;
     },
 
-    setImageWidth: (
-      state,
-      action: PayloadAction<{
-        blogId: string;
-        id: string; // component id
-        width: number | "auto";
-      }>
-    ) => {
-      const { blogId, id, width } = action.payload;
-
-      if (!state.blogs[blogId]?.metaData?.styles[id])
-        state.blogs[blogId].metaData.styles[id] = {};
-
-      const blockStyle = state.blogs[blogId]?.metaData?.styles[id];
-
-      blockStyle.width = width;
-    },
-
     /* spacer ======== */
     changeSpacerSize: (
       state,
@@ -2160,7 +2142,6 @@ export const {
   /* image filter  */
   addImageFilter,
   resetImageFilter,
-  setImageWidth,
   /* spacer ======== */
   changeSpacerSize,
   /* accordion ========== */

@@ -6,7 +6,7 @@ import { Switch } from "@/components/ui/switch";
 import SliderBlock from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/SliderBlockWithLabel";
 import { useParams } from "next/navigation";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { setImageWidth } from "@/redux/features/builders/blogBuilderSlice";
+import { addStyle } from "@/redux/features/builders/blogBuilderSlice";
 
 const ImageWidth = () => {
   const { id: blogId } = useParams<{ id: string }>();
@@ -27,20 +27,24 @@ const ImageWidth = () => {
 
   const handleChange = (value: number) => {
     dispatch(
-      setImageWidth({
+      addStyle({
         blogId,
-        id: activeBlock,
-        width: value,
+        activeBlockId: activeBlock,
+        styles: {
+          width: value,
+        },
       })
     );
   };
 
   const handleCheck = (checked: boolean) => {
     dispatch(
-      setImageWidth({
+      addStyle({
         blogId,
-        id: activeBlock,
-        width: checked ? "auto" : Math.round(10 + Math.random() * (100 - 10)),
+        activeBlockId: activeBlock,
+        styles: {
+          width: checked ? "auto" : Math.round(10 + Math.random() * (100 - 10)),
+        },
       })
     );
   };
