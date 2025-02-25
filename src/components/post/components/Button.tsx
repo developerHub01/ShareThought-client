@@ -9,6 +9,8 @@ import {
 import handleWrapperContentStyleSeparator from "@/utils/editor/handleWrapperContentStyleSeparator";
 import handleBorderStyle from "@/utils/editor/handleBorderStyle";
 import Link from "next/link";
+import handlePaddingExtractor from "@/utils/editor/handlePaddingExtractor";
+import handlePaddingRemover from "@/utils/editor/handlePaddingRemover";
 
 interface ButtonProps {
   id: string;
@@ -32,6 +34,18 @@ const Button = ({ id, metaData, components }: ButtonProps) => {
   const filteredBorder = handleBorderStyle(buttonStyles);
 
   contentStyles = { ...contentStyles, ...filteredBorder };
+
+  contentStyles = {
+    ...contentStyles,
+    ...handlePaddingExtractor(wrapperStyles as StyleType),
+  };
+
+  wrapperStyles = {
+    ...handlePaddingRemover(wrapperStyles as StyleType),
+  };
+
+  if (typeof contentStyles.width === "number")
+    contentStyles.width = `${contentStyles.width}%`;
 
   const Comp = () => (
     <button
