@@ -14,7 +14,7 @@ import { cn } from "@/lib/utils";
 
 interface ButtonProps {
   id: string;
-  parentId?: string
+  parentId?: string;
 }
 
 const Button = ({ id, parentId, ...props }: ButtonProps) => {
@@ -39,6 +39,9 @@ const Button = ({ id, parentId, ...props }: ButtonProps) => {
   const filteredBorder = handleBorderStyle(buttonStyles);
 
   contentStyles = { ...contentStyles, ...filteredBorder };
+
+  if (typeof contentStyles.width === "number")
+    contentStyles.width = `${contentStyles.width}%`;
 
   const handleBlur = (e: FocusEvent<HTMLButtonElement>) => {
     dispatch(
