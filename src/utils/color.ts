@@ -1,4 +1,6 @@
 export const hexToRgba = (hex: string) => {
+  if (!hex) return "transparent";
+
   if (hex === "transparent") return "rgba(0, 0, 0, 0)";
 
   hex = hex.replace(/^#/, "");

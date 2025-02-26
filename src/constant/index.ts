@@ -110,6 +110,7 @@ export const EDITOR_TYPOGRAPHY_SIZE = {
       h6: "#212121",
       p: "#343434",
       button: "#ffffff",
+      default: "#212121",
     },
   },
 };

@@ -37,7 +37,9 @@ const TextColorProperty = () => {
   const typographyType = components[activeBlock].type as TypographyType;
 
   const textColor =
-    activeStyle?.color || EDITOR_TYPOGRAPHY_SIZE.COLOR.DEFAULT[typographyType];
+    activeStyle?.color ??
+    EDITOR_TYPOGRAPHY_SIZE.COLOR.DEFAULT[typographyType] ??
+    EDITOR_TYPOGRAPHY_SIZE.COLOR.DEFAULT.default;
 
   const dispatch = useAppDispatch();
   const [textColorState, setTextColorState] = useState<string>(textColor);
