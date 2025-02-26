@@ -3,10 +3,13 @@
 import BlockComponent from "@/app/(editor)/studio/create-blog/[id]/_components/BlockComponent";
 import BlockComponentWrapper from "@/app/(editor)/studio/create-blog/[id]/_components/BlockComponentWrapper";
 import AddComponentSection from "@/app/(editor)/studio/create-blog/[id]/_components/BuilderPopover/AddComponentSection";
+import { StyleType } from "@/redux/features/builders/blogBuilderSlice";
 import { useAppSelector } from "@/redux/hooks";
+import handleBorderStyle from "@/utils/editor/handleBorderStyle";
+import handleBoxShadow from "@/utils/editor/handleBoxShadow";
 import { AnimatePresence, motion } from "motion/react";
 import { useParams } from "next/navigation";
-import React from "react";
+import React, { CSSProperties } from "react";
 
 interface RowProps {
   id: string;
@@ -18,16 +21,34 @@ const Column = ({ id, ...props }: RowProps) => {
 
   if (!postId) return;
 
-  const { components } =
-    useAppSelector((state) => state?.blogBuilder?.blogs[postId]) || {};
+  const {
+    components,
+    metaData: { styles = {} },
+  } = useAppSelector((state) => state?.blogBuilder?.blogs[postId]) || {};
 
   if (!components[id]) return null;
 
   const { children } = components[id];
 
+  let componentStyles: StyleType = styles[id] || {};
+
+  componentStyles = {
+    ...componentStyles,
+    ...handleBorderStyle(componentStyles),
+  };
+  componentStyles = {
+    ...componentStyles,
+    ...handleBoxShadow(componentStyles),
+  };
+
   return (
     <BlockComponentWrapper id={id} className="w-full max-w-3xl rounded-sm">
-      <section className="w-full flex flex-col">
+      <section
+        className="w-full flex flex-col"
+        style={{
+          ...(componentStyles as CSSProperties),
+        }}
+      >
         {Array.isArray(children) && (
           <>
             {Boolean(children.length) && <AddComponentSection index={0} />}

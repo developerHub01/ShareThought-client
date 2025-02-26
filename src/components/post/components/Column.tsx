@@ -3,8 +3,11 @@ import {
   BlogComponentsDataInterface,
   BlogContentType,
   BlogMetaDataInterface,
+  StyleType,
 } from "@/redux/features/builders/blogBuilderSlice";
-import React from "react";
+import handleBorderStyle from "@/utils/editor/handleBorderStyle";
+import handleBoxShadow from "@/utils/editor/handleBoxShadow";
+import React, { CSSProperties } from "react";
 
 interface RowProps {
   id: string;
@@ -16,8 +19,11 @@ interface RowProps {
 const Column = (props: RowProps) => {
   const { id, ...restProps } = props;
 
-  const { components } = restProps;
-  
+  const {
+    components,
+    metaData: { styles = {} },
+  } = restProps;
+
   if (!components) return null;
 
   const component = components[id];
@@ -26,8 +32,24 @@ const Column = (props: RowProps) => {
 
   const { children } = component;
 
+  let componentStyles: StyleType = styles[id] || {};
+
+  componentStyles = {
+    ...componentStyles,
+    ...handleBorderStyle(componentStyles),
+  };
+  componentStyles = {
+    ...componentStyles,
+    ...handleBoxShadow(componentStyles),
+  };
+
   return (
-    <section className="w-full flex flex-col">
+    <section
+      className="w-full flex flex-col"
+      style={{
+        ...(componentStyles as CSSProperties),
+      }}
+    >
       {Array.isArray(children) && (
         <>
           {children.map((id) => (

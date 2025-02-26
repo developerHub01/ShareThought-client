@@ -42,12 +42,18 @@ const Image = ({ id, components, metaData }: ImageProps) => {
 
   if (typeof contentStyles.width === "number")
     contentStyles.width = `${contentStyles.width}%`;
+  if (typeof contentStyles.height === "number")
+    contentStyles.height = `${contentStyles.height}%`;
 
   const figureStyle: Record<string, string | number> = {};
 
   if (typeof contentStyles.width === "string") {
     figureStyle["width"] = contentStyles.width;
     delete contentStyles.width;
+  }
+  if (typeof contentStyles.height === "string") {
+    figureStyle["height"] = contentStyles.height;
+    delete contentStyles.height;
   }
 
   const Comp = () => {

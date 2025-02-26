@@ -10,7 +10,7 @@ import handleBorderStyle from "@/utils/editor/handleBorderStyle";
 import handleWrapperContentStyleSeparator from "@/utils/editor/handleWrapperContentStyleSeparator";
 interface ImageProps {
   id: string;
-  parentId?: string
+  parentId?: string;
   alt?: string;
   caption?: string;
   [key: string]: unknown;
@@ -46,12 +46,18 @@ const Image = ({ id, parentId, ...props }: ImageProps) => {
 
   if (typeof contentStyles.width === "number")
     contentStyles.width = `${contentStyles.width}%`;
+  if (typeof contentStyles.height === "number")
+    contentStyles.height = `${contentStyles.height}%`;
 
   const figureStyle: Record<string, string | number> = {};
 
   if (typeof contentStyles.width === "string") {
     figureStyle["width"] = contentStyles.width;
     delete contentStyles.width;
+  }
+  if (typeof contentStyles.height === "string") {
+    figureStyle["height"] = contentStyles.height;
+    delete contentStyles.height;
   }
 
   const Comp = () => {

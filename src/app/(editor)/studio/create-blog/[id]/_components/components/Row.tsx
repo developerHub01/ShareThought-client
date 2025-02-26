@@ -1,14 +1,16 @@
 "use client";
 
 import { useAppSelector } from "@/redux/hooks";
-import React from "react";
+import React, { CSSProperties } from "react";
 import Column from "@/app/(editor)/studio/create-blog/[id]/_components/components/Column";
 import { cn } from "@/lib/utils";
 import { useParams } from "next/navigation";
+import handleBorderStyle from "@/utils/editor/handleBorderStyle";
+import handleBoxShadow from "@/utils/editor/handleBoxShadow";
 
 interface RowProps {
   id: string;
-  parentId?: string
+  parentId?: string;
 }
 
 const getColSpan = (column: number) => {
@@ -30,13 +32,31 @@ const Row = ({ id, parentId }: RowProps) => {
 
   if (!blogId) return null;
 
-  const { components } =
-    useAppSelector((state) => state?.blogBuilder?.blogs[blogId]) || {};
+  const {
+    components,
+    metaData: { styles = {} },
+  } = useAppSelector((state) => state?.blogBuilder?.blogs[blogId]) || {};
 
   const { children, gridSize } = components[id];
 
+  let componentStyles = styles[id] || {};
+
+  componentStyles = {
+    ...componentStyles,
+    ...handleBorderStyle(componentStyles),
+  };
+  componentStyles = {
+    ...componentStyles,
+    ...handleBoxShadow(componentStyles),
+  };
+
   return (
-    <section className="grid grid-cols-12 gap-1">
+    <section
+      className="grid grid-cols-12 gap-1"
+      style={{
+        ...(componentStyles as CSSProperties),
+      }}
+    >
       {Array.isArray(children) &&
         children.map((id, index) => (
           <div

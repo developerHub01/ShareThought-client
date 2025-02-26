@@ -24,6 +24,8 @@ import TypographyContent from "@/app/(editor)/studio/create-blog/[id]/_component
 import TypographyStyle from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Typography/Style/TypographyStyle";
 import ButtonContent from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Button/Content/ButtonContent";
 import ButtonStyle from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Button/Style/ButtonStyle";
+import RowStyles from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Row/Styles/RowStyles";
+import ColumnStyles from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Column/Styles/ColumnStyles";
 
 const PropertiesTab = () => {
   const { id: blogId } = useParams<{ id: string }>();
@@ -138,15 +140,15 @@ const PropertiesTab = () => {
         )}
 
         {activeComponent.type === "row" && (
-          <>
-            <h1>Row</h1>
-          </>
+          <PropertyTypeWrapper id="row_style" label="Styles">
+            <RowStyles />
+          </PropertyTypeWrapper>
         )}
 
         {activeComponent.type === "column" && (
-          <>
-            <h1>Column</h1>
-          </>
+          <PropertyTypeWrapper id="column_style" label="Styles">
+            <ColumnStyles />
+          </PropertyTypeWrapper>
         )}
 
         {[

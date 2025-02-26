@@ -2,10 +2,13 @@ import {
   BlogComponentsDataInterface,
   BlogContentType,
   BlogMetaDataInterface,
+  StyleType,
 } from "@/redux/features/builders/blogBuilderSlice";
-import React from "react";
+import React, { CSSProperties } from "react";
 import { cn } from "@/lib/utils";
 import Column from "@/components/post/components/Column";
+import handleBorderStyle from "@/utils/editor/handleBorderStyle";
+import handleBoxShadow from "@/utils/editor/handleBoxShadow";
 
 interface RowProps {
   id: string;
@@ -31,16 +34,35 @@ const getColSpan = (column: number) => {
 const Row = (props: RowProps) => {
   const { id, ...restProps } = props;
 
-  const { components } = restProps;
+  const {
+    components,
+    metaData: { styles = {} },
+  } = restProps;
 
   const component = components[id];
 
   if (!component) return null;
 
+  let componentStyles: StyleType = styles[id] || {};
+
+  componentStyles = {
+    ...componentStyles,
+    ...handleBorderStyle(componentStyles),
+  };
+  componentStyles = {
+    ...componentStyles,
+    ...handleBoxShadow(componentStyles),
+  };
+
   const { children, gridSize } = component;
 
   return (
-    <section className="grid grid-cols-12 gap-1">
+    <section
+      className="grid grid-cols-12 gap-1"
+      style={{
+        ...(componentStyles as CSSProperties),
+      }}
+    >
       {Array.isArray(children) &&
         children.map((id, index) => (
           <div
