@@ -1,5 +1,3 @@
-import { CSSProperties } from "react";
-
 const handleBoxShadow = (
   styles: Record<string, string | number | (string | number)[]>
 ) => {

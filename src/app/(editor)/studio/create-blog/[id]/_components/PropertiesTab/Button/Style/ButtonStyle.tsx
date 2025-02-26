@@ -13,6 +13,8 @@ import BorderRadiusProperty from "@/app/(editor)/studio/create-blog/[id]/_compon
 import AlignmentProperty from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Common/AlignmentProperty";
 import ButtonWidth from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Button/Style/ButtonWidth";
 import PaddingProperty from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Common/PaddingProperty";
+import BoxShadowProperty from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Common/BoxShadowProperty";
+import BackgroundColorProperty from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Common/BackgroundColorProperty";
 
 const ButtonStyle = () => {
   return (
@@ -21,6 +23,7 @@ const ButtonStyle = () => {
       <FontSizeProperty />
       <FontWeightProperty />
       <TextColorProperty />
+      <BackgroundColorProperty />
       <LetterSpacingProperty />
       <LineHeightProperty />
       <TextTransformProperty />
@@ -28,6 +31,7 @@ const ButtonStyle = () => {
       <BorderProperty />
       <BorderRadiusProperty />
       <AlignmentProperty />
+      <BoxShadowProperty />
       <PaddingProperty label="Inner Padding" />
     </PropertyTypeWrapper>
   );

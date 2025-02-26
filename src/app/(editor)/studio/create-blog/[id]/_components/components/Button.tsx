@@ -12,7 +12,8 @@ import handleBorderStyle from "@/utils/editor/handleBorderStyle";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import handlePaddingExtractor from "@/utils/editor/handlePaddingExtractor";
-import handlePaddingRemover from "@/utils/editor/handlePaddingRemover";
+import handleSpecificStyleRemover from "@/utils/editor/handleSpecificStyleRemover";
+import handleBoxShadowExtractor from "@/utils/editor/handleBoxShadowExtractor";
 
 interface ButtonProps {
   id: string;
@@ -46,9 +47,17 @@ const Button = ({ id, parentId, ...props }: ButtonProps) => {
     ...contentStyles,
     ...handlePaddingExtractor(wrapperStyles as StyleType),
   };
+  
+  contentStyles = {
+    ...contentStyles,
+    ...handleBoxShadowExtractor(wrapperStyles as StyleType),
+  };
 
   wrapperStyles = {
-    ...handlePaddingRemover(wrapperStyles as StyleType),
+    ...handleSpecificStyleRemover(wrapperStyles as StyleType, "padding"),
+  };
+  wrapperStyles = {
+    ...handleSpecificStyleRemover(wrapperStyles as StyleType, "boxShadow"),
   };
 
   if (typeof contentStyles.width === "number")
