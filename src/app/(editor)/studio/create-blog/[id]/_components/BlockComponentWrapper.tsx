@@ -74,9 +74,9 @@ const BlockComponentWrapper = ({
   return (
     <div
       className={cn(
-        "flex w-full justify-center gap-3 p-2 px-2 ring-2 ring-transparent relative",
+        "flex w-full justify-center gap-3 px-2 ring-2 ring-transparent relative",
         {
-          "bg-accent/80 ring-primary": id === activeBlock || isHovering,
+          "ring-primary": id === activeBlock || isHovering,
           "px-16": lavel === 1,
         }
       )}
