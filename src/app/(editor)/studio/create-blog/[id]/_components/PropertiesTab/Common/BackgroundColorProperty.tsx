@@ -29,7 +29,7 @@ const BackgroundColorProperty = () => {
 
   const activeStyle = styles[activeBlock] as CSSProperties;
 
-  const backgroundColor = activeStyle?.color || "transparent";
+  const backgroundColor = activeStyle?.backgroundColor || "transparent";
 
   const dispatch = useAppDispatch();
   const [backgroundColorState, setBackgroundColorState] =
