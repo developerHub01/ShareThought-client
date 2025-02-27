@@ -13,12 +13,14 @@ import {
   Copy as DuplicateIcon,
   X as ClearIcon,
   MoveUp as MoveUpIcon,
+  MoveDown as MoveDownIcon,
 } from "lucide-react";
 import clsx from "clsx";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import {
   changeActiveBlock,
   gotoUpComponent,
+  gotoDownComponent,
   removeComponent,
   duplicateComponent,
 } from "@/redux/features/builders/blogBuilderSlice";
@@ -45,6 +47,20 @@ const TopActionList = () => {
 
           dispatch(
             gotoUpComponent({
+              blogId,
+            })
+          );
+        },
+      },
+      {
+        id: "down",
+        Icon: MoveDownIcon,
+        label: "Goto Down Layer",
+        onClick: () => {
+          if (!activeBlock) return null;
+
+          dispatch(
+            gotoDownComponent({
               blogId,
             })
           );
@@ -107,6 +123,12 @@ const TopActionList = () => {
           {actionList.map(({ id, Icon, label, onClick }, index, arr) => {
             /* if no parentId exist for goto parent component */
             if (!activeComponent.parentId && id === "up") return;
+            if (
+              (!Array.isArray(activeComponent.children) ||
+                !activeComponent.children.length) &&
+              id === "down"
+            )
+              return;
 
             return (
               <Tooltip key={id}>

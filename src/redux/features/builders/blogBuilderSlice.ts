@@ -539,6 +539,32 @@ export const blogBuilderSlice = createSlice({
       state.blogs[blogId].activeBlock = activeComponent.parentId;
     },
 
+    gotoDownComponent: (
+      state,
+      action: PayloadAction<{
+        blogId: string;
+      }>
+    ) => {
+      const { blogId } = action.payload;
+
+      if (!state.blogs[blogId]) return;
+
+      const { activeBlock, components } = state.blogs[blogId];
+
+      if (!activeBlock) return;
+
+      const activeComponent = components[activeBlock];
+
+      if (
+        !activeComponent ||
+        !Array.isArray(activeComponent.children) ||
+        !activeComponent.children.length
+      )
+        return;
+
+      state.blogs[blogId].activeBlock = activeComponent.children[0];
+    },
+
     removeComponent: (
       state,
       action: PayloadAction<{
@@ -2216,6 +2242,7 @@ export const {
   createBlog,
   addComponent,
   gotoUpComponent,
+  gotoDownComponent,
   removeComponent,
   duplicateComponent,
   toggleisImageEditorOpen,
