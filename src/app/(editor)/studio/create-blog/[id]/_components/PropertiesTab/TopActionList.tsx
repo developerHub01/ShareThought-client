@@ -12,11 +12,13 @@ import {
   Trash as DeleteIcon,
   Copy as DuplicateIcon,
   X as ClearIcon,
+  MoveUp as MoveUpIcon,
 } from "lucide-react";
 import clsx from "clsx";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import {
   changeActiveBlock,
+  gotoUpComponent,
   removeComponent,
   duplicateComponent,
 } from "@/redux/features/builders/blogBuilderSlice";
@@ -34,6 +36,20 @@ const TopActionList = () => {
 
   const actionList = useMemo(
     () => [
+      {
+        id: "up",
+        Icon: MoveUpIcon,
+        label: "Goto Up Layer",
+        onClick: () => {
+          if (!activeBlock) return null;
+
+          dispatch(
+            gotoUpComponent({
+              blogId,
+            })
+          );
+        },
+      },
       {
         id: "delete",
         Icon: DeleteIcon,
@@ -88,27 +104,32 @@ const TopActionList = () => {
       </p>
       <div className="flex items-center">
         <TooltipProvider>
-          {actionList.map(({ id, Icon, label, onClick }, index, arr) => (
-            <Tooltip key={id}>
-              <TooltipTrigger asChild>
-                <Button
-                  variant="outline"
-                  size="icon"
-                  onClick={onClick}
-                  className={clsx("", {
-                    "rounded-r-none": index === 0,
-                    "rounded-l-none": index === arr.length - 1,
-                    "rounded-none": index && index < arr.length - 1,
-                  })}
-                >
-                  <Icon size={18} />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent side="bottom">
-                <p>{label}</p>
-              </TooltipContent>
-            </Tooltip>
-          ))}
+          {actionList.map(({ id, Icon, label, onClick }, index, arr) => {
+            /* if no parentId exist for goto parent component */
+            if (!activeComponent.parentId && id === "up") return;
+
+            return (
+              <Tooltip key={id}>
+                <TooltipTrigger asChild>
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    onClick={onClick}
+                    className={clsx("", {
+                      "rounded-r-none": index === 0,
+                      "rounded-l-none": index === arr.length - 1,
+                      "rounded-none": index && index < arr.length - 1,
+                    })}
+                  >
+                    <Icon size={18} />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent side="bottom">
+                  <p>{label}</p>
+                </TooltipContent>
+              </Tooltip>
+            );
+          })}
         </TooltipProvider>
       </div>
     </div>
