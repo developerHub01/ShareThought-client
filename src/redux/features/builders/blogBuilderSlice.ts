@@ -562,74 +562,125 @@ export const blogBuilderSlice = createSlice({
 
       if (!activeBlock) return;
 
-      const moveThroughRecusive = (id: string) => {
-        console.log({ id });
+      const moveActiveBlock = (id: string) => {
         const currentComponent = components[id];
 
         if (!currentComponent) return;
 
-        if (!currentComponent.parentId) {
-          const contentList = state.blogs[blogId].content;
+        if (type === "prev") {
+          if (!currentComponent.parentId) {
+            const contentList = state.blogs[blogId].content;
 
-          const componentIndexInContent = contentList.indexOf(id);
+            const componentIndexInContent = contentList.indexOf(id);
 
+            if (!componentIndexInContent) return;
+
+            state.blogs[blogId].activeBlock =
+              contentList[componentIndexInContent - 1];
+          } else {
+            const parentComponent = components[currentComponent.parentId];
+
+            if (!parentComponent) return;
+
+            const parentChildren =
+              Array.isArray(parentComponent.children) &&
+              parentComponent.children;
+
+            if (!parentChildren || !parentChildren.length) return;
+
+            const indexInParentChildren = parentChildren.indexOf(id);
+
+            if (indexInParentChildren < 0) return;
+
+            if (indexInParentChildren === 0)
+              return (state.blogs[blogId].activeBlock =
+                currentComponent.parentId);
+            else
+              state.blogs[blogId].activeBlock =
+                parentChildren[indexInParentChildren - 1];
+          }
+        } else {
           if (
-            (!componentIndexInContent && type === "prev") ||
-            (componentIndexInContent >= contentList.length - 1 &&
-              type === "next")
-          )
-            return;
+            !currentComponent.parentId &&
+            (!Array.isArray(currentComponent.children) ||
+              !currentComponent.children.length)
+          ) {
+            const contentList = state.blogs[blogId].content;
 
-          state.blogs[blogId].activeBlock =
-            contentList[
-              type === "prev"
-                ? componentIndexInContent - 1
-                : componentIndexInContent + 1
-            ];
+            const componentIndexInContent = contentList.indexOf(id);
 
-          return;
+            if (componentIndexInContent >= contentList.length - 1) return;
+
+            state.blogs[blogId].activeBlock =
+              contentList[componentIndexInContent + 1];
+          } else if (
+            Array.isArray(currentComponent.children) &&
+            currentComponent.children.length
+          ) {
+            state.blogs[blogId].activeBlock = currentComponent.children[0];
+          } else if (currentComponent.parentId) {
+            const parentComponent = components[currentComponent.parentId];
+
+            if (!parentComponent) return;
+
+            const parentChildren =
+              Array.isArray(parentComponent.children) &&
+              parentComponent.children;
+
+            if (!parentChildren || !parentChildren.length) return;
+
+            const indexInParentChildren = parentChildren.indexOf(id);
+
+            if (indexInParentChildren >= parentChildren.length - 1) {
+              /* here is the main logic and crucial part. when there will be no siblings next then go to next sibling of parents and find parent sinbling untill we find or rich root */
+              let tempCurrentComponent = currentComponent;
+              while (tempCurrentComponent.parentId) {
+                const parentComponent =
+                  components[tempCurrentComponent.parentId];
+                if (!parentComponent) return;
+
+                if (
+                  !Array.isArray(parentComponent.children) ||
+                  !parentComponent.children.length
+                )
+                  return;
+
+                const indexInParentChildren = parentComponent.children.indexOf(
+                  tempCurrentComponent.id
+                );
+
+                if (indexInParentChildren < 0) return;
+
+                if (
+                  indexInParentChildren >= 0 &&
+                  indexInParentChildren < parentComponent.children.length - 1
+                )
+                  return (state.blogs[blogId].activeBlock =
+                    parentComponent.children[indexInParentChildren + 1]);
+
+                tempCurrentComponent = parentComponent;
+              }
+
+              const indexInParentChildren = state.blogs[blogId].content.indexOf(
+                tempCurrentComponent.id
+              );
+
+              if (
+                indexInParentChildren < 0 ||
+                indexInParentChildren >= state.blogs[blogId].content.length
+              )
+                return;
+
+              return (state.blogs[blogId].activeBlock =
+                state.blogs[blogId].content[indexInParentChildren + 1]);
+            } else
+              state.blogs[blogId].activeBlock =
+                parentChildren[indexInParentChildren + 1];
+          }
         }
-
-        const parentComponent =
-          state.blogs[blogId].components[currentComponent.parentId];
-
-        const parentChildrenList = parentComponent?.children as Array<string>;
-
-        if (!parentComponent || !Array.isArray(parentChildrenList)) return;
-
-        const componentIndexInContent = parentChildrenList.indexOf(activeBlock);
-
-        /* 
-        if that id not found in parent children list or action is prev and that component in 0th index or if action is next and component index is last index then goto previous or next component using recursion 
-        */
-        if (componentIndexInContent < 0) return;
-
-        if (
-          (!componentIndexInContent && type === "prev") ||
-          (componentIndexInContent >= parentChildrenList.length - 1 &&
-            type === "next")
-        )
-          return (state.blogs[blogId].activeBlock = currentComponent.parentId);
-
-        if (
-          type === "next" &&
-          Array.isArray(state.blogs[blogId].components[id].children) &&
-          state.blogs[blogId].components[id].children.length
-        )
-          return (state.blogs[blogId].activeBlock =
-            state.blogs[blogId].components[id].children[0]);
-
-        state.blogs[blogId].activeBlock =
-          parentChildrenList[
-            type === "prev"
-              ? componentIndexInContent - 1
-              : componentIndexInContent + 1
-          ];
-
-        return;
       };
 
-      moveThroughRecusive(activeBlock);
+      moveActiveBlock(activeBlock);
     },
 
     removeComponent: (
