@@ -28,7 +28,7 @@ const TopActionList = () => {
   }>();
 
   const dispatch = useAppDispatch();
-  const { activeBlock } = useAppSelector(
+  const { activeBlock, components } = useAppSelector(
     (state) => state.blogBuilder.blogs[blogId]
   );
 
@@ -76,9 +76,16 @@ const TopActionList = () => {
 
   if (!activeBlock) return null;
 
+  const activeComponent = components[activeBlock];
+
   return (
     <div className="flex items-center justify-between gap-2">
-      <p className="py-1.5 pl-3">Actions</p>
+      <p className="py-1.5 pl-3 select-none">
+        {typeof activeComponent?.type === "string"
+          ? `${activeComponent.type.toCapitalCase()} / `
+          : ""}
+        Actions
+      </p>
       <div className="flex items-center">
         <TooltipProvider>
           {actionList.map(({ id, Icon, label, onClick }, index, arr) => (
