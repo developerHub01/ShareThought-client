@@ -26,7 +26,8 @@ import ButtonContent from "@/app/(editor)/studio/create-blog/[id]/_components/Pr
 import ButtonStyle from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Button/Style/ButtonStyle";
 import RowStyles from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Row/Styles/RowStyles";
 import ColumnStyles from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Column/Styles/ColumnStyles";
-import BorderProperty from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Common/BorderProperty";
+import RowLayout from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Row/Layout/RowLayout";
+import ColumnLayout from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Column/Layout/ColumnLayout";
 
 const PropertiesTab = () => {
   const { id: blogId } = useParams<{ id: string }>();
@@ -141,15 +142,25 @@ const PropertiesTab = () => {
         )}
 
         {activeComponent.type === "row" && (
-          <PropertyTypeWrapper id="row_style" label="Styles">
-            <RowStyles />
-          </PropertyTypeWrapper>
+          <>
+            <PropertyTypeWrapper id="row_layout" label="Layout">
+              <RowLayout />
+            </PropertyTypeWrapper>
+            <PropertyTypeWrapper id="row_style" label="Styles">
+              <RowStyles />
+            </PropertyTypeWrapper>
+          </>
         )}
 
         {activeComponent.type === "column" && (
-          <PropertyTypeWrapper id="column_style" label="Styles">
-            <ColumnStyles />
-          </PropertyTypeWrapper>
+          <>
+            <PropertyTypeWrapper id="row_layout" label="Layout">
+              <ColumnLayout />
+            </PropertyTypeWrapper>
+            <PropertyTypeWrapper id="column_style" label="Styles">
+              <ColumnStyles />
+            </PropertyTypeWrapper>
+          </>
         )}
 
         {[
