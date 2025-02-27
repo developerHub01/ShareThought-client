@@ -513,13 +513,14 @@ export const blogBuilderSlice = createSlice({
       state.blogs[blogId].components[id] = block;
     },
 
-    gotoUpComponent: (
+    gotoUpDownComponent: (
       state,
       action: PayloadAction<{
         blogId: string;
+        type: "up" | "down";
       }>
     ) => {
-      const { blogId } = action.payload;
+      const { blogId, type } = action.payload;
 
       if (!state.blogs[blogId]) return;
 
@@ -529,40 +530,21 @@ export const blogBuilderSlice = createSlice({
 
       const activeComponent = components[activeBlock];
 
-      if (
-        !activeComponent ||
-        !activeComponent.parentId ||
-        !components[activeComponent.parentId]
-      )
-        return;
-
-      state.blogs[blogId].activeBlock = activeComponent.parentId;
-    },
-
-    gotoDownComponent: (
-      state,
-      action: PayloadAction<{
-        blogId: string;
-      }>
-    ) => {
-      const { blogId } = action.payload;
-
-      if (!state.blogs[blogId]) return;
-
-      const { activeBlock, components } = state.blogs[blogId];
-
-      if (!activeBlock) return;
-
-      const activeComponent = components[activeBlock];
+      if (!activeComponent) return;
 
       if (
-        !activeComponent ||
-        !Array.isArray(activeComponent.children) ||
-        !activeComponent.children.length
+        type === "up" &&
+        activeComponent.parentId &&
+        components[activeComponent.parentId]
       )
-        return;
+        state.blogs[blogId].activeBlock = activeComponent.parentId ?? null;
 
-      state.blogs[blogId].activeBlock = activeComponent.children[0];
+      if (
+        type === "down" &&
+        Array.isArray(activeComponent.children) &&
+        activeComponent.children.length
+      )
+        state.blogs[blogId].activeBlock = activeComponent.children[0];
     },
 
     removeComponent: (
@@ -2241,8 +2223,7 @@ export const blogBuilderSlice = createSlice({
 export const {
   createBlog,
   addComponent,
-  gotoUpComponent,
-  gotoDownComponent,
+  gotoUpDownComponent,
   removeComponent,
   duplicateComponent,
   toggleisImageEditorOpen,

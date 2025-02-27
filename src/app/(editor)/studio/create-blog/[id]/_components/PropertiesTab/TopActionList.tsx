@@ -14,13 +14,14 @@ import {
   X as ClearIcon,
   MoveUp as MoveUpIcon,
   MoveDown as MoveDownIcon,
+  MoveLeft as MoveLeftIcon,
+  MoveRight as MoveRightIcon,
 } from "lucide-react";
 import clsx from "clsx";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import {
   changeActiveBlock,
-  gotoUpComponent,
-  gotoDownComponent,
+  gotoUpDownComponent,
   removeComponent,
   duplicateComponent,
 } from "@/redux/features/builders/blogBuilderSlice";
@@ -46,8 +47,9 @@ const TopActionList = () => {
           if (!activeBlock) return null;
 
           dispatch(
-            gotoUpComponent({
+            gotoUpDownComponent({
               blogId,
+              type: "up",
             })
           );
         },
@@ -60,8 +62,9 @@ const TopActionList = () => {
           if (!activeBlock) return null;
 
           dispatch(
-            gotoDownComponent({
+            gotoUpDownComponent({
               blogId,
+              type: "down",
             })
           );
         },
