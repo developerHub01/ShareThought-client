@@ -53,7 +53,7 @@ const EditorCanvas = () => {
                   onKeyUp={handleKeyEnter}
                 />
               </div>
-              <section className="w-full py-5 px-1 flex flex-col">
+              <section className="w-full h-full py-5 px-1 flex flex-col">
                 <AnimatePresence>
                   {Boolean(blogData?.content.length) && (
                     <AddComponentSection lavel={0} index={0} />
@@ -61,7 +61,7 @@ const EditorCanvas = () => {
                 </AnimatePresence>
 
                 {blogData?.content.map((id, index, list) => (
-                  <div key={id} className="group w-full">
+                  <div key={id} className="group w-full h-full">
                     <BlockComponent lavel={1} id={id} />
                     <AnimatePresence>
                       {index !== list.length - 1 && (

@@ -24,7 +24,7 @@ const BlockComponentWrapper = ({
   id,
   lavel,
   children,
-  className,
+  className = "",
   ...props
 }: BlockComponentWrapperProps) => {
   const { id: blogId } = useParams<{ id: string }>();
@@ -74,7 +74,8 @@ const BlockComponentWrapper = ({
   return (
     <div
       className={cn(
-        "flex w-full justify-center gap-3 px-2 ring-2 ring-transparent relative",
+        "flex w-full justify-center gap-3 ring-2 ring-transparent relative",
+        className,
         {
           "ring-primary": id === activeBlock || isHovering,
           "px-16": lavel === 1,
@@ -96,7 +97,6 @@ const BlockComponentWrapper = ({
           />
         )}
       </AnimatePresence>
-
       <div className="w-full max-w-3xl rounded-sm">{children}</div>
     </div>
   );

@@ -63,7 +63,7 @@ const Image = ({ id, parentId, ...props }: ImageProps) => {
   const Comp = () => {
     return (
       <div
-        className="flex"
+        className="flex w-full h-full"
         style={{
           ...wrapperStyles,
         }}
@@ -77,7 +77,7 @@ const Image = ({ id, parentId, ...props }: ImageProps) => {
             style={{
               ...contentStyles,
             }}
-            className="w-full"
+            className="w-full h-full"
             src={imageSrc}
             alt={alt}
           />

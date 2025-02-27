@@ -58,7 +58,7 @@ const Row = (props: RowProps) => {
 
   return (
     <section
-      className="grid grid-cols-12 gap-1"
+      className="grid grid-cols-12"
       style={{
         ...(componentStyles as CSSProperties),
       }}

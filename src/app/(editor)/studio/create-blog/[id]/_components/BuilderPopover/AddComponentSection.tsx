@@ -68,7 +68,7 @@ const AddComponentButton = ({
     <Button
       variant="default"
       size={"icon"}
-      className={clsx("rounded-full size-6 border border-white", className)}
+      className={clsx("rounded-full size-6 border border-white absolute z-40", className)}
       {...props}
       onClick={handleClick}
       type="button"

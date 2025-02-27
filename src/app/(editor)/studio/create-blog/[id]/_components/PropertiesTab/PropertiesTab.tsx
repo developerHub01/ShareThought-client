@@ -26,6 +26,7 @@ import ButtonContent from "@/app/(editor)/studio/create-blog/[id]/_components/Pr
 import ButtonStyle from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Button/Style/ButtonStyle";
 import RowStyles from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Row/Styles/RowStyles";
 import ColumnStyles from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Column/Styles/ColumnStyles";
+import BorderProperty from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Common/BorderProperty";
 
 const PropertiesTab = () => {
   const { id: blogId } = useParams<{ id: string }>();

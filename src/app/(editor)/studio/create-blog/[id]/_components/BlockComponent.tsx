@@ -61,11 +61,7 @@ const BlockComponent = ({
   parentId?: string;
 }) => {
   return (
-    <BlockComponentWrapper
-      id={id}
-      className="w-full max-w-3xl rounded-sm"
-      lavel={lavel}
-    >
+    <BlockComponentWrapper id={id} lavel={lavel}>
       <Block id={id} parentId={parentId} />
     </BlockComponentWrapper>
   );

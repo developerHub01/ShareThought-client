@@ -434,8 +434,6 @@ export const blogBuilderSlice = createSlice({
             gridSize,
           };
 
-          console.log({ block });
-
           for (let i = 0; i < (gridSize?.length ?? 1); i++) {
             const id = uuidv4();
 
