@@ -25,3 +25,13 @@ export const isValidURL = (string: string) => {
   const regex = /^(https?:\/\/)?([\w-]+\.)+[\w-]{2,}(\/[\w-./?%&=]*)?$/i;
   return regex.test(string);
 };
+
+declare global {
+  interface String {
+    toCapitalCase(): string;
+  }
+}
+
+String.prototype.toCapitalCase = function (): string {
+  return this.charAt(0).toUpperCase() + this.slice(1).toLowerCase();
+};
