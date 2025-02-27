@@ -562,55 +562,74 @@ export const blogBuilderSlice = createSlice({
 
       if (!activeBlock) return;
 
-      const activeComponent = components[activeBlock];
+      const moveThroughRecusive = (id: string) => {
+        console.log({ id });
+        const currentComponent = components[id];
 
-      if (!activeComponent) return;
+        if (!currentComponent) return;
 
-      if (!activeComponent.parentId) {
-        const contentList = state.blogs[blogId].content;
+        if (!currentComponent.parentId) {
+          const contentList = state.blogs[blogId].content;
 
-        const componentIndexInContent = contentList.indexOf(activeBlock);
+          const componentIndexInContent = contentList.indexOf(id);
+
+          if (
+            (!componentIndexInContent && type === "prev") ||
+            (componentIndexInContent >= contentList.length - 1 &&
+              type === "next")
+          )
+            return;
+
+          state.blogs[blogId].activeBlock =
+            contentList[
+              type === "prev"
+                ? componentIndexInContent - 1
+                : componentIndexInContent + 1
+            ];
+
+          return;
+        }
+
+        const parentComponent =
+          state.blogs[blogId].components[currentComponent.parentId];
+
+        const parentChildrenList = parentComponent?.children as Array<string>;
+
+        if (!parentComponent || !Array.isArray(parentChildrenList)) return;
+
+        const componentIndexInContent = parentChildrenList.indexOf(activeBlock);
+
+        /* 
+        if that id not found in parent children list or action is prev and that component in 0th index or if action is next and component index is last index then goto previous or next component using recursion 
+        */
+        if (componentIndexInContent < 0) return;
 
         if (
           (!componentIndexInContent && type === "prev") ||
-          (componentIndexInContent >= contentList.length - 1 && type === "next")
+          (componentIndexInContent >= parentChildrenList.length - 1 &&
+            type === "next")
         )
-          return;
+          return (state.blogs[blogId].activeBlock = currentComponent.parentId);
+
+        if (
+          type === "next" &&
+          Array.isArray(state.blogs[blogId].components[id].children) &&
+          state.blogs[blogId].components[id].children.length
+        )
+          return (state.blogs[blogId].activeBlock =
+            state.blogs[blogId].components[id].children[0]);
 
         state.blogs[blogId].activeBlock =
-          contentList[
+          parentChildrenList[
             type === "prev"
               ? componentIndexInContent - 1
               : componentIndexInContent + 1
           ];
 
         return;
-      }
+      };
 
-      const parentComponent =
-        state.blogs[blogId].components[activeComponent.parentId];
-
-      const parentChildrenList = parentComponent?.children as Array<string>;
-
-      if (!parentComponent || !Array.isArray(parentChildrenList)) return;
-
-      const componentIndexInContent = parentChildrenList.indexOf(activeBlock);
-
-      /* if that id not found in parent children list or action is prev and that component in 0th index or if action is next and component index is last index then no need to change just skip */
-      if (
-        componentIndexInContent < 0 ||
-        (!componentIndexInContent && type === "prev") ||
-        (componentIndexInContent >= parentChildrenList.length - 1 &&
-          type === "next")
-      )
-        return;
-
-      state.blogs[blogId].activeBlock =
-        parentChildrenList[
-          type === "prev"
-            ? componentIndexInContent - 1
-            : componentIndexInContent + 1
-        ];
+      moveThroughRecusive(activeBlock);
     },
 
     removeComponent: (
