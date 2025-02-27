@@ -568,37 +568,110 @@ export const blogBuilderSlice = createSlice({
         if (!currentComponent) return;
 
         if (type === "prev") {
-          if (!currentComponent.parentId) {
-            const contentList = state.blogs[blogId].content;
+          let tempCurrentComponent = currentComponent;
 
-            const componentIndexInContent = contentList.indexOf(id);
+          console.log(tempCurrentComponent.parentId);
 
-            if (!componentIndexInContent) return;
+          while (tempCurrentComponent.parentId) {
+            const parentComponent = components[tempCurrentComponent.parentId];
 
-            state.blogs[blogId].activeBlock =
-              contentList[componentIndexInContent - 1];
-          } else {
-            const parentComponent = components[currentComponent.parentId];
+            if (
+              !parentComponent ||
+              !Array.isArray(parentComponent.children) ||
+              !parentComponent.children.length
+            )
+              break;
 
-            if (!parentComponent) return;
+            const indexInParentChildren = parentComponent.children.indexOf(
+              tempCurrentComponent.id
+            );
 
-            const parentChildren =
-              Array.isArray(parentComponent.children) &&
-              parentComponent.children;
+            console.log({ indexInParentChildren });
 
-            if (!parentChildren || !parentChildren.length) return;
+            if (indexInParentChildren < 0) break;
 
-            const indexInParentChildren = parentChildren.indexOf(id);
+            if (
+              indexInParentChildren === 0 &&
+              parentComponent.children.length === 1
+            ) {
+              return (state.blogs[blogId].activeBlock = parentComponent.id);
+            }
 
-            if (indexInParentChildren < 0) return;
+            if (
+              indexInParentChildren > 0 &&
+              indexInParentChildren < parentComponent.children.length
+            ) {
+              const targetedComponentId =
+                parentComponent.children[indexInParentChildren - 1];
+              if (!targetedComponentId) break;
 
-            if (indexInParentChildren === 0)
-              return (state.blogs[blogId].activeBlock =
-                currentComponent.parentId);
-            else
-              state.blogs[blogId].activeBlock =
-                parentChildren[indexInParentChildren - 1];
+              let targetedComponent = components[targetedComponentId];
+              if (!targetedComponent) break;
+
+              console.log({
+                targetedComponentId,
+                targetedComponent: current(targetedComponent),
+              });
+
+              if (
+                !Array.isArray(targetedComponent.children) ||
+                !targetedComponent.children.length
+              )
+                return (state.blogs[blogId].activeBlock = targetedComponentId);
+
+              while (
+                Array.isArray(targetedComponent.children) &&
+                targetedComponent.children.length
+              ) {
+                targetedComponent =
+                  components[
+                    targetedComponent.children[
+                      targetedComponent.children.length - 1
+                    ]
+                  ];
+              }
+              console.log({
+                targetedComponent: current(targetedComponent),
+              });
+              state.blogs[blogId].activeBlock = targetedComponent.id;
+            }
+
+            tempCurrentComponent = parentComponent;
           }
+
+          const indexInParentChildren = state.blogs[blogId].content.indexOf(
+            tempCurrentComponent.id
+          );
+
+          if (
+            indexInParentChildren < 0 ||
+            indexInParentChildren >= state.blogs[blogId].content.length
+          )
+            return;
+
+          const targetdComponentId =
+            state.blogs[blogId].content[indexInParentChildren - 1];
+          let targetedComponent = components[targetdComponentId];
+
+          console.log({ targetdComponentId });
+          console.log({ targetedComponent: current(targetedComponent) });
+
+          while (
+            Array.isArray(targetedComponent.children) &&
+            targetedComponent.children.length
+          ) {
+            targetedComponent =
+              components[
+                targetedComponent.children[
+                  targetedComponent.children.length - 1
+                ]
+              ];
+          }
+
+          console.log({ targetdComponentId: targetedComponent.id });
+          console.log({ targetedComponent: current(targetedComponent) });
+
+          return (state.blogs[blogId].activeBlock = targetedComponent.id);
         } else {
           if (
             !currentComponent.parentId &&
@@ -673,9 +746,7 @@ export const blogBuilderSlice = createSlice({
 
               return (state.blogs[blogId].activeBlock =
                 state.blogs[blogId].content[indexInParentChildren + 1]);
-            } else
-              state.blogs[blogId].activeBlock =
-                parentChildren[indexInParentChildren + 1];
+            }
           }
         }
       };
