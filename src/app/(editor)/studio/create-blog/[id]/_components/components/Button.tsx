@@ -32,7 +32,7 @@ const Button = ({ id, parentId, ...props }: ButtonProps) => {
 
   if (!blogId) return null;
 
-  const { text, redirect } = components[id];
+  const { text, redirect, type } = components[id];
 
   const buttonStyles: StyleType = styles[id];
 
@@ -47,7 +47,7 @@ const Button = ({ id, parentId, ...props }: ButtonProps) => {
     ...contentStyles,
     ...handlePaddingExtractor(wrapperStyles as StyleType),
   };
-  
+
   contentStyles = {
     ...contentStyles,
     ...handleBoxShadowExtractor(wrapperStyles as StyleType),
@@ -97,6 +97,7 @@ const Button = ({ id, parentId, ...props }: ButtonProps) => {
       style={{
         ...wrapperStyles,
       }}
+      data-component-type={type}
     >
       {/* id === activeBlock so that user can edit text without that redirect issue */}
       {redirect && id !== activeBlock ? (

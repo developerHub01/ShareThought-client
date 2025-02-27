@@ -29,7 +29,7 @@ const Column = ({ id, ...props }: RowProps) => {
 
   if (!components[id]) return null;
 
-  const { children } = components[id];
+  const { children, type } = components[id];
 
   let componentStyles: StyleType = styles[id] || {};
 
@@ -45,18 +45,19 @@ const Column = ({ id, ...props }: RowProps) => {
   return (
     <BlockComponentWrapper id={id}>
       <section
-        className={cn("w-full flex flex-col", {
+        className={cn("w-full h-full flex flex-col", {
           "py-10 bg-primary/10": Array.isArray(children) && !children.length,
         })}
         style={{
           ...(componentStyles as CSSProperties),
         }}
+        data-component-type={type}
       >
         {Array.isArray(children) && (
           <>
             {Boolean(children.length) && <AddComponentSection index={0} />}
             {children.map((currentId, index, list) => (
-              <div key={currentId} className="group w-full">
+              <React.Fragment key={currentId}>
                 <BlockComponent id={currentId} parentId={id} />
                 <AnimatePresence>
                   {index !== list.length - 1 && (
@@ -68,7 +69,7 @@ const Column = ({ id, ...props }: RowProps) => {
                     </motion.div>
                   )}
                 </AnimatePresence>
-              </div>
+              </React.Fragment>
             ))}
             <AddComponentSection index={children.length} parentId={id} />
           </>

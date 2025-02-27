@@ -26,7 +26,7 @@ const Image = ({ id, parentId, ...props }: ImageProps) => {
     components,
   } = useAppSelector((state) => state.blogBuilder.blogs[blogId]);
 
-  const { alt = "", caption = "", redirect } = components[id];
+  const { alt = "", caption = "", redirect, type } = components[id];
 
   const imageSrc = imgLinks && imgLinks[id];
   if (!imageSrc) return <ImageUploadCanvas id={id} blogId={blogId} />;
@@ -63,10 +63,15 @@ const Image = ({ id, parentId, ...props }: ImageProps) => {
   const Comp = () => {
     return (
       <div
-        className="flex w-full h-full"
+        className="flex w-full h-full overflow-hidden"
         style={{
           ...wrapperStyles,
         }}
+        {...(!redirect
+          ? {
+              "data-component-type": type,
+            }
+          : {})}
       >
         <figure
           style={{
@@ -95,6 +100,7 @@ const Image = ({ id, parentId, ...props }: ImageProps) => {
       href={redirect as string}
       aria-label={alt || "Image link"}
       title={alt || "Image link"}
+      data-component-type={type}
     >
       <Comp />
     </a>

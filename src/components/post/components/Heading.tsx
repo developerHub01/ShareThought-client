@@ -14,11 +14,9 @@ interface HeadingProps {
 }
 
 const Heading = ({ id, components, metaData }: HeadingProps) => {
-  const component = components[id];
+  if (!components || !components[id]) return null;
 
-  if (!component) return null;
-
-  const { type, text } = component;
+  const { type, text } = components[id];
 
   const componentStyle = (metaData.styles[id] || {}) as CSSProperties;
 
@@ -31,6 +29,7 @@ const Heading = ({ id, components, metaData }: HeadingProps) => {
       style={{
         ...componentStyle,
       }}
+      data-component-type={type}
     >
       {text}
     </Tag>

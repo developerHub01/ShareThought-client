@@ -18,8 +18,13 @@ const Spacer = ({ id, parentId, className, ...props }: SpacerProps) => {
   if (!blogId) return null;
 
   const {
+    components,
     metaData: { styles = {} },
   } = useAppSelector((state) => state.blogBuilder.blogs[blogId]);
+
+  if (!components[id]) return null;
+
+  const { type } = components[id];
 
   const componentStyles = (styles[id] as CSSProperties) || {};
 
@@ -29,6 +34,7 @@ const Spacer = ({ id, parentId, className, ...props }: SpacerProps) => {
       style={{
         ...componentStyles,
       }}
+      data-component-type={type}
     ></div>
   );
 };

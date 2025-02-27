@@ -17,11 +17,9 @@ interface ImageProps {
 }
 
 const Image = ({ id, components, metaData }: ImageProps) => {
-  const component = components[id];
+  if (!components || !components[id]) return null;
 
-  if (!component) return null;
-
-  const { alt, caption, redirect } = component;
+  const { alt, caption, redirect, type } = components[id];
 
   if (!metaData?.imgLinks?.[id]) return null;
 
@@ -59,10 +57,15 @@ const Image = ({ id, components, metaData }: ImageProps) => {
   const Comp = () => {
     return (
       <div
-        className="flex"
+        className="flex w-full h-full overflow-hidden"
         style={{
           ...wrapperStyles,
         }}
+        {...(!redirect
+          ? {
+              "data-component-type": type,
+            }
+          : {})}
       >
         <figure
           style={{
@@ -73,7 +76,7 @@ const Image = ({ id, components, metaData }: ImageProps) => {
             style={{
               ...contentStyles,
             }}
-            className="w-full"
+            className="w-full h-full"
             src={imageSrc}
             alt={alt}
           />
@@ -91,6 +94,7 @@ const Image = ({ id, components, metaData }: ImageProps) => {
       href={redirect as string}
       aria-label={alt ?? "Image link"}
       title={alt ?? "Image link"}
+      data-component-type={type}
     >
       <Comp />
     </a>

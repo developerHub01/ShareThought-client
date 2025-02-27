@@ -28,8 +28,13 @@ const BlockComponentWrapper = ({
   ...props
 }: BlockComponentWrapperProps) => {
   const { id: blogId } = useParams<{ id: string }>();
+
   const isHovering =
     useAppSelector((state) => state.blogBuilder.hoveringComponentId) === id;
+
+  const { components } = useAppSelector(
+    (state) => state.blogBuilder.blogs[blogId]
+  );
 
   const { isOver, setNodeRef } = useDroppable({
     id: "droppable",
@@ -57,6 +62,8 @@ const BlockComponentWrapper = ({
     );
   };
 
+  const component = components[id];
+
   const handleMouseHover = (e: MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
 
@@ -79,6 +86,7 @@ const BlockComponentWrapper = ({
         {
           "ring-primary": id === activeBlock || isHovering,
           "px-16": lavel === 1,
+          "h-full": ["image", "column"].includes(component.type),
         }
       )}
       onClick={toggleActiveBlock}

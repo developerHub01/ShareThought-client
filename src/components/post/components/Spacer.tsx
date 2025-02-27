@@ -12,8 +12,12 @@ export interface SpacerProps {
   metaData: BlogMetaDataInterface;
 }
 
-const Spacer = ({ id, metaData }: SpacerProps) => {
+const Spacer = ({ id, metaData, components }: SpacerProps) => {
+  if (!components || !components[id]) return null;
+
   const componentStyles = metaData.styles[id] || {};
+
+  const { type } = components[id];
 
   return (
     <div
@@ -21,6 +25,7 @@ const Spacer = ({ id, metaData }: SpacerProps) => {
       style={{
         ...(componentStyles as Record<string, string | number>),
       }}
+      data-component-type={type}
     ></div>
   );
 };

@@ -39,9 +39,9 @@ const Row = (props: RowProps) => {
     metaData: { styles = {} },
   } = restProps;
 
-  const component = components[id];
+  if (!components || !components[id]) return null;
 
-  if (!component) return null;
+  const { children, gridSize, type } = components[id];
 
   let componentStyles: StyleType = styles[id] || {};
 
@@ -54,21 +54,20 @@ const Row = (props: RowProps) => {
     ...handleBoxShadow(componentStyles),
   };
 
-  const { children, gridSize } = component;
-
   return (
     <section
       className="grid grid-cols-12"
       style={{
         ...(componentStyles as CSSProperties),
       }}
+      data-component-type={type}
     >
       {Array.isArray(children) &&
         children.map((id, index) => (
           <div
             key={id}
             className={cn(
-              "w-full col-span-12",
+              "w-full h-full col-span-12",
               getColSpan(gridSize?.[index] ?? 12)
             )}
           >

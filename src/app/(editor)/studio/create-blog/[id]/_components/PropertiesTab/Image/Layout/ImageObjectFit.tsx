@@ -19,6 +19,14 @@ const objectFitList = [
     id: "cover",
     label: "Cover",
   },
+  {
+    id: "scale-down",
+    label: "Scale Down",
+  },
+  {
+    id: "none",
+    label: "None",
+  },
 ];
 
 const ImageObjectFit = () => {

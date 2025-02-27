@@ -39,6 +39,8 @@ const Row = ({ id, parentId }: RowProps) => {
 
   const { children, gridSize } = components[id];
 
+  const { type } = components[id];
+
   let componentStyles = styles[id] || {};
 
   componentStyles = {
@@ -56,13 +58,14 @@ const Row = ({ id, parentId }: RowProps) => {
       style={{
         ...(componentStyles as CSSProperties),
       }}
+      data-component-type={type}
     >
       {Array.isArray(children) &&
         children.map((id, index) => (
           <div
             key={id}
             className={cn(
-              "w-full col-span-12",
+              "w-full h-full col-span-12",
               getColSpan(gridSize?.[index] ?? 12)
             )}
           >

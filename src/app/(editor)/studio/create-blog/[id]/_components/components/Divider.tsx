@@ -9,7 +9,7 @@ import React from "react";
 
 interface DividerProps {
   id: string;
-  parentId?: string
+  parentId?: string;
 }
 
 const Divider = ({ id, parentId, ...props }: DividerProps) => {
@@ -18,8 +18,13 @@ const Divider = ({ id, parentId, ...props }: DividerProps) => {
   if (!blogId) return null;
 
   const {
+    components,
     metaData: { styles = {} },
   } = useAppSelector((state) => state.blogBuilder.blogs[blogId]);
+
+  if (!components[id]) return null;
+
+  const { type } = components[id];
 
   const componentStyles = styles[id] || {};
 
@@ -39,6 +44,7 @@ const Divider = ({ id, parentId, ...props }: DividerProps) => {
       style={{
         ...(wrapperStyles as Record<string, string | number>),
       }}
+      data-component-type={type}
     >
       <div
         style={{

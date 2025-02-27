@@ -15,7 +15,10 @@ export interface DividerProps {
   metaData: BlogMetaDataInterface;
 }
 
-const Divider = ({ id, metaData }: DividerProps) => {
+const Divider = ({ id, metaData, components }: DividerProps) => {
+  if (!components || !components[id]) return null;
+
+  const { type } = components[id];
   const componentStyles = metaData.styles[id] || {};
 
   let { contentStyles, wrapperStyles } =
@@ -34,6 +37,7 @@ const Divider = ({ id, metaData }: DividerProps) => {
       style={{
         ...(wrapperStyles as Record<string, string | number>),
       }}
+      data-component-type={type}
     >
       <div
         style={{

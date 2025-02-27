@@ -27,7 +27,7 @@ const Button = ({ id, metaData, components }: ButtonProps) => {
 
   if (!component) return null;
 
-  const { text, redirect } = component;
+  const { text, redirect, type } = component;
 
   let { contentStyles, wrapperStyles } =
     handleWrapperContentStyleSeparator(buttonStyles);
@@ -73,6 +73,7 @@ const Button = ({ id, metaData, components }: ButtonProps) => {
       style={{
         ...wrapperStyles,
       }}
+      data-component-type={type}
     >
       {redirect ? (
         <Link href={redirect} target="_blank">

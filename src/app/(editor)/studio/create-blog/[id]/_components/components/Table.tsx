@@ -73,7 +73,7 @@ const dropdownRowActionButtonList = [
 
 interface TableProps {
   id: string;
-  parentId? :string
+  parentId?: string;
 }
 
 const Table = ({ id, parentId }: TableProps) => {
@@ -105,7 +105,9 @@ const Table = ({ id, parentId }: TableProps) => {
     stripedRow,
     header,
     content,
-  } = components[activeBlock].children as TableInterface;
+  } = components[id].children as TableInterface;
+
+  const { type } = components[id];
 
   let activeBlockStyles = styles[id];
 
@@ -251,6 +253,7 @@ const Table = ({ id, parentId }: TableProps) => {
       style={{
         ...wrapperStyles,
       }}
+      data-component-type={type}
     >
       <table
         className="border-collapse w-full table-fixed text-sm text-left text-gray-500 dark:text-gray-400"

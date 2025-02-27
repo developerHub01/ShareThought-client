@@ -45,6 +45,7 @@ const Heading = ({ id, parentId, ...props }: HeadingProps) => {
     <Tag
       contentEditable
       suppressContentEditableWarning
+      data-component-type={type}
       onBlur={handleBlur}
       className={defaultClassName}
       style={{

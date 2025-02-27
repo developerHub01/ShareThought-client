@@ -24,13 +24,9 @@ const Column = (props: RowProps) => {
     metaData: { styles = {} },
   } = restProps;
 
-  if (!components) return null;
+  if (!components || !components[id]) return null;
 
-  const component = components[id];
-
-  if (!component) return null;
-
-  const { children } = component;
+  const { children, type } = components[id];
 
   let componentStyles: StyleType = styles[id] || {};
 
@@ -45,17 +41,16 @@ const Column = (props: RowProps) => {
 
   return (
     <section
-      className="w-full flex flex-col"
+      className="w-full h-full flex flex-col"
       style={{
         ...(componentStyles as CSSProperties),
       }}
+      data-component-type={type}
     >
       {Array.isArray(children) && (
         <>
           {children.map((id) => (
-            <div key={id} className="group">
-              <BlockDecision {...restProps} id={id} />
-            </div>
+            <BlockDecision key={id} {...restProps} id={id} />
           ))}
         </>
       )}

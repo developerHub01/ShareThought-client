@@ -20,7 +20,10 @@ interface TableProps {
 }
 
 const Table = ({ id, components, metaData }: TableProps) => {
+  if (!components || !components[id]) return null;
+
   let activeBlockStyles = metaData.styles[id];
+  
   const {
     tbody,
     thead,
@@ -31,6 +34,8 @@ const Table = ({ id, components, metaData }: TableProps) => {
     stripedRow,
     textColor: tableTextColor,
   } = components[id].children as TableInterface;
+
+  const { type } = components[id];
 
   const borderStyle = {
     border: `${border?.size}px ${border?.style || "solid"} ${
@@ -80,6 +85,7 @@ const Table = ({ id, components, metaData }: TableProps) => {
       style={{
         ...wrapperStyles,
       }}
+      data-component-type={type}
     >
       <table
         className="border-collapse w-full table-fixed text-sm text-left text-gray-500 dark:text-gray-400"

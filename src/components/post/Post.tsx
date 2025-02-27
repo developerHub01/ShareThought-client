@@ -10,8 +10,8 @@ const Post = ({ title, content, components, metaData }: BlogStateInterface) => {
           {title || "Dummy Blog Title"}
         </h1>
 
-        <section className="w-full py-5 flex flex-col">
-          {content.map((id, index, list) => (
+        <section className="w-full h-full py-5 flex flex-col">
+          {content.map((id) => (
             <BlockDecision
               key={id}
               id={id}
