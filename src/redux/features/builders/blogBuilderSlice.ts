@@ -547,6 +547,72 @@ export const blogBuilderSlice = createSlice({
         state.blogs[blogId].activeBlock = activeComponent.children[0];
     },
 
+    gotoPreviousNextComponent: (
+      state,
+      action: PayloadAction<{
+        blogId: string;
+        type: "prev" | "next";
+      }>
+    ) => {
+      const { blogId, type } = action.payload;
+
+      if (!state.blogs[blogId]) return;
+
+      const { activeBlock, components } = state.blogs[blogId];
+
+      if (!activeBlock) return;
+
+      const activeComponent = components[activeBlock];
+
+      if (!activeComponent) return;
+
+      if (!activeComponent.parentId) {
+        const contentList = state.blogs[blogId].content;
+
+        const componentIndexInContent = contentList.indexOf(activeBlock);
+
+        if (
+          (!componentIndexInContent && type === "prev") ||
+          (componentIndexInContent >= contentList.length - 1 && type === "next")
+        )
+          return;
+
+        state.blogs[blogId].activeBlock =
+          contentList[
+            type === "prev"
+              ? componentIndexInContent - 1
+              : componentIndexInContent + 1
+          ];
+
+        return;
+      }
+
+      const parentComponent =
+        state.blogs[blogId].components[activeComponent.parentId];
+
+      const parentChildrenList = parentComponent?.children as Array<string>;
+
+      if (!parentComponent || !Array.isArray(parentChildrenList)) return;
+
+      const componentIndexInContent = parentChildrenList.indexOf(activeBlock);
+
+      /* if that id not found in parent children list or action is prev and that component in 0th index or if action is next and component index is last index then no need to change just skip */
+      if (
+        componentIndexInContent < 0 ||
+        (!componentIndexInContent && type === "prev") ||
+        (componentIndexInContent >= parentChildrenList.length - 1 &&
+          type === "next")
+      )
+        return;
+
+      state.blogs[blogId].activeBlock =
+        parentChildrenList[
+          type === "prev"
+            ? componentIndexInContent - 1
+            : componentIndexInContent + 1
+        ];
+    },
+
     removeComponent: (
       state,
       action: PayloadAction<{
@@ -2224,6 +2290,7 @@ export const {
   createBlog,
   addComponent,
   gotoUpDownComponent,
+  gotoPreviousNextComponent,
   removeComponent,
   duplicateComponent,
   toggleisImageEditorOpen,
