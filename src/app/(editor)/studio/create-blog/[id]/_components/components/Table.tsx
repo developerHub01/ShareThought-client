@@ -88,13 +88,10 @@ const Table = ({ id, parentId }: TableProps) => {
 
   const {
     metaData: { styles },
-    activeBlock,
     components,
   } = useAppSelector((state) => state.blogBuilder.blogs[blogId]);
 
   const dispatch = useAppDispatch();
-
-  if (!activeBlock) return null;
 
   const {
     thead,
