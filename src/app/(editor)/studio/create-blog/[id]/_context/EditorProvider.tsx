@@ -9,6 +9,7 @@ import React, {
 } from "react";
 
 interface EditorContext {
+  containerRef: React.RefObject<HTMLDivElement | null>;
   selectedIndex: number;
   setSelectedIndex: Dispatch<React.SetStateAction<number>>;
   selectedParentId: string;
@@ -36,6 +37,7 @@ interface EditorProviderProps {
 }
 
 const EditorProvider = ({ children }: EditorProviderProps) => {
+  const containerRef = useRef<HTMLDivElement>(null);
   const [selectedIndex, setSelectedIndex] = useState<number>(-1);
   const [selectedParentId, setSelectedParentId] = useState<string>("");
   const [isComponentDialogOpen, setIsComponentDialogOpen] =
@@ -45,6 +47,7 @@ const EditorProvider = ({ children }: EditorProviderProps) => {
   return (
     <EditorContext.Provider
       value={{
+        containerRef,
         selectedIndex,
         setSelectedIndex,
         selectedParentId,

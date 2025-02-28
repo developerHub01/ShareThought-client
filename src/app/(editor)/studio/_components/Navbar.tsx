@@ -1,8 +1,9 @@
-import { Button } from "@/components/ui/button";
 import React from "react";
 
+import { Button } from "@/components/ui/button";
 import { ChevronLeft as LeftIcon, Save as SaveIcon } from "lucide-react";
 import PreviewButton from "@/app/(editor)/studio/_components/PreviewButton";
+import NavbarFullScreenButtons from "@/app/(editor)/studio/_components/NavbarFullScreenButtons";
 
 const Navbar = () => {
   return (
@@ -10,11 +11,13 @@ const Navbar = () => {
       <Button variant={"ghost"} size={"sm"}>
         <LeftIcon size={18} /> Back
       </Button>
+
       <div className="flex items-center gap-2">
         <PreviewButton />
         <Button size={"sm"}>
           <SaveIcon size={18} /> Save
         </Button>
+        <NavbarFullScreenButtons />
       </div>
     </header>
   );

@@ -6,7 +6,7 @@ import store from "@/redux/store";
 import { ReactNode } from "react";
 // import { PersistGate } from "redux-persist/integration/react";
 
-interface SignUpProviderProps {
+interface CreateBlogPostProviderProps {
   children: ReactNode;
 }
 
@@ -19,7 +19,7 @@ interface SignUpProviderProps {
 //     </Provider>
 //   );
 // };
-const CreateBlogPostProvider = ({ children }: SignUpProviderProps) => {
+const CreateBlogPostProvider = ({ children }: CreateBlogPostProviderProps) => {
   return <Provider store={store}>{children}</Provider>;
 };
 
