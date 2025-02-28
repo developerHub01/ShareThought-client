@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import LayoutList from "@/app/(editor)/studio/create-blog/[id]/_components/BuilderPopover/LayoutList";
 import ComponentList from "@/app/(editor)/studio/create-blog/[id]/_components/BuilderPopover/ComponentList";
-import { useEditor } from "@/app/(editor)/studio/create-blog/[id]/_components/EditorProvider";
+import { useEditor } from "@/app/(editor)/studio/create-blog/[id]/_context/EditorProvider";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,

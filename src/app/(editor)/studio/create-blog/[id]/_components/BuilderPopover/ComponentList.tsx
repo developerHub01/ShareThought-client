@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { useEditor } from "@/app/(editor)/studio/create-blog/[id]/_components/EditorProvider";
+import { useEditor } from "@/app/(editor)/studio/create-blog/[id]/_context/EditorProvider";
 import { useAppDispatch } from "@/redux/hooks";
 import {
   addComponent,
@@ -21,7 +21,7 @@ const ComponentList = () => {
 
   const handleClick = (blockId: BlockTypes) => {
     setIsComponentDialogOpen(false);
-    
+
     dispatch(
       addComponent({
         id: blogId,

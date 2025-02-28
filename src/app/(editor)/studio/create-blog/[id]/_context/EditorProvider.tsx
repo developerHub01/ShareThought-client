@@ -1,6 +1,12 @@
 "use client";
 
-import React, { createContext, Dispatch, useContext, useState } from "react";
+import React, {
+  createContext,
+  Dispatch,
+  useContext,
+  useRef,
+  useState,
+} from "react";
 
 interface EditorContext {
   selectedIndex: number;

@@ -14,6 +14,7 @@ import { useParams } from "next/navigation";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import EditorPopover from "@/app/(editor)/studio/create-blog/[id]/_components/ImageEditor/EditorPopover";
 import PreviewPopover from "@/app/(editor)/studio/create-blog/[id]/_components/Preview/PreviewPopover";
+import LeftSidebar from "@/app/(editor)/studio/create-blog/[id]/_components/LeftSidebar/LeftSidebar";
 
 const EditorCanvas = () => {
   const { id: postId } = useParams<{ id: string }>();
@@ -41,6 +42,7 @@ const EditorCanvas = () => {
     <DndContext>
       <section className="mx-auto w-full h-full">
         <section className="w-full h-full flex">
+          <LeftSidebar />
           <ScrollArea className="h-full w-full flex-1 px-2 py-4">
             <form className="w-full flex flex-col gap-3 mx-auto mb-5">
               <div className="w-full max-w-3xl mx-auto">

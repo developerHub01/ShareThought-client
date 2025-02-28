@@ -2,7 +2,7 @@
 
 import React, { useMemo } from "react";
 import { useAppDispatch } from "@/redux/hooks";
-import { useEditor } from "@/app/(editor)/studio/create-blog/[id]/_components/EditorProvider";
+import { useEditor } from "@/app/(editor)/studio/create-blog/[id]/_context/EditorProvider";
 import {
   addComponent,
   BlockTypes,

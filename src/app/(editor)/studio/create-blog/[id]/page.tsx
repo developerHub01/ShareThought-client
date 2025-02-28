@@ -5,8 +5,6 @@ import { useParams } from "next/navigation";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { createBlog } from "@/redux/features/builders/blogBuilderSlice";
 import EditorCanvas from "@/app/(editor)/studio/create-blog/[id]/_components/EditorCanvas";
-import EditorPreview from "@/app/(editor)/studio/create-blog/[id]/_components/EditorPreview";
-import PreviewButton from "@/app/(editor)/studio/create-blog/[id]/_components/PreviewButton";
 
 const CreateBlogPostPage = () => {
   const { id: postId } = useParams<{ id: string }>();
@@ -24,18 +22,9 @@ const CreateBlogPostPage = () => {
 
   if (!blogsData) return null;
 
-  const blogData = blogsData[postId];
-
   return (
-    <section className="w-full h-full overflow-hidden">
-      <>
-        {blogData?.editorOrPreview !== "preview" ? (
-          <EditorCanvas />
-        ) : (
-          <EditorPreview />
-        )}
-      </>
-      {/* <PreviewButton /> */}
+    <section className="w-full h-full overflow-hidden relative">
+      <EditorCanvas />
     </section>
   );
 };

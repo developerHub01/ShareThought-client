@@ -1,5 +1,5 @@
 import React from "react";
-import EditorProvider from "@/app/(editor)/studio/create-blog/[id]/_components/EditorProvider";
+import EditorProvider from "@/app/(editor)/studio/create-blog/[id]/_context/EditorProvider";
 
 interface CreateComponentCanvasLayoutProps {
   children: React.ReactNode;

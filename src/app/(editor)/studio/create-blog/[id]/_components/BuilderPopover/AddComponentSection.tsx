@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { useEditor } from "@/app/(editor)/studio/create-blog/[id]/_components/EditorProvider";
+import { useEditor } from "@/app/(editor)/studio/create-blog/[id]/_context/EditorProvider";
 import clsx from "clsx";
 import { Button } from "@/components/ui/button";
 import { Plus as AddIcon } from "lucide-react";
@@ -68,7 +68,10 @@ const AddComponentButton = ({
     <Button
       variant="default"
       size={"icon"}
-      className={clsx("rounded-full size-6 border border-white absolute z-40", className)}
+      className={clsx(
+        "rounded-full size-6 border border-white absolute z-40",
+        className
+      )}
       {...props}
       onClick={handleClick}
       type="button"
