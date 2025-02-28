@@ -367,7 +367,6 @@ export const blogBuilderSlice = createSlice({
         id,
         type: "p",
         parentId,
-        children: [],
       };
 
       switch (type) {
@@ -432,6 +431,7 @@ export const blogBuilderSlice = createSlice({
             ...block,
             type,
             gridSize,
+            children: [],
           };
 
           for (let i = 0; i < (gridSize?.length ?? 1); i++) {
@@ -452,6 +452,7 @@ export const blogBuilderSlice = createSlice({
           block = {
             ...block,
             type,
+            children: [],
           };
           break;
         case "table":
