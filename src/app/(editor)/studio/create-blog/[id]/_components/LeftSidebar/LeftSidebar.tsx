@@ -11,7 +11,7 @@ import useModifyQueryParams from "@/hooks/use-modify-query-params";
 import { cn } from "@/lib/utils";
 import { Layers as NavigatorIcon } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { ChangeEvent, useCallback, useEffect, useMemo, useRef } from "react";
+import { useCallback, useEffect, useMemo, useRef, FocusEvent } from "react";
 import Navigator from "@/app/(editor)/studio/create-blog/[id]/_components/LeftSidebar/Navigator/Navigator";
 
 const LeftSidebar = () => {
@@ -27,30 +27,22 @@ const LeftSidebar = () => {
     ],
     []
   );
+
   const containerRef = useRef<HTMLDivElement>(null);
 
   const activeItem = useMemo(() => searchParams.get("sidebar"), [searchParams]);
 
-  const { buildFullPath, modifyParams } = useModifyQueryParams();
-
   useEffect(() => {
-    const handleClickListener = (e: MouseEvent) => {
-      if (!containerRef.current) return;
+    if (!activeItem || !containerRef.current) return;
 
-      if (containerRef.current.contains(e.target as Node)) return;
-
-      deleteSidebar();
-    };
-
-    document.addEventListener("click", handleClickListener);
-
-    return () => {
-      document.removeEventListener("click", handleClickListener);
-    };
+    containerRef.current.focus();
   }, []);
 
-  const deleteSidebar = () =>
+  const { buildFullPath, modifyParams } = useModifyQueryParams();
+
+  const deleteSidebar = () => {
     router.push(buildFullPath(modifyParams("delete", "sidebar")));
+  };
 
   const handleClick = useCallback(
     (id: string) => {
@@ -61,11 +53,18 @@ const LeftSidebar = () => {
     [router, searchParams]
   );
 
+  const handleBlur = (e: FocusEvent<HTMLDivElement>) => {
+    if (!containerRef.current?.contains(e.relatedTarget)) {
+      deleteSidebar();
+    }
+  };
+
   return (
     <div
-      className="flex flex-shrink-0 flex-grow-0 relative z-30"
+      className="flex flex-shrink-0 flex-grow-0 relative z-50"
       tabIndex={0} // 👈 Makes the div focusable
       ref={containerRef}
+      onBlur={handleBlur} // 👈 Triggers when clicking outside
     >
       <div className="min-w-6 h-full p-1 flex flex-col border border-r-2 bg-primary-foreground gap-4 relative z-40">
         <TooltipProvider>

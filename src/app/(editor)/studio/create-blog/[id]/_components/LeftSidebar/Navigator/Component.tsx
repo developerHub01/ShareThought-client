@@ -102,7 +102,10 @@ const ComponentDetail = ({
   const isHovering =
     useAppSelector((state) => state.blogBuilder.hoveringComponentId) === id;
 
-  const handleToggle = () => setOpen((prev) => !prev);
+  const handleToggle = (e: MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+    setOpen((prev) => !prev);
+  };
 
   const handleMouseHover = (e: MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();

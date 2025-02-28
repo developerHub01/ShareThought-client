@@ -25,23 +25,21 @@ const ComponentDialog = () => {
   };
 
   return (
-    <div>
-      <Dialog open={isComponentDialogOpen} onOpenChange={handleOpenChange}>
-        <DialogTrigger asChild>
-          <AddComponentSection className="hidden" />
-        </DialogTrigger>
-        <DialogContent
-          className="w-[90vw] rounded-sm max-w-xl h-[90vh] max-h-[600px] flex flex-col"
-          hideClose={false}
-        >
-          <DialogHeader className="hidden">
-            <DialogTitle hidden></DialogTitle>
-            <DialogDescription hidden></DialogDescription>
-          </DialogHeader>
-          <EditorComponentPopup />
-        </DialogContent>
-      </Dialog>
-    </div>
+    <Dialog open={isComponentDialogOpen} onOpenChange={handleOpenChange}>
+      <DialogTrigger asChild>
+        <AddComponentSection className="hidden" />
+      </DialogTrigger>
+      <DialogContent
+        className="w-[90vw] rounded-sm max-w-xl h-[90vh] max-h-[600px] flex flex-col"
+        hideClose={false}
+      >
+        <DialogHeader className="hidden">
+          <DialogTitle hidden></DialogTitle>
+          <DialogDescription hidden></DialogDescription>
+        </DialogHeader>
+        <EditorComponentPopup />
+      </DialogContent>
+    </Dialog>
   );
 };
 
