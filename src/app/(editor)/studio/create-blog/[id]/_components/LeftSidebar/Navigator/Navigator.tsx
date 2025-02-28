@@ -11,7 +11,7 @@ const Navigator = () => {
 
   if (!blogId) return;
 
-  const { activeBlock, components, content } = useAppSelector(
+  const { content } = useAppSelector(
     (state) => state.blogBuilder.blogs[blogId] || {}
   );
 

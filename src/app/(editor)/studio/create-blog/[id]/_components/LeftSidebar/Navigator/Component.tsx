@@ -21,10 +21,19 @@ import {
   Pilcrow as ParagraphIcon,
   ChevronRight as RightIcon,
   MousePointerClick as SelectIcon,
+  Code as CodeIcon,
+  Minus as DividerIcon,
+  List as ListIcon,
+  Table as TableIcon,
+  TextQuote as BlockquoteIcon,
+  ListCollapse as AccordionIcon,
+  ChevronsDownUp as CollapseIcon,
+  AlignVerticalSpaceAround as SpacerIcon,
+  SquarePlus as ButtonIcon,
 } from "lucide-react";
 import Image from "next/image";
 import { useParams } from "next/navigation";
-import React, { MouseEvent, useState } from "react";
+import React, { MouseEvent, useState, useCallback, JSX } from "react";
 
 interface ComponentProps {
   id: string;
@@ -32,16 +41,13 @@ interface ComponentProps {
 
 const Component = ({ id }: ComponentProps) => {
   const { id: blogId } = useParams<{ id: string }>();
+  if (!blogId) return null;
 
-  if (!blogId) return;
+  const { activeBlock, components } =
+    useAppSelector((state) => state.blogBuilder.blogs[blogId]) || {};
 
-  const { activeBlock, components } = useAppSelector(
-    (state) => state.blogBuilder.blogs[blogId] || {}
-  );
-
-  const componentData = components[id];
-
-  if (!componentData) return;
+  const componentData = components?.[id];
+  if (!componentData) return null;
 
   return <ComponentDetail {...componentData} activeBlock={activeBlock} />;
 };
@@ -53,41 +59,41 @@ const ComponentIcon = ({ id, type }: { id: string; type: BlockTypes }) => {
     (state) => state.blogBuilder.blogs[blogId] || {}
   );
   const { imgLinks } = metaData || {};
+  const size = 18;
 
-  const size = 16;
+  const icons: Record<BlockTypes, JSX.Element> = {
+    row: <RowIcon size={size} />,
+    column: <ColumnIcon size={size} />,
+    h1: <H1Icon size={size} />,
+    h2: <H2Icon size={size} />,
+    h3: <H3Icon size={size} />,
+    h4: <H4Icon size={size} />,
+    h5: <H5Icon size={size} />,
+    h6: <H6Icon size={size} />,
+    p: <ParagraphIcon size={size} />,
+    accordion: <AccordionIcon size={size} />,
+    blockquote: <BlockquoteIcon size={size} />,
+    code: <CodeIcon size={size} />,
+    button: <ButtonIcon size={size} />,
+    divider: <DividerIcon size={size} />,
+    list: <ListIcon size={size} />,
+    spacer: <SpacerIcon size={size} />,
+    table: <TableIcon size={size} />,
+    collapse: <CollapseIcon size={size} />,
+    image: imgLinks?.[id] ? (
+      <Image
+        src={imgLinks[id]}
+        alt="Image"
+        width={20}
+        height={20}
+        className="object-contain"
+      />
+    ) : (
+      <ImageIcon size={size} />
+    ),
+  };
 
-  switch (type) {
-    case "row":
-      return <RowIcon size={size} />;
-    case "column":
-      return <ColumnIcon size={size} />;
-    case "h1":
-      return <H1Icon size={size} />;
-    case "h2":
-      return <H2Icon size={size} />;
-    case "h3":
-      return <H3Icon size={size} />;
-    case "h4":
-      return <H4Icon size={size} />;
-    case "h5":
-      return <H5Icon size={size} />;
-    case "h6":
-      return <H6Icon size={size} />;
-    case "p":
-      return <ParagraphIcon size={size} />;
-    case "image":
-      return imgLinks[id] ? (
-        <Image
-          src={imgLinks[id]}
-          alt=""
-          width={20}
-          height={20}
-          className="object-contain"
-        />
-      ) : (
-        <ImageIcon size={size} />
-      );
-  }
+  return icons[type] || null;
 };
 
 const ComponentDetail = ({
@@ -102,63 +108,63 @@ const ComponentDetail = ({
   const isHovering =
     useAppSelector((state) => state.blogBuilder.hoveringComponentId) === id;
 
-  const handleToggle = (e: MouseEvent<HTMLButtonElement>) => {
+  const toggleOpen = useCallback((e: MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
     setOpen((prev) => !prev);
-  };
+  }, []);
 
-  const handleMouseHover = (e: MouseEvent<HTMLButtonElement>) => {
-    e.stopPropagation();
+  const handleMouseHover = useCallback(
+    (e: MouseEvent<HTMLButtonElement>) => {
+      e.stopPropagation();
+      if (!isHovering) dispatch(changeHoveringComponentId(id));
+    },
+    [isHovering, dispatch, id]
+  );
 
-    if (isHovering) return null;
+  const handleMouseLeave = useCallback(
+    (e: MouseEvent<HTMLButtonElement>) => {
+      e.stopPropagation();
+      dispatch(changeHoveringComponentId(null));
+    },
+    [dispatch]
+  );
 
-    dispatch(changeHoveringComponentId(id));
-  };
-
-  const handleMouseLeave = (e: MouseEvent<HTMLButtonElement>) => {
-    e.stopPropagation();
-
-    dispatch(changeHoveringComponentId(null));
-  };
-
-  const toggleActiveBlock = (e: MouseEvent<HTMLButtonElement>) => {
-    /* so that only that element will active not parent element */
-    e.stopPropagation();
-
-    dispatch(
-      changeActiveBlock({
-        blogId,
-        activeBlockId: id,
-      })
-    );
-  };
+  const activateBlock = useCallback(
+    (e: MouseEvent<HTMLButtonElement>) => {
+      e.stopPropagation();
+      dispatch(changeActiveBlock({ blogId, activeBlockId: id }));
+    },
+    [dispatch, blogId, id]
+  );
 
   return (
     <div className="w-full rounded-sm">
       <div
         className={cn(
-          "group w-full flex items-center px-2 py-1.5 rounded-none capitalize hover:bg-accent border-b border-l min-h-10",
+          "group flex items-center px-2 py-1.5 rounded-none capitalize border-b border-l min-h-10",
           {
             "bg-primary text-primary-foreground hover:bg-primary/80 rounded-sm":
               activeBlock === id,
+            "hover:bg-accent": activeBlock !== id,
           }
         )}
       >
         <button
           type="button"
           className="w-full flex items-center gap-2"
-          onClick={handleToggle}
+          onClick={toggleOpen}
           onMouseMove={handleMouseHover}
           onMouseLeave={handleMouseLeave}
         >
           {Array.isArray(children) && <RightIcon size={16} />}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 capitalize">
             <ComponentIcon id={id} type={type} /> {type}
           </div>
         </button>
+
         {activeBlock !== id && (
           <button
-            onClick={toggleActiveBlock}
+            onClick={activateBlock}
             type="button"
             className="hidden group-hover:block bg-primary-foreground text-primary rounded-full p-1"
           >
@@ -166,10 +172,11 @@ const ComponentDetail = ({
           </button>
         )}
       </div>
+
       {isOpen && Array.isArray(children) && (
         <div className="pl-3 flex flex-col gap-1">
-          {children.map((id) => (
-            <Component key={id} id={id} />
+          {children.map((childId) => (
+            <Component key={childId} id={childId} />
           ))}
         </div>
       )}
