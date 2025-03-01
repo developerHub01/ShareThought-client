@@ -1,8 +1,11 @@
+"use client";
+
 import React, { ChangeEvent, useMemo } from "react";
 import { Switch } from "@/components/ui/switch";
 import PropertyWrapper_v1 from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/PropertyWrapper_v1";
 import { PaddingType } from "@/redux/features/builders/blogBuilderSlice";
 import ValueCounter from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/ValueCounter";
+import CounterWrapper from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/CounterWrapper";
 
 interface PaddingBlockProps {
   label?: string;
@@ -12,6 +15,28 @@ interface PaddingBlockProps {
   ) => void;
   handleToggleMore: () => void;
 }
+
+const paddingList: Array<{
+  id: PaddingType;
+  label: string;
+}> = [
+  {
+    id: "paddingTop",
+    label: "Top",
+  },
+  {
+    id: "paddingRight",
+    label: "Right",
+  },
+  {
+    id: "paddingBottom",
+    label: "Bottom",
+  },
+  {
+    id: "paddingLeft",
+    label: "Left",
+  },
+];
 
 const PaddingBlock = ({
   label,
@@ -58,65 +83,32 @@ const PaddingBlock = ({
         )}
         {showOnlyAllPadding && (
           <>
-            <CounterWrapper label="Top">
-              <ValueCounter
-                value={padding.paddingTop || 0}
-                handleIncrement={() => handleChange({ paddingTop: "inc" })}
-                handleDecrement={() => handleChange({ paddingTop: "dec" })}
-                handleChange={(e: ChangeEvent<HTMLInputElement>) =>
-                  handleChange({ paddingTop: Number(e.target.value ?? 0) })
-                }
-              />
-            </CounterWrapper>
-            <CounterWrapper label="Right">
-              <ValueCounter
-                value={padding.paddingRight || 0}
-                handleIncrement={() => handleChange({ paddingRight: "inc" })}
-                handleDecrement={() => handleChange({ paddingRight: "dec" })}
-                handleChange={(e: ChangeEvent<HTMLInputElement>) =>
-                  handleChange({ paddingRight: Number(e.target.value ?? 0) })
-                }
-              />
-            </CounterWrapper>
-            <CounterWrapper label="Bottom">
-              <ValueCounter
-                value={padding.paddingBottom || 0}
-                handleIncrement={() => handleChange({ paddingBottom: "inc" })}
-                handleDecrement={() => handleChange({ paddingBottom: "dec" })}
-                handleChange={(e: ChangeEvent<HTMLInputElement>) =>
-                  handleChange({ paddingBottom: Number(e.target.value ?? 0) })
-                }
-              />
-            </CounterWrapper>
-            <CounterWrapper label="Left">
-              <ValueCounter
-                value={padding.paddingLeft || 0}
-                handleIncrement={() => handleChange({ paddingLeft: "inc" })}
-                handleDecrement={() => handleChange({ paddingLeft: "dec" })}
-                handleChange={(e: ChangeEvent<HTMLInputElement>) =>
-                  handleChange({ paddingLeft: Number(e.target.value ?? 0) })
-                }
-              />
-              .
-            </CounterWrapper>
+            {paddingList.map(({ id, label }) => (
+              <CounterWrapper key={id} label={label}>
+                <ValueCounter
+                  value={padding[id] ?? 0}
+                  handleIncrement={() =>
+                    handleChange({
+                      [id]: "inc",
+                    })
+                  }
+                  handleDecrement={() =>
+                    handleChange({
+                      [id]: "dec",
+                    })
+                  }
+                  handleChange={(e: ChangeEvent<HTMLInputElement>) =>
+                    handleChange({
+                      [id]: Number(e.target.value ?? 0),
+                    })
+                  }
+                />
+              </CounterWrapper>
+            ))}
           </>
         )}
       </div>
     </PropertyWrapper_v1>
-  );
-};
-
-interface CounterWrapperProps {
-  label: string;
-  children: React.ReactNode;
-}
-
-const CounterWrapper = ({ label, children }: CounterWrapperProps) => {
-  return (
-    <div className="flex flex-col gap-2">
-      <label>{label}</label>
-      {children}
-    </div>
   );
 };
 

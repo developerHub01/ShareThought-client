@@ -10,6 +10,7 @@ import PropertyTypeWrapper from "@/app/(editor)/studio/create-blog/[id]/_compone
 import ImageStyles from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Image/Style/ImageStyles";
 import ImageContent from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Image/Content/ImageContent";
 import PaddingProperty from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Common/PaddingProperty";
+import MarginProperty from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Common/MarginProperty";
 import ImageFilters from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Image/Filters/ImageFilters";
 import ImageLayout from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Image/Layout/ImageLayout";
 import SpacerLayout from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Spacer/Layout/SpacerLayout";
@@ -177,13 +178,32 @@ const PropertiesTab = () => {
           "accordion",
         ].includes(activeComponent.type) && (
           <>
-            <PropertyTypeWrapper id="padding" label="Padding">
-              <PaddingProperty />
-            </PropertyTypeWrapper>
             <PropertyTypeWrapper id="box_shadow" label="Box Shadow">
               <BoxShadowProperty />
             </PropertyTypeWrapper>
+            <PropertyTypeWrapper id="padding" label="Padding">
+              <PaddingProperty />
+            </PropertyTypeWrapper>
           </>
+        )}
+
+        {[
+          "h1",
+          "h2",
+          "h3",
+          "h4",
+          "h5",
+          "h6",
+          "p",
+          "table",
+          "image",
+          "divider",
+          "accordion",
+          "button",
+        ].includes(activeComponent.type) && (
+          <PropertyTypeWrapper id="margin" label="Margin">
+            <MarginProperty />
+          </PropertyTypeWrapper>
         )}
       </Accordion>
     </div>

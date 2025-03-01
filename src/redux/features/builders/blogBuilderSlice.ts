@@ -54,6 +54,7 @@ export type PaddingType =
   | "paddingBottom"
   | "paddingLeft"
   | "paddingRight";
+export type MarginType = "marginTop" | "marginBottom";
 
 export type BorderRadiusType =
   | "borderRadius"

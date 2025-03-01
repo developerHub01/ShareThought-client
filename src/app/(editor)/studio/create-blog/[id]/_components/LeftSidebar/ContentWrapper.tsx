@@ -34,7 +34,7 @@ const ContentWrapper = ({
         {isContentOpen && (
           <motion.div
             className={cn(
-              "absolute top-0 left-0 w-52 h-full rounded-r-md bg-primary-foreground shadow-xl overflow-hidden border",
+              "absolute top-0 left-0 w-52 h-full bg-primary-foreground shadow-xl overflow-hidden border",
               className
             )}
             initial={{

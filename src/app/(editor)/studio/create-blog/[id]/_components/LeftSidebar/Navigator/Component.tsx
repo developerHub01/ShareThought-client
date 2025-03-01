@@ -156,7 +156,15 @@ const ComponentDetail = ({
           onMouseMove={handleMouseHover}
           onMouseLeave={handleMouseLeave}
         >
-          {Array.isArray(children) && <RightIcon size={16} />}
+          {Array.isArray(children) && (
+            <RightIcon
+              size={16}
+              className={cn("transition-transform duration-100 ease-in-out", {
+                "rotate-90": isOpen,
+                "rotate-0": !isOpen,
+              })}
+            />
+          )}
           <div className="flex items-center gap-2 capitalize">
             <ComponentIcon id={id} type={type} /> {type}
           </div>
@@ -167,6 +175,7 @@ const ComponentDetail = ({
             onClick={activateBlock}
             type="button"
             className="hidden group-hover:block bg-primary-foreground text-primary rounded-full p-1"
+            title="select component"
           >
             <SelectIcon size={16} />
           </button>

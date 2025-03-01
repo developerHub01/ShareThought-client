@@ -1,21 +1,20 @@
 "use client";
 
 import React, { useEffect, useMemo } from "react";
-import PaddingBlock from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/PaddingBlock";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useParams } from "next/navigation";
 import {
   addStyle,
   createActiveBlockStyle,
-  PaddingType,
-  togglePaddingAll,
+  MarginType,
 } from "@/redux/features/builders/blogBuilderSlice";
+import MarginBlock from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/MarginBlock";
 
-interface PaddingPropertyProps {
+interface MarginPropertyProps {
   label?: string;
 }
 
-const PaddingProperty = ({ label }: PaddingPropertyProps) => {
+const MarginProperty = ({ label }: MarginPropertyProps) => {
   const dispatch = useAppDispatch();
   const { id: blogId } = useParams<{ id: string }>();
 
@@ -38,44 +37,30 @@ const PaddingProperty = ({ label }: PaddingPropertyProps) => {
       );
   }, [activeBlock, dispatch, blogId, styles]);
 
-  const padding = useMemo(() => {
+  const margin = useMemo(() => {
     const activeStyles = styles[activeBlock] ?? {};
     return Object.fromEntries(
       Object.entries(activeStyles).filter(
-        ([key, value]) => key.includes("padding") && value !== undefined
+        ([key, value]) => key.includes("margin") && value !== undefined
       )
     ) as Record<string, number>;
   }, [styles, activeBlock]);
 
   const handleChange = (
-    padding: Partial<Record<PaddingType, number | "inc" | "dec">>
+    margin: Partial<Record<MarginType, number | "inc" | "dec">>
   ) => {
     dispatch(
       addStyle({
         blogId,
         activeBlockId: activeBlock,
-        styles: padding,
-      })
-    );
-  };
-
-  const handleToggleMore = () => {
-    dispatch(
-      togglePaddingAll({
-        blogId,
-        activeBlockId: activeBlock,
+        styles: margin,
       })
     );
   };
 
   return (
-    <PaddingBlock
-      label={label}
-      padding={padding}
-      handleChange={handleChange}
-      handleToggleMore={handleToggleMore}
-    />
+    <MarginBlock label={label} margin={margin} handleChange={handleChange} />
   );
 };
 
-export default PaddingProperty;
+export default MarginProperty;
