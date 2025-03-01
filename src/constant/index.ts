@@ -1,5 +1,6 @@
-import { ElementType } from "react";
+import { CSSProperties, ElementType } from "react";
 import { TReactions } from "@/types";
+import { BlockTypes, StyleType } from "@/redux/features/builders/blogBuilderSlice";
 
 export const REACTION_TYPES = {
   LIKE: "LIKE",
@@ -132,4 +133,39 @@ export const typographyList: Record<
   h5: { tag: "h5", className: "text-lg font-bold" },
   h6: { tag: "h6", className: "text-base font-bold" },
   p: { tag: "p", className: "text-base" },
+};
+
+export const defaultMarginList: Partial<Record<BlockTypes, StyleType>> = {
+  h1: {
+    marginTop: 0,
+    marginBottom: 20,
+  },
+  h2: {
+    marginTop: 0,
+    marginBottom: 18,
+  },
+  h3: {
+    marginTop: 0,
+    marginBottom: 16,
+  },
+  h4: {
+    marginTop: 0,
+    marginBottom: 14,
+  },
+  h5: {
+    marginTop: 0,
+    marginBottom: 12,
+  },
+  h6: {
+    marginTop: 0,
+    marginBottom: 10,
+  },
+  p: {
+    marginTop: 0,
+    marginBottom: 15,
+  },
+  button: {
+    marginTop: 0,
+    marginBottom: 10,
+  },
 };

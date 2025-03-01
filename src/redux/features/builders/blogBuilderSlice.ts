@@ -1,4 +1,8 @@
-import { defaultGlobalStyles, EDITOR_TABLE_SIZE } from "@/constant";
+import {
+  defaultGlobalStyles,
+  defaultMarginList,
+  EDITOR_TABLE_SIZE,
+} from "@/constant";
 import { isValidHexColor, isValidURL } from "@/utils";
 import { createSlice, current } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
@@ -308,8 +312,27 @@ const initialState: BlogBuilderState = {
   isImageEditorOpen: false,
 };
 
-const ensureBlogExists = (state: BlogBuilderState, id: string) => {
-  if (!state.blogs[id]) state.blogs[id] = { ...blogInitialState };
+const ensureBlogExists = (state: BlogBuilderState, blogId: string) => {
+  if (!state.blogs[blogId]) state.blogs[blogId] = { ...blogInitialState };
+};
+
+const addDefaultStylesAfterComponentAdd = (
+  state: BlogBuilderState,
+  blogId: string,
+  id: string,
+  type: BlockTypes
+) => {
+  if (!state.blogs[blogId]) return;
+
+  if (!state.blogs[blogId].metaData.styles[id])
+    state.blogs[blogId].metaData.styles[id] = {};
+
+  if (defaultMarginList[type]) {
+    state.blogs[blogId].metaData.styles[id] = {
+      ...state.blogs[blogId].metaData.styles[id],
+      ...defaultMarginList[type],
+    };
+  }
 };
 
 export const blogBuilderSlice = createSlice({
@@ -369,6 +392,8 @@ export const blogBuilderSlice = createSlice({
         type: "p",
         parentId,
       };
+
+      addDefaultStylesAfterComponentAdd(state, blogId, id, type);
 
       switch (type) {
         case "h1":
