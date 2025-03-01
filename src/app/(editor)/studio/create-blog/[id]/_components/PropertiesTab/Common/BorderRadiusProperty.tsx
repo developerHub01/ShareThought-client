@@ -9,7 +9,6 @@ import {
   BorderRadiusType,
   createActiveBlockStyle,
   toggleBorderRadiusAll,
-  updateBorderRadiusStyle,
 } from "@/redux/features/builders/blogBuilderSlice";
 
 const BorderRadiusProperty = () => {
