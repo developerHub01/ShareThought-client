@@ -54,9 +54,9 @@ const LeftSidebar = () => {
   );
 
   const handleBlur = (e: FocusEvent<HTMLDivElement>) => {
-    // if (!containerRef.current?.contains(e.relatedTarget)) {
-    //   deleteSidebar();
-    // }
+    if (!containerRef.current?.contains(e.relatedTarget)) {
+      deleteSidebar();
+    }
   };
 
   return (

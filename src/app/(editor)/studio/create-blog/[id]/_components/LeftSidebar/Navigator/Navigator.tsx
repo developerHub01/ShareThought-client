@@ -16,13 +16,11 @@ const Navigator = () => {
   );
 
   return (
-    <ContentWrapper id="navigator" className="select-none flex flex-col">
-      <h4 className="p-2 text-base font-bold">Navigator</h4>
-      <ScrollArea className="w-full h-full px-2 text-sm">
+    <ContentWrapper id="navigator" label="Navigator">
+  
         {content.map((id) => (
           <Component key={id} id={id} />
         ))}
-      </ScrollArea>
     </ContentWrapper>
   );
 };
