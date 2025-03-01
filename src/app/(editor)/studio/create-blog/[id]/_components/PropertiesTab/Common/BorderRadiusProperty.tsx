@@ -5,6 +5,7 @@ import BorderRadiusBlock from "@/app/(editor)/studio/create-blog/[id]/_component
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useParams } from "next/navigation";
 import {
+  addStyle,
   BorderRadiusType,
   createActiveBlockStyle,
   toggleBorderRadiusAll,
@@ -44,14 +45,14 @@ const BorderRadiusProperty = () => {
 
   if (!activeBlock) return null;
 
-  const handleChangeBorderRadius = (
+  const handleChange = (
     borderRadius: Partial<Record<BorderRadiusType, number | "inc" | "dec">>
   ) => {
     dispatch(
-      updateBorderRadiusStyle({
+      addStyle({
         blogId,
         activeBlockId: activeBlock,
-        borderRadius,
+        styles: borderRadius,
       })
     );
   };
@@ -68,7 +69,7 @@ const BorderRadiusProperty = () => {
   return (
     <BorderRadiusBlock
       borderRadius={borderRadius}
-      handleChange={handleChangeBorderRadius}
+      handleChange={handleChange}
       handleToggleMore={handleToggleMore}
     />
   );

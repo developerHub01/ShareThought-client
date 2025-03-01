@@ -1,8 +1,11 @@
+"use client";
+
 import React, { ChangeEvent, useMemo } from "react";
 import { Switch } from "@/components/ui/switch";
 import PropertyWrapper_v1 from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/PropertyWrapper_v1";
 import { BorderRadiusType } from "@/redux/features/builders/blogBuilderSlice";
 import ValueCounter from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/ValueCounter";
+import CounterWrapper from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/CounterWrapper";
 
 interface BorderRadiusBlockProps {
   borderRadius: Partial<Record<BorderRadiusType, number>>;
@@ -11,6 +14,28 @@ interface BorderRadiusBlockProps {
   ) => void;
   handleToggleMore: () => void;
 }
+
+const borderRadiusList: Array<{
+  id: BorderRadiusType;
+  label: string;
+}> = [
+  {
+    id: "borderTopLeftRadius",
+    label: "Top Left",
+  },
+  {
+    id: "borderTopRightRadius",
+    label: "Top Right",
+  },
+  {
+    id: "borderBottomLeftRadius",
+    label: "Bottom Left",
+  },
+  {
+    id: "borderBottomRightRadius",
+    label: "Bottom Right",
+  },
+];
 
 const BorderRadiusBlock = ({
   borderRadius,
@@ -45,7 +70,7 @@ const BorderRadiusBlock = ({
           <CounterWrapper label="All Sides">
             <ValueCounter
               min={0}
-              value={borderRadius.borderRadius || 0}
+              value={borderRadius.borderRadius ?? 0}
               handleIncrement={() => handleChange({ borderRadius: "inc" })}
               handleDecrement={() => handleChange({ borderRadius: "dec" })}
               handleChange={(e: ChangeEvent<HTMLInputElement>) =>
@@ -56,89 +81,32 @@ const BorderRadiusBlock = ({
         )}
         {showOnlyAllRadius && (
           <>
-            <CounterWrapper label="Top Left">
-              <ValueCounter
-                value={borderRadius.borderTopLeftRadius || 0}
-                handleIncrement={() =>
-                  handleChange({ borderTopLeftRadius: "inc" })
-                }
-                handleDecrement={() =>
-                  handleChange({ borderTopLeftRadius: "dec" })
-                }
-                handleChange={(e: ChangeEvent<HTMLInputElement>) =>
-                  handleChange({
-                    borderTopLeftRadius: Number(e.target.value ?? 0),
-                  })
-                }
-              />
-            </CounterWrapper>
-            <CounterWrapper label="Top Right">
-              <ValueCounter
-                value={borderRadius.borderTopRightRadius || 0}
-                handleIncrement={() =>
-                  handleChange({ borderTopRightRadius: "inc" })
-                }
-                handleDecrement={() =>
-                  handleChange({ borderTopRightRadius: "dec" })
-                }
-                handleChange={(e: ChangeEvent<HTMLInputElement>) =>
-                  handleChange({
-                    borderTopRightRadius: Number(e.target.value ?? 0),
-                  })
-                }
-              />
-            </CounterWrapper>
-            <CounterWrapper label="Bottom Left">
-              <ValueCounter
-                value={borderRadius.borderBottomLeftRadius || 0}
-                handleIncrement={() =>
-                  handleChange({ borderBottomLeftRadius: "inc" })
-                }
-                handleDecrement={() =>
-                  handleChange({ borderBottomLeftRadius: "dec" })
-                }
-                handleChange={(e: ChangeEvent<HTMLInputElement>) =>
-                  handleChange({
-                    borderBottomLeftRadius: Number(e.target.value ?? 0),
-                  })
-                }
-              />
-            </CounterWrapper>
-            <CounterWrapper label="Bottom Right">
-              <ValueCounter
-                value={borderRadius.borderBottomRightRadius || 0}
-                handleIncrement={() =>
-                  handleChange({ borderBottomRightRadius: "inc" })
-                }
-                handleDecrement={() =>
-                  handleChange({ borderBottomRightRadius: "dec" })
-                }
-                handleChange={(e: ChangeEvent<HTMLInputElement>) =>
-                  handleChange({
-                    borderBottomRightRadius: Number(e.target.value ?? 0),
-                  })
-                }
-              />
-              .
-            </CounterWrapper>
+            {borderRadiusList.map(({ id, label }) => (
+              <CounterWrapper key={id} label={label}>
+                <ValueCounter
+                  value={borderRadius[id] ?? 0}
+                  handleIncrement={() =>
+                    handleChange({
+                      [id]: "inc",
+                    })
+                  }
+                  handleDecrement={() =>
+                    handleChange({
+                      [id]: "dec",
+                    })
+                  }
+                  handleChange={(e: ChangeEvent<HTMLInputElement>) =>
+                    handleChange({
+                      [id]: Number(e.target.value ?? 0),
+                    })
+                  }
+                />
+              </CounterWrapper>
+            ))}
           </>
         )}
       </div>
     </PropertyWrapper_v1>
-  );
-};
-
-interface CounterWrapperProps {
-  label: string;
-  children: React.ReactNode;
-}
-
-const CounterWrapper = ({ label, children }: CounterWrapperProps) => {
-  return (
-    <div className="flex flex-col gap-2">
-      <label>{label}</label>
-      {children}
-    </div>
   );
 };
 

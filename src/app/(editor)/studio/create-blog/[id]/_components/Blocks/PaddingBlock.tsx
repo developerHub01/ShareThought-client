@@ -72,7 +72,7 @@ const PaddingBlock = ({
           <CounterWrapper label="All Sides">
             <ValueCounter
               min={0}
-              value={padding.padding || 0}
+              value={padding.padding ?? 0}
               handleIncrement={() => handleChange({ padding: "inc" })}
               handleDecrement={() => handleChange({ padding: "dec" })}
               handleChange={(e: ChangeEvent<HTMLInputElement>) =>
