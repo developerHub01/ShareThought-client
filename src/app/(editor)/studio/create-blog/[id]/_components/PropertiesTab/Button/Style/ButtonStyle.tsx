@@ -15,6 +15,7 @@ import ButtonWidth from "@/app/(editor)/studio/create-blog/[id]/_components/Prop
 import PaddingProperty from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Common/PaddingProperty";
 import BoxShadowProperty from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Common/BoxShadowProperty";
 import BackgroundColorProperty from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Common/BackgroundColorProperty";
+import HidePropertyInMobile from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/HidePropertyInMobile";
 
 const ButtonStyle = () => {
   return (
@@ -22,16 +23,22 @@ const ButtonStyle = () => {
       <ButtonWidth />
       <FontSizeProperty />
       <FontWeightProperty />
-      <TextColorProperty />
-      <BackgroundColorProperty />
+      <HidePropertyInMobile>
+        <TextColorProperty />
+        <BackgroundColorProperty />
+      </HidePropertyInMobile>
       <LetterSpacingProperty />
       <LineHeightProperty />
-      <TextTransformProperty />
-      <TextDirectionProperty />
-      <BorderProperty />
-      <BorderRadiusProperty />
+      <HidePropertyInMobile>
+        <TextTransformProperty />
+        <TextDirectionProperty />
+        <BorderProperty />
+        <BorderRadiusProperty />
+      </HidePropertyInMobile>
       <AlignmentProperty />
-      <BoxShadowProperty />
+      <HidePropertyInMobile>
+        <BoxShadowProperty />
+      </HidePropertyInMobile>
       <PaddingProperty label="Inner Padding" />
     </PropertyTypeWrapper>
   );

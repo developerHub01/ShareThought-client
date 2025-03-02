@@ -29,6 +29,7 @@ import RowStyles from "@/app/(editor)/studio/create-blog/[id]/_components/Proper
 import ColumnStyles from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Column/Styles/ColumnStyles";
 import RowLayout from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Row/Layout/RowLayout";
 import ColumnLayout from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Column/Layout/ColumnLayout";
+import HidePropertyInMobile from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/HidePropertyInMobile";
 
 const PropertiesTab = () => {
   const { id: blogId } = useParams<{ id: string }>();
@@ -51,9 +52,11 @@ const PropertiesTab = () => {
           activeComponent.type
         ) && (
           <>
-            <PropertyTypeWrapper id="typography_content" label="Content">
-              <TypographyContent />
-            </PropertyTypeWrapper>
+            <HidePropertyInMobile>
+              <PropertyTypeWrapper id="typography_content" label="Content">
+                <TypographyContent />
+              </PropertyTypeWrapper>
+            </HidePropertyInMobile>
             <PropertyTypeWrapper id="typography_style" label="Style">
               <TypographyStyle />
             </PropertyTypeWrapper>
@@ -62,53 +65,59 @@ const PropertiesTab = () => {
 
         {activeComponent.type === "button" && (
           <>
-            <PropertyTypeWrapper id="button_content" label="Content">
-              <ButtonContent />
-            </PropertyTypeWrapper>
+            <HidePropertyInMobile>
+              <PropertyTypeWrapper id="button_content" label="Content">
+                <ButtonContent />
+              </PropertyTypeWrapper>
+            </HidePropertyInMobile>
             <PropertyTypeWrapper id="button_style" label="Style">
               <ButtonStyle />
             </PropertyTypeWrapper>
           </>
         )}
 
-        {activeComponent.type === "table" && (
-          <>
-            <PropertyTypeWrapper id="table_layout" label="Layout">
-              <TableLayout />
-            </PropertyTypeWrapper>
-            <PropertyTypeWrapper id="table_header" label="Header">
-              <TableHeader />
-            </PropertyTypeWrapper>
-            <PropertyTypeWrapper id="table_content" label="Content">
-              <TableContent />
-            </PropertyTypeWrapper>
-          </>
-        )}
-
-        {activeComponent.type === "image" && (
-          <>
-            <PropertyTypeWrapper id="image_content" label="Content">
-              <ImageContent />
-            </PropertyTypeWrapper>
-
-            {imgLinks && imgLinks[activeBlock] && (
-              <>
-                <PropertyTypeWrapper id="image_layout" label="Layout">
-                  <ImageLayout />
-                </PropertyTypeWrapper>
-                <PropertyTypeWrapper id="image_style" label="Styles">
-                  <ImageStyles />
-                </PropertyTypeWrapper>
-              </>
-            )}
-
-            {imgLinks && imgLinks[activeBlock] && (
-              <PropertyTypeWrapper id="image_filters" label="Filters">
-                <ImageFilters />
+        <HidePropertyInMobile>
+          {activeComponent.type === "table" && (
+            <>
+              <PropertyTypeWrapper id="table_layout" label="Layout">
+                <TableLayout />
               </PropertyTypeWrapper>
-            )}
-          </>
-        )}
+              <PropertyTypeWrapper id="table_header" label="Header">
+                <TableHeader />
+              </PropertyTypeWrapper>
+              <PropertyTypeWrapper id="table_content" label="Content">
+                <TableContent />
+              </PropertyTypeWrapper>
+            </>
+          )}
+        </HidePropertyInMobile>
+
+        <HidePropertyInMobile>
+          {activeComponent.type === "image" && (
+            <>
+              <PropertyTypeWrapper id="image_content" label="Content">
+                <ImageContent />
+              </PropertyTypeWrapper>
+
+              {imgLinks && imgLinks[activeBlock] && (
+                <>
+                  <PropertyTypeWrapper id="image_layout" label="Layout">
+                    <ImageLayout />
+                  </PropertyTypeWrapper>
+                  <PropertyTypeWrapper id="image_style" label="Styles">
+                    <ImageStyles />
+                  </PropertyTypeWrapper>
+                </>
+              )}
+
+              {imgLinks && imgLinks[activeBlock] && (
+                <PropertyTypeWrapper id="image_filters" label="Filters">
+                  <ImageFilters />
+                </PropertyTypeWrapper>
+              )}
+            </>
+          )}
+        </HidePropertyInMobile>
 
         {activeComponent.type === "spacer" && (
           <PropertyTypeWrapper id="spacer_layout" label="Layout">
@@ -116,11 +125,13 @@ const PropertiesTab = () => {
           </PropertyTypeWrapper>
         )}
 
-        {activeComponent.type === "divider" && (
-          <PropertyTypeWrapper id="divider_layout" label="Layout">
-            <DividerLayout />
-          </PropertyTypeWrapper>
-        )}
+        <HidePropertyInMobile>
+          {activeComponent.type === "divider" && (
+            <PropertyTypeWrapper id="divider_layout" label="Layout">
+              <DividerLayout />
+            </PropertyTypeWrapper>
+          )}
+        </HidePropertyInMobile>
 
         {activeComponent.type === "accordion" && (
           <>
@@ -147,9 +158,11 @@ const PropertiesTab = () => {
             <PropertyTypeWrapper id="row_layout" label="Layout">
               <RowLayout />
             </PropertyTypeWrapper>
-            <PropertyTypeWrapper id="row_style" label="Styles">
-              <RowStyles />
-            </PropertyTypeWrapper>
+            <HidePropertyInMobile>
+              <PropertyTypeWrapper id="row_style" label="Styles">
+                <RowStyles />
+              </PropertyTypeWrapper>
+            </HidePropertyInMobile>
           </>
         )}
 
@@ -158,9 +171,11 @@ const PropertiesTab = () => {
             <PropertyTypeWrapper id="row_layout" label="Layout">
               <ColumnLayout />
             </PropertyTypeWrapper>
-            <PropertyTypeWrapper id="column_style" label="Styles">
-              <ColumnStyles />
-            </PropertyTypeWrapper>
+            <HidePropertyInMobile>
+              <PropertyTypeWrapper id="column_style" label="Styles">
+                <ColumnStyles />
+              </PropertyTypeWrapper>
+            </HidePropertyInMobile>
           </>
         )}
 
@@ -178,9 +193,11 @@ const PropertiesTab = () => {
           "accordion",
         ].includes(activeComponent.type) && (
           <>
-            <PropertyTypeWrapper id="box_shadow" label="Box Shadow">
-              <BoxShadowProperty />
-            </PropertyTypeWrapper>
+            <HidePropertyInMobile>
+              <PropertyTypeWrapper id="box_shadow" label="Box Shadow">
+                <BoxShadowProperty />
+              </PropertyTypeWrapper>
+            </HidePropertyInMobile>
             <PropertyTypeWrapper id="padding" label="Padding">
               <PaddingProperty />
             </PropertyTypeWrapper>

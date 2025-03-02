@@ -9,18 +9,25 @@ import LineHeightProperty from "@/app/(editor)/studio/create-blog/[id]/_componen
 import TextTransformProperty from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Common/Font/TextTransformProperty";
 import TextAlignProperty from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Common/Font/TextAlignProperty";
 import TextDirectionProperty from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Common/Font/TextDirectionProperty";
+import HidePropertyInMobile from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/HidePropertyInMobile";
 
 const TypographyStyle = () => {
   return (
     <PropertyTypeWrapper>
       <FontSizeProperty />
       <FontWeightProperty />
-      <TextColorProperty />
+      <HidePropertyInMobile>
+        <TextColorProperty />
+      </HidePropertyInMobile>
       <LetterSpacingProperty />
       <LineHeightProperty />
-      <TextTransformProperty />
+      <HidePropertyInMobile>
+        <TextTransformProperty />
+      </HidePropertyInMobile>
       <TextAlignProperty />
-      <TextDirectionProperty />
+      <HidePropertyInMobile>
+        <TextDirectionProperty />
+      </HidePropertyInMobile>
     </PropertyTypeWrapper>
   );
 };
