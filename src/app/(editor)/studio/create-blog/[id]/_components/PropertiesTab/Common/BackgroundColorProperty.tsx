@@ -41,23 +41,21 @@ const BackgroundColorProperty = () => {
       setBackgroundColorState(backgroundColor);
   }, [activeBlock, backgroundColor]);
 
-  const handleColorDispatch = useCallback(
-    (backgroundColor: string) => {
-      dispatch(
-        addStyle({
-          blogId,
-          activeBlockId: activeBlock,
-          styles: {
-            backgroundColor,
-          },
-        })
-      );
-    },
-    [blogId, activeBlock]
-  );
+  const handleColorDispatch = (backgroundColor: string) => {
+    dispatch(
+      addStyle({
+        blogId,
+        activeBlockId: activeBlock,
+        styles: {
+          backgroundColor,
+        },
+      })
+    );
+  };
 
   const handleColorPicker = (color: ColorResult, e: ChangeEvent) => {
     const newColor = color.hex;
+
     if (isValidHexColor(newColor)) setLastValidColor(newColor);
 
     setBackgroundColorState(newColor);

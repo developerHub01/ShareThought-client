@@ -356,7 +356,7 @@ const applyMinMaxStyles = (
 const updateStyleValue = (value: any, currentValue: any) => {
   if (value === "inc") return Number(currentValue ?? 0) + 1;
   if (value === "dec") return Number(currentValue ?? 0) - 1;
-  return typeof value === "number" ? value : currentValue;
+  return value ?? currentValue;
 };
 
 export const blogBuilderSlice = createSlice({
@@ -1419,6 +1419,13 @@ export const blogBuilderSlice = createSlice({
 
       for (const key in styles) {
         const value = styles[key];
+
+        console.log({
+          key,
+          value,
+          blockStyles: current(blockStyles),
+          defaultStyles,
+        });
 
         // Get the current value or fallback to default
         const currentValue = blockStyles?.[key] ?? defaultStyles?.[key];
