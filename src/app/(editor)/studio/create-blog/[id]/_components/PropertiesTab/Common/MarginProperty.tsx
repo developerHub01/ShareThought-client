@@ -55,17 +55,15 @@ const MarginProperty = ({ label }: MarginPropertyProps) => {
       );
   }, [activeBlock, dispatch, blogId, styles]);
 
-  const margin = useMemo(() => {
-    const activeStyles = styles[activeBlock] ?? {};
-    const activeMobileStyles = mobileStyles[activeBlock] ?? {};
-
-    return {
-      ...filterStyle(activeStyles, "margin"),
+  const margin = useMemo(
+    () => ({
+      ...filterStyle(styles[activeBlock], "margin"),
       ...(screenType === "mobile"
-        ? filterStyle(activeMobileStyles, "margin")
+        ? filterStyle(mobileStyles[activeBlock], "margin")
         : {}),
-    };
-  }, [styles, screenType, mobileStyles, activeBlock]);
+    }),
+    [styles, screenType, mobileStyles, activeBlock]
+  );
 
   const handleChange = (
     margin: Partial<Record<MarginType, number | "inc" | "dec">>

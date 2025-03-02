@@ -65,17 +65,15 @@ const PaddingProperty = ({ label }: PaddingPropertyProps) => {
       );
   }, [activeBlock, dispatch, blogId, styles]);
 
-  const padding = useMemo(() => {
-    const activeStyles = styles[activeBlock] ?? {};
-    const activeMobileStyles = mobileStyles[activeBlock] ?? {};
-
-    return {
-      ...filterStyle(activeStyles, "padding"),
+  const padding = useMemo(
+    () => ({
+      ...filterStyle(styles[activeBlock], "padding"),
       ...(screenType === "mobile"
-        ? filterStyle(activeMobileStyles, "padding")
+        ? filterStyle(mobileStyles[activeBlock], "padding")
         : {}),
-    };
-  }, [styles, screenType, mobileStyles, activeBlock]);
+    }),
+    [styles, screenType, mobileStyles, activeBlock]
+  );
 
   const handleChange = (
     padding: Partial<Record<PaddingType, number | "inc" | "dec">>

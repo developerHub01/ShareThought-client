@@ -1,11 +1,12 @@
 "use client";
 
-import React, { ChangeEvent, CSSProperties, useCallback, useMemo } from "react";
+import React, { ChangeEvent, useCallback, useMemo } from "react";
 import CountBlock from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/CountBlock";
 import { EDITOR_TYPOGRAPHY_SIZE } from "@/constant";
 import { addStyle } from "@/redux/features/builders/blogBuilderSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useParams } from "next/navigation";
+import filterStyle from "@/utils/editor/filterStyle";
 
 const LetterSpacingProperty = () => {
   const dispatch = useAppDispatch();
@@ -15,14 +16,20 @@ const LetterSpacingProperty = () => {
 
   const {
     activeBlock,
-    metaData: { styles },
+    screenType,
+    metaData: { styles = {}, mobileStyles = {} },
   } = useAppSelector((state) => state.blogBuilder.blogs[blogId]);
 
   if (!activeBlock) return null;
 
   const activeStyle = useMemo(
-    () => styles[activeBlock] as CSSProperties,
-    [styles, activeBlock]
+    () => ({
+      ...filterStyle(styles[activeBlock], "letterSpacing"),
+      ...(screenType === "mobile"
+        ? filterStyle(mobileStyles[activeBlock], "letterSpacing")
+        : {}),
+    }),
+    [styles, mobileStyles, activeBlock, screenType]
   );
 
   const handleDispatchSpacing = useCallback(

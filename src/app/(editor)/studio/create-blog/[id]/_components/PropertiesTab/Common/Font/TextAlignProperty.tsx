@@ -1,16 +1,27 @@
 "use client";
 
-import React, { CSSProperties } from "react";
+import React, { CSSProperties, useMemo } from "react";
 import TextAlignBlock from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/TextAlignBlock";
-import { AlignCenter, AlignJustify, AlignLeft, AlignRight } from "lucide-react";
+import {
+  AlignCenter,
+  AlignJustify,
+  AlignLeft,
+  AlignRight,
+  LucideIcon,
+} from "lucide-react";
 import {
   AlignType,
   addStyle,
 } from "@/redux/features/builders/blogBuilderSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useParams } from "next/navigation";
+import filterStyle from "@/utils/editor/filterStyle";
 
-const alignList = [
+const alignList: Array<{
+  id: AlignType;
+  label: string;
+  Icon: LucideIcon;
+}> = [
   {
     id: "left",
     label: "Align Left",
@@ -41,12 +52,22 @@ const TextAlignProperty = () => {
 
   const {
     activeBlock,
-    metaData: { styles },
+    screenType,
+    metaData: { styles = {}, mobileStyles = {} },
   } = useAppSelector((state) => state.blogBuilder.blogs[blogId]);
 
   if (!activeBlock) return null;
 
-  const activeStyle = styles[activeBlock] as CSSProperties;
+  const activeStyle = useMemo(
+    () =>
+      ({
+        ...filterStyle(styles[activeBlock], "textAlign"),
+        ...(screenType === "mobile"
+          ? filterStyle(mobileStyles[activeBlock], "textAlign")
+          : {}),
+      } as CSSProperties),
+    [styles, mobileStyles, activeBlock, screenType]
+  );
 
   const handleChangeAlign = (value: string) => {
     dispatch(
@@ -63,7 +84,7 @@ const TextAlignProperty = () => {
   return (
     <TextAlignBlock
       title="Align"
-      activeAlign={activeStyle?.textAlign || (alignList[0].id as AlignType)}
+      activeAlign={activeStyle?.textAlign ?? alignList[0].id}
       handleChange={handleChangeAlign}
       alignList={alignList}
     />

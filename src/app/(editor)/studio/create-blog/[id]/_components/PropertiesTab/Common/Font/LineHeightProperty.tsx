@@ -1,6 +1,6 @@
 "use client";
 
-import React, { CSSProperties } from "react";
+import React, { useMemo } from "react";
 import SelectBlock from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/SelectBlock";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useParams } from "next/navigation";
@@ -8,6 +8,7 @@ import {
   addStyle,
   LineHeightType,
 } from "@/redux/features/builders/blogBuilderSlice";
+import filterStyle from "@/utils/editor/filterStyle";
 
 const lineHeightList = [
   {
@@ -36,12 +37,21 @@ const LineHeightProperty = () => {
 
   const {
     activeBlock,
-    metaData: { styles },
+    screenType,
+    metaData: { styles = {}, mobileStyles = {} },
   } = useAppSelector((state) => state.blogBuilder.blogs[blogId]);
 
   if (!activeBlock) return null;
 
-  const activeStyle = styles[activeBlock] as CSSProperties;
+  const activeStyle = useMemo(
+    () => ({
+      ...filterStyle(styles[activeBlock], "lineHeight"),
+      ...(screenType === "mobile"
+        ? filterStyle(mobileStyles[activeBlock], "lineHeight")
+        : {}),
+    }),
+    [styles, mobileStyles, activeBlock, screenType]
+  );
 
   const handleChangeLineHeight = (value: string) => {
     dispatch(

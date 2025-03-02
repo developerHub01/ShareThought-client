@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useMemo } from "react";
+import React, { CSSProperties, useEffect, useMemo } from "react";
 import BorderRadiusBlock from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/BorderRadiusBlock";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useParams } from "next/navigation";
@@ -10,6 +10,7 @@ import {
   createActiveBlockStyle,
   toggleBorderRadiusAll,
 } from "@/redux/features/builders/blogBuilderSlice";
+import filterStyle from "@/utils/editor/filterStyle";
 
 const BorderRadiusProperty = () => {
   const dispatch = useAppDispatch();
@@ -19,7 +20,8 @@ const BorderRadiusProperty = () => {
 
   const {
     activeBlock,
-    metaData: { styles = {} },
+    screenType,
+    metaData: { styles = {}, mobileStyles = {} },
   } = useAppSelector((state) => state.blogBuilder.blogs[blogId]);
 
   useEffect(() => {
@@ -32,15 +34,16 @@ const BorderRadiusProperty = () => {
       );
   }, [activeBlock, styles, dispatch, blogId]);
 
-  const borderRadius = useMemo(() => {
+  const activeStyle = useMemo(() => {
     if (!activeBlock || !styles[activeBlock]) return {};
 
-    return Object.fromEntries(
-      Object.entries(styles[activeBlock]).filter(
-        ([key, value]) => key.includes("Radius") && value !== undefined
-      )
-    ) as Record<BorderRadiusType, number>;
-  }, [styles, activeBlock]);
+    return {
+      ...filterStyle(styles[activeBlock], "Radius"),
+      ...(screenType === "mobile"
+        ? filterStyle(mobileStyles[activeBlock], "Radius")
+        : {}),
+    };
+  }, [styles, mobileStyles, activeBlock, screenType]);
 
   if (!activeBlock) return null;
 
@@ -67,7 +70,7 @@ const BorderRadiusProperty = () => {
 
   return (
     <BorderRadiusBlock
-      borderRadius={borderRadius}
+      borderRadius={activeStyle}
       handleChange={handleChange}
       handleToggleMore={handleToggleMore}
     />

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { ChangeEvent, CSSProperties, useCallback, useMemo } from "react";
+import React, { ChangeEvent, useCallback, useMemo } from "react";
 import CountBlock from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/CountBlock";
 import {
   addStyle,
@@ -9,6 +9,7 @@ import {
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useParams } from "next/navigation";
 import { GAP_SIZE } from "@/constant";
+import filterStyle from "@/utils/editor/filterStyle";
 
 const GapProperty = () => {
   const dispatch = useAppDispatch();
@@ -18,8 +19,9 @@ const GapProperty = () => {
 
   const {
     activeBlock,
+    screenType,
     components,
-    metaData: { styles },
+    metaData: { styles = {}, mobileStyles = {} },
   } = useAppSelector((state) => state.blogBuilder.blogs[blogId]);
 
   if (!activeBlock) return null;
@@ -27,8 +29,13 @@ const GapProperty = () => {
   const typographyType = components[activeBlock].type as TypographyType;
 
   const activeStyle = useMemo(
-    () => styles[activeBlock] as CSSProperties,
-    [styles, activeBlock]
+    () => ({
+      ...filterStyle(styles[activeBlock], "gap"),
+      ...(screenType === "mobile"
+        ? filterStyle(mobileStyles[activeBlock], "gap")
+        : {}),
+    }),
+    [styles, mobileStyles, activeBlock, screenType]
   );
 
   const handleDispatchSize = useCallback(
