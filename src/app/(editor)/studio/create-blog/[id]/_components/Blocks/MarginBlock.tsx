@@ -5,6 +5,7 @@ import PropertyWrapper_v1 from "@/app/(editor)/studio/create-blog/[id]/_componen
 import { MarginType } from "@/redux/features/builders/blogBuilderSlice";
 import ValueCounter from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/ValueCounter";
 import CounterWrapper from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/CounterWrapper";
+import ResponsiveToggleBlock from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/ResponsiveToggleBlock";
 
 interface MarginBlockProps {
   label?: string;
@@ -33,6 +34,7 @@ const MarginBlock = ({ label, margin, handleChange }: MarginBlockProps) => {
     <PropertyWrapper_v1 className="flex flex-col gap-3">
       <div className="w-full flex justify-between items-center gap-3 flex-wrap">
         <p className="text-sm">{label ?? "Margin"}</p>
+        <ResponsiveToggleBlock />
       </div>
       <div className="w-full grid grid-cols-2 gap-4">
         {marginList.map(({ id, label }) => (
