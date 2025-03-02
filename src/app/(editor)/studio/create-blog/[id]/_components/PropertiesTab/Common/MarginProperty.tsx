@@ -7,8 +7,6 @@ import {
   addStyle,
   createActiveBlockStyle,
   MarginType,
-  ScreenTypes,
-  StyleType,
 } from "@/redux/features/builders/blogBuilderSlice";
 import MarginBlock from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/MarginBlock";
 import { PADDING_MARGIN_LIMITS } from "@/constant";
@@ -41,6 +39,7 @@ const MarginProperty = ({ label }: MarginPropertyProps) => {
 
   const {
     activeBlock,
+    screenType,
     metaData: { styles = {}, mobileStyles = {} },
   } = useAppSelector((state) => state.blogBuilder.blogs[blogId]);
 
@@ -60,28 +59,21 @@ const MarginProperty = ({ label }: MarginPropertyProps) => {
     const activeStyles = styles[activeBlock] ?? {};
     const activeMobileStyles = mobileStyles[activeBlock] ?? {};
 
-    const desktop = filterStyle(activeStyles, "margin");
-
-    const mobile = {
-      ...desktop,
-      ...filterStyle(activeMobileStyles, "margin"),
-    };
-
     return {
-      desktop,
-      mobile,
+      ...filterStyle(activeStyles, "margin"),
+      ...(screenType === "mobile"
+        ? filterStyle(activeMobileStyles, "margin")
+        : {}),
     };
-  }, [styles, mobileStyles, activeBlock]);
+  }, [styles, screenType, mobileStyles, activeBlock]);
 
   const handleChange = (
-    margin: Partial<Record<MarginType, number | "inc" | "dec">>,
-    screenType: ScreenTypes = "desktop"
+    margin: Partial<Record<MarginType, number | "inc" | "dec">>
   ) => {
     dispatch(
       addStyle({
         blogId,
         activeBlockId: activeBlock,
-        screenType,
         styles: margin,
         ...marginStyleConstraints,
       })

@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Monitor as DesktopIcon,
   LucideIcon,
@@ -5,7 +7,9 @@ import {
 } from "lucide-react";
 import React from "react";
 import ToggleList from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/ToggleList";
-import { ScreenTypes } from "@/redux/features/builders/blogBuilderSlice";
+import { toggleScreenType } from "@/redux/features/builders/blogBuilderSlice";
+import { useParams } from "next/navigation";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 
 const screenList: Array<{
   id: string;
@@ -24,20 +28,26 @@ const screenList: Array<{
   },
 ];
 
-interface ResponsiveToggleBlockProps {
-  value: ScreenTypes;
-  handleChange: () => void;
-}
+const ResponsiveToggleBlock = () => {
+  const { id: blogId } = useParams<{ id: string }>();
+  const dispatch = useAppDispatch();
 
-const ResponsiveToggleBlock = ({
-  value,
-  handleChange,
-}: ResponsiveToggleBlockProps) => {
+  const { screenType } = useAppSelector(
+    (state) => state.blogBuilder.blogs?.[blogId] ?? {}
+  );
+
+  const handleChange = () =>
+    dispatch(
+      toggleScreenType({
+        id: blogId,
+      })
+    );
+
   return (
     <ToggleList
       toggleList={screenList}
       handleChange={handleChange}
-      activeItem={value ?? screenList[0].id}
+      activeItem={screenType ?? screenList[0].id}
     />
   );
 };

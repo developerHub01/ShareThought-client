@@ -8,7 +8,6 @@ import {
   addStyle,
   createActiveBlockStyle,
   PaddingType,
-  ScreenTypes,
   togglePaddingAll,
 } from "@/redux/features/builders/blogBuilderSlice";
 import { PADDING_MARGIN_LIMITS } from "@/constant";
@@ -50,6 +49,7 @@ const PaddingProperty = ({ label }: PaddingPropertyProps) => {
 
   const {
     activeBlock,
+    screenType,
     metaData: { styles = {}, mobileStyles = {} },
   } = useAppSelector((state) => state.blogBuilder.blogs[blogId]);
 
@@ -69,40 +69,32 @@ const PaddingProperty = ({ label }: PaddingPropertyProps) => {
     const activeStyles = styles[activeBlock] ?? {};
     const activeMobileStyles = mobileStyles[activeBlock] ?? {};
 
-    const desktop = filterStyle(activeStyles, "padding");
-
-    const mobile = {
-      ...desktop,
-      ...filterStyle(activeMobileStyles, "padding"),
-    };
-
     return {
-      desktop,
-      mobile,
+      ...filterStyle(activeStyles, "padding"),
+      ...(screenType === "mobile"
+        ? filterStyle(activeMobileStyles, "padding")
+        : {}),
     };
-  }, [styles, mobileStyles, activeBlock]);
+  }, [styles, screenType, mobileStyles, activeBlock]);
 
   const handleChange = (
-    padding: Partial<Record<PaddingType, number | "inc" | "dec">>,
-    screenType: ScreenTypes
+    padding: Partial<Record<PaddingType, number | "inc" | "dec">>
   ) => {
     dispatch(
       addStyle({
         blogId,
         activeBlockId: activeBlock,
-        screenType,
         styles: padding,
         ...paddingStyleConstraints,
       })
     );
   };
 
-  const handleToggleMore = (screenType?: ScreenTypes) => {
+  const handleToggleMore = () => {
     dispatch(
       togglePaddingAll({
         blogId,
         activeBlockId: activeBlock,
-        screenType,
       })
     );
   };

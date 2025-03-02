@@ -205,6 +205,7 @@ export interface BlogBuilderState {
     [id: string]: BlogStateInterface & {
       editorOrPreview: editorOrPreviewTypes;
       activeBlock: string | null;
+      screenType?: ScreenTypes;
     };
   };
   isImageEditorOpen: boolean;
@@ -225,6 +226,8 @@ const blogInitialState = {
   activeBlock: null,
   components: {},
   hoveringComponentId: null,
+  screenType:
+    "desktop" as ScreenTypes /* it will determine that is current style mode is desktop or mobile */,
 };
 
 const tableHeaderInitialState: TableHeaderInterface = {
@@ -378,6 +381,22 @@ export const blogBuilderSlice = createSlice({
       ensureBlogExists(state, id);
 
       state.blogs[id].title = title;
+    },
+
+    toggleScreenType: (
+      state,
+      action: PayloadAction<{
+        id: string;
+      }>
+    ) => {
+      const { id } = action.payload;
+
+      /* if that blog is not exist then create */
+      ensureBlogExists(state, id);
+
+      state.blogs[id].screenType === "desktop"
+        ? (state.blogs[id].screenType = "mobile")
+        : (state.blogs[id].screenType = "desktop");
     },
 
     toggleisImageEditorOpen: (state) => {
@@ -1071,10 +1090,11 @@ export const blogBuilderSlice = createSlice({
       action: PayloadAction<{
         blogId: string;
         activeBlockId: string;
-        screenType?: ScreenTypes;
       }>
     ) => {
-      const { blogId, activeBlockId, screenType } = action.payload;
+      const { blogId, activeBlockId } = action.payload;
+
+      const screenType = state.blogs[blogId].screenType ?? "desktop";
 
       if (
         screenType === "mobile" &&
@@ -1368,7 +1388,6 @@ export const blogBuilderSlice = createSlice({
       action: PayloadAction<{
         blogId: string;
         activeBlockId: string;
-        screenType?: ScreenTypes;
         styles: StyleType;
         defaultStyles?: StyleType /* 
         these will handle default style if that already not exist in the style state. 
@@ -1385,12 +1404,13 @@ export const blogBuilderSlice = createSlice({
       const {
         blogId,
         activeBlockId,
-        screenType,
         styles,
         defaultStyles,
         minStyles,
         maxStyles,
       } = action.payload;
+
+      const screenType = state.blogs[blogId].screenType ?? "desktop";
 
       const blockStyles =
         screenType === "mobile"
@@ -2218,6 +2238,7 @@ export const {
   toggleisImageEditorOpen,
   changeHoveringComponentId,
   updateTitle,
+  toggleScreenType,
   toggleEditorOrPreview,
   changeActiveBlock,
   updateComponentText,
