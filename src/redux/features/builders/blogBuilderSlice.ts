@@ -1,12 +1,14 @@
 import {
   defaultGlobalStyles,
-  defaultMarginList,
+  DEFAULT_MARGIN_LIST,
   EDITOR_TABLE_SIZE,
 } from "@/constant";
 import { isValidHexColor, isValidURL } from "@/utils";
 import { createSlice, current } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { v4 as uuidv4 } from "uuid";
+
+export type ScreenTypes = "desktop" | "mobile";
 
 type editorOrPreviewTypes = "editor" | "preview";
 export type BlockTypes =
@@ -176,9 +178,7 @@ export interface StylesInterface {
 export interface BlogMetaDataInterface {
   imgLinks: Record<string, string>;
   styles: StylesInterface;
-  mobileStyles: {
-    [key: string]: Record<string, string | number>;
-  };
+  mobileStyles: StylesInterface;
   hoverStyles: {
     [key: string]: Record<string, string | number>;
   };
@@ -217,7 +217,7 @@ const blogInitialState = {
   metaData: {
     imgLinks: {} as Record<string, string>,
     styles: {} as StylesInterface,
-    mobileStyles: {} as Record<string, Record<string, string | number>>,
+    mobileStyles: {} as StylesInterface,
     hoverStyles: {} as Record<string, Record<string, string | number>>,
     globalStyles: defaultGlobalStyles,
   },
@@ -327,12 +327,33 @@ const addDefaultStylesAfterComponentAdd = (
   if (!state.blogs[blogId].metaData.styles[id])
     state.blogs[blogId].metaData.styles[id] = {};
 
-  if (defaultMarginList[type]) {
+  if (DEFAULT_MARGIN_LIST[type]) {
     state.blogs[blogId].metaData.styles[id] = {
       ...state.blogs[blogId].metaData.styles[id],
-      ...defaultMarginList[type],
+      ...DEFAULT_MARGIN_LIST[type],
     };
   }
+};
+
+const applyMinMaxStyles = (
+  styles: StyleType,
+  key: string,
+  minStyles?: StyleType,
+  maxStyles?: StyleType
+) => {
+  if (minStyles && typeof minStyles[key] === "number")
+    styles[key] = Math.max(minStyles[key], Number(styles[key]));
+
+  if (maxStyles && typeof maxStyles[key] === "number")
+    styles[key] = Math.min(maxStyles[key], Number(styles[key]));
+
+  return styles[key];
+};
+
+const updateStyleValue = (value: any, currentValue: any) => {
+  if (value === "inc") return Number(currentValue ?? 0) + 1;
+  if (value === "dec") return Number(currentValue ?? 0) - 1;
+  return typeof value === "number" ? value : currentValue;
 };
 
 export const blogBuilderSlice = createSlice({
@@ -1050,11 +1071,26 @@ export const blogBuilderSlice = createSlice({
       action: PayloadAction<{
         blogId: string;
         activeBlockId: string;
+        screenType?: ScreenTypes;
       }>
     ) => {
-      const { blogId, activeBlockId } = action.payload;
+      const { blogId, activeBlockId, screenType } = action.payload;
 
-      const styles = state.blogs[blogId].metaData.styles[activeBlockId];
+      if (
+        screenType === "mobile" &&
+        !state.blogs[blogId].metaData.mobileStyles[activeBlockId]
+      )
+        state.blogs[blogId].metaData.mobileStyles[activeBlockId] = {};
+      else if (
+        screenType === "desktop" &&
+        !state.blogs[blogId].metaData.styles[activeBlockId]
+      )
+        state.blogs[blogId].metaData.styles[activeBlockId] = {};
+
+      const styles =
+        screenType === "mobile"
+          ? state.blogs[blogId].metaData.mobileStyles[activeBlockId]
+          : state.blogs[blogId].metaData.styles[activeBlockId];
 
       if (
         [
@@ -1079,10 +1115,10 @@ export const blogBuilderSlice = createSlice({
 
         return state;
       } else {
-        styles.paddingLeft = styles.padding || 0;
-        styles.paddingRight = styles.padding || 0;
-        styles.paddingTop = styles.padding || 0;
-        styles.paddingBottom = styles.padding || 0;
+        styles.paddingLeft = styles.padding ?? 0;
+        styles.paddingRight = styles.padding ?? 0;
+        styles.paddingTop = styles.padding ?? 0;
+        styles.paddingBottom = styles.padding ?? 0;
 
         delete styles.padding;
 
@@ -1332,6 +1368,7 @@ export const blogBuilderSlice = createSlice({
       action: PayloadAction<{
         blogId: string;
         activeBlockId: string;
+        screenType?: ScreenTypes;
         styles: StyleType;
         defaultStyles?: StyleType /* 
         these will handle default style if that already not exist in the style state. 
@@ -1348,34 +1385,39 @@ export const blogBuilderSlice = createSlice({
       const {
         blogId,
         activeBlockId,
+        screenType,
         styles,
         defaultStyles,
         minStyles,
         maxStyles,
       } = action.payload;
 
+      const blockStyles =
+        screenType === "mobile"
+          ? state.blogs[blogId].metaData.mobileStyles[activeBlockId]
+          : state.blogs[blogId].metaData.styles[activeBlockId];
+
       for (const key in styles) {
         const value = styles[key];
 
-        const currentValue =
-          state.blogs[blogId].metaData.styles[activeBlockId]?.[key] ??
-          defaultStyles?.[key];
+        // Get the current value or fallback to default
+        const currentValue = blockStyles?.[key] ?? defaultStyles?.[key];
 
-        /* Handling for number type values start========== */
-        if (value === "inc") styles[key] = Number(currentValue ?? 0) + 1;
-        else if (value === "dec") styles[key] = Number(currentValue ?? 0) - 1;
-        else if (typeof value === "number") styles[key] = value;
+        // Update value with increment/decrement or direct value
+        styles[key] = updateStyleValue(value, currentValue);
 
-        // Apply min and max constraints after updating the value
-        if (minStyles && typeof minStyles[key] === "number")
-          styles[key] = Math.max(minStyles[key], Number(styles[key]));
-        if (maxStyles && typeof maxStyles[key] === "number")
-          styles[key] = Math.min(maxStyles[key], Number(styles[key]));
-        /* Handling for number type values end ========== */
+        // Apply min/max constraints
+        styles[key] = applyMinMaxStyles(styles, key, minStyles, maxStyles);
       }
 
-      state.blogs[blogId].metaData.styles[activeBlockId] = {
-        ...(state.blogs[blogId].metaData.styles[activeBlockId] || {}),
+      // Update the styles in the correct block
+      const targetBlockStyles =
+        screenType === "mobile"
+          ? state.blogs[blogId].metaData.mobileStyles
+          : state.blogs[blogId].metaData.styles;
+
+      targetBlockStyles[activeBlockId] = {
+        ...(targetBlockStyles[activeBlockId] ?? {}),
         ...styles,
       };
     },

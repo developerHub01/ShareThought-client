@@ -4,7 +4,7 @@ import { updateComponentText } from "@/redux/features/builders/blogBuilderSlice"
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useParams } from "next/navigation";
 import React, { CSSProperties, FocusEvent } from "react";
-import { typographyList } from "@/constant";
+import { TYPOGRAPHY_LIST } from "@/constant";
 
 interface HeadingProps {
   id: string;
@@ -39,7 +39,7 @@ const Heading = ({ id, parentId, ...props }: HeadingProps) => {
   };
 
   const { tag: Tag, className: defaultClassName } =
-    typographyList[type] || typographyList.h1;
+    TYPOGRAPHY_LIST[type] || TYPOGRAPHY_LIST.h1;
 
   return (
     <>

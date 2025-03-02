@@ -1,6 +1,9 @@
 import { CSSProperties, ElementType } from "react";
 import { TReactions } from "@/types";
-import { BlockTypes, StyleType } from "@/redux/features/builders/blogBuilderSlice";
+import {
+  BlockTypes,
+  StyleType,
+} from "@/redux/features/builders/blogBuilderSlice";
 
 export const REACTION_TYPES = {
   LIKE: "LIKE",
@@ -122,7 +125,19 @@ export const GAP_SIZE = {
   MAX: 50,
 };
 
-export const typographyList: Record<
+export const PADDING_MARGIN_LIMITS = {
+  DEFAULT: 0,
+  MIN: {
+    margin: -100,
+    padding: 0,
+  },
+  MAX: {
+    margin: 100,
+    padding: 100,
+  },
+};
+
+export const TYPOGRAPHY_LIST: Record<
   string,
   { tag: ElementType; className: string }
 > = {
@@ -135,7 +150,7 @@ export const typographyList: Record<
   p: { tag: "p", className: "text-base" },
 };
 
-export const defaultMarginList: Partial<Record<BlockTypes, StyleType>> = {
+export const DEFAULT_MARGIN_LIST: Partial<Record<BlockTypes, StyleType>> = {
   h1: {
     marginTop: 0,
     marginBottom: 20,

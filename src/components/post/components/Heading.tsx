@@ -1,4 +1,4 @@
-import { typographyList } from "@/constant";
+import { TYPOGRAPHY_LIST } from "@/constant";
 import {
   BlogComponentsDataInterface,
   BlogContentType,
@@ -21,7 +21,7 @@ const Heading = ({ id, components, metaData }: HeadingProps) => {
   const componentStyle = (metaData.styles[id] || {}) as CSSProperties;
 
   const { tag: Tag, className: defaultClassName } =
-    typographyList[type] || typographyList.h1;
+    TYPOGRAPHY_LIST[type] || TYPOGRAPHY_LIST.h1;
 
   return (
     <Tag

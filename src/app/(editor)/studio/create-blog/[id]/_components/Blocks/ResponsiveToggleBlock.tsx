@@ -5,6 +5,7 @@ import {
 } from "lucide-react";
 import React from "react";
 import ToggleList from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/ToggleList";
+import { ScreenTypes } from "@/redux/features/builders/blogBuilderSlice";
 
 const screenList: Array<{
   id: string;
@@ -23,14 +24,20 @@ const screenList: Array<{
   },
 ];
 
-const ResponsiveToggleBlock = () => {
-  const handleChange = (value: string) => {};
+interface ResponsiveToggleBlockProps {
+  value: ScreenTypes;
+  handleChange: () => void;
+}
 
+const ResponsiveToggleBlock = ({
+  value,
+  handleChange,
+}: ResponsiveToggleBlockProps) => {
   return (
     <ToggleList
       toggleList={screenList}
       handleChange={handleChange}
-      activeItem={screenList[0].id}
+      activeItem={value ?? screenList[0].id}
     />
   );
 };
