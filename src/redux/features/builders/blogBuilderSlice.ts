@@ -1420,13 +1420,6 @@ export const blogBuilderSlice = createSlice({
       for (const key in styles) {
         const value = styles[key];
 
-        console.log({
-          key,
-          value,
-          blockStyles: current(blockStyles),
-          defaultStyles,
-        });
-
         // Get the current value or fallback to default
         const currentValue = blockStyles?.[key] ?? defaultStyles?.[key];
 
@@ -2135,30 +2128,6 @@ export const blogBuilderSlice = createSlice({
       delete blockStyle.filter;
     },
 
-    /* spacer ======== */
-    changeSpacerSize: (
-      state,
-      action: PayloadAction<{
-        blogId: string;
-        id: string; // component id
-        height: number | "inc" | "dec";
-      }>
-    ) => {
-      const { blogId, id, height } = action.payload;
-
-      if (!state.blogs[blogId]?.metaData?.styles[id])
-        state.blogs[blogId].metaData.styles[id] = {
-          height: 1,
-        };
-
-      const blockStyle = state.blogs[blogId]?.metaData?.styles[id];
-
-      if (height === "inc") blockStyle.height = Number(blockStyle.height) + 1;
-      else if (height === "dec")
-        blockStyle.height = Math.max(Number(blockStyle.height) - 1, 1);
-      else blockStyle.height = Math.max(height, 1);
-    },
-
     /* accordion ========== */
     changeAccordionContent: (
       state,
@@ -2287,8 +2256,6 @@ export const {
   /* image filter  */
   addImageFilter,
   resetImageFilter,
-  /* spacer ======== */
-  changeSpacerSize,
   /* accordion ========== */
   changeAccordionContent,
   changeAccordionCount,

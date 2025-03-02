@@ -4,7 +4,16 @@ import React, { ChangeEvent } from "react";
 import CountBlock from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/CountBlock";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useParams } from "next/navigation";
-import { changeSpacerSize } from "@/redux/features/builders/blogBuilderSlice";
+import { addStyle } from "@/redux/features/builders/blogBuilderSlice";
+
+const spacerHeightStyleConstraints = {
+  defaultStyles: {
+    height: 1,
+  },
+  minStyles: {
+    height: 1,
+  },
+};
 
 const SpacerHeight = () => {
   const dispatch = useAppDispatch();
@@ -24,32 +33,41 @@ const SpacerHeight = () => {
 
   const handleSpacerSizeIncrement = () => {
     dispatch(
-      changeSpacerSize({
+      addStyle({
         blogId,
-        id: activeBlock,
-        height: spacerSize + 1,
+        activeBlockId: activeBlock,
+        styles: {
+          height: "inc",
+        },
+        ...spacerHeightStyleConstraints,
       })
     );
   };
 
   const handleSpacerSizeDecrement = () => {
     dispatch(
-      changeSpacerSize({
+      addStyle({
         blogId,
-        id: activeBlock,
-        height: Math.max(spacerSize - 1, 1),
+        activeBlockId: activeBlock,
+        styles: {
+          height: "dec",
+        },
+        ...spacerHeightStyleConstraints,
       })
     );
   };
 
   const handleSpacerSizeChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const value = Number(e.target.value);
+    const height = Number(e.target.value);
 
     dispatch(
-      changeSpacerSize({
+      addStyle({
         blogId,
-        id: activeBlock,
-        height: Math.max(value, 1),
+        activeBlockId: activeBlock,
+        styles: {
+          height,
+        },
+        ...spacerHeightStyleConstraints,
       })
     );
   };
