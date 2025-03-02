@@ -1,10 +1,11 @@
 "use client";
 
-import React, { ChangeEvent } from "react";
+import React, { ChangeEvent, useMemo } from "react";
 import CountBlock from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/CountBlock";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useParams } from "next/navigation";
 import { addStyle } from "@/redux/features/builders/blogBuilderSlice";
+import filterStyle from "@/utils/editor/filterStyle";
 
 const spacerHeightStyleConstraints = {
   defaultStyles: {
@@ -23,13 +24,21 @@ const SpacerHeight = () => {
 
   const {
     activeBlock,
-    metaData: { styles = {} },
+    screenType,
+    metaData: { styles = {}, mobileStyles = {} },
   } = useAppSelector((state) => state.blogBuilder.blogs[blogId]);
 
   if (!activeBlock) return null;
 
-  const activeBlockStyles = styles[activeBlock];
-  const spacerSize = Number(activeBlockStyles.height ?? 1);
+  const activeStyle = useMemo(
+    () => ({
+      ...filterStyle(styles[activeBlock], "height"),
+      ...(screenType === "mobile"
+        ? filterStyle(mobileStyles[activeBlock], "height")
+        : {}),
+    }),
+    [styles, mobileStyles, activeBlock, screenType]
+  );
 
   const handleSpacerSizeIncrement = () => {
     dispatch(
@@ -75,7 +84,7 @@ const SpacerHeight = () => {
   return (
     <CountBlock
       label="Height"
-      value={spacerSize}
+      value={activeStyle.height ?? 1}
       handleChange={handleSpacerSizeChange}
       handleIncrement={handleSpacerSizeIncrement}
       handleDecrement={handleSpacerSizeDecrement}
