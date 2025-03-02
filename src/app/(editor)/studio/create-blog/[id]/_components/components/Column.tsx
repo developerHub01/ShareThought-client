@@ -52,6 +52,7 @@ const Column = ({ id, ...props }: RowProps) => {
           ...(componentStyles as CSSProperties),
         }}
         data-component-type={type}
+        data-component-id={id}
       >
         {Array.isArray(children) && (
           <>

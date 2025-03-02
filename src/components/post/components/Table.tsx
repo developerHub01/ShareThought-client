@@ -23,7 +23,7 @@ const Table = ({ id, components, metaData }: TableProps) => {
   if (!components || !components[id]) return null;
 
   let activeBlockStyles = metaData.styles[id];
-  
+
   const {
     tbody,
     thead,
@@ -86,6 +86,7 @@ const Table = ({ id, components, metaData }: TableProps) => {
         ...wrapperStyles,
       }}
       data-component-type={type}
+      data-component-id={id}
     >
       <table
         className="border-collapse w-full table-fixed text-sm text-left text-gray-500 dark:text-gray-400"

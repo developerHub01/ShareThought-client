@@ -26,6 +26,7 @@ const Spacer = ({ id, metaData, components }: SpacerProps) => {
         ...(componentStyles as Record<string, string | number>),
       }}
       data-component-type={type}
+      data-component-id={id}
     ></div>
   );
 };

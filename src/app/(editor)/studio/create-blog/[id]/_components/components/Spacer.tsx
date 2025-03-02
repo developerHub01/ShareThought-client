@@ -35,6 +35,7 @@ const Spacer = ({ id, parentId, className, ...props }: SpacerProps) => {
         ...componentStyles,
       }}
       data-component-type={type}
+      data-component-id={id}
     ></div>
   );
 };

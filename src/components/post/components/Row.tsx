@@ -61,6 +61,7 @@ const Row = (props: RowProps) => {
         ...(componentStyles as CSSProperties),
       }}
       data-component-type={type}
+      data-component-id={id}
     >
       {Array.isArray(children) &&
         children.map((id, index) => (

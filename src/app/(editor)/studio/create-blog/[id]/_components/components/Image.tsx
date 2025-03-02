@@ -70,6 +70,7 @@ const Image = ({ id, parentId, ...props }: ImageProps) => {
         {...(!redirect
           ? {
               "data-component-type": type,
+              "data-component-id": id,
             }
           : {})}
       >
@@ -101,6 +102,7 @@ const Image = ({ id, parentId, ...props }: ImageProps) => {
       aria-label={alt || "Image link"}
       title={alt || "Image link"}
       data-component-type={type}
+      data-component-id={id}
     >
       <Comp />
     </a>

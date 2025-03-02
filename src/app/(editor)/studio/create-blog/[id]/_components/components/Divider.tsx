@@ -45,6 +45,7 @@ const Divider = ({ id, parentId, ...props }: DividerProps) => {
         ...(wrapperStyles as Record<string, string | number>),
       }}
       data-component-type={type}
+      data-component-id={id}
     >
       <div
         style={{

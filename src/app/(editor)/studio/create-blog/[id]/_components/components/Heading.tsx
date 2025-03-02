@@ -42,18 +42,22 @@ const Heading = ({ id, parentId, ...props }: HeadingProps) => {
     typographyList[type] || typographyList.h1;
 
   return (
-    <Tag
-      contentEditable
-      suppressContentEditableWarning
-      data-component-type={type}
-      onBlur={handleBlur}
-      className={defaultClassName}
-      style={{
-        ...typographyStyles,
-      }}
-    >
-      {text}
-    </Tag>
+    <>
+      <style></style>
+      <Tag
+        contentEditable
+        suppressContentEditableWarning
+        data-component-type={type}
+        data-component-id={id}
+        onBlur={handleBlur}
+        className={defaultClassName}
+        style={{
+          ...typographyStyles,
+        }}
+      >
+        {text}
+      </Tag>
+    </>
   );
 };
 

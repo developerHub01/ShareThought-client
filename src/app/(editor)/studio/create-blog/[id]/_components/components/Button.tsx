@@ -98,6 +98,7 @@ const Button = ({ id, parentId, ...props }: ButtonProps) => {
         ...wrapperStyles,
       }}
       data-component-type={type}
+      data-component-id={id}
     >
       {/* id === activeBlock so that user can edit text without that redirect issue */}
       {redirect && id !== activeBlock ? (

@@ -74,6 +74,7 @@ const Button = ({ id, metaData, components }: ButtonProps) => {
         ...wrapperStyles,
       }}
       data-component-type={type}
+      data-component-id={id}
     >
       {redirect ? (
         <Link href={redirect} target="_blank">

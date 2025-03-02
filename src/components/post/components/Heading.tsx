@@ -30,6 +30,7 @@ const Heading = ({ id, components, metaData }: HeadingProps) => {
         ...componentStyle,
       }}
       data-component-type={type}
+      data-component-id={id}
     >
       {text}
     </Tag>
