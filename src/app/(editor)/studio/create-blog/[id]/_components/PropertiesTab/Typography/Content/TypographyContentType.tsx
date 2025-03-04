@@ -8,40 +8,7 @@ import {
   changeType,
   TypographyType,
 } from "@/redux/features/builders/blogBuilderSlice";
-
-const typographyTypeList: Array<{
-  id: TypographyType;
-  label: string;
-}> = [
-  {
-    id: "h1",
-    label: "Heading 1",
-  },
-  {
-    id: "h2",
-    label: "Heading 2",
-  },
-  {
-    id: "h3",
-    label: "Heading 3",
-  },
-  {
-    id: "h4",
-    label: "Heading 4",
-  },
-  {
-    id: "h5",
-    label: "Heading 5",
-  },
-  {
-    id: "h6",
-    label: "Heading 6",
-  },
-  {
-    id: "p",
-    label: "Paragraph",
-  },
-];
+import { typographyTypeList } from "@/constant";
 
 const TypographyContentType = () => {
   const dispatch = useAppDispatch();
@@ -49,10 +16,9 @@ const TypographyContentType = () => {
 
   if (!blogId) return null;
 
-  const {
-    activeBlock,
-    components,
-  } = useAppSelector((state) => state.blogBuilder.blogs[blogId]);
+  const { activeBlock, components } = useAppSelector(
+    (state) => state.blogBuilder.blogs[blogId]
+  );
 
   if (!activeBlock) return null;
 

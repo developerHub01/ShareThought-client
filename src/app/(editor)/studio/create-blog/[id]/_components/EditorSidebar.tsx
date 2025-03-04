@@ -136,7 +136,7 @@ const SidebarTab = memo(({ tabs, activeTab, onChange }: SidebarTabProps) => {
   return (
     <section className="h-full flex flex-col">
       <TabHead tabs={tabs} activeTab={activeTab} onChange={onChange} />
-      <TopActionList />
+      {activeTab === "properties" && <TopActionList />}
       <TabContent activeTab={activeTab} />
       {activeTab === "properties" && <TabScreenMode />}
     </section>
