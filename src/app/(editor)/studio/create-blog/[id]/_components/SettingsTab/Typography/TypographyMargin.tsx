@@ -1,16 +1,16 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React from "react";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useParams } from "next/navigation";
 import {
-  addStyle,
-  createActiveBlockStyle,
+  addGlobalStyle,
   MarginType,
 } from "@/redux/features/builders/blogBuilderSlice";
 import MarginBlock from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/MarginBlock";
 import { EDITOR_DEFAULT_VALUES } from "@/constant";
-import useActiveStylePropertyTab from "@/hooks/editor/use-active-style-property-tab";
+import { useSettingTypography } from "@/app/(editor)/studio/create-blog/[id]/_context/SettingTab/SettingTypographyProvider";
+import useActiveStyleSettingTab from "@/hooks/editor/use-active-style-setting-tab";
 
 const marginStyleConstraints = {
   defaultStyles: {
@@ -27,44 +27,26 @@ const marginStyleConstraints = {
   },
 };
 
-interface MarginPropertyProps {
+interface TypographyMarginProps {
   label?: string;
 }
 
-const MarginProperty = ({ label }: MarginPropertyProps) => {
+const TypographyMargin = ({ label }: TypographyMarginProps) => {
   const dispatch = useAppDispatch();
   const { id: blogId } = useParams<{ id: string }>();
+  const { selectedTypography: type } = useSettingTypography();
 
-  if (!blogId) return null;
+  if (!blogId || !type) return null;
 
   const {
-    activeBlock,
     screenType = "desktop",
-    components,
-    metaData: { styles = {}, mobileStyles = {}, globalStyles },
+    metaData: { globalStyles },
   } = useAppSelector((state) => state.blogBuilder.blogs[blogId]);
 
-  if (!activeBlock) return null;
-
-  useEffect(() => {
-    if (activeBlock && !styles[activeBlock])
-      dispatch(
-        createActiveBlockStyle({
-          blogId,
-          activeBlockId: activeBlock,
-        })
-      );
-  }, [activeBlock, dispatch, blogId, styles]);
-
-  const { type } = components[activeBlock];
-
-  const activeStyle = useActiveStylePropertyTab({
+  const activeStyle = useActiveStyleSettingTab({
     globalStyles,
-    activeBlock,
-    type,
-    styles,
-    mobileStyles,
     screenType,
+    type,
     propertyName: "margin",
   });
 
@@ -72,9 +54,9 @@ const MarginProperty = ({ label }: MarginPropertyProps) => {
     margin: Partial<Record<MarginType, number | "inc" | "dec">>
   ) => {
     dispatch(
-      addStyle({
+      addGlobalStyle({
         blogId,
-        activeBlockId: activeBlock,
+        type,
         styles: margin,
         ...marginStyleConstraints,
       })
@@ -90,4 +72,4 @@ const MarginProperty = ({ label }: MarginPropertyProps) => {
   );
 };
 
-export default MarginProperty;
+export default TypographyMargin;

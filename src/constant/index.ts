@@ -97,6 +97,7 @@ type TypographyMargin = {
   h6: MarginType;
   p: MarginType;
   button: MarginType;
+  default: MarginType;
 };
 
 export const EDITOR_DEFAULT_VALUES: {
@@ -128,8 +129,15 @@ export const EDITOR_DEFAULT_VALUES: {
     MOBILE: Record<string, number>;
   };
   MARGIN: {
+    MIN: number;
+    MAX: number;
     DEFAULT: TypographyMargin;
     MOBILE: Partial<TypographyMargin>;
+  };
+  PADDING: {
+    MIN: number;
+    MAX: number;
+    DEFAULT: number;
   };
 } = {
   GAP: {
@@ -215,29 +223,52 @@ export const EDITOR_DEFAULT_VALUES: {
     MOBILE: {},
   },
   MARGIN: {
+    MIN: -100,
+    MAX: 100,
     DEFAULT: {
-      h1: { marginTop: 0, marginBottom: 20 },
-      h2: { marginTop: 0, marginBottom: 18 },
-      h3: { marginTop: 0, marginBottom: 16 },
-      h4: { marginTop: 0, marginBottom: 14 },
-      h5: { marginTop: 0, marginBottom: 12 },
-      h6: { marginTop: 0, marginBottom: 10 },
-      p: { marginTop: 0, marginBottom: 15 },
-      button: { marginTop: 0, marginBottom: 10 },
+      h1: {
+        marginTop: 0,
+        marginBottom: 20,
+      },
+      h2: {
+        marginTop: 0,
+        marginBottom: 18,
+      },
+      h3: {
+        marginTop: 0,
+        marginBottom: 16,
+      },
+      h4: {
+        marginTop: 0,
+        marginBottom: 14,
+      },
+      h5: {
+        marginTop: 0,
+        marginBottom: 12,
+      },
+      h6: {
+        marginTop: 0,
+        marginBottom: 10,
+      },
+      p: {
+        marginTop: 0,
+        marginBottom: 15,
+      },
+      button: {
+        marginTop: 0,
+        marginBottom: 10,
+      },
+      default: {
+        marginTop: 0,
+        marginBottom: 10,
+      },
     },
     MOBILE: {},
   },
-};
-
-export const PADDING_MARGIN_LIMITS = {
-  DEFAULT: 0,
-  MIN: {
-    margin: -100,
-    padding: 0,
-  },
-  MAX: {
-    margin: 100,
-    padding: 100,
+  PADDING: {
+    MIN: 0,
+    MAX: 100,
+    DEFAULT: 0,
   },
 };
 

@@ -10,7 +10,7 @@ import {
   PaddingType,
   togglePaddingAll,
 } from "@/redux/features/builders/blogBuilderSlice";
-import { PADDING_MARGIN_LIMITS } from "@/constant";
+import { EDITOR_DEFAULT_VALUES } from "@/constant";
 import useActiveStylePropertyTab from "@/hooks/editor/use-active-style-property-tab";
 
 interface PaddingPropertyProps {
@@ -19,25 +19,25 @@ interface PaddingPropertyProps {
 
 const paddingStyleConstraints = {
   defaultStyles: {
-    padding: PADDING_MARGIN_LIMITS.DEFAULT,
-    paddingTop: PADDING_MARGIN_LIMITS.DEFAULT,
-    paddingBottom: PADDING_MARGIN_LIMITS.DEFAULT,
-    paddingLeft: PADDING_MARGIN_LIMITS.DEFAULT,
-    paddingRight: PADDING_MARGIN_LIMITS.DEFAULT,
+    padding: EDITOR_DEFAULT_VALUES.PADDING.DEFAULT,
+    paddingTop: EDITOR_DEFAULT_VALUES.PADDING.DEFAULT,
+    paddingBottom: EDITOR_DEFAULT_VALUES.PADDING.DEFAULT,
+    paddingLeft: EDITOR_DEFAULT_VALUES.PADDING.DEFAULT,
+    paddingRight: EDITOR_DEFAULT_VALUES.PADDING.DEFAULT,
   },
   minStyles: {
-    padding: PADDING_MARGIN_LIMITS.MIN.padding,
-    paddingTop: PADDING_MARGIN_LIMITS.MIN.padding,
-    paddingBottom: PADDING_MARGIN_LIMITS.MIN.padding,
-    paddingLeft: PADDING_MARGIN_LIMITS.MIN.padding,
-    paddingRight: PADDING_MARGIN_LIMITS.MIN.padding,
+    padding: EDITOR_DEFAULT_VALUES.PADDING.MIN,
+    paddingTop: EDITOR_DEFAULT_VALUES.PADDING.MIN,
+    paddingBottom: EDITOR_DEFAULT_VALUES.PADDING.MIN,
+    paddingLeft: EDITOR_DEFAULT_VALUES.PADDING.MIN,
+    paddingRight: EDITOR_DEFAULT_VALUES.PADDING.MIN,
   },
   maxStyles: {
-    padding: PADDING_MARGIN_LIMITS.MAX.padding,
-    paddingTop: PADDING_MARGIN_LIMITS.MAX.padding,
-    paddingBottom: PADDING_MARGIN_LIMITS.MAX.padding,
-    paddingLeft: PADDING_MARGIN_LIMITS.MAX.padding,
-    paddingRight: PADDING_MARGIN_LIMITS.MAX.padding,
+    padding: EDITOR_DEFAULT_VALUES.PADDING.MAX,
+    paddingTop: EDITOR_DEFAULT_VALUES.PADDING.MAX,
+    paddingBottom: EDITOR_DEFAULT_VALUES.PADDING.MAX,
+    paddingLeft: EDITOR_DEFAULT_VALUES.PADDING.MAX,
+    paddingRight: EDITOR_DEFAULT_VALUES.PADDING.MAX,
   },
 };
 
