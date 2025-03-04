@@ -3,11 +3,14 @@
 import React, { ChangeEvent, useCallback, useMemo } from "react";
 import CountBlock from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/CountBlock";
 import { EDITOR_DEFAULT_VALUES } from "@/constant";
-import { addGlobalStyle } from "@/redux/features/builders/blogBuilderSlice";
+import {
+  addGlobalStyle,
+  StyleType,
+} from "@/redux/features/builders/blogBuilderSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useParams } from "next/navigation";
-import filterStyle from "@/utils/editor/filterStyle";
 import { useSettingTypography } from "@/app/(editor)/studio/create-blog/[id]/_context/SettingTab/SettingTypographyProvider";
+import filterStyle from "@/utils/editor/filterStyle";
 
 const TypographyLetterSpacing = () => {
   const dispatch = useAppDispatch();
@@ -17,10 +20,25 @@ const TypographyLetterSpacing = () => {
   if (!blogId || !type) return null;
 
   const {
-    metaData: { globalStyles = {} },
+    screenType = "desktop",
+    metaData: { globalStyles },
   } = useAppSelector((state) => state.blogBuilder.blogs[blogId]);
 
-  const activeStyle = useMemo(() => globalStyles[type], [type, globalStyles]);
+  const activeStyle = useMemo(
+    () => ({
+      ...filterStyle(
+        globalStyles["desktop"][type] as StyleType,
+        "letterSpacing"
+      ),
+      ...(screenType === "mobile"
+        ? filterStyle(
+            globalStyles["mobile"][type] as StyleType,
+            "letterSpacing"
+          )
+        : {}),
+    }),
+    [type, screenType, globalStyles]
+  );
 
   const handleDispatchSpacing = useCallback(
     (letterSpacing: number | "inc" | "dec") => {
@@ -59,8 +77,8 @@ const TypographyLetterSpacing = () => {
     <CountBlock
       label="Letter Spacing"
       value={
-        Number(activeStyle?.letterSpacing) ||
-        EDITOR_DEFAULT_VALUES.LETTER_SPACING.DEFAULT
+        activeStyle?.letterSpacing ??
+        EDITOR_DEFAULT_VALUES.LETTER_SPACING.DEFAULT[type]
       }
       handleIncrement={() => handleDispatchSpacing("inc")}
       handleDecrement={() => handleDispatchSpacing("dec")}

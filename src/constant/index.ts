@@ -104,16 +104,27 @@ export const EDITOR_DEFAULT_VALUES: {
     MIN: number;
     MAX: number;
     DEFAULT: Record<string, number>;
+    MOBILE: Record<string, number>;
   };
   COLOR: Record<string, string>;
-  LINE_HEIGHT: Record<string, string>;
-  FONT_WEIGHT: Record<string, string>;
+  LINE_HEIGHT: {
+    DEFAULT: Record<string, number>;
+    MOBILE: Record<string, number>;
+  };
+  FONT_WEIGHT: {
+    DEFAULT: Record<string, string>;
+    MOBILE: Record<string, string>;
+  };
   LETTER_SPACING: {
     MIN: number;
     MAX: number;
-    DEFAULT: number;
-  } & Record<string, number>;
-  MARGIN: TypographyMargin;
+    DEFAULT: Record<string, number>;
+    MOBILE: Record<string, number>;
+  };
+  MARGIN: {
+    DEFAULT: TypographyMargin;
+    MOBILE: Partial<TypographyMargin>;
+  };
 } = {
   FONT_SIZE: {
     MIN: 8,
@@ -128,6 +139,16 @@ export const EDITOR_DEFAULT_VALUES: {
       p: 16,
       button: 16,
     },
+    MOBILE: {
+      h1: 28,
+      h2: 24,
+      h3: 20,
+      h4: 18,
+      h5: 16,
+      h6: 14,
+      p: 14,
+      button: 14,
+    },
   },
   COLOR: {
     h1: "#212121",
@@ -141,47 +162,58 @@ export const EDITOR_DEFAULT_VALUES: {
     default: "#212121",
   },
   LINE_HEIGHT: {
-    h1: "1.2",
-    h2: "1.2",
-    h3: "1.2",
-    h4: "1.2",
-    h5: "1.2",
-    h6: "1.2",
-    p: "1.2",
-    button: "1.2",
+    DEFAULT: {
+      h1: 1.2,
+      h2: 1.2,
+      h3: 1.2,
+      h4: 1.2,
+      h5: 1.2,
+      h6: 1.2,
+      p: 1.2,
+      button: 1.2,
+    },
+    MOBILE: {},
   },
   FONT_WEIGHT: {
-    h1: "normal",
-    h2: "normal",
-    h3: "normal",
-    h4: "normal",
-    h5: "normal",
-    h6: "normal",
-    p: "normal",
-    button: "normal",
+    DEFAULT: {
+      h1: "normal",
+      h2: "normal",
+      h3: "normal",
+      h4: "normal",
+      h5: "normal",
+      h6: "normal",
+      p: "normal",
+      button: "normal",
+    },
+    MOBILE: {},
   },
   LETTER_SPACING: {
     MIN: -10,
     MAX: 20,
-    DEFAULT: 0,
-    h1: 0,
-    h2: 0,
-    h3: 0,
-    h4: 0,
-    h5: 0,
-    h6: 0,
-    p: 0,
-    button: 0,
+    DEFAULT: {
+      h1: 0,
+      h2: 0,
+      h3: 0,
+      h4: 0,
+      h5: 0,
+      h6: 0,
+      p: 0,
+      button: 0,
+    },
+    MOBILE: {},
   },
   MARGIN: {
-    h1: { marginTop: 0, marginBottom: 20 },
-    h2: { marginTop: 0, marginBottom: 18 },
-    h3: { marginTop: 0, marginBottom: 16 },
-    h4: { marginTop: 0, marginBottom: 14 },
-    h5: { marginTop: 0, marginBottom: 12 },
-    h6: { marginTop: 0, marginBottom: 10 },
-    p: { marginTop: 0, marginBottom: 15 },
-    button: { marginTop: 0, marginBottom: 10 },
+    DEFAULT: {
+      h1: { marginTop: 0, marginBottom: 20 },
+      h2: { marginTop: 0, marginBottom: 18 },
+      h3: { marginTop: 0, marginBottom: 16 },
+      h4: { marginTop: 0, marginBottom: 14 },
+      h5: { marginTop: 0, marginBottom: 12 },
+      h6: { marginTop: 0, marginBottom: 10 },
+      p: { marginTop: 0, marginBottom: 15 },
+      button: { marginTop: 0, marginBottom: 10 },
+    },
+    MOBILE: {},
   },
 };
 
@@ -259,26 +291,34 @@ export const defaultGlobalStyles = [
   "h6",
   "p",
   "button",
-].reduce((acc, curr) => {
-  acc[curr] = {
-    fontSize:
-      EDITOR_DEFAULT_VALUES.FONT_SIZE.DEFAULT[
-        curr as keyof typeof EDITOR_DEFAULT_VALUES.FONT_SIZE.DEFAULT
-      ],
-    fontWeight:
-      EDITOR_DEFAULT_VALUES.FONT_WEIGHT[
-        curr as keyof typeof EDITOR_DEFAULT_VALUES.FONT_WEIGHT
-      ],
-    lineHeight:
-      EDITOR_DEFAULT_VALUES.LINE_HEIGHT[
-        curr as keyof typeof EDITOR_DEFAULT_VALUES.LINE_HEIGHT
-      ],
-    letterSpacing:
-      EDITOR_DEFAULT_VALUES.LETTER_SPACING[
-        curr as keyof typeof EDITOR_DEFAULT_VALUES.LETTER_SPACING
-      ],
-    ...EDITOR_DEFAULT_VALUES.MARGIN.h1,
-  };
-
-  return acc;
-}, {} as Record<string, Record<string, unknown>>);
+].reduce(
+  (acc, curr) => {
+    acc.desktop[curr] = {
+      fontSize:
+        EDITOR_DEFAULT_VALUES.FONT_SIZE.DEFAULT[
+          curr as keyof typeof EDITOR_DEFAULT_VALUES.FONT_SIZE.DEFAULT
+        ],
+      fontWeight:
+        EDITOR_DEFAULT_VALUES.FONT_WEIGHT.DEFAULT[
+          curr as keyof typeof EDITOR_DEFAULT_VALUES.FONT_WEIGHT.DEFAULT
+        ],
+      lineHeight:
+        EDITOR_DEFAULT_VALUES.LINE_HEIGHT.DEFAULT[
+          curr as keyof typeof EDITOR_DEFAULT_VALUES.LINE_HEIGHT.DEFAULT
+        ],
+      letterSpacing:
+        EDITOR_DEFAULT_VALUES.LETTER_SPACING.DEFAULT[
+          curr as keyof typeof EDITOR_DEFAULT_VALUES.LETTER_SPACING.DEFAULT
+        ],
+      ...EDITOR_DEFAULT_VALUES.MARGIN.DEFAULT.h1,
+    };
+    return acc;
+  },
+  {
+    desktop: {},
+    mobile: {},
+  } as {
+    desktop: Record<string, Record<string, unknown>>;
+    mobile: Record<string, Record<string, unknown>>;
+  }
+);

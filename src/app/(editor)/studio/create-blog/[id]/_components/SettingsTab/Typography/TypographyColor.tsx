@@ -24,10 +24,14 @@ const TypographyColor = () => {
   if (!blogId || !type) return null;
 
   const {
-    metaData: { globalStyles = {} },
+    screenType = "desktop",
+    metaData: { globalStyles },
   } = useAppSelector((state) => state.blogBuilder.blogs[blogId]);
 
-  const activeStyle = useMemo(() => globalStyles[type], [type, globalStyles]);
+  const activeStyle = useMemo(
+    () => globalStyles[screenType][type],
+    [type, screenType, globalStyles]
+  );
 
   const textColor = String(
     activeStyle?.color ??

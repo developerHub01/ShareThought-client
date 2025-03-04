@@ -1,10 +1,16 @@
 "use client";
 
-import React, { CSSProperties, useMemo } from "react";
+import React, { useMemo } from "react";
 import SelectBlock from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/SelectBlock";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useParams } from "next/navigation";
-import { addStyle } from "@/redux/features/builders/blogBuilderSlice";
+import {
+  addGlobalStyle,
+  addStyle,
+  StyleType,
+} from "@/redux/features/builders/blogBuilderSlice";
+import { useSettingTypography } from "@/app/(editor)/studio/create-blog/[id]/_context/SettingTab/SettingTypographyProvider";
+import { EDITOR_DEFAULT_VALUES } from "@/constant";
 import filterStyle from "@/utils/editor/filterStyle";
 
 const fontWeightList = [
@@ -21,32 +27,30 @@ const fontWeightList = [
 const TypographyWeight = () => {
   const dispatch = useAppDispatch();
   const { id: blogId } = useParams<{ id: string }>();
+  const { selectedTypography: type } = useSettingTypography();
 
-  if (!blogId) return null;
+  if (!blogId || !type) return null;
 
   const {
-    activeBlock,
-    screenType,
-    metaData: { styles = {}, mobileStyles = {} },
+    screenType = "desktop",
+    metaData: { globalStyles },
   } = useAppSelector((state) => state.blogBuilder.blogs[blogId]);
-
-  if (!activeBlock) return null;
 
   const activeStyle = useMemo(
     () => ({
-      ...filterStyle(styles[activeBlock], "fontWeight"),
+      ...filterStyle(globalStyles["desktop"][type] as StyleType, "fontWeight"),
       ...(screenType === "mobile"
-        ? filterStyle(mobileStyles[activeBlock], "fontWeight")
+        ? filterStyle(globalStyles["mobile"][type] as StyleType, "fontWeight")
         : {}),
     }),
-    [activeBlock, screenType, styles, mobileStyles]
+    [type, screenType, globalStyles]
   );
 
   const handleChangeFontWeight = (value: string) => {
     dispatch(
-      addStyle({
+      addGlobalStyle({
         blogId,
-        activeBlockId: activeBlock,
+        type,
         styles: {
           fontWeight: value,
         },
@@ -57,7 +61,10 @@ const TypographyWeight = () => {
   return (
     <SelectBlock
       label="Font Weight"
-      activeValue={String(activeStyle?.fontWeight || fontWeightList[0].id)}
+      activeValue={String(
+        activeStyle?.fontWeight ??
+          EDITOR_DEFAULT_VALUES.FONT_WEIGHT.DEFAULT[type]
+      )}
       itemList={fontWeightList}
       handleChange={handleChangeFontWeight}
     />

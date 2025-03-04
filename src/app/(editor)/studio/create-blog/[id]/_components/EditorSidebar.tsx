@@ -138,7 +138,7 @@ const SidebarTab = memo(({ tabs, activeTab, onChange }: SidebarTabProps) => {
       <TabHead tabs={tabs} activeTab={activeTab} onChange={onChange} />
       {activeTab === "properties" && <TopActionList />}
       <TabContent activeTab={activeTab} />
-      {activeTab === "properties" && <TabScreenMode />}
+      {["properties", "settings"].includes(activeTab) && <TabScreenMode />}
     </section>
   );
 });

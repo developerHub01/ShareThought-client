@@ -6,7 +6,11 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useParams } from "next/navigation";
 import { EDITOR_DEFAULT_VALUES } from "@/constant";
 import { useSettingTypography } from "@/app/(editor)/studio/create-blog/[id]/_context/SettingTab/SettingTypographyProvider";
-import { addGlobalStyle } from "@/redux/features/builders/blogBuilderSlice";
+import {
+  addGlobalStyle,
+  StyleType,
+} from "@/redux/features/builders/blogBuilderSlice";
+import filterStyle from "@/utils/editor/filterStyle";
 
 const TypographyFontSize = () => {
   const dispatch = useAppDispatch();
@@ -16,10 +20,19 @@ const TypographyFontSize = () => {
   if (!blogId || !type) return null;
 
   const {
-    metaData: { globalStyles = {} },
+    screenType = "desktop",
+    metaData: { globalStyles },
   } = useAppSelector((state) => state.blogBuilder.blogs[blogId]);
 
-  const activeStyle = useMemo(() => globalStyles[type], [type, globalStyles]);
+  const activeStyle = useMemo(
+    () => ({
+      ...filterStyle(globalStyles["desktop"][type] as StyleType, "fontSize"),
+      ...(screenType === "mobile"
+        ? filterStyle(globalStyles["mobile"][type] as StyleType, "fontSize")
+        : {}),
+    }),
+    [type, screenType, globalStyles]
+  );
 
   const handleDispatchSize = useCallback(
     (fontSize: number | "inc" | "dec") => {

@@ -182,7 +182,10 @@ export interface BlogMetaDataInterface {
   hoverStyles: {
     [key: string]: Record<string, string | number>;
   };
-  globalStyles: Record<string, Record<string, unknown>>;
+  globalStyles: {
+    desktop: Record<string, Record<string, unknown>>;
+    mobile: Record<string, Record<string, unknown>>;
+  };
 }
 
 export interface BlogComponentsDataInterface {
@@ -1452,16 +1455,17 @@ export const blogBuilderSlice = createSlice({
     ) => {
       const { blogId, type, styles, minStyles, maxStyles } = action.payload;
 
-      console.log({ blogId, type, styles });
+      const screenType = state.blogs[blogId].screenType ?? "desktop";
 
-      const blockStyles = state.blogs[blogId].metaData.globalStyles[type];
+      const blockStyles =
+        state.blogs[blogId].metaData.globalStyles[screenType][type];
 
       for (const key in styles) {
         const value = styles[key];
 
         // Get the current value or fallback to default
         const currentValue =
-          blockStyles?.[key] ?? defaultGlobalStyles[type]?.[key];
+          blockStyles?.[key] ?? defaultGlobalStyles[screenType][type]?.[key];
 
         // Update value with increment/decrement or direct value
         styles[key] = updateStyleValue(value, currentValue);
@@ -1471,7 +1475,8 @@ export const blogBuilderSlice = createSlice({
       }
 
       // Update the styles in the correct block
-      const targetBlockStyles = state.blogs[blogId].metaData.globalStyles;
+      const targetBlockStyles =
+        state.blogs[blogId].metaData.globalStyles[screenType];
 
       targetBlockStyles[type] = {
         ...targetBlockStyles[type],

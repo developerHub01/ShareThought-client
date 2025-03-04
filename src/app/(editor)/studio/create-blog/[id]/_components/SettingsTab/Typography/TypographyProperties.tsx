@@ -8,6 +8,7 @@ import TypographyWeight from "@/app/(editor)/studio/create-blog/[id]/_components
 import TypographyLineHeight from "@/app/(editor)/studio/create-blog/[id]/_components/SettingsTab/Typography/TypographyLineHeight";
 import TypographyLetterSpacing from "@/app/(editor)/studio/create-blog/[id]/_components/SettingsTab/Typography/TypographyLetterSpacing";
 import TypographyColor from "@/app/(editor)/studio/create-blog/[id]/_components/SettingsTab/Typography/TypographyColor";
+import HidePropertyInMobile from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/HidePropertyInMobile";
 
 const TypographyProperties = () => {
   return (
@@ -18,7 +19,9 @@ const TypographyProperties = () => {
         <TypographyWeight />
         <TypographyLetterSpacing />
         <TypographyLineHeight />
-        <TypographyColor />
+        <HidePropertyInMobile>
+          <TypographyColor />
+        </HidePropertyInMobile>
       </PropertyTypeWrapper>
     </SettingTypographyProvider>
   );

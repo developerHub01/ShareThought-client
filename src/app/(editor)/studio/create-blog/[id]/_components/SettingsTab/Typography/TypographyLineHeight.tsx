@@ -7,8 +7,11 @@ import { useParams } from "next/navigation";
 import {
   addGlobalStyle,
   LineHeightType,
+  StyleType,
 } from "@/redux/features/builders/blogBuilderSlice";
 import { useSettingTypography } from "@/app/(editor)/studio/create-blog/[id]/_context/SettingTab/SettingTypographyProvider";
+import { EDITOR_DEFAULT_VALUES } from "@/constant";
+import filterStyle from "@/utils/editor/filterStyle";
 
 const lineHeightList = [
   {
@@ -37,10 +40,19 @@ const TypographyLineHeight = () => {
   if (!blogId || !type) return null;
 
   const {
-    metaData: { globalStyles = {} },
+    screenType = "desktop",
+    metaData: { globalStyles },
   } = useAppSelector((state) => state.blogBuilder.blogs[blogId]);
 
-  const activeStyle = useMemo(() => globalStyles[type], [type, globalStyles]);
+  const activeStyle = useMemo(
+    () => ({
+      ...filterStyle(globalStyles["desktop"][type] as StyleType, "lineHeight"),
+      ...(screenType === "mobile"
+        ? filterStyle(globalStyles["mobile"][type] as StyleType, "lineHeight")
+        : {}),
+    }),
+    [type, screenType, globalStyles]
+  );
 
   const handleChangeLineHeight = (value: string) => {
     dispatch(
@@ -57,7 +69,10 @@ const TypographyLineHeight = () => {
   return (
     <SelectBlock
       label="Line Height"
-      activeValue={String(activeStyle?.lineHeight ?? lineHeightList[0].id)}
+      activeValue={String(
+        activeStyle?.lineHeight ??
+          EDITOR_DEFAULT_VALUES.LINE_HEIGHT.DEFAULT[type]
+      )}
       itemList={lineHeightList}
       handleChange={handleChangeLineHeight}
     />
