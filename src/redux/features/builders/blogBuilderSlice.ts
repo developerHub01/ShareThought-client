@@ -924,9 +924,20 @@ export const blogBuilderSlice = createSlice({
         )
           return;
 
+        let matchedIndex = -1;
         state.blogs[blogId].components[parentId].children = state.blogs[
           blogId
-        ].components[parentId].children.filter((currentId) => currentId !== id);
+        ].components[parentId].children.filter((currentId, index) => {
+          if (currentId === id) matchedIndex = index;
+          return currentId !== id;
+        });
+
+        if (state.blogs[blogId].components[parentId].type !== "row") return;
+
+        state.blogs[blogId].components[parentId].gridSize?.splice(
+          matchedIndex,
+          1
+        );
       });
 
       /* removig content with ids of idsToRemove */
