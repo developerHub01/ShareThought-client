@@ -3,6 +3,7 @@ import { TReactions } from "@/types";
 import {
   BlockTypes,
   StyleType,
+  TypographyType,
 } from "@/redux/features/builders/blogBuilderSlice";
 
 export const REACTION_TYPES = {
@@ -42,8 +43,6 @@ export const COMMUNITY_POST_TYPE_LIST: Array<string> =
 export const aspectRatioList = {
   banner: [214, 61],
 };
-
-export const defaultGlobalStyles = {};
 
 export const CREATE_CHANNEL_SIZE = {
   CHANNEL_NAME_MAX_LENGTH: 50,
@@ -184,3 +183,99 @@ export const DEFAULT_MARGIN_LIST: Partial<Record<BlockTypes, StyleType>> = {
     marginBottom: 10,
   },
 };
+
+export const DEFAULT_LINEHEIGHT_LIST: Partial<Record<BlockTypes, string>> = {
+  h1: "1.2",
+  h2: "1.2",
+  h3: "1.2",
+  h4: "1.2",
+  h5: "1.2",
+  h6: "1.2",
+  p: "1.2",
+  button: "1.2",
+};
+
+export const DEFAULT_FONTWEIGHT_LIST: Partial<Record<BlockTypes, string>> = {
+  h1: "normal",
+  h2: "normal",
+  h3: "normal",
+  h4: "normal",
+  h5: "normal",
+  h6: "normal",
+  p: "normal",
+  button: "normal",
+};
+
+export const DEFAULT_LETTERSPACING_LIST: Partial<Record<BlockTypes, number>> = {
+  h1: 0,
+  h2: 0,
+  h3: 0,
+  h4: 0,
+  h5: 0,
+  h6: 0,
+  p: 0,
+  button: 0,
+};
+
+export const typographyTypeList: Array<{
+  id: TypographyType;
+  label: string;
+}> = [
+  {
+    id: "h1",
+    label: "Heading 1",
+  },
+  {
+    id: "h2",
+    label: "Heading 2",
+  },
+  {
+    id: "h3",
+    label: "Heading 3",
+  },
+  {
+    id: "h4",
+    label: "Heading 4",
+  },
+  {
+    id: "h5",
+    label: "Heading 5",
+  },
+  {
+    id: "h6",
+    label: "Heading 6",
+  },
+  {
+    id: "p",
+    label: "Paragraph",
+  },
+];
+
+export const defaultGlobalStyles = [
+  "h1",
+  "h2",
+  "h3",
+  "h4",
+  "h5",
+  "h6",
+  "p",
+  "button",
+].reduce((acc, curr) => {
+  acc[curr] = {
+    fontSize:
+      EDITOR_TYPOGRAPHY_SIZE.FONT_SIZE.DEFAULT[
+        curr as keyof typeof EDITOR_TYPOGRAPHY_SIZE.FONT_SIZE.DEFAULT
+      ],
+    fontWeight:
+      DEFAULT_FONTWEIGHT_LIST[curr as keyof typeof DEFAULT_FONTWEIGHT_LIST],
+    lineHeight:
+      DEFAULT_LINEHEIGHT_LIST[curr as keyof typeof DEFAULT_LINEHEIGHT_LIST],
+    letterSpacing:
+      DEFAULT_LETTERSPACING_LIST[
+        curr as keyof typeof DEFAULT_LETTERSPACING_LIST
+      ],
+    ...DEFAULT_MARGIN_LIST.h1,
+  };
+
+  return acc;
+}, {} as Record<string, Record<string, unknown>>);

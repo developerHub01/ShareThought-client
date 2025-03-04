@@ -182,9 +182,7 @@ export interface BlogMetaDataInterface {
   hoverStyles: {
     [key: string]: Record<string, string | number>;
   };
-  globalStyles: {
-    [key: string]: Record<string, string | number>;
-  };
+  globalStyles: Record<string, Record<string, unknown>>;
 }
 
 export interface BlogComponentsDataInterface {
@@ -1442,6 +1440,45 @@ export const blogBuilderSlice = createSlice({
       };
     },
 
+    addGlobalStyle: (
+      state,
+      action: PayloadAction<{
+        blogId: string;
+        type: BlockTypes;
+        styles: StyleType;
+        minStyles?: StyleType;
+        maxStyles?: StyleType;
+      }>
+    ) => {
+      const { blogId, type, styles, minStyles, maxStyles } = action.payload;
+
+      console.log({ blogId, type, styles });
+
+      const blockStyles = state.blogs[blogId].metaData.globalStyles[type];
+
+      for (const key in styles) {
+        const value = styles[key];
+
+        // Get the current value or fallback to default
+        const currentValue =
+          blockStyles?.[key] ?? defaultGlobalStyles[type]?.[key];
+
+        // Update value with increment/decrement or direct value
+        styles[key] = updateStyleValue(value, currentValue);
+
+        // Apply min/max constraints
+        styles[key] = applyMinMaxStyles(styles, key, minStyles, maxStyles);
+      }
+
+      // Update the styles in the correct block
+      const targetBlockStyles = state.blogs[blogId].metaData.globalStyles;
+
+      targetBlockStyles[type] = {
+        ...targetBlockStyles[type],
+        ...styles,
+      };
+    },
+
     removetyle: (
       state,
       action: PayloadAction<{
@@ -2227,6 +2264,7 @@ export const {
   toggleBorderAll,
   setAlignment,
   addStyle,
+  addGlobalStyle,
   removetyle,
   changeType,
   /*** Table============= ***/
