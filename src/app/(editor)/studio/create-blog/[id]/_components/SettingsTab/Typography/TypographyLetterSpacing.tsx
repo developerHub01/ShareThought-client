@@ -2,13 +2,14 @@
 
 import React, { ChangeEvent, useCallback, useMemo } from "react";
 import CountBlock from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/CountBlock";
+import { EDITOR_TYPOGRAPHY_SIZE } from "@/constant";
+import { addGlobalStyle } from "@/redux/features/builders/blogBuilderSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useParams } from "next/navigation";
-import { EDITOR_TYPOGRAPHY_SIZE } from "@/constant";
+import filterStyle from "@/utils/editor/filterStyle";
 import { useSettingTypography } from "@/app/(editor)/studio/create-blog/[id]/_context/SettingTab/SettingTypographyProvider";
-import { addGlobalStyle } from "@/redux/features/builders/blogBuilderSlice";
 
-const TypographyFontSize = () => {
+const TypographyLetterSpacing = () => {
   const dispatch = useAppDispatch();
   const { id: blogId } = useParams<{ id: string }>();
   const { selectedTypography: type } = useSettingTypography();
@@ -21,20 +22,20 @@ const TypographyFontSize = () => {
 
   const activeStyle = useMemo(() => globalStyles[type], [type, globalStyles]);
 
-  const handleDispatchSize = useCallback(
-    (fontSize: number | "inc" | "dec") => {
+  const handleDispatchSpacing = useCallback(
+    (letterSpacing: number | "inc" | "dec") => {
       dispatch(
         addGlobalStyle({
           blogId,
           type,
           styles: {
-            fontSize,
-          },
-          maxStyles: {
-            fontSize: EDITOR_TYPOGRAPHY_SIZE.FONT_SIZE.MAX,
+            letterSpacing: letterSpacing,
           },
           minStyles: {
-            fontSize: EDITOR_TYPOGRAPHY_SIZE.FONT_SIZE.MIN,
+            letterSpacing: EDITOR_TYPOGRAPHY_SIZE.LETTER_SPACING.MIN,
+          },
+          maxStyles: {
+            letterSpacing: EDITOR_TYPOGRAPHY_SIZE.LETTER_SPACING.MAX,
           },
         })
       );
@@ -44,26 +45,31 @@ const TypographyFontSize = () => {
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = Math.min(
-      Math.max(Number(e.target.value), EDITOR_TYPOGRAPHY_SIZE.FONT_SIZE.MIN),
-      EDITOR_TYPOGRAPHY_SIZE.FONT_SIZE.MAX
+      Math.max(
+        Number(e.target.value),
+        EDITOR_TYPOGRAPHY_SIZE.LETTER_SPACING.MIN
+      ),
+      EDITOR_TYPOGRAPHY_SIZE.LETTER_SPACING.MAX
     );
 
-    handleDispatchSize(value);
+    handleDispatchSpacing(value);
   };
 
   return (
     <CountBlock
-      label="Font Size"
-      value={Number(
-        activeStyle?.fontSize ?? EDITOR_TYPOGRAPHY_SIZE.FONT_SIZE.DEFAULT
-      )}
-      handleIncrement={() => handleDispatchSize("inc")}
-      handleDecrement={() => handleDispatchSize("dec")}
+      label="Letter Spacing"
+      value={
+        Number(activeStyle?.letterSpacing) ||
+        EDITOR_TYPOGRAPHY_SIZE.LETTER_SPACING.DEFAULT
+      }
+      handleIncrement={() => handleDispatchSpacing("inc")}
+      handleDecrement={() => handleDispatchSpacing("dec")}
       handleChange={handleChange}
-      min={EDITOR_TYPOGRAPHY_SIZE.FONT_SIZE.MIN}
-      max={EDITOR_TYPOGRAPHY_SIZE.FONT_SIZE.MAX}
+      min={EDITOR_TYPOGRAPHY_SIZE.LETTER_SPACING.MIN}
+      max={EDITOR_TYPOGRAPHY_SIZE.LETTER_SPACING.MAX}
+      step="0.01"
     />
   );
 };
 
-export default TypographyFontSize;
+export default TypographyLetterSpacing;
