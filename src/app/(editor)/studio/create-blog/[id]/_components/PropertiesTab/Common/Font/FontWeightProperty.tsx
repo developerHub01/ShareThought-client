@@ -1,11 +1,11 @@
 "use client";
 
-import React, { CSSProperties, useMemo } from "react";
+import React from "react";
 import SelectBlock from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/SelectBlock";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useParams } from "next/navigation";
 import { addStyle } from "@/redux/features/builders/blogBuilderSlice";
-import filterStyle from "@/utils/editor/filterStyle";
+import useActiveStylePropertyTab from "@/hooks/editor/use-active-style-property-tab";
 
 const fontWeightList = [
   {
@@ -26,21 +26,24 @@ const FontWeightProperty = () => {
 
   const {
     activeBlock,
-    screenType,
-    metaData: { styles = {}, mobileStyles = {} },
+    screenType = "desktop",
+    components,
+    metaData: { styles = {}, mobileStyles = {}, globalStyles },
   } = useAppSelector((state) => state.blogBuilder.blogs[blogId]);
 
   if (!activeBlock) return null;
 
-  const activeStyle = useMemo(
-    () => ({
-      ...filterStyle(styles[activeBlock], "fontWeight"),
-      ...(screenType === "mobile"
-        ? filterStyle(mobileStyles[activeBlock], "fontWeight")
-        : {}),
-    }),
-    [activeBlock, screenType, styles, mobileStyles]
-  );
+  const { type } = components[activeBlock];
+
+  const activeStyle = useActiveStylePropertyTab({
+    type,
+    globalStyles,
+    activeBlock,
+    styles,
+    mobileStyles,
+    screenType,
+    propertyName: "fontWeight",
+  });
 
   const handleChangeFontWeight = (value: string) => {
     dispatch(

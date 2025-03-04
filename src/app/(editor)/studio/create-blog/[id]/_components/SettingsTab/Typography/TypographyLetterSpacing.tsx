@@ -1,16 +1,13 @@
 "use client";
 
-import React, { ChangeEvent, useCallback, useMemo } from "react";
+import React, { ChangeEvent, useCallback } from "react";
 import CountBlock from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/CountBlock";
 import { EDITOR_DEFAULT_VALUES } from "@/constant";
-import {
-  addGlobalStyle,
-  StyleType,
-} from "@/redux/features/builders/blogBuilderSlice";
+import { addGlobalStyle } from "@/redux/features/builders/blogBuilderSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useParams } from "next/navigation";
 import { useSettingTypography } from "@/app/(editor)/studio/create-blog/[id]/_context/SettingTab/SettingTypographyProvider";
-import filterStyle from "@/utils/editor/filterStyle";
+import useActiveStyleSettingTab from "@/hooks/editor/use-active-style-setting-tab";
 
 const TypographyLetterSpacing = () => {
   const dispatch = useAppDispatch();
@@ -24,21 +21,12 @@ const TypographyLetterSpacing = () => {
     metaData: { globalStyles },
   } = useAppSelector((state) => state.blogBuilder.blogs[blogId]);
 
-  const activeStyle = useMemo(
-    () => ({
-      ...filterStyle(
-        globalStyles["desktop"][type] as StyleType,
-        "letterSpacing"
-      ),
-      ...(screenType === "mobile"
-        ? filterStyle(
-            globalStyles["mobile"][type] as StyleType,
-            "letterSpacing"
-          )
-        : {}),
-    }),
-    [type, screenType, globalStyles]
-  );
+  const activeStyle = useActiveStyleSettingTab({
+    globalStyles,
+    screenType,
+    type,
+    propertyName: "letterSpacing",
+  });
 
   const handleDispatchSpacing = useCallback(
     (letterSpacing: number | "inc" | "dec") => {

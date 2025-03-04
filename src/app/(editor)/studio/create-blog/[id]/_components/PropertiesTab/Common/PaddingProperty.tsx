@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect } from "react";
 import PaddingBlock from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/PaddingBlock";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useParams } from "next/navigation";
@@ -11,7 +11,7 @@ import {
   togglePaddingAll,
 } from "@/redux/features/builders/blogBuilderSlice";
 import { PADDING_MARGIN_LIMITS } from "@/constant";
-import filterStyle from "@/utils/editor/filterStyle";
+import useActiveStylePropertyTab from "@/hooks/editor/use-active-style-property-tab";
 
 interface PaddingPropertyProps {
   label?: string;
@@ -49,8 +49,9 @@ const PaddingProperty = ({ label }: PaddingPropertyProps) => {
 
   const {
     activeBlock,
-    screenType,
-    metaData: { styles = {}, mobileStyles = {} },
+    screenType = "desktop",
+    components,
+    metaData: { styles = {}, mobileStyles = {}, globalStyles },
   } = useAppSelector((state) => state.blogBuilder.blogs[blogId]);
 
   if (!activeBlock) return null;
@@ -65,15 +66,17 @@ const PaddingProperty = ({ label }: PaddingPropertyProps) => {
       );
   }, [activeBlock, dispatch, blogId, styles]);
 
-  const padding = useMemo(
-    () => ({
-      ...filterStyle(styles[activeBlock], "padding"),
-      ...(screenType === "mobile"
-        ? filterStyle(mobileStyles[activeBlock], "padding")
-        : {}),
-    }),
-    [styles, screenType, mobileStyles, activeBlock]
-  );
+  const { type } = components[activeBlock];
+
+  const activeStyle = useActiveStylePropertyTab({
+    type,
+    globalStyles,
+    activeBlock,
+    styles,
+    mobileStyles,
+    screenType,
+    propertyName: "padding",
+  });
 
   const handleChange = (
     padding: Partial<Record<PaddingType, number | "inc" | "dec">>
@@ -100,7 +103,7 @@ const PaddingProperty = ({ label }: PaddingPropertyProps) => {
   return (
     <PaddingBlock
       label={label}
-      padding={padding}
+      padding={activeStyle}
       handleChange={handleChange}
       handleToggleMore={handleToggleMore}
     />

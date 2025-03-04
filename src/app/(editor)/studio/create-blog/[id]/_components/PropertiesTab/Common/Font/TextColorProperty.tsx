@@ -5,40 +5,42 @@ import React, {
   FocusEvent,
   useEffect,
   useState,
-  CSSProperties,
   useCallback,
 } from "react";
 import { ColorResult } from "react-color";
 import { isValidHexColor } from "@/utils";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import {
-  addStyle,
-  TypographyType,
-} from "@/redux/features/builders/blogBuilderSlice";
+import { addStyle } from "@/redux/features/builders/blogBuilderSlice";
 import { useParams } from "next/navigation";
 import ColorBlock from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/ColorBlock";
 import { EDITOR_DEFAULT_VALUES } from "@/constant";
+import useActiveStylePropertyTab from "@/hooks/editor/use-active-style-property-tab";
 
 const TextColorProperty = () => {
   const { id: blogId } = useParams<{ id: string }>();
-
   if (!blogId) return null;
 
   const {
     activeBlock,
     components,
-    metaData: { styles },
+    metaData: { styles, globalStyles },
   } = useAppSelector((state) => state.blogBuilder.blogs[blogId]);
 
   if (!activeBlock) return null;
 
-  const activeStyle = styles[activeBlock] as CSSProperties;
+  const { type } = components[activeBlock];
 
-  const typographyType = components[activeBlock].type as TypographyType;
+  const { color } = useActiveStylePropertyTab({
+    activeBlock,
+    propertyName: "color",
+    styles,
+    globalStyles,
+    type,
+  });
 
   const textColor =
-    activeStyle?.color ??
-    EDITOR_DEFAULT_VALUES.COLOR[typographyType] ??
+    (color as string) ??
+    EDITOR_DEFAULT_VALUES.COLOR[type] ??
     EDITOR_DEFAULT_VALUES.COLOR.default;
 
   const dispatch = useAppDispatch();

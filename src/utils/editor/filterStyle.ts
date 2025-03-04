@@ -9,7 +9,7 @@ const filterStyle = (
     Object.entries(styles).filter(
       ([key, value]) => key.includes(styleType) && value !== undefined
     )
-  ) as Record<string, number>;
+  ) as Record<string, unknown>;
 };
 
 export default filterStyle;

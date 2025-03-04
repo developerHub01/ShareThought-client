@@ -1,12 +1,12 @@
 "use client";
 
-import React, { ChangeEvent, useCallback, useMemo } from "react";
+import React, { ChangeEvent, useCallback } from "react";
 import CountBlock from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/CountBlock";
 import { EDITOR_DEFAULT_VALUES } from "@/constant";
 import { addStyle } from "@/redux/features/builders/blogBuilderSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useParams } from "next/navigation";
-import filterStyle from "@/utils/editor/filterStyle";
+import useActiveStylePropertyTab from "@/hooks/editor/use-active-style-property-tab";
 
 const LetterSpacingProperty = () => {
   const dispatch = useAppDispatch();
@@ -16,21 +16,24 @@ const LetterSpacingProperty = () => {
 
   const {
     activeBlock,
-    screenType,
-    metaData: { styles = {}, mobileStyles = {} },
+    components,
+    screenType = "desktop",
+    metaData: { styles = {}, mobileStyles = {}, globalStyles },
   } = useAppSelector((state) => state.blogBuilder.blogs[blogId]);
 
   if (!activeBlock) return null;
 
-  const activeStyle = useMemo(
-    () => ({
-      ...filterStyle(styles[activeBlock], "letterSpacing"),
-      ...(screenType === "mobile"
-        ? filterStyle(mobileStyles[activeBlock], "letterSpacing")
-        : {}),
-    }),
-    [styles, mobileStyles, activeBlock, screenType]
-  );
+  const { type } = components[activeBlock];
+
+  const activeStyle = useActiveStylePropertyTab({
+    type,
+    globalStyles,
+    activeBlock,
+    styles,
+    mobileStyles,
+    screenType,
+    propertyName: "letterSpacing",
+  });
 
   const handleDispatchSpacing = useCallback(
     (letterSpacing: number | "inc" | "dec") => {
@@ -42,7 +45,7 @@ const LetterSpacingProperty = () => {
             letterSpacing: letterSpacing,
           },
           defaultStyles: {
-            letterSpacing: EDITOR_DEFAULT_VALUES.LETTER_SPACING.DEFAULT,
+            letterSpacing: EDITOR_DEFAULT_VALUES.LETTER_SPACING.DEFAULT[type],
           },
           minStyles: {
             letterSpacing: EDITOR_DEFAULT_VALUES.LETTER_SPACING.MIN,
@@ -53,7 +56,7 @@ const LetterSpacingProperty = () => {
         })
       );
     },
-    [blogId, activeBlock]
+    [blogId, activeBlock, type]
   );
 
   const handleLetterSpacingChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -71,10 +74,10 @@ const LetterSpacingProperty = () => {
   return (
     <CountBlock
       label="Letter Spacing"
-      value={
-        Number(activeStyle?.letterSpacing) ||
-        EDITOR_DEFAULT_VALUES.LETTER_SPACING.DEFAULT
-      }
+      value={Number(
+        activeStyle?.letterSpacing ??
+          EDITOR_DEFAULT_VALUES.LETTER_SPACING.DEFAULT[type]
+      )}
       handleIncrement={() => handleDispatchSpacing("inc")}
       handleDecrement={() => handleDispatchSpacing("dec")}
       handleChange={handleLetterSpacingChange}

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useParams } from "next/navigation";
 import {
@@ -10,7 +10,7 @@ import {
 } from "@/redux/features/builders/blogBuilderSlice";
 import MarginBlock from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/MarginBlock";
 import { PADDING_MARGIN_LIMITS } from "@/constant";
-import filterStyle from "@/utils/editor/filterStyle";
+import useActiveStylePropertyTab from "@/hooks/editor/use-active-style-property-tab";
 
 const marginStyleConstraints = {
   defaultStyles: {
@@ -39,8 +39,9 @@ const MarginProperty = ({ label }: MarginPropertyProps) => {
 
   const {
     activeBlock,
-    screenType,
-    metaData: { styles = {}, mobileStyles = {} },
+    screenType = "desktop",
+    components,
+    metaData: { styles = {}, mobileStyles = {}, globalStyles },
   } = useAppSelector((state) => state.blogBuilder.blogs[blogId]);
 
   if (!activeBlock) return null;
@@ -55,15 +56,17 @@ const MarginProperty = ({ label }: MarginPropertyProps) => {
       );
   }, [activeBlock, dispatch, blogId, styles]);
 
-  const margin = useMemo(
-    () => ({
-      ...filterStyle(styles[activeBlock], "margin"),
-      ...(screenType === "mobile"
-        ? filterStyle(mobileStyles[activeBlock], "margin")
-        : {}),
-    }),
-    [styles, screenType, mobileStyles, activeBlock]
-  );
+  const { type } = components[activeBlock];
+
+  const activeStyle = useActiveStylePropertyTab({
+    globalStyles,
+    activeBlock,
+    type,
+    styles,
+    mobileStyles,
+    screenType,
+    propertyName: "margin",
+  });
 
   const handleChange = (
     margin: Partial<Record<MarginType, number | "inc" | "dec">>
@@ -79,7 +82,11 @@ const MarginProperty = ({ label }: MarginPropertyProps) => {
   };
 
   return (
-    <MarginBlock label={label} margin={margin} handleChange={handleChange} />
+    <MarginBlock
+      label={label}
+      margin={activeStyle}
+      handleChange={handleChange}
+    />
   );
 };
 

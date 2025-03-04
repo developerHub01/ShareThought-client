@@ -1,15 +1,12 @@
 "use client";
 
-import React, { ChangeEvent, useCallback, useMemo } from "react";
+import React, { ChangeEvent, useCallback } from "react";
 import CountBlock from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/CountBlock";
-import {
-  addStyle,
-  TypographyType,
-} from "@/redux/features/builders/blogBuilderSlice";
+import { addStyle } from "@/redux/features/builders/blogBuilderSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useParams } from "next/navigation";
 import { EDITOR_DEFAULT_VALUES } from "@/constant";
-import filterStyle from "@/utils/editor/filterStyle";
+import useActiveStylePropertyTab from "@/hooks/editor/use-active-style-property-tab";
 
 const FontSizeProperty = () => {
   const dispatch = useAppDispatch();
@@ -20,23 +17,23 @@ const FontSizeProperty = () => {
   const {
     activeBlock,
     components,
-    screenType,
-    metaData: { styles = {}, mobileStyles = {} },
+    screenType = "desktop",
+    metaData: { styles = {}, mobileStyles = {}, globalStyles },
   } = useAppSelector((state) => state.blogBuilder.blogs[blogId]);
 
   if (!activeBlock) return null;
 
-  const typographyType = components[activeBlock].type as TypographyType;
+  const { type } = components[activeBlock];
 
-  const activeStyle = useMemo(
-    () => ({
-      ...filterStyle(styles[activeBlock], "fontSize"),
-      ...(screenType === "mobile"
-        ? filterStyle(mobileStyles[activeBlock], "fontSize")
-        : {}),
-    }),
-    [styles, activeBlock, mobileStyles, screenType]
-  );
+  const activeStyle = useActiveStylePropertyTab({
+    type,
+    globalStyles,
+    activeBlock,
+    styles,
+    mobileStyles,
+    screenType,
+    propertyName: "fontSize",
+  });
 
   const handleDispatchSize = useCallback(
     (fontSize: number | "inc" | "dec") => {
@@ -48,7 +45,7 @@ const FontSizeProperty = () => {
             fontSize,
           },
           defaultStyles: {
-            fontSize: EDITOR_DEFAULT_VALUES.FONT_SIZE.DEFAULT[typographyType],
+            fontSize: EDITOR_DEFAULT_VALUES.FONT_SIZE.DEFAULT[type],
           },
           minStyles: {
             fontSize: EDITOR_DEFAULT_VALUES.FONT_SIZE.MIN,
@@ -59,7 +56,7 @@ const FontSizeProperty = () => {
         })
       );
     },
-    [blogId, activeBlock, typographyType]
+    [blogId, activeBlock, type]
   );
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -76,7 +73,7 @@ const FontSizeProperty = () => {
       label="Font Size"
       value={
         Number(activeStyle?.fontSize) ||
-        EDITOR_DEFAULT_VALUES.FONT_SIZE.DEFAULT[typographyType]
+        EDITOR_DEFAULT_VALUES.FONT_SIZE.DEFAULT[type]
       }
       handleIncrement={() => handleDispatchSize("inc")}
       handleDecrement={() => handleDispatchSize("dec")}

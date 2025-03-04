@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo } from "react";
+import React from "react";
 import SelectBlock from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/SelectBlock";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useParams } from "next/navigation";
@@ -8,7 +8,8 @@ import {
   addStyle,
   LineHeightType,
 } from "@/redux/features/builders/blogBuilderSlice";
-import filterStyle from "@/utils/editor/filterStyle";
+import useActiveStylePropertyTab from "@/hooks/editor/use-active-style-property-tab";
+import { EDITOR_DEFAULT_VALUES } from "@/constant";
 
 const lineHeightList = [
   {
@@ -37,21 +38,24 @@ const LineHeightProperty = () => {
 
   const {
     activeBlock,
-    screenType,
-    metaData: { styles = {}, mobileStyles = {} },
+    screenType = "desktop",
+    components,
+    metaData: { styles = {}, mobileStyles = {}, globalStyles },
   } = useAppSelector((state) => state.blogBuilder.blogs[blogId]);
 
   if (!activeBlock) return null;
 
-  const activeStyle = useMemo(
-    () => ({
-      ...filterStyle(styles[activeBlock], "lineHeight"),
-      ...(screenType === "mobile"
-        ? filterStyle(mobileStyles[activeBlock], "lineHeight")
-        : {}),
-    }),
-    [styles, mobileStyles, activeBlock, screenType]
-  );
+  const { type } = components[activeBlock];
+
+  const activeStyle = useActiveStylePropertyTab({
+    type,
+    globalStyles,
+    activeBlock,
+    styles,
+    mobileStyles,
+    screenType,
+    propertyName: "lineHeight",
+  });
 
   const handleChangeLineHeight = (value: string) => {
     dispatch(
@@ -68,7 +72,10 @@ const LineHeightProperty = () => {
   return (
     <SelectBlock
       label="Line Height"
-      activeValue={String(activeStyle?.lineHeight || lineHeightList[0].id)}
+      activeValue={String(
+        activeStyle?.lineHeight ??
+          EDITOR_DEFAULT_VALUES.LINE_HEIGHT.DEFAULT[type]
+      )}
       itemList={lineHeightList}
       handleChange={handleChangeLineHeight}
     />

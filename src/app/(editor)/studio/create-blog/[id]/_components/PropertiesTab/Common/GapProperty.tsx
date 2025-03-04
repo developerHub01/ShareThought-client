@@ -1,15 +1,12 @@
 "use client";
 
-import React, { ChangeEvent, useCallback, useMemo } from "react";
+import React, { ChangeEvent, useCallback } from "react";
 import CountBlock from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/CountBlock";
-import {
-  addStyle,
-  TypographyType,
-} from "@/redux/features/builders/blogBuilderSlice";
+import { addStyle } from "@/redux/features/builders/blogBuilderSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useParams } from "next/navigation";
 import { GAP_SIZE } from "@/constant";
-import filterStyle from "@/utils/editor/filterStyle";
+import useActiveStylePropertyTab from "@/hooks/editor/use-active-style-property-tab";
 
 const GapProperty = () => {
   const dispatch = useAppDispatch();
@@ -19,24 +16,24 @@ const GapProperty = () => {
 
   const {
     activeBlock,
-    screenType,
+    screenType = "desktop",
     components,
-    metaData: { styles = {}, mobileStyles = {} },
+    metaData: { styles = {}, mobileStyles = {}, globalStyles },
   } = useAppSelector((state) => state.blogBuilder.blogs[blogId]);
 
   if (!activeBlock) return null;
 
-  const typographyType = components[activeBlock].type as TypographyType;
+  const { type } = components[activeBlock];
 
-  const activeStyle = useMemo(
-    () => ({
-      ...filterStyle(styles[activeBlock], "gap"),
-      ...(screenType === "mobile"
-        ? filterStyle(mobileStyles[activeBlock], "gap")
-        : {}),
-    }),
-    [styles, mobileStyles, activeBlock, screenType]
-  );
+  const activeStyle = useActiveStylePropertyTab({
+    activeBlock,
+    type,
+    globalStyles,
+    styles,
+    mobileStyles,
+    screenType,
+    propertyName: "gap",
+  });
 
   const handleDispatchSize = useCallback(
     (gap: number | "inc" | "dec") => {
@@ -59,7 +56,7 @@ const GapProperty = () => {
         })
       );
     },
-    [blogId, activeBlock, typographyType]
+    [blogId, activeBlock, type]
   );
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
