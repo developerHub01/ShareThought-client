@@ -8,7 +8,7 @@ import {
 } from "@/redux/features/builders/blogBuilderSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useParams } from "next/navigation";
-import { EDITOR_TYPOGRAPHY_SIZE } from "@/constant";
+import { EDITOR_DEFAULT_VALUES } from "@/constant";
 import filterStyle from "@/utils/editor/filterStyle";
 
 const FontSizeProperty = () => {
@@ -48,13 +48,13 @@ const FontSizeProperty = () => {
             fontSize,
           },
           defaultStyles: {
-            fontSize: EDITOR_TYPOGRAPHY_SIZE.FONT_SIZE.DEFAULT[typographyType],
+            fontSize: EDITOR_DEFAULT_VALUES.FONT_SIZE.DEFAULT[typographyType],
           },
           minStyles: {
-            fontSize: EDITOR_TYPOGRAPHY_SIZE.FONT_SIZE.MIN,
+            fontSize: EDITOR_DEFAULT_VALUES.FONT_SIZE.MIN,
           },
           maxStyles: {
-            fontSize: EDITOR_TYPOGRAPHY_SIZE.FONT_SIZE.MAX,
+            fontSize: EDITOR_DEFAULT_VALUES.FONT_SIZE.MAX,
           },
         })
       );
@@ -64,8 +64,8 @@ const FontSizeProperty = () => {
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = Math.min(
-      Math.max(Number(e.target.value), EDITOR_TYPOGRAPHY_SIZE.FONT_SIZE.MIN),
-      EDITOR_TYPOGRAPHY_SIZE.FONT_SIZE.MAX
+      Math.max(Number(e.target.value), EDITOR_DEFAULT_VALUES.FONT_SIZE.MIN),
+      EDITOR_DEFAULT_VALUES.FONT_SIZE.MAX
     );
 
     handleDispatchSize(value);
@@ -76,13 +76,13 @@ const FontSizeProperty = () => {
       label="Font Size"
       value={
         Number(activeStyle?.fontSize) ||
-        EDITOR_TYPOGRAPHY_SIZE.FONT_SIZE.DEFAULT[typographyType]
+        EDITOR_DEFAULT_VALUES.FONT_SIZE.DEFAULT[typographyType]
       }
       handleIncrement={() => handleDispatchSize("inc")}
       handleDecrement={() => handleDispatchSize("dec")}
       handleChange={handleChange}
-      min={EDITOR_TYPOGRAPHY_SIZE.FONT_SIZE.MIN}
-      max={EDITOR_TYPOGRAPHY_SIZE.FONT_SIZE.MAX}
+      min={EDITOR_DEFAULT_VALUES.FONT_SIZE.MIN}
+      max={EDITOR_DEFAULT_VALUES.FONT_SIZE.MAX}
     />
   );
 };

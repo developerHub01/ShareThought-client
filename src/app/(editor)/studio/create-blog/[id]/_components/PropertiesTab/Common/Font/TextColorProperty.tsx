@@ -17,7 +17,7 @@ import {
 } from "@/redux/features/builders/blogBuilderSlice";
 import { useParams } from "next/navigation";
 import ColorBlock from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/ColorBlock";
-import { EDITOR_TYPOGRAPHY_SIZE } from "@/constant";
+import { EDITOR_DEFAULT_VALUES } from "@/constant";
 
 const TextColorProperty = () => {
   const { id: blogId } = useParams<{ id: string }>();
@@ -38,8 +38,8 @@ const TextColorProperty = () => {
 
   const textColor =
     activeStyle?.color ??
-    EDITOR_TYPOGRAPHY_SIZE.COLOR.DEFAULT[typographyType] ??
-    EDITOR_TYPOGRAPHY_SIZE.COLOR.DEFAULT.default;
+    EDITOR_DEFAULT_VALUES.COLOR[typographyType] ??
+    EDITOR_DEFAULT_VALUES.COLOR.default;
 
   const dispatch = useAppDispatch();
   const [textColorState, setTextColorState] = useState<string>(textColor);

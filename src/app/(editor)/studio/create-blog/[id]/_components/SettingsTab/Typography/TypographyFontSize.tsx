@@ -4,7 +4,7 @@ import React, { ChangeEvent, useCallback, useMemo } from "react";
 import CountBlock from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/CountBlock";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useParams } from "next/navigation";
-import { EDITOR_TYPOGRAPHY_SIZE } from "@/constant";
+import { EDITOR_DEFAULT_VALUES } from "@/constant";
 import { useSettingTypography } from "@/app/(editor)/studio/create-blog/[id]/_context/SettingTab/SettingTypographyProvider";
 import { addGlobalStyle } from "@/redux/features/builders/blogBuilderSlice";
 
@@ -31,10 +31,10 @@ const TypographyFontSize = () => {
             fontSize,
           },
           maxStyles: {
-            fontSize: EDITOR_TYPOGRAPHY_SIZE.FONT_SIZE.MAX,
+            fontSize: EDITOR_DEFAULT_VALUES.FONT_SIZE.MAX,
           },
           minStyles: {
-            fontSize: EDITOR_TYPOGRAPHY_SIZE.FONT_SIZE.MIN,
+            fontSize: EDITOR_DEFAULT_VALUES.FONT_SIZE.MIN,
           },
         })
       );
@@ -44,8 +44,8 @@ const TypographyFontSize = () => {
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = Math.min(
-      Math.max(Number(e.target.value), EDITOR_TYPOGRAPHY_SIZE.FONT_SIZE.MIN),
-      EDITOR_TYPOGRAPHY_SIZE.FONT_SIZE.MAX
+      Math.max(Number(e.target.value), EDITOR_DEFAULT_VALUES.FONT_SIZE.MIN),
+      EDITOR_DEFAULT_VALUES.FONT_SIZE.MAX
     );
 
     handleDispatchSize(value);
@@ -55,13 +55,13 @@ const TypographyFontSize = () => {
     <CountBlock
       label="Font Size"
       value={Number(
-        activeStyle?.fontSize ?? EDITOR_TYPOGRAPHY_SIZE.FONT_SIZE.DEFAULT
+        activeStyle?.fontSize ?? EDITOR_DEFAULT_VALUES.FONT_SIZE.DEFAULT
       )}
       handleIncrement={() => handleDispatchSize("inc")}
       handleDecrement={() => handleDispatchSize("dec")}
       handleChange={handleChange}
-      min={EDITOR_TYPOGRAPHY_SIZE.FONT_SIZE.MIN}
-      max={EDITOR_TYPOGRAPHY_SIZE.FONT_SIZE.MAX}
+      min={EDITOR_DEFAULT_VALUES.FONT_SIZE.MIN}
+      max={EDITOR_DEFAULT_VALUES.FONT_SIZE.MAX}
     />
   );
 };

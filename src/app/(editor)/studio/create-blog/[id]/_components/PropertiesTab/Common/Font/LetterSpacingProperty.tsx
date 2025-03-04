@@ -2,7 +2,7 @@
 
 import React, { ChangeEvent, useCallback, useMemo } from "react";
 import CountBlock from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/CountBlock";
-import { EDITOR_TYPOGRAPHY_SIZE } from "@/constant";
+import { EDITOR_DEFAULT_VALUES } from "@/constant";
 import { addStyle } from "@/redux/features/builders/blogBuilderSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useParams } from "next/navigation";
@@ -42,13 +42,13 @@ const LetterSpacingProperty = () => {
             letterSpacing: letterSpacing,
           },
           defaultStyles: {
-            letterSpacing: EDITOR_TYPOGRAPHY_SIZE.LETTER_SPACING.DEFAULT,
+            letterSpacing: EDITOR_DEFAULT_VALUES.LETTER_SPACING.DEFAULT,
           },
           minStyles: {
-            letterSpacing: EDITOR_TYPOGRAPHY_SIZE.LETTER_SPACING.MIN,
+            letterSpacing: EDITOR_DEFAULT_VALUES.LETTER_SPACING.MIN,
           },
           maxStyles: {
-            letterSpacing: EDITOR_TYPOGRAPHY_SIZE.LETTER_SPACING.MAX,
+            letterSpacing: EDITOR_DEFAULT_VALUES.LETTER_SPACING.MAX,
           },
         })
       );
@@ -60,9 +60,9 @@ const LetterSpacingProperty = () => {
     const value = Math.min(
       Math.max(
         Number(e.target.value),
-        EDITOR_TYPOGRAPHY_SIZE.LETTER_SPACING.MIN
+        EDITOR_DEFAULT_VALUES.LETTER_SPACING.MIN
       ),
-      EDITOR_TYPOGRAPHY_SIZE.LETTER_SPACING.MAX
+      EDITOR_DEFAULT_VALUES.LETTER_SPACING.MAX
     );
 
     handleDispatchSpacing(value);
@@ -73,13 +73,13 @@ const LetterSpacingProperty = () => {
       label="Letter Spacing"
       value={
         Number(activeStyle?.letterSpacing) ||
-        EDITOR_TYPOGRAPHY_SIZE.LETTER_SPACING.DEFAULT
+        EDITOR_DEFAULT_VALUES.LETTER_SPACING.DEFAULT
       }
       handleIncrement={() => handleDispatchSpacing("inc")}
       handleDecrement={() => handleDispatchSpacing("dec")}
       handleChange={handleLetterSpacingChange}
-      min={EDITOR_TYPOGRAPHY_SIZE.LETTER_SPACING.MIN}
-      max={EDITOR_TYPOGRAPHY_SIZE.LETTER_SPACING.MAX}
+      min={EDITOR_DEFAULT_VALUES.LETTER_SPACING.MIN}
+      max={EDITOR_DEFAULT_VALUES.LETTER_SPACING.MAX}
       step="0.01"
     />
   );

@@ -7,6 +7,14 @@ import { TypographyType as TypographyTypes } from "@/redux/features/builders/blo
 import { typographyTypeList } from "@/constant";
 import { useSettingTypography } from "@/app/(editor)/studio/create-blog/[id]/_context/SettingTab/SettingTypographyProvider";
 
+const typeList = [
+  ...typographyTypeList,
+  {
+    id: "button",
+    label: "Button",
+  },
+];
+
 const TypographyType = () => {
   const { id: blogId } = useParams<{ id: string }>();
 
@@ -19,8 +27,8 @@ const TypographyType = () => {
   return (
     <SelectBlock
       label="Type"
-      activeValue={selectedTypography ?? typographyTypeList[0].id}
-      itemList={typographyTypeList}
+      activeValue={selectedTypography ?? typeList[0].id}
+      itemList={typeList}
       handleChange={(value) => handleChange(value as TypographyTypes)}
     />
   );

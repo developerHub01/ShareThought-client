@@ -1,7 +1,7 @@
 import {
   defaultGlobalStyles,
-  DEFAULT_MARGIN_LIST,
   EDITOR_TABLE_SIZE,
+  EDITOR_DEFAULT_VALUES,
 } from "@/constant";
 import { isValidHexColor, isValidURL } from "@/utils";
 import { createSlice, current } from "@reduxjs/toolkit";
@@ -328,10 +328,10 @@ const addDefaultStylesAfterComponentAdd = (
   if (!state.blogs[blogId].metaData.styles[id])
     state.blogs[blogId].metaData.styles[id] = {};
 
-  if (DEFAULT_MARGIN_LIST[type]) {
+  if (type in EDITOR_DEFAULT_VALUES.MARGIN) {
     state.blogs[blogId].metaData.styles[id] = {
       ...state.blogs[blogId].metaData.styles[id],
-      ...DEFAULT_MARGIN_LIST[type],
+      ...(EDITOR_DEFAULT_VALUES.MARGIN as Record<string, any>)[type],
     };
   }
 };

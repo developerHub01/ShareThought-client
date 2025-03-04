@@ -14,7 +14,7 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { addGlobalStyle } from "@/redux/features/builders/blogBuilderSlice";
 import { useParams } from "next/navigation";
 import ColorBlock from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/ColorBlock";
-import { EDITOR_TYPOGRAPHY_SIZE } from "@/constant";
+import { EDITOR_DEFAULT_VALUES } from "@/constant";
 import { useSettingTypography } from "@/app/(editor)/studio/create-blog/[id]/_context/SettingTab/SettingTypographyProvider";
 
 const TypographyColor = () => {
@@ -31,10 +31,10 @@ const TypographyColor = () => {
 
   const textColor = String(
     activeStyle?.color ??
-      EDITOR_TYPOGRAPHY_SIZE.COLOR.DEFAULT[
-        type as keyof typeof EDITOR_TYPOGRAPHY_SIZE.COLOR.DEFAULT
+      EDITOR_DEFAULT_VALUES.COLOR[
+        type as keyof typeof EDITOR_DEFAULT_VALUES.COLOR
       ] ??
-      EDITOR_TYPOGRAPHY_SIZE.COLOR.DEFAULT.default
+      EDITOR_DEFAULT_VALUES.COLOR.default
   );
 
   const dispatch = useAppDispatch();

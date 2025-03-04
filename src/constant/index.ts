@@ -1,4 +1,4 @@
-import { CSSProperties, ElementType } from "react";
+import { ElementType } from "react";
 import { TReactions } from "@/types";
 import {
   BlockTypes,
@@ -83,7 +83,38 @@ export const EDITOR_TABLE_SIZE = {
   DEFAULT_CONTENT_TEXT_DIRECTION: "ltr",
 };
 
-export const EDITOR_TYPOGRAPHY_SIZE = {
+type MarginType = {
+  marginTop: number;
+  marginBottom: number;
+};
+
+type TypographyMargin = {
+  h1: MarginType;
+  h2: MarginType;
+  h3: MarginType;
+  h4: MarginType;
+  h5: MarginType;
+  h6: MarginType;
+  p: MarginType;
+  button: MarginType;
+};
+
+export const EDITOR_DEFAULT_VALUES: {
+  FONT_SIZE: {
+    MIN: number;
+    MAX: number;
+    DEFAULT: Record<string, number>;
+  };
+  COLOR: Record<string, string>;
+  LINE_HEIGHT: Record<string, string>;
+  FONT_WEIGHT: Record<string, string>;
+  LETTER_SPACING: {
+    MIN: number;
+    MAX: number;
+    DEFAULT: number;
+  } & Record<string, number>;
+  MARGIN: TypographyMargin;
+} = {
   FONT_SIZE: {
     MIN: 8,
     MAX: 60,
@@ -98,23 +129,59 @@ export const EDITOR_TYPOGRAPHY_SIZE = {
       button: 16,
     },
   },
+  COLOR: {
+    h1: "#212121",
+    h2: "#212121",
+    h3: "#212121",
+    h4: "#212121",
+    h5: "#212121",
+    h6: "#212121",
+    p: "#343434",
+    button: "#ffffff",
+    default: "#212121",
+  },
+  LINE_HEIGHT: {
+    h1: "1.2",
+    h2: "1.2",
+    h3: "1.2",
+    h4: "1.2",
+    h5: "1.2",
+    h6: "1.2",
+    p: "1.2",
+    button: "1.2",
+  },
+  FONT_WEIGHT: {
+    h1: "normal",
+    h2: "normal",
+    h3: "normal",
+    h4: "normal",
+    h5: "normal",
+    h6: "normal",
+    p: "normal",
+    button: "normal",
+  },
   LETTER_SPACING: {
     MIN: -10,
     MAX: 20,
     DEFAULT: 0,
+    h1: 0,
+    h2: 0,
+    h3: 0,
+    h4: 0,
+    h5: 0,
+    h6: 0,
+    p: 0,
+    button: 0,
   },
-  COLOR: {
-    DEFAULT: {
-      h1: "#212121",
-      h2: "#212121",
-      h3: "#212121",
-      h4: "#212121",
-      h5: "#212121",
-      h6: "#212121",
-      p: "#343434",
-      button: "#ffffff",
-      default: "#212121",
-    },
+  MARGIN: {
+    h1: { marginTop: 0, marginBottom: 20 },
+    h2: { marginTop: 0, marginBottom: 18 },
+    h3: { marginTop: 0, marginBottom: 16 },
+    h4: { marginTop: 0, marginBottom: 14 },
+    h5: { marginTop: 0, marginBottom: 12 },
+    h6: { marginTop: 0, marginBottom: 10 },
+    p: { marginTop: 0, marginBottom: 15 },
+    button: { marginTop: 0, marginBottom: 10 },
   },
 };
 
@@ -147,74 +214,6 @@ export const TYPOGRAPHY_LIST: Record<
   h5: { tag: "h5", className: "text-lg font-bold" },
   h6: { tag: "h6", className: "text-base font-bold" },
   p: { tag: "p", className: "text-base" },
-};
-
-export const DEFAULT_MARGIN_LIST: Partial<Record<BlockTypes, StyleType>> = {
-  h1: {
-    marginTop: 0,
-    marginBottom: 20,
-  },
-  h2: {
-    marginTop: 0,
-    marginBottom: 18,
-  },
-  h3: {
-    marginTop: 0,
-    marginBottom: 16,
-  },
-  h4: {
-    marginTop: 0,
-    marginBottom: 14,
-  },
-  h5: {
-    marginTop: 0,
-    marginBottom: 12,
-  },
-  h6: {
-    marginTop: 0,
-    marginBottom: 10,
-  },
-  p: {
-    marginTop: 0,
-    marginBottom: 15,
-  },
-  button: {
-    marginTop: 0,
-    marginBottom: 10,
-  },
-};
-
-export const DEFAULT_LINEHEIGHT_LIST: Partial<Record<BlockTypes, string>> = {
-  h1: "1.2",
-  h2: "1.2",
-  h3: "1.2",
-  h4: "1.2",
-  h5: "1.2",
-  h6: "1.2",
-  p: "1.2",
-  button: "1.2",
-};
-
-export const DEFAULT_FONTWEIGHT_LIST: Partial<Record<BlockTypes, string>> = {
-  h1: "normal",
-  h2: "normal",
-  h3: "normal",
-  h4: "normal",
-  h5: "normal",
-  h6: "normal",
-  p: "normal",
-  button: "normal",
-};
-
-export const DEFAULT_LETTERSPACING_LIST: Partial<Record<BlockTypes, number>> = {
-  h1: 0,
-  h2: 0,
-  h3: 0,
-  h4: 0,
-  h5: 0,
-  h6: 0,
-  p: 0,
-  button: 0,
 };
 
 export const typographyTypeList: Array<{
@@ -263,18 +262,22 @@ export const defaultGlobalStyles = [
 ].reduce((acc, curr) => {
   acc[curr] = {
     fontSize:
-      EDITOR_TYPOGRAPHY_SIZE.FONT_SIZE.DEFAULT[
-        curr as keyof typeof EDITOR_TYPOGRAPHY_SIZE.FONT_SIZE.DEFAULT
+      EDITOR_DEFAULT_VALUES.FONT_SIZE.DEFAULT[
+        curr as keyof typeof EDITOR_DEFAULT_VALUES.FONT_SIZE.DEFAULT
       ],
     fontWeight:
-      DEFAULT_FONTWEIGHT_LIST[curr as keyof typeof DEFAULT_FONTWEIGHT_LIST],
-    lineHeight:
-      DEFAULT_LINEHEIGHT_LIST[curr as keyof typeof DEFAULT_LINEHEIGHT_LIST],
-    letterSpacing:
-      DEFAULT_LETTERSPACING_LIST[
-        curr as keyof typeof DEFAULT_LETTERSPACING_LIST
+      EDITOR_DEFAULT_VALUES.FONT_WEIGHT[
+        curr as keyof typeof EDITOR_DEFAULT_VALUES.FONT_WEIGHT
       ],
-    ...DEFAULT_MARGIN_LIST.h1,
+    lineHeight:
+      EDITOR_DEFAULT_VALUES.LINE_HEIGHT[
+        curr as keyof typeof EDITOR_DEFAULT_VALUES.LINE_HEIGHT
+      ],
+    letterSpacing:
+      EDITOR_DEFAULT_VALUES.LETTER_SPACING[
+        curr as keyof typeof EDITOR_DEFAULT_VALUES.LETTER_SPACING
+      ],
+    ...EDITOR_DEFAULT_VALUES.MARGIN.h1,
   };
 
   return acc;
