@@ -2,67 +2,60 @@
 
 import React, { ChangeEvent, useCallback } from "react";
 import CountBlock from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/CountBlock";
-import { addStyle } from "@/redux/features/builders/blogBuilderSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useParams } from "next/navigation";
 import { EDITOR_DEFAULT_VALUES } from "@/constant";
-import useActiveStylePropertyTab from "@/hooks/editor/use-active-style-property-tab";
+import { addGlobalStyle } from "@/redux/features/builders/blogBuilderSlice";
+import useActiveStyleSettingTab from "@/hooks/editor/use-active-style-setting-tab";
 
-const GapProperty = () => {
+interface GapSizeProps {
+  type: "row" | "column";
+  label: string;
+}
+
+const GapSize = ({ type, label }: GapSizeProps) => {
   const dispatch = useAppDispatch();
   const { id: blogId } = useParams<{ id: string }>();
 
   if (!blogId) return null;
 
   const {
-    activeBlock,
     screenType = "desktop",
-    components,
-    metaData: { styles = {}, mobileStyles = {}, globalStyles },
+    metaData: { globalStyles },
   } = useAppSelector((state) => state.blogBuilder.blogs[blogId]);
 
-  if (!activeBlock) return null;
-
-  const { type } = components[activeBlock];
-
-  const activeStyle = useActiveStylePropertyTab({
-    activeBlock,
-    type,
+  const activeStyle = useActiveStyleSettingTab({
     globalStyles,
-    styles,
-    mobileStyles,
     screenType,
+    type,
     propertyName: "gap",
   });
 
   const handleDispatchSize = useCallback(
     (gap: number | "inc" | "dec") => {
       dispatch(
-        addStyle({
+        addGlobalStyle({
           blogId,
-          activeBlockId: activeBlock,
+          type,
           styles: {
             gap,
-          },
-          defaultStyles: {
-            gap: EDITOR_DEFAULT_VALUES.GAP.DEFAULT,
-          },
-          minStyles: {
-            gap: EDITOR_DEFAULT_VALUES.GAP.MIN,
           },
           maxStyles: {
             gap: EDITOR_DEFAULT_VALUES.GAP.MAX,
           },
+          minStyles: {
+            gap: EDITOR_DEFAULT_VALUES.GAP.MIN,
+          },
         })
       );
     },
-    [blogId, activeBlock, type]
+    [blogId]
   );
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = Math.min(
       Math.max(Number(e.target.value), EDITOR_DEFAULT_VALUES.GAP.MIN),
-      EDITOR_DEFAULT_VALUES.GAP.MAX
+      EDITOR_DEFAULT_VALUES.FONT_SIZE.MAX
     );
 
     handleDispatchSize(value);
@@ -70,8 +63,8 @@ const GapProperty = () => {
 
   return (
     <CountBlock
-      label="Gap"
-      value={Number(activeStyle?.gap) || EDITOR_DEFAULT_VALUES.GAP.DEFAULT}
+      label={label}
+      value={Number(activeStyle?.gap ?? EDITOR_DEFAULT_VALUES.GAP.DEFAULT)}
       handleIncrement={() => handleDispatchSize("inc")}
       handleDecrement={() => handleDispatchSize("dec")}
       handleChange={handleChange}
@@ -81,4 +74,4 @@ const GapProperty = () => {
   );
 };
 
-export default GapProperty;
+export default GapSize;

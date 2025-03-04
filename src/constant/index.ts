@@ -100,6 +100,12 @@ type TypographyMargin = {
 };
 
 export const EDITOR_DEFAULT_VALUES: {
+  GAP: {
+    MIN: number;
+    MAX: number;
+    DEFAULT: number;
+    MOBILE: number;
+  };
   FONT_SIZE: {
     MIN: number;
     MAX: number;
@@ -126,6 +132,12 @@ export const EDITOR_DEFAULT_VALUES: {
     MOBILE: Partial<TypographyMargin>;
   };
 } = {
+  GAP: {
+    MIN: 0,
+    MAX: 50,
+    DEFAULT: 0,
+    MOBILE: 0,
+  },
   FONT_SIZE: {
     MIN: 8,
     MAX: 60,
@@ -215,12 +227,6 @@ export const EDITOR_DEFAULT_VALUES: {
     },
     MOBILE: {},
   },
-};
-
-export const GAP_SIZE = {
-  DEFAULT: 0,
-  MIN: 0,
-  MAX: 50,
 };
 
 export const PADDING_MARGIN_LIMITS = {
