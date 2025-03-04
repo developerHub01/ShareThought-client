@@ -1,11 +1,12 @@
 "use client";
 
-import React, { ChangeEvent, useMemo } from "react";
+import React, { ChangeEvent, useCallback, useMemo } from "react";
 import CountBlock from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/CountBlock";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useParams } from "next/navigation";
 import { addStyle } from "@/redux/features/builders/blogBuilderSlice";
 import filterStyle from "@/utils/editor/filterStyle";
+import useActiveStylePropertyTab from "@/hooks/editor/use-active-style-property-tab";
 
 const spacerHeightStyleConstraints = {
   defaultStyles: {
@@ -25,19 +26,36 @@ const SpacerHeight = () => {
   const {
     activeBlock,
     screenType,
+    components,
     metaData: { styles = {}, mobileStyles = {} },
   } = useAppSelector((state) => state.blogBuilder.blogs[blogId]);
 
   if (!activeBlock) return null;
 
-  const activeStyle = useMemo(
-    () => ({
-      ...filterStyle(styles[activeBlock], "height"),
-      ...(screenType === "mobile"
-        ? filterStyle(mobileStyles[activeBlock], "height")
-        : {}),
-    }),
-    [styles, mobileStyles, activeBlock, screenType]
+  const { type } = components[activeBlock];
+
+  const activeStyle = useActiveStylePropertyTab({
+    type,
+    activeBlock,
+    styles,
+    mobileStyles,
+    screenType,
+    propertyName: "height",
+  });
+
+  const handleDispatch = useCallback(
+    (height: number | "inc" | "dec") =>
+      dispatch(
+        addStyle({
+          blogId,
+          activeBlockId: activeBlock,
+          styles: {
+            height,
+          },
+          ...spacerHeightStyleConstraints,
+        })
+      ),
+    [dispatch, blogId, activeBlock]
   );
 
   const handleSpacerSizeIncrement = () => {
@@ -68,26 +86,16 @@ const SpacerHeight = () => {
 
   const handleSpacerSizeChange = (e: ChangeEvent<HTMLInputElement>) => {
     const height = Number(e.target.value);
-
-    dispatch(
-      addStyle({
-        blogId,
-        activeBlockId: activeBlock,
-        styles: {
-          height,
-        },
-        ...spacerHeightStyleConstraints,
-      })
-    );
+    handleDispatch(height);
   };
 
   return (
     <CountBlock
       label="Height"
-      value={activeStyle.height ?? 1}
+      value={Number(activeStyle.height ?? 1)}
       handleChange={handleSpacerSizeChange}
-      handleIncrement={handleSpacerSizeIncrement}
-      handleDecrement={handleSpacerSizeDecrement}
+      handleIncrement={() => handleDispatch("inc")}
+      handleDecrement={() => handleDispatch("dec")}
     />
   );
 };

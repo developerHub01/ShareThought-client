@@ -24,7 +24,7 @@ const DividerLine = () => {
 
   if (!activeBlock) return null;
 
-  const activeBlockLine = styles[activeBlock].borderTop || [
+  const activeBlockLine = styles[activeBlock].borderTop ?? [
     1,
     "solid",
     "#dddddd",
