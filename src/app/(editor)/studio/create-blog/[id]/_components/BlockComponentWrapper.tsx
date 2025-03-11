@@ -29,7 +29,10 @@ const BlockComponentWrapper = ({
   ...props
 }: BlockComponentWrapperProps) => {
   const { id: blogId } = useParams<{ id: string }>();
-  const { responsiveFrameMode } = useEditor();
+
+  const { screenType } = useAppSelector(
+    (state) => state.blogBuilder.blogs[blogId]
+  );
 
   const isHovering =
     useAppSelector((state) => state.blogBuilder.hoveringComponentId) === id;
@@ -112,8 +115,8 @@ const BlockComponentWrapper = ({
           "w-full max-w-3xl rounded-sm",
 
           {
-            "max-w-3xl": responsiveFrameMode === "desktop",
-            "max-w-md": responsiveFrameMode === "mobile",
+            "max-w-3xl": screenType === "desktop",
+            "max-w-md": screenType === "mobile",
           }
         )}
       >

@@ -8,14 +8,10 @@ import React, {
   useState,
 } from "react";
 
-type ResponsiveFrameModeType = "mobile" | "desktop";
-
 interface EditorContext {
   containerRef: React.RefObject<HTMLDivElement | null>;
   selectedIndex: number;
   setSelectedIndex: Dispatch<React.SetStateAction<number>>;
-  responsiveFrameMode: ResponsiveFrameModeType;
-  toggleResponsiveFrameMode: () => void;
   selectedParentId: string;
   setSelectedParentId: Dispatch<React.SetStateAction<string>>;
   isComponentDialogOpen: boolean;
@@ -47,14 +43,6 @@ const EditorProvider = ({ children }: EditorProviderProps) => {
   const [isComponentDialogOpen, setIsComponentDialogOpen] =
     useState<boolean>(false);
   const [showLayoutTab, setShowLayoutTab] = useState<boolean>(false);
-  const [responsiveFrameMode, setResponsiveFrameMode] =
-    useState<ResponsiveFrameModeType>("desktop");
-
-  const toggleResponsiveFrameMode = () => {
-    setResponsiveFrameMode(
-      responsiveFrameMode === "desktop" ? "mobile" : "desktop"
-    );
-  };
 
   return (
     <EditorContext.Provider
@@ -62,8 +50,6 @@ const EditorProvider = ({ children }: EditorProviderProps) => {
         containerRef,
         selectedIndex,
         setSelectedIndex,
-        responsiveFrameMode,
-        toggleResponsiveFrameMode,
         selectedParentId,
         setSelectedParentId,
         isComponentDialogOpen,

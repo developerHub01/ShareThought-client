@@ -9,16 +9,11 @@ import {
 } from "@/components/ui/tooltip";
 import useModifyQueryParams from "@/hooks/use-modify-query-params";
 import { cn } from "@/lib/utils";
-import {
-  Layers as NavigatorIcon,
-  Monitor as DesktopIcon,
-  LucideIcon,
-  Smartphone as MobileIcon,
-} from "lucide-react";
+import { Layers as NavigatorIcon, LucideIcon } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, FocusEvent } from "react";
 import Navigator from "@/app/(editor)/studio/create-blog/[id]/_components/LeftSidebar/Navigator/Navigator";
-import { useEditor } from "@/app/(editor)/studio/create-blog/[id]/_context/EditorProvider";
+import ResponsiveToggleBlock from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/ResponsiveToggleBlock";
 
 interface MenuItemInterface {
   id: string;
@@ -27,21 +22,9 @@ interface MenuItemInterface {
   haveContentArea?: boolean;
 }
 
-const responsiveFrameData = {
-  desktop: {
-    label: "Desktop View",
-    Icon: DesktopIcon,
-  },
-  mobile: {
-    label: "Mobile View",
-    Icon: MobileIcon,
-  },
-};
-
 const LeftSidebar = () => {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const { responsiveFrameMode, toggleResponsiveFrameMode } = useEditor();
   const menuList = useMemo<Array<MenuItemInterface>>(
     () => [
       {
@@ -50,15 +33,8 @@ const LeftSidebar = () => {
         Icon: NavigatorIcon,
         haveContentArea: true,
       },
-      {
-        id: "responsive-frame",
-        ...(responsiveFrameMode === "desktop"
-          ? responsiveFrameData.mobile
-          : responsiveFrameData.desktop),
-        haveContentArea: false,
-      },
     ],
-    [responsiveFrameMode]
+    []
   );
 
   const containerRef = useRef<HTMLDivElement>(null);
@@ -86,14 +62,7 @@ const LeftSidebar = () => {
     [router, searchParams]
   );
 
-  const handleClick = (id: string) => {
-    switch (id) {
-      case "responsive-frame": {
-        toggleResponsiveFrameMode();
-        break;
-      }
-    }
-  };
+  const handleClick = (id: string) => {};
 
   const handleBlur = (e: FocusEvent<HTMLDivElement>) => {
     if (!containerRef.current?.contains(e.relatedTarget)) deleteSidebar();
@@ -128,9 +97,18 @@ const LeftSidebar = () => {
             </Tooltip>
           ))}
         </TooltipProvider>
+        <ResponsiveToggleBlock className="flex-col" />
       </div>
-      <Navigator />
+      <Content />
     </div>
+  );
+};
+
+const Content = () => {
+  return (
+    <>
+      <Navigator />
+    </>
   );
 };
 

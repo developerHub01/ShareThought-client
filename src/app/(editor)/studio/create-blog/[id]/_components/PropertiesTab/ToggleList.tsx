@@ -6,6 +6,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { cn } from "@/lib/utils";
 import clsx from "clsx";
 import { LucideIcon } from "lucide-react";
 import React from "react";
@@ -18,12 +19,18 @@ interface ToggleListProps {
     Icon: LucideIcon;
   }>;
   activeItem: string;
+  className?: string;
+  orientation?: "vertical" | "horizontal";
+  size?: "default" | "sm";
 }
 
 const ToggleList = ({
   toggleList,
   handleChange,
   activeItem,
+  className,
+  orientation = "horizontal",
+  size = "default",
 }: ToggleListProps) => {
   return (
     <TooltipProvider>
@@ -32,7 +39,7 @@ const ToggleList = ({
         variant={"outline"}
         value={activeItem}
         onValueChange={handleChange}
-        className="gap-0"
+        className={cn("gap-0", className)}
       >
         {toggleList.map(({ id, label, Icon }, index) => (
           <Tooltip key={id}>
@@ -41,11 +48,20 @@ const ToggleList = ({
                 <ToggleGroupItem
                   value={id}
                   aria-label={label}
+                  size={size}
                   className={clsx(
                     "data-[state=on]:bg-primary data-[state=on]:text-primary-foreground",
                     {
-                      "rounded-r-none": index === 0,
-                      "rounded-s-none": index === toggleList.length - 1,
+                      "rounded-r-none":
+                        index === 0 && orientation === "horizontal",
+                      "rounded-b-none":
+                        index === 0 && orientation === "vertical",
+                      "rounded-l-none":
+                        index === toggleList.length - 1 &&
+                        orientation === "horizontal",
+                      "rounded-t-none":
+                        index === toggleList.length - 1 &&
+                        orientation === "vertical",
                       "rounded-none":
                         index > 0 && index < toggleList.length - 1,
                     }
@@ -55,7 +71,9 @@ const ToggleList = ({
                 </ToggleGroupItem>
               </span>
             </TooltipTrigger>
-            <TooltipContent>
+            <TooltipContent
+              side={orientation === "horizontal" ? "top" : "left"}
+            >
               <p>{label}</p>
             </TooltipContent>
           </Tooltip>

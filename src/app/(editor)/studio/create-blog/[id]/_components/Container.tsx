@@ -1,7 +1,8 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { useEditor } from "@/app/(editor)/studio/create-blog/[id]/_context/EditorProvider";
+import { useAppSelector } from "@/redux/hooks";
+import { useParams } from "next/navigation";
 
 interface ContainerProps {
   children: React.ReactNode;
@@ -10,14 +11,18 @@ interface ContainerProps {
 }
 
 const Container = ({ children, className }: ContainerProps) => {
-  const { responsiveFrameMode } = useEditor();
+  const { id: blogId } = useParams<{ id: string }>();
+
+  const { screenType } = useAppSelector(
+    (state) => state.blogBuilder.blogs[blogId]
+  );
 
   return (
     <section
       aria-label="container"
       className={cn("w-full max-w-3xl mx-auto", className, {
-        "max-w-3xl": responsiveFrameMode === "desktop",
-        "max-w-md": responsiveFrameMode === "mobile",
+        "max-w-3xl": screenType === "desktop",
+        "max-w-md": screenType === "mobile",
       })}
     >
       {children}

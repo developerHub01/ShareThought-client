@@ -10,6 +10,7 @@ import ToggleList from "@/app/(editor)/studio/create-blog/[id]/_components/Prope
 import { toggleScreenType } from "@/redux/features/builders/blogBuilderSlice";
 import { useParams } from "next/navigation";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { cn } from "@/lib/utils";
 
 const screenList: Array<{
   id: string;
@@ -28,7 +29,10 @@ const screenList: Array<{
   },
 ];
 
-const ResponsiveToggleBlock = () => {
+interface ResponsiveToggleBlockProps {
+  className?: string;
+}
+const ResponsiveToggleBlock = ({ className }: ResponsiveToggleBlockProps) => {
   const { id: blogId } = useParams<{ id: string }>();
   const dispatch = useAppDispatch();
 
@@ -45,6 +49,9 @@ const ResponsiveToggleBlock = () => {
 
   return (
     <ToggleList
+      orientation="vertical"
+      size="sm"
+      className={cn("", className)}
       toggleList={screenList}
       handleChange={handleChange}
       activeItem={screenType ?? screenList[0].id}
