@@ -9,23 +9,56 @@ import {
 } from "@/components/ui/tooltip";
 import useModifyQueryParams from "@/hooks/use-modify-query-params";
 import { cn } from "@/lib/utils";
-import { Layers as NavigatorIcon } from "lucide-react";
+import {
+  Layers as NavigatorIcon,
+  Monitor as DesktopIcon,
+  LucideIcon,
+  Smartphone as MobileIcon,
+} from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, FocusEvent } from "react";
 import Navigator from "@/app/(editor)/studio/create-blog/[id]/_components/LeftSidebar/Navigator/Navigator";
+import { useEditor } from "@/app/(editor)/studio/create-blog/[id]/_context/EditorProvider";
+
+interface MenuItemInterface {
+  id: string;
+  label: string;
+  Icon: LucideIcon;
+  haveContentArea?: boolean;
+}
+
+const responsiveFrameData = {
+  desktop: {
+    label: "Desktop View",
+    Icon: DesktopIcon,
+  },
+  mobile: {
+    label: "Mobile View",
+    Icon: MobileIcon,
+  },
+};
 
 const LeftSidebar = () => {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const menuList = useMemo(
+  const { responsiveFrameMode, toggleResponsiveFrameMode } = useEditor();
+  const menuList = useMemo<Array<MenuItemInterface>>(
     () => [
       {
         id: "navigator",
         label: "Navigator",
         Icon: NavigatorIcon,
+        haveContentArea: true,
+      },
+      {
+        id: "responsive-frame",
+        ...(responsiveFrameMode === "desktop"
+          ? responsiveFrameData.mobile
+          : responsiveFrameData.desktop),
+        haveContentArea: false,
       },
     ],
-    []
+    [responsiveFrameMode]
   );
 
   const containerRef = useRef<HTMLDivElement>(null);
@@ -44,7 +77,7 @@ const LeftSidebar = () => {
     router.push(buildFullPath(modifyParams("delete", "sidebar")));
   };
 
-  const handleClick = useCallback(
+  const toggleContent = useCallback(
     (id: string) => {
       if (searchParams.get("sidebar") === id) return deleteSidebar();
 
@@ -52,6 +85,15 @@ const LeftSidebar = () => {
     },
     [router, searchParams]
   );
+
+  const handleClick = (id: string) => {
+    switch (id) {
+      case "responsive-frame": {
+        toggleResponsiveFrameMode();
+        break;
+      }
+    }
+  };
 
   const handleBlur = (e: FocusEvent<HTMLDivElement>) => {
     if (!containerRef.current?.contains(e.relatedTarget)) deleteSidebar();
@@ -66,14 +108,16 @@ const LeftSidebar = () => {
     >
       <div className="min-w-6 h-full p-1 flex flex-col border border-r-2 bg-primary-foreground gap-4 relative z-40">
         <TooltipProvider>
-          {menuList.map(({ id, label, Icon }) => (
+          {menuList.map(({ id, label, Icon, haveContentArea }) => (
             <Tooltip key={id}>
               <TooltipTrigger asChild>
                 <Button
                   className={cn("border")}
                   size="smIcon"
                   variant={activeItem === id ? "default" : "secondary"}
-                  onClick={() => handleClick(id)}
+                  {...(haveContentArea
+                    ? { onClick: () => toggleContent(id) }
+                    : { onClick: () => handleClick(id) })}
                 >
                   <Icon size={18} />
                 </Button>

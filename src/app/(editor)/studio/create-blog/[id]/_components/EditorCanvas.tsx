@@ -16,16 +16,17 @@ import EditorPopover from "@/app/(editor)/studio/create-blog/[id]/_components/Im
 import PreviewPopover from "@/app/(editor)/studio/create-blog/[id]/_components/Preview/PreviewPopover";
 import LeftSidebar from "@/app/(editor)/studio/create-blog/[id]/_components/LeftSidebar/LeftSidebar";
 
-const EditorCanvas = () => {
+const EditorBlogTitle = () => {
   const { id: postId } = useParams<{ id: string }>();
   const dispatch = useAppDispatch();
 
-  const blogsData = useAppSelector((state) => state?.blogBuilder?.blogs);
-  const blogData = blogsData[postId];
+  const { title } = useAppSelector(
+    (state) => state?.blogBuilder?.blogs?.[postId] ?? {}
+  );
 
-  if (!blogData) return null;
+  if (title ?? false) return;
 
-  const handleTitle = (e: ChangeEvent<HTMLInputElement>) => {
+  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     dispatch(
       updateTitle({
         id: postId,
@@ -34,9 +35,32 @@ const EditorCanvas = () => {
     );
   };
 
-  const handleKeyEnter = (e: KeyboardEvent) => {
+  const onKeyChange = (e: KeyboardEvent) => {
     if (e.key === "Enter") e.preventDefault();
   };
+
+  return (
+    <div className="w-full max-w-3xl mx-auto">
+      <Input
+        type="text"
+        placeholder="Post Title"
+        className="text-lg md:text-xl h-auto py-3 font-bold"
+        onChange={onChange}
+        value={title}
+        onKeyUp={onKeyChange}
+      />
+    </div>
+  );
+};
+
+const EditorCanvas = () => {
+  const { id: postId } = useParams<{ id: string }>();
+
+  const { content } = useAppSelector(
+    (state) => state?.blogBuilder?.blogs?.[postId] ?? {}
+  );
+
+  if (!content) return null;
 
   return (
     <DndContext>
@@ -45,24 +69,15 @@ const EditorCanvas = () => {
           <LeftSidebar />
           <ScrollArea className="h-full w-full flex-1 px-2 py-4">
             <form className="w-full flex flex-col gap-3 mx-auto mb-5">
-              <div className="w-full max-w-3xl mx-auto">
-                <Input
-                  type="text"
-                  placeholder="Post Title"
-                  className="text-lg md:text-xl h-auto py-3 font-bold"
-                  onChange={handleTitle}
-                  value={blogData.title}
-                  onKeyUp={handleKeyEnter}
-                />
-              </div>
+              <EditorBlogTitle />
               <section className="w-full h-full py-5 px-1 flex flex-col">
                 <AnimatePresence>
-                  {Boolean(blogData?.content.length) && (
+                  {Boolean(content.length) && (
                     <AddComponentSection lavel={0} index={0} />
                   )}
                 </AnimatePresence>
 
-                {blogData?.content.map((id, index, list) => (
+                {content.map((id, index, list) => (
                   <div key={id} className="group w-full h-full">
                     <BlockComponent lavel={1} id={id} />
                     <AnimatePresence>
@@ -78,10 +93,7 @@ const EditorCanvas = () => {
                   </div>
                 ))}
 
-                <AddComponentSection
-                  lavel={0}
-                  index={blogData?.content.length}
-                />
+                <AddComponentSection lavel={0} index={content.length} />
               </section>
             </form>
           </ScrollArea>
