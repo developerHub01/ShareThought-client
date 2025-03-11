@@ -12,6 +12,7 @@ import { useDroppable } from "@dnd-kit/core";
 import { GripHorizontal as GripIcon, LucideIcon } from "lucide-react";
 import { useParams } from "next/navigation";
 import { AnimatePresence, motion } from "motion/react";
+import { useEditor } from "@/app/(editor)/studio/create-blog/[id]/_context/EditorProvider";
 
 interface BlockComponentWrapperProps {
   id: string;
@@ -28,6 +29,7 @@ const BlockComponentWrapper = ({
   ...props
 }: BlockComponentWrapperProps) => {
   const { id: blogId } = useParams<{ id: string }>();
+  const { responsiveFrameMode } = useEditor();
 
   const isHovering =
     useAppSelector((state) => state.blogBuilder.hoveringComponentId) === id;
@@ -105,7 +107,18 @@ const BlockComponentWrapper = ({
           />
         )}
       </AnimatePresence>
-      <div className="w-full max-w-3xl rounded-sm">{children}</div>
+      <div
+        className={cn(
+          "w-full max-w-3xl rounded-sm",
+
+          {
+            "max-w-3xl": responsiveFrameMode === "desktop",
+            "max-w-md": responsiveFrameMode === "mobile",
+          }
+        )}
+      >
+        {children}
+      </div>
     </div>
   );
 };

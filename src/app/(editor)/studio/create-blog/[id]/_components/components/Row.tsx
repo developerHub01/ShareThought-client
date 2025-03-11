@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils";
 import { useParams } from "next/navigation";
 import handleBorderStyle from "@/utils/editor/handleBorderStyle";
 import handleBoxShadow from "@/utils/editor/handleBoxShadow";
+import { useEditor } from "@/app/(editor)/studio/create-blog/[id]/_context/EditorProvider";
 
 interface RowProps {
   id: string;
@@ -28,6 +29,7 @@ const getColSpan = (column: number) => {
 };
 
 const Row = ({ id, parentId }: RowProps) => {
+  const { responsiveFrameMode } = useEditor();
   const { id: blogId } = useParams<{ id: string }>();
 
   if (!blogId) return null;
@@ -67,7 +69,9 @@ const Row = ({ id, parentId }: RowProps) => {
             key={id}
             className={cn(
               "w-full h-full col-span-12",
-              getColSpan(gridSize?.[index] ?? 12)
+              getColSpan(
+                responsiveFrameMode === "mobile" ? 12 : gridSize?.[index] ?? 12
+              )
             )}
           >
             <Column id={id} parentId={id} />
