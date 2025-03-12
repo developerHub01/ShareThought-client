@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useMemo } from "react";
 import SelectBlock from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/SelectBlock";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useParams } from "next/navigation";
@@ -10,6 +10,8 @@ import {
 } from "@/redux/features/builders/blogBuilderSlice";
 import useActiveStylePropertyTab from "@/hooks/editor/use-active-style-property-tab";
 import { EDITOR_DEFAULT_VALUES } from "@/constant";
+import ResetToGlobalStyle from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/ResetToGlobalStyle";
+import useRemoveStyle from "@/hooks/editor/use-remove-style";
 
 const lineHeightList = [
   {
@@ -33,6 +35,7 @@ const lineHeightList = [
 const LineHeightProperty = () => {
   const dispatch = useAppDispatch();
   const { id: blogId } = useParams<{ id: string }>();
+  const handleReset = useRemoveStyle();
 
   if (!blogId) return null;
 
@@ -46,6 +49,11 @@ const LineHeightProperty = () => {
   if (!activeBlock) return null;
 
   const { type } = components[activeBlock];
+
+  const haveCustomStyle = useMemo(
+    () => "lineHeight" in styles[activeBlock],
+    [activeBlock, styles]
+  );
 
   const activeStyle = useActiveStylePropertyTab({
     type,
@@ -78,6 +86,12 @@ const LineHeightProperty = () => {
       )}
       itemList={lineHeightList}
       handleChange={handleChangeLineHeight}
+      AfterComponent={() => (
+        <ResetToGlobalStyle
+          disabled={!haveCustomStyle}
+          handleReset={() => handleReset("lineHeight")}
+        />
+      )}
     />
   );
 };
