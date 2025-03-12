@@ -10,7 +10,9 @@ interface CountBlockProps {
   handleIncrement: () => void;
   handleDecrement: () => void;
   handleChange: (e: ChangeEvent<HTMLInputElement>) => void;
-  [key: string]: unknown
+  BeforeComponent?: React.ComponentType; // Accepts a JSX component
+  AfterComponent?: React.ComponentType; // Accepts a JSX component
+  [key: string]: unknown;
 }
 
 const CountBlock = ({
@@ -19,12 +21,17 @@ const CountBlock = ({
   handleIncrement,
   handleDecrement,
   handleChange,
+  BeforeComponent,
+  AfterComponent,
   ...props
 }: CountBlockProps) => {
   return (
     <PropertyWrapper_v1>
       <p className="text-sm">{label}</p>
-      <div className="flex">
+      <div className="flex items-center gap-1">
+        {/* Render BeforeComponent if passed */}
+        {BeforeComponent && <BeforeComponent />}
+
         <ValueCounter
           min={0}
           value={value}
@@ -33,6 +40,9 @@ const CountBlock = ({
           handleChange={handleChange}
           {...props}
         />
+
+        {/* Render AfterComponent if passed */}
+        {AfterComponent && <AfterComponent />}
       </div>
     </PropertyWrapper_v1>
   );
