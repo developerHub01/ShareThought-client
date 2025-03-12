@@ -10,15 +10,15 @@ import {
 import { Button } from "@/components/ui/button";
 import { RotateCcw as ResetIcon } from "lucide-react";
 
-interface CheckGlobalStyleProps {
+interface ResetToGlobalStyleProps {
   disabled?: boolean;
   handleReset: () => void;
 }
 
-const CheckGlobalStyle = ({
+const ResetToGlobalStyle = ({
   disabled = false,
   handleReset,
-}: CheckGlobalStyleProps) => {
+}: ResetToGlobalStyleProps) => {
   return (
     <TooltipProvider>
       <Tooltip>
@@ -41,4 +41,4 @@ const CheckGlobalStyle = ({
   );
 };
 
-export default CheckGlobalStyle;
+export default ResetToGlobalStyle;

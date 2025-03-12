@@ -1,11 +1,13 @@
 "use client";
 
-import React from "react";
+import React, { useMemo } from "react";
 import SelectBlock from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/SelectBlock";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useParams } from "next/navigation";
 import { addStyle } from "@/redux/features/builders/blogBuilderSlice";
 import useActiveStylePropertyTab from "@/hooks/editor/use-active-style-property-tab";
+import ResetToGlobalStyle from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/ResetToGlobalStyle";
+import useRemoveStyle from "@/hooks/editor/use-remove-style";
 
 const fontWeightList = [
   {
@@ -21,6 +23,7 @@ const fontWeightList = [
 const FontWeightProperty = () => {
   const dispatch = useAppDispatch();
   const { id: blogId } = useParams<{ id: string }>();
+  const handleReset = useRemoveStyle();
 
   if (!blogId) return null;
 
@@ -34,6 +37,11 @@ const FontWeightProperty = () => {
   if (!activeBlock) return null;
 
   const { type } = components[activeBlock];
+
+  const haveCustomStyle = useMemo(
+    () => "fontWeight" in styles[activeBlock],
+    [activeBlock, styles]
+  );
 
   const activeStyle = useActiveStylePropertyTab({
     type,
@@ -60,9 +68,15 @@ const FontWeightProperty = () => {
   return (
     <SelectBlock
       label="Font Weight"
-      activeValue={String(activeStyle?.fontWeight || fontWeightList[0].id)}
+      activeValue={String(activeStyle?.fontWeight ?? fontWeightList[0].id)}
       itemList={fontWeightList}
       handleChange={handleChangeFontWeight}
+      AfterComponent={() => (
+        <ResetToGlobalStyle
+          disabled={!haveCustomStyle}
+          handleReset={() => handleReset("fontWeight")}
+        />
+      )}
     />
   );
 };

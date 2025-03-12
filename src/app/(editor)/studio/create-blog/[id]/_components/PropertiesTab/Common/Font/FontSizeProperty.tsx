@@ -7,7 +7,7 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useParams } from "next/navigation";
 import { EDITOR_DEFAULT_VALUES } from "@/constant";
 import useActiveStylePropertyTab from "@/hooks/editor/use-active-style-property-tab";
-import CheckGlobalStyle from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/CheckGlobalStyle";
+import ResetToGlobalStyle from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/ResetToGlobalStyle";
 import useRemoveStyle from "@/hooks/editor/use-remove-style";
 
 const FontSizeProperty = () => {
@@ -89,7 +89,7 @@ const FontSizeProperty = () => {
       min={EDITOR_DEFAULT_VALUES.FONT_SIZE.MIN}
       max={EDITOR_DEFAULT_VALUES.FONT_SIZE.MAX}
       AfterComponent={() => (
-        <CheckGlobalStyle
+        <ResetToGlobalStyle
           disabled={!haveCustomStyle}
           handleReset={() => handleReset("fontSize")}
         />

@@ -20,6 +20,8 @@ interface SelectBlockProps {
     id: string;
     label: string;
   }>;
+  BeforeComponent?: React.ComponentType; // Accepts a JSX component
+  AfterComponent?: React.ComponentType; // Accepts a JSX component
 }
 
 const SelectBlock = ({
@@ -28,11 +30,16 @@ const SelectBlock = ({
   handleChange,
   activeValue,
   itemList,
+  BeforeComponent,
+  AfterComponent,
 }: SelectBlockProps) => {
   return (
     <PropertyWrapper_v1>
       <p className="text-sm">{label}</p>
-      <div className="flex">
+      <div className="flex items-center gap-1">
+        {/* Render BeforeComponent if passed */}
+        {BeforeComponent && <BeforeComponent />}
+
         <Select
           defaultValue={activeValue}
           value={activeValue}
@@ -51,6 +58,9 @@ const SelectBlock = ({
             </SelectGroup>
           </SelectContent>
         </Select>
+
+        {/* Render AfterComponent if passed */}
+        {AfterComponent && <AfterComponent />}
       </div>
     </PropertyWrapper_v1>
   );
