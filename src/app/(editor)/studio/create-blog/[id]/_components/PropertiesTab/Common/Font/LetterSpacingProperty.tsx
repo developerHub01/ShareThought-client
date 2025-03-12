@@ -1,16 +1,19 @@
 "use client";
 
-import React, { ChangeEvent, useCallback } from "react";
+import React, { ChangeEvent, useCallback, useMemo } from "react";
 import CountBlock from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/CountBlock";
 import { EDITOR_DEFAULT_VALUES } from "@/constant";
 import { addStyle } from "@/redux/features/builders/blogBuilderSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useParams } from "next/navigation";
 import useActiveStylePropertyTab from "@/hooks/editor/use-active-style-property-tab";
+import ResetToGlobalStyle from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/ResetToGlobalStyle";
+import useRemoveStyle from "@/hooks/editor/use-remove-style";
 
 const LetterSpacingProperty = () => {
   const dispatch = useAppDispatch();
   const { id: blogId } = useParams<{ id: string }>();
+  const handleReset = useRemoveStyle();
 
   if (!blogId) return null;
 
@@ -24,6 +27,11 @@ const LetterSpacingProperty = () => {
   if (!activeBlock) return null;
 
   const { type } = components[activeBlock];
+
+  const haveCustomStyle = useMemo(
+    () => "letterSpacing" in styles[activeBlock],
+    [activeBlock, styles]
+  );
 
   const activeStyle = useActiveStylePropertyTab({
     type,
@@ -84,6 +92,12 @@ const LetterSpacingProperty = () => {
       min={EDITOR_DEFAULT_VALUES.LETTER_SPACING.MIN}
       max={EDITOR_DEFAULT_VALUES.LETTER_SPACING.MAX}
       step="0.01"
+      AfterComponent={() => (
+        <ResetToGlobalStyle
+          disabled={!haveCustomStyle}
+          handleReset={() => handleReset("letterSpacing")}
+        />
+      )}
     />
   );
 };

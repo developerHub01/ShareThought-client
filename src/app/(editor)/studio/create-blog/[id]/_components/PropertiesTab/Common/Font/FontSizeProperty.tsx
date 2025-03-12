@@ -80,7 +80,7 @@ const FontSizeProperty = () => {
     <CountBlock
       label="Font Size"
       value={
-        Number(activeStyle?.fontSize) ||
+        Number(activeStyle?.fontSize) ??
         EDITOR_DEFAULT_VALUES.FONT_SIZE.DEFAULT[type]
       }
       handleIncrement={() => handleDispatchSize("inc")}
