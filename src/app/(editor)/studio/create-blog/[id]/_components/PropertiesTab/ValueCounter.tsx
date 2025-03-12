@@ -40,7 +40,7 @@ const ValueCounter = ({
         type="number"
         value={value}
         onChange={handleChange}
-        className="w-12 text-center rounded-none"
+        className="w-12 text-center rounded-none hover:bg-accent focus:bg-accent"
         {...props}
       />
       <Button
