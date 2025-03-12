@@ -3,7 +3,7 @@
 import React, { ChangeEvent, useEffect, useState } from "react";
 import {
   addStyle,
-  removetyle,
+  removeStyle,
 } from "@/redux/features/builders/blogBuilderSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useParams } from "next/navigation";
@@ -70,7 +70,7 @@ const BoxShadowProperty = () => {
 
   const handleResetFilters = () => {
     dispatch(
-      removetyle({
+      removeStyle({
         blogId,
         activeBlockId: activeBlock,
         properyName: "boxShadow",

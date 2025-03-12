@@ -1495,7 +1495,7 @@ export const blogBuilderSlice = createSlice({
       };
     },
 
-    removetyle: (
+    removeStyle: (
       state,
       action: PayloadAction<{
         blogId: string;
@@ -2281,7 +2281,7 @@ export const {
   setAlignment,
   addStyle,
   addGlobalStyle,
-  removetyle,
+  removeStyle,
   changeType,
   /*** Table============= ***/
   addTableRows,
