@@ -24,12 +24,16 @@ import {
   TableInterface,
   TextDirectionType,
 } from "@/redux/features/builders/blogBuilderSlice";
+import {
+  selectBlogComponentById,
+  selectBlogStylesById,
+} from "@/redux/features/builders/selectors";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import handleWrapperContentStyleSeparator from "@/utils/editor/handleWrapperContentStyleSeparator";
 import { Plus as PlusIcon, Trash as TrashIcon } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { useParams } from "next/navigation";
-import React, { FocusEvent, useMemo, useRef, useState } from "react";
+import React, { FocusEvent, memo, useMemo, useRef, useState } from "react";
 
 const actionButtonAnim = {
   initial: { scale: 0, opacity: 0 },
@@ -76,7 +80,7 @@ interface TableProps {
   parentId?: string;
 }
 
-const Table = ({ id, parentId }: TableProps) => {
+const Table = memo(({ id, parentId }: TableProps) => {
   const [hoveredRow, setHoveredRow] = useState<number | null>(null);
   const [hoveredColumn, setHoveredColumn] = useState<number | null>(null);
   const [focusedRow, setFocusedRow] = useState<boolean>(false);
@@ -86,10 +90,12 @@ const Table = ({ id, parentId }: TableProps) => {
 
   if (!blogId) return null;
 
-  const {
-    metaData: { styles },
-    components,
-  } = useAppSelector((state) => state.blogBuilder.blogs[blogId]);
+  const { type, children } = useAppSelector((state) =>
+    selectBlogComponentById(state, blogId, id)
+  );
+  const styles = useAppSelector((state) =>
+    selectBlogStylesById(state, blogId, id)
+  );
 
   const dispatch = useAppDispatch();
 
@@ -102,11 +108,7 @@ const Table = ({ id, parentId }: TableProps) => {
     stripedRow,
     header,
     content,
-  } = components[id].children as TableInterface;
-
-  const { type } = components[id];
-
-  let activeBlockStyles = styles[id];
+  } = children as TableInterface;
 
   const handleRemoveRowOrColumn = (
     index: number,
@@ -242,7 +244,7 @@ const Table = ({ id, parentId }: TableProps) => {
   };
 
   const { contentStyles, wrapperStyles } =
-    handleWrapperContentStyleSeparator(activeBlockStyles);
+    handleWrapperContentStyleSeparator(styles);
 
   return (
     <div
@@ -256,7 +258,7 @@ const Table = ({ id, parentId }: TableProps) => {
       <table
         className="border-collapse w-full table-fixed text-sm text-left text-gray-500 dark:text-gray-400"
         style={{
-          ...(activeBlockStyles as Record<string, string | number>),
+          ...(styles as Record<string, string | number>),
           ...borderStyle,
           ...tableStyle,
           ...contentStyles,
@@ -485,7 +487,7 @@ const Table = ({ id, parentId }: TableProps) => {
       </table>
     </div>
   );
-};
+});
 
 interface TdThProps {
   children: React.ReactNode;

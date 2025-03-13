@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { memo } from "react";
 import ImageUploadCanvas from "@/app/(editor)/studio/create-blog/[id]/_components/components/ImageUploadCanvas";
 import { useParams } from "next/navigation";
 import { useAppSelector } from "@/redux/hooks";
@@ -8,6 +8,12 @@ import { StyleType } from "@/redux/features/builders/blogBuilderSlice";
 import handleHandleFilterStyle from "@/utils/editor/handleHandleFilterStyle";
 import handleBorderStyle from "@/utils/editor/handleBorderStyle";
 import handleWrapperContentStyleSeparator from "@/utils/editor/handleWrapperContentStyleSeparator";
+import {
+  selectBlogComponentById,
+  selectBlogImgLinkById,
+  selectBlogScreenType,
+  selectBlogStylesById,
+} from "@/redux/features/builders/selectors";
 interface ImageProps {
   id: string;
   parentId?: string;
@@ -16,31 +22,34 @@ interface ImageProps {
   [key: string]: unknown;
 }
 
-const Image = ({ id, parentId, ...props }: ImageProps) => {
+const Image = memo(({ id, parentId, ...props }: ImageProps) => {
   const { id: blogId } = useParams<{ id: string }>();
 
   if (!blogId) return null;
 
+  const styles = useAppSelector((state) =>
+    selectBlogStylesById(state, blogId, id)
+  );
   const {
-    metaData: { imgLinks, styles },
-    components,
-  } = useAppSelector((state) => state.blogBuilder.blogs[blogId]);
+    alt = "",
+    caption = "",
+    redirect,
+    type,
+  } = useAppSelector((state) => selectBlogComponentById(state, blogId, id));
+  const imageSrc = useAppSelector((state) =>
+    selectBlogImgLinkById(state, blogId, id)
+  );
 
-  const { alt = "", caption = "", redirect, type } = components[id];
-
-  const imageSrc = imgLinks && imgLinks[id];
   if (!imageSrc) return <ImageUploadCanvas id={id} blogId={blogId} />;
 
-  const imageStyles: StyleType = styles[id];
-
   let { contentStyles, wrapperStyles } =
-    handleWrapperContentStyleSeparator(imageStyles);
+    handleWrapperContentStyleSeparator(styles);
 
-  const filteredBorder = handleBorderStyle(imageStyles);
+  const filteredBorder = handleBorderStyle(styles);
 
   contentStyles = { ...contentStyles, ...filteredBorder };
 
-  const filterStyles = handleHandleFilterStyle(imageStyles);
+  const filterStyles = handleHandleFilterStyle(styles);
 
   contentStyles = { ...contentStyles, ...filterStyles };
 
@@ -107,6 +116,6 @@ const Image = ({ id, parentId, ...props }: ImageProps) => {
       <Comp />
     </a>
   );
-};
+});
 
 export default Image;

@@ -14,6 +14,11 @@ import { cn } from "@/lib/utils";
 import handlePaddingExtractor from "@/utils/editor/handlePaddingExtractor";
 import handleSpecificStyleRemover from "@/utils/editor/handleSpecificStyleRemover";
 import handleBoxShadowExtractor from "@/utils/editor/handleBoxShadowExtractor";
+import {
+  selectBlogActiveBlock,
+  selectBlogComponentById,
+  selectBlogStylesById,
+} from "@/redux/features/builders/selectors";
 
 interface ButtonProps {
   id: string;
@@ -24,22 +29,22 @@ const Button = ({ id, parentId, ...props }: ButtonProps) => {
   const { id: blogId } = useParams<{ id: string }>();
   const dispatch = useAppDispatch();
 
-  const {
-    metaData: { styles },
-    activeBlock,
-    components,
-  } = useAppSelector((state) => state.blogBuilder.blogs[blogId]);
+  const { text, redirect, type } = useAppSelector((state) =>
+    selectBlogComponentById(state, blogId, id)
+  );
+  const styles = useAppSelector((state) =>
+    selectBlogStylesById(state, blogId, id)
+  );
+  const activeBlock = useAppSelector((state) =>
+    selectBlogActiveBlock(state, blogId)
+  );
 
   if (!blogId) return null;
 
-  const { text, redirect, type } = components[id];
-
-  const buttonStyles: StyleType = styles[id];
-
   let { contentStyles, wrapperStyles } =
-    handleWrapperContentStyleSeparator(buttonStyles);
+    handleWrapperContentStyleSeparator(styles);
 
-  const filteredBorder = handleBorderStyle(buttonStyles);
+  const filteredBorder = handleBorderStyle(styles);
 
   contentStyles = { ...contentStyles, ...filteredBorder };
 

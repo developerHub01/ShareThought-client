@@ -1,35 +1,40 @@
 "use client";
 
 import { StyleType } from "@/redux/features/builders/blogBuilderSlice";
+import {
+  selectBlogComponentById,
+  selectBlogStylesById,
+} from "@/redux/features/builders/selectors";
 import { useAppSelector } from "@/redux/hooks";
 import handleBorderStyle from "@/utils/editor/handleBorderStyle";
 import handleWrapperContentStyleSeparator from "@/utils/editor/handleWrapperContentStyleSeparator";
 import { useParams } from "next/navigation";
-import React from "react";
+import React, { memo } from "react";
 
 interface DividerProps {
   id: string;
   parentId?: string;
 }
 
-const Divider = ({ id, parentId, ...props }: DividerProps) => {
+const Divider = memo(({ id, parentId, ...props }: DividerProps) => {
   const { id: blogId } = useParams<{ id: string }>();
 
   if (!blogId) return null;
 
-  const {
-    components,
-    metaData: { styles = {} },
-  } = useAppSelector((state) => state.blogBuilder.blogs[blogId]);
+  const styles = useAppSelector((state) =>
+    selectBlogStylesById(state, blogId, id)
+  );
 
-  if (!components[id]) return null;
+  const component = useAppSelector((state) =>
+    selectBlogComponentById(state, blogId, id)
+  );
 
-  const { type } = components[id];
+  if (component) return null;
 
-  const componentStyles = styles[id] || {};
+  const { type } = component;
 
   let { contentStyles, wrapperStyles } =
-    handleWrapperContentStyleSeparator(componentStyles);
+    handleWrapperContentStyleSeparator(styles);
 
   contentStyles = {
     ...contentStyles,
@@ -54,6 +59,6 @@ const Divider = ({ id, parentId, ...props }: DividerProps) => {
       ></div>
     </div>
   );
-};
+});
 
 export default Divider;

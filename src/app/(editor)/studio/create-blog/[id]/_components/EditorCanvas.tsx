@@ -1,6 +1,6 @@
 "use client";
 
-import React, { ChangeEvent, KeyboardEvent } from "react";
+import React, { ChangeEvent, KeyboardEvent, memo } from "react";
 import { DndContext } from "@dnd-kit/core";
 import AddComponentSection from "@/app/(editor)/studio/create-blog/[id]/_components/BuilderPopover/AddComponentSection";
 import ComponentDialog from "@/app/(editor)/studio/create-blog/[id]/_components/BuilderPopover/ComponentDialog";
@@ -15,21 +15,23 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import EditorPopover from "@/app/(editor)/studio/create-blog/[id]/_components/ImageEditor/EditorPopover";
 import PreviewPopover from "@/app/(editor)/studio/create-blog/[id]/_components/Preview/PreviewPopover";
 import LeftSidebar from "@/app/(editor)/studio/create-blog/[id]/_components/LeftSidebar/LeftSidebar";
+import {
+  selectBlogContent,
+  selectBlogTitle,
+} from "@/redux/features/builders/selectors";
 
-const EditorBlogTitle = () => {
-  const { id: postId } = useParams<{ id: string }>();
+const EditorBlogTitle = memo(() => {
+  const { id: blogId } = useParams<{ id: string }>();
   const dispatch = useAppDispatch();
 
-  const { title } = useAppSelector(
-    (state) => state?.blogBuilder?.blogs?.[postId] ?? {}
-  );
+  const title = useAppSelector((state) => selectBlogTitle(state, blogId));
 
-  if (title ?? false) return;
+  console.log("Re-run title ===========");
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     dispatch(
       updateTitle({
-        id: postId,
+        id: blogId,
         title: e.target.value,
       })
     );
@@ -51,16 +53,14 @@ const EditorBlogTitle = () => {
       />
     </div>
   );
-};
+});
 
-const EditorCanvas = () => {
-  const { id: postId } = useParams<{ id: string }>();
+const EditorCanvas = memo(() => {
+  const { id: blogId } = useParams<{ id: string }>();
 
-  const { content } = useAppSelector(
-    (state) => state?.blogBuilder?.blogs?.[postId] ?? {}
-  );
+  const content = useAppSelector((state) => selectBlogContent(state, blogId));
 
-  if (!content) return null;
+  console.log({ content });
 
   return (
     <DndContext>
@@ -97,7 +97,7 @@ const EditorCanvas = () => {
               </section>
             </form>
           </ScrollArea>
-          <EditorSidebar />
+          {/* <EditorSidebar /> */}
         </section>
         <ComponentDialog />
         <EditorPopover />
@@ -105,6 +105,6 @@ const EditorCanvas = () => {
       </section>
     </DndContext>
   );
-};
+});
 
 export default EditorCanvas;

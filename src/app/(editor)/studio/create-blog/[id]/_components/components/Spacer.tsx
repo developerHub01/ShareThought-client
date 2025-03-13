@@ -1,6 +1,10 @@
 "use client";
 
 import { cn } from "@/lib/utils";
+import {
+  selectBlogComponentById,
+  selectBlogStylesById,
+} from "@/redux/features/builders/selectors";
 import { useAppSelector } from "@/redux/hooks";
 import { useParams } from "next/navigation";
 import React, { CSSProperties } from "react";
@@ -17,22 +21,23 @@ const Spacer = ({ id, parentId, className, ...props }: SpacerProps) => {
 
   if (!blogId) return null;
 
-  const {
-    components,
-    metaData: { styles = {} },
-  } = useAppSelector((state) => state.blogBuilder.blogs[blogId]);
+  const styles = useAppSelector((state) =>
+    selectBlogStylesById(state, blogId, id)
+  ) as CSSProperties;
 
-  if (!components[id]) return null;
+  const component = useAppSelector((state) =>
+    selectBlogComponentById(state, blogId, id)
+  );
 
-  const { type } = components[id];
+  if (!component) return null;
 
-  const componentStyles = (styles[id] as CSSProperties) || {};
+  const { type } = component;
 
   return (
     <div
       className={cn("", className)}
       style={{
-        ...componentStyles,
+        ...styles,
       }}
       data-component-type={type}
       data-component-id={id}

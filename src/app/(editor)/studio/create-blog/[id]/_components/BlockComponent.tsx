@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { memo } from "react";
 import Heading from "@/app/(editor)/studio/create-blog/[id]/_components/components/Heading";
 import Row from "@/app/(editor)/studio/create-blog/[id]/_components/components/Row";
 import Table from "@/app/(editor)/studio/create-blog/[id]/_components/components/Table";
@@ -13,18 +13,16 @@ import Accordion from "@/app/(editor)/studio/create-blog/[id]/_components/compon
 import BlockComponentWrapper from "@/app/(editor)/studio/create-blog/[id]/_components/BlockComponentWrapper";
 import { useParams } from "next/navigation";
 import { useAppSelector } from "@/redux/hooks";
+import { selectBlogComponentById } from "@/redux/features/builders/selectors";
 
-const Block = ({ id, parentId }: { id: string; parentId?: string }) => {
+const Block = memo(({ id, parentId }: { id: string; parentId?: string }) => {
   const { id: blogId } = useParams<{ id: string }>();
 
   if (!blogId) return null;
 
-  const { components } = useAppSelector(
-    (state) => state.blogBuilder.blogs[blogId]
+  const component = useAppSelector((state) =>
+    selectBlogComponentById(state, blogId, id)
   );
-  const component = components[id];
-
-  if (!component) return null;
 
   const { type } = component;
 
@@ -48,7 +46,7 @@ const Block = ({ id, parentId }: { id: string; parentId?: string }) => {
     return <Accordion id={id} parentId={parentId} />;
   }
   return null;
-};
+});
 
 const BlockComponent = ({
   lavel,

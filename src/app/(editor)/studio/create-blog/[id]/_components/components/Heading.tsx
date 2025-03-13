@@ -3,8 +3,12 @@
 import { updateComponentText } from "@/redux/features/builders/blogBuilderSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useParams } from "next/navigation";
-import React, { CSSProperties, FocusEvent } from "react";
+import React, { FocusEvent } from "react";
 import { TYPOGRAPHY_LIST } from "@/constant";
+import {
+  selectBlogComponentById,
+  selectBlogStylesById,
+} from "@/redux/features/builders/selectors";
 
 interface HeadingProps {
   id: string;
@@ -15,16 +19,17 @@ const Heading = ({ id, parentId, ...props }: HeadingProps) => {
   const { id: blogId } = useParams<{ id: string }>();
   const dispatch = useAppDispatch();
 
-  const {
-    metaData: { styles },
-    components,
-  } = useAppSelector((state) => state.blogBuilder.blogs[blogId]);
+  const styles = useAppSelector((state) =>
+    selectBlogStylesById(state, blogId, id)
+  );
+
+  const component = useAppSelector((state) =>
+    selectBlogComponentById(state, blogId, id)
+  );
 
   if (!blogId) return null;
 
-  const { type, text } = components[id];
-
-  const typographyStyles = styles[id] as CSSProperties;
+  const { type, text } = component;
 
   const handleBlur = (
     e: FocusEvent<HTMLHeadElement | HTMLParagraphElement>
@@ -52,7 +57,7 @@ const Heading = ({ id, parentId, ...props }: HeadingProps) => {
         onBlur={handleBlur}
         className={defaultClassName}
         style={{
-          ...typographyStyles,
+          ...styles,
         }}
       >
         {text}

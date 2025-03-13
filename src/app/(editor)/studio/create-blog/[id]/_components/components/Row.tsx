@@ -7,6 +7,11 @@ import { cn } from "@/lib/utils";
 import { useParams } from "next/navigation";
 import handleBorderStyle from "@/utils/editor/handleBorderStyle";
 import handleBoxShadow from "@/utils/editor/handleBoxShadow";
+import {
+  selectBlogComponentById,
+  selectBlogStylesById,
+  selectBlogScreenType,
+} from "@/redux/features/builders/selectors";
 
 interface RowProps {
   id: string;
@@ -27,25 +32,26 @@ const getColSpan = (column: number) => {
   return colSpanMap[column] || "md:col-span-12"; // Fallback to col-span-12
 };
 
-const Row = ({ id, parentId }: RowProps) => {
+const Row = ({ id }: RowProps) => {
   const { id: blogId } = useParams<{ id: string }>();
-
-  const { screenType } = useAppSelector(
-    (state) => state.blogBuilder.blogs[blogId]
-  );
 
   if (!blogId) return null;
 
-  const {
-    components,
-    metaData: { styles = {} },
-  } = useAppSelector((state) => state?.blogBuilder?.blogs[blogId]) || {};
+  const screenType = useAppSelector((state) =>
+    selectBlogScreenType(state, blogId)
+  );
 
-  const { children, gridSize } = components[id];
+  const styles = useAppSelector((state) =>
+    selectBlogStylesById(state, blogId, id)
+  );
 
-  const { type } = components[id];
+  const component = useAppSelector((state) =>
+    selectBlogComponentById(state, blogId, id)
+  );
 
-  let componentStyles = styles[id] || {};
+  const { children, gridSize, type } = component;
+
+  let componentStyles = styles;
 
   componentStyles = {
     ...componentStyles,

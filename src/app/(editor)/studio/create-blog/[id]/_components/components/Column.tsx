@@ -5,6 +5,10 @@ import BlockComponentWrapper from "@/app/(editor)/studio/create-blog/[id]/_compo
 import AddComponentSection from "@/app/(editor)/studio/create-blog/[id]/_components/BuilderPopover/AddComponentSection";
 import { cn } from "@/lib/utils";
 import { StyleType } from "@/redux/features/builders/blogBuilderSlice";
+import {
+  selectBlogComponentById,
+  selectBlogStylesById,
+} from "@/redux/features/builders/selectors";
 import { useAppSelector } from "@/redux/hooks";
 import handleBorderStyle from "@/utils/editor/handleBorderStyle";
 import handleBoxShadow from "@/utils/editor/handleBoxShadow";
@@ -18,20 +22,18 @@ interface RowProps {
 }
 
 const Column = ({ id, ...props }: RowProps) => {
-  const { id: postId } = useParams<{ id: string }>();
+  const { id: blogId } = useParams<{ id: string }>();
 
-  if (!postId) return;
+  if (!blogId) return;
 
-  const {
-    components,
-    metaData: { styles = {} },
-  } = useAppSelector((state) => state?.blogBuilder?.blogs[postId]) || {};
+  const { children, type } = useAppSelector((state) =>
+    selectBlogComponentById(state, blogId, id)
+  );
+  const styles = useAppSelector((state) =>
+    selectBlogStylesById(state, blogId, id)
+  );
 
-  if (!components[id]) return null;
-
-  const { children, type } = components[id];
-
-  let componentStyles: StyleType = styles[id] || {};
+  let componentStyles: StyleType = styles ?? {};
 
   componentStyles = {
     ...componentStyles,

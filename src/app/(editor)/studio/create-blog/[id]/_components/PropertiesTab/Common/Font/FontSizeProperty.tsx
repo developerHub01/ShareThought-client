@@ -24,6 +24,8 @@ const FontSizeProperty = () => {
     metaData: { styles = {}, mobileStyles = {}, globalStyles },
   } = useAppSelector((state) => state.blogBuilder.blogs[blogId]);
 
+  console.log("Re-run fontsize property===========");
+
   if (!activeBlock) return null;
 
   const { type } = components[activeBlock];
