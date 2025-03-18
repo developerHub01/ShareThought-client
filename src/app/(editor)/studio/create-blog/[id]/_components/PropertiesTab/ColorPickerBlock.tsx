@@ -50,7 +50,7 @@ const ColorPickerBlock = ({
       <input
         type="text"
         value={color}
-        className="min-w-16 w-fit max-w-20 text-center rounded-none"
+        className="min-w-16 w-fit max-w-20 text-center rounded-none bg-transparent"
         onChange={handleColorChange}
         onBlur={handleColorBlur}
       />

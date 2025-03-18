@@ -97,7 +97,7 @@ const LeftSidebar = () => {
             </Tooltip>
           ))}
         </TooltipProvider>
-        <ResponsiveToggleBlock className="flex-col" />
+        <ResponsiveToggleBlock orientation="vertical" className="flex-col" />
       </div>
       <Content />
     </div>
