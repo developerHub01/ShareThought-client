@@ -6,6 +6,7 @@ import React, {
   useEffect,
   useState,
   useCallback,
+  memo,
 } from "react";
 import { ColorResult } from "react-color";
 import { isValidHexColor } from "@/utils";
@@ -15,23 +16,36 @@ import { useParams } from "next/navigation";
 import ColorBlock from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/ColorBlock";
 import { EDITOR_DEFAULT_VALUES } from "@/constant";
 import useActiveStylePropertyTab from "@/hooks/editor/use-active-style-property-tab";
+import {
+  selectBlogActiveBlock,
+  selectBlogComponentById,
+  selectBlogGlobalStyle,
+  selectBlogStylesById,
+} from "@/redux/features/builders/selectors";
 
-const TextColorProperty = () => {
+const TextColorProperty = memo(() => {
   const { id: blogId } = useParams<{ id: string }>();
   if (!blogId) return null;
 
-  const {
-    activeBlock,
-    components,
-    metaData: { styles, globalStyles },
-  } = useAppSelector((state) => state.blogBuilder.blogs[blogId]);
+  const activeBlock = useAppSelector((state) =>
+    selectBlogActiveBlock(state, blogId)
+  );
+  const globalStyles = useAppSelector((state) =>
+    selectBlogGlobalStyle(state, blogId)
+  );
 
   if (!activeBlock) return null;
 
-  const { type } = components[activeBlock];
+  const styles = useAppSelector((state) =>
+    selectBlogStylesById(state, blogId, activeBlock)
+  );
+  const { type } = useAppSelector((state) =>
+    selectBlogComponentById(state, blogId, activeBlock)
+  );
+
+  console.log("Re-run TextColor property===========");
 
   const { color } = useActiveStylePropertyTab({
-    activeBlock,
     propertyName: "color",
     styles,
     globalStyles,
@@ -108,6 +122,6 @@ const TextColorProperty = () => {
       handleColorBlur={handleColorBlur}
     />
   );
-};
+});
 
 export default TextColorProperty;

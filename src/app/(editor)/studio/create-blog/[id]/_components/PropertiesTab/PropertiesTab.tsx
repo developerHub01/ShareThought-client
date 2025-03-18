@@ -30,20 +30,32 @@ import ColumnStyles from "@/app/(editor)/studio/create-blog/[id]/_components/Pro
 import RowLayout from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Row/Layout/RowLayout";
 import ColumnLayout from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Column/Layout/ColumnLayout";
 import HidePropertyInMobile from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/HidePropertyInMobile";
+import {
+  selectBlogActiveBlock,
+  selectBlogComponentById,
+  selectBlogImgLinkById,
+} from "@/redux/features/builders/selectors";
+import { memo } from "react";
 
-const PropertiesTab = () => {
+const PropertiesTab = memo(() => {
   const { id: blogId } = useParams<{ id: string }>();
-  const {
-    activeBlock,
-    components,
-    metaData: { imgLinks },
-  } = useAppSelector((state) => state.blogBuilder.blogs[blogId]);
+
+  const activeBlock = useAppSelector((state) =>
+    selectBlogActiveBlock(state, blogId)
+  );
 
   if (!activeBlock) return null;
 
-  const activeComponent = components[activeBlock];
+  const activeComponent = useAppSelector((state) =>
+    selectBlogComponentById(state, blogId, activeBlock)
+  );
+  const activeBlockImgLink = useAppSelector((state) =>
+    selectBlogImgLinkById(state, blogId, activeBlock)
+  );
 
   if (!activeComponent) return null;
+
+  console.log("PropertiesTab ============");
 
   return (
     <div className="w-full h-full">
@@ -99,7 +111,7 @@ const PropertiesTab = () => {
                 <ImageContent />
               </PropertyTypeWrapper>
 
-              {imgLinks && imgLinks[activeBlock] && (
+              {activeBlockImgLink && (
                 <>
                   <PropertyTypeWrapper id="image_layout" label="Layout">
                     <ImageLayout />
@@ -110,7 +122,7 @@ const PropertiesTab = () => {
                 </>
               )}
 
-              {imgLinks && imgLinks[activeBlock] && (
+              {activeBlockImgLink && (
                 <PropertyTypeWrapper id="image_filters" label="Filters">
                   <ImageFilters />
                 </PropertyTypeWrapper>
@@ -225,6 +237,6 @@ const PropertiesTab = () => {
       </Accordion>
     </div>
   );
-};
+});
 
 export default PropertiesTab;

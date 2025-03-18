@@ -4,6 +4,7 @@ import {
   BlockTypes,
   ScreenTypes,
   StylesInterface,
+  StyleType,
 } from "@/redux/features/builders/blogBuilderSlice";
 import filterStyle from "@/utils/editor/filterStyle";
 import { CSSProperties, useMemo } from "react";
@@ -15,9 +16,8 @@ interface useActiveStylePropertyTabProps {
     desktop: Record<string, unknown>;
     mobile: Record<string, unknown>;
   };
-  activeBlock: string;
-  styles: StylesInterface;
-  mobileStyles?: StylesInterface;
+  styles: StyleType;
+  mobileStyles?: StyleType;
   screenType?: ScreenTypes;
   propertyName: keyof CSSProperties;
 }
@@ -25,7 +25,6 @@ interface useActiveStylePropertyTabProps {
 const useActiveStylePropertyTab = ({
   type,
   globalStyles,
-  activeBlock,
   styles,
   mobileStyles = {},
   screenType = "desktop",
@@ -43,12 +42,12 @@ const useActiveStylePropertyTab = ({
   return useMemo(
     () => ({
       ...activeStyle,
-      ...filterStyle(styles[activeBlock], propertyName),
+      ...filterStyle(styles, propertyName),
       ...(screenType === "mobile"
-        ? filterStyle(mobileStyles[activeBlock], propertyName)
+        ? filterStyle(mobileStyles, propertyName)
         : {}),
     }),
-    [styles, activeBlock, mobileStyles, screenType, activeStyle]
+    [styles, mobileStyles, screenType, activeStyle]
   );
 };
 

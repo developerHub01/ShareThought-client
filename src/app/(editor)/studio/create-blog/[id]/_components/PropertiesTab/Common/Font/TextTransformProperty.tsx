@@ -1,6 +1,6 @@
 "use client";
 
-import React, { CSSProperties } from "react";
+import React, { CSSProperties, memo } from "react";
 import TextAlignBlock from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/TextAlignBlock";
 import {
   ALargeSmall as CapitalizeIcon,
@@ -14,6 +14,10 @@ import {
 } from "@/redux/features/builders/blogBuilderSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useParams } from "next/navigation";
+import {
+  selectBlogActiveBlock,
+  selectBlogStylesById,
+} from "@/redux/features/builders/selectors";
 
 const transformList = [
   {
@@ -38,20 +42,23 @@ const transformList = [
   },
 ];
 
-const TextTransformProperty = () => {
+const TextTransformProperty = memo(() => {
   const dispatch = useAppDispatch();
   const { id: blogId } = useParams<{ id: string }>();
 
   if (!blogId) return null;
 
-  const {
-    activeBlock,
-    metaData: { styles },
-  } = useAppSelector((state) => state.blogBuilder.blogs[blogId]);
+  const activeBlock = useAppSelector((state) =>
+    selectBlogActiveBlock(state, blogId)
+  );
 
   if (!activeBlock) return null;
 
-  const activeStyle = styles[activeBlock] as CSSProperties;
+  const styles = useAppSelector((state) =>
+    selectBlogStylesById(state, blogId, activeBlock)
+  ) as CSSProperties;
+
+  console.log("Re-run textTransform property===========");
 
   const handleChangeTransform = (value: string) => {
     dispatch(
@@ -68,11 +75,11 @@ const TextTransformProperty = () => {
   return (
     <TextAlignBlock
       title="Text Transform"
-      activeAlign={activeStyle?.textTransform || "none"}
+      activeAlign={styles?.textTransform || "none"}
       handleChange={handleChangeTransform}
       alignList={transformList}
     />
   );
-};
+});
 
 export default TextTransformProperty;

@@ -9,6 +9,10 @@ import {
   TypographyType,
 } from "@/redux/features/builders/blogBuilderSlice";
 import { typographyTypeList } from "@/constant";
+import {
+  selectBlogActiveBlock,
+  selectBlogComponentById,
+} from "@/redux/features/builders/selectors";
 
 const TypographyContentType = () => {
   const dispatch = useAppDispatch();
@@ -16,13 +20,15 @@ const TypographyContentType = () => {
 
   if (!blogId) return null;
 
-  const { activeBlock, components } = useAppSelector(
-    (state) => state.blogBuilder.blogs[blogId]
+  const activeBlock = useAppSelector((state) =>
+    selectBlogActiveBlock(state, blogId)
   );
 
   if (!activeBlock) return null;
 
-  const typographyType = components[activeBlock].type;
+  const { type } = useAppSelector((state) =>
+    selectBlogComponentById(state, blogId, activeBlock)
+  );
 
   const handleChangeTypographyType = (value: TypographyType) => {
     dispatch(
@@ -37,7 +43,7 @@ const TypographyContentType = () => {
   return (
     <SelectBlock
       label="Type"
-      activeValue={typographyType || typographyTypeList[0].id}
+      activeValue={type || typographyTypeList[0].id}
       itemList={typographyTypeList}
       handleChange={(value) =>
         handleChangeTypographyType(value as TypographyType)

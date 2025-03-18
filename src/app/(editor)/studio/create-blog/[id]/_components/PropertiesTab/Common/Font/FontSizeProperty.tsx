@@ -1,6 +1,6 @@
 "use client";
 
-import React, { ChangeEvent, useCallback, useMemo } from "react";
+import React, { ChangeEvent, memo, useCallback, useMemo } from "react";
 import CountBlock from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/CountBlock";
 import { addStyle } from "@/redux/features/builders/blogBuilderSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
@@ -9,41 +9,58 @@ import { EDITOR_DEFAULT_VALUES } from "@/constant";
 import useActiveStylePropertyTab from "@/hooks/editor/use-active-style-property-tab";
 import ResetToGlobalStyle from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/ResetToGlobalStyle";
 import useRemoveStyle from "@/hooks/editor/use-remove-style";
+import {
+  selectBlogActiveBlock,
+  selectBlogComponentById,
+  selectBlogGlobalStyle,
+  selectBlogMobileStylesById,
+  selectBlogScreenType,
+  selectBlogStylesById,
+} from "@/redux/features/builders/selectors";
 
-const FontSizeProperty = () => {
+const FontSizeProperty = memo(() => {
   const dispatch = useAppDispatch();
   const { id: blogId } = useParams<{ id: string }>();
   const handleReset = useRemoveStyle();
 
   if (!blogId) return null;
 
-  const {
-    activeBlock,
-    components,
-    screenType = "desktop",
-    metaData: { styles = {}, mobileStyles = {}, globalStyles },
-  } = useAppSelector((state) => state.blogBuilder.blogs[blogId]);
-
-  console.log("Re-run fontsize property===========");
+  const activeBlock = useAppSelector((state) =>
+    selectBlogActiveBlock(state, blogId)
+  );
+  const screenType = useAppSelector((state) =>
+    selectBlogScreenType(state, blogId)
+  );
+  const globalStyles = useAppSelector((state) =>
+    selectBlogGlobalStyle(state, blogId)
+  );
 
   if (!activeBlock) return null;
 
-  const { type } = components[activeBlock];
-
-  const haveCustomStyle = useMemo(
-    () => "fontSize" in styles[activeBlock],
-    [activeBlock, styles]
+  const styles = useAppSelector((state) =>
+    selectBlogStylesById(state, blogId, activeBlock)
   );
+  const mobileStyles = useAppSelector((state) =>
+    selectBlogMobileStylesById(state, blogId, activeBlock)
+  );
+  const { type } = useAppSelector((state) =>
+    selectBlogComponentById(state, blogId, activeBlock)
+  );
+
+  console.log("Re-run fontsize property===========");
+
+  const haveCustomStyle = useMemo(() => "fontSize" in styles, [styles]);
 
   const activeStyle = useActiveStylePropertyTab({
     type,
     globalStyles,
-    activeBlock,
     styles,
     mobileStyles,
     screenType,
     propertyName: "fontSize",
   });
+
+  if (!activeStyle) return null;
 
   const handleDispatchSize = useCallback(
     (fontSize: number | "inc" | "dec") => {
@@ -98,6 +115,6 @@ const FontSizeProperty = () => {
       )}
     />
   );
-};
+});
 
 export default FontSizeProperty;

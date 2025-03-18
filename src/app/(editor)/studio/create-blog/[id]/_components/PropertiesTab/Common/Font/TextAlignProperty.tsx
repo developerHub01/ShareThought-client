@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { memo } from "react";
 import TextAlignBlock from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/TextAlignBlock";
 import {
   AlignCenter,
@@ -16,6 +16,13 @@ import {
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useParams } from "next/navigation";
 import useActiveStylePropertyTab from "@/hooks/editor/use-active-style-property-tab";
+import {
+  selectBlogActiveBlock,
+  selectBlogComponentById,
+  selectBlogMobileStylesById,
+  selectBlogScreenType,
+  selectBlogStylesById,
+} from "@/redux/features/builders/selectors";
 
 const alignList: Array<{
   id: AlignType;
@@ -44,22 +51,35 @@ const alignList: Array<{
   },
 ];
 
-const TextAlignProperty = () => {
+const TextAlignProperty = memo(() => {
   const dispatch = useAppDispatch();
   const { id: blogId } = useParams<{ id: string }>();
 
   if (!blogId) return null;
 
-  const {
-    activeBlock,
-    screenType = "desktop",
-    metaData: { styles = {}, mobileStyles = {} },
-  } = useAppSelector((state) => state.blogBuilder.blogs[blogId]);
+  const activeBlock = useAppSelector((state) =>
+    selectBlogActiveBlock(state, blogId)
+  );
+  const screenType = useAppSelector((state) =>
+    selectBlogScreenType(state, blogId)
+  );
 
   if (!activeBlock) return null;
 
+  const styles = useAppSelector((state) =>
+    selectBlogStylesById(state, blogId, activeBlock)
+  );
+  const mobileStyles = useAppSelector((state) =>
+    selectBlogMobileStylesById(state, blogId, activeBlock)
+  );
+  const { type } = useAppSelector((state) =>
+    selectBlogComponentById(state, blogId, activeBlock)
+  );
+
+  console.log("Re-run textAlign property===========");
+
   const activeStyle = useActiveStylePropertyTab({
-    activeBlock,
+    type,
     styles,
     mobileStyles,
     screenType,
@@ -86,6 +106,6 @@ const TextAlignProperty = () => {
       alignList={alignList}
     />
   );
-};
+});
 
 export default TextAlignProperty;
