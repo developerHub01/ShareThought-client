@@ -7,6 +7,7 @@ import React, {
   useState,
   useCallback,
   useMemo,
+  memo,
 } from "react";
 import { ColorResult } from "react-color";
 import { isValidHexColor } from "@/utils";
@@ -16,17 +17,23 @@ import { useParams } from "next/navigation";
 import ColorBlock from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/ColorBlock";
 import { EDITOR_DEFAULT_VALUES } from "@/constant";
 import { useSettingTypography } from "@/app/(editor)/studio/create-blog/[id]/_context/SettingTab/SettingTypographyProvider";
+import {
+  selectBlogGlobalStyle,
+  selectBlogScreenType,
+} from "@/redux/features/builders/selectors";
 
-const TypographyColor = () => {
+const TypographyColor = memo(() => {
   const { id: blogId } = useParams<{ id: string }>();
   const { selectedTypography: type } = useSettingTypography();
 
   if (!blogId || !type) return null;
 
-  const {
-    screenType = "desktop",
-    metaData: { globalStyles },
-  } = useAppSelector((state) => state.blogBuilder.blogs[blogId]);
+  const screenType = useAppSelector((state) =>
+    selectBlogScreenType(state, blogId)
+  );
+  const globalStyles = useAppSelector((state) =>
+    selectBlogGlobalStyle(state, blogId)
+  );
 
   const activeStyle = useMemo(
     () => globalStyles[screenType][type],
@@ -106,6 +113,6 @@ const TypographyColor = () => {
       handleColorBlur={handleColorBlur}
     />
   );
-};
+});
 
 export default TypographyColor;

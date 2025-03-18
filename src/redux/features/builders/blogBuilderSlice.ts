@@ -206,7 +206,7 @@ export interface BlogBuilderState {
     [id: string]: BlogStateInterface & {
       editorOrPreview: editorOrPreviewTypes;
       activeBlock: string | null;
-      screenType?: ScreenTypes;
+      screenType: ScreenTypes;
     };
   };
   isImageEditorOpen: boolean;

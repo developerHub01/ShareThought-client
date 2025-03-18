@@ -7,7 +7,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
-import clsx from "clsx";
+import { OrientationType } from "@/types";
 import { LucideIcon } from "lucide-react";
 import React from "react";
 
@@ -20,7 +20,7 @@ interface ToggleListProps {
   }>;
   activeItem: string;
   className?: string;
-  orientation?: "vertical" | "horizontal";
+  orientation?: OrientationType;
   size?: "default" | "sm";
 }
 
@@ -49,7 +49,7 @@ const ToggleList = ({
                   value={id}
                   aria-label={label}
                   size={size}
-                  className={clsx(
+                  className={cn(
                     "data-[state=on]:bg-primary data-[state=on]:text-primary-foreground",
                     {
                       "rounded-r-none":

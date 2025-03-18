@@ -97,7 +97,7 @@ const EditorCanvas = memo(() => {
               </section>
             </form>
           </ScrollArea>
-          {/* <EditorSidebar /> */}
+          <EditorSidebar />
         </section>
         <ComponentDialog />
         <EditorPopover />

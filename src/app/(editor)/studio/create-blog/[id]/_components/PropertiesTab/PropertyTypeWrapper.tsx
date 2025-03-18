@@ -17,7 +17,10 @@ const PropertyTypeWrapper = ({
   children,
 }: PropertyTypeWrapperProps) => {
   return (
-    <AccordionItem value={id} className="border-b border-gray-200 dark:border-gray-700">
+    <AccordionItem
+      value={id}
+      className="border-b border-gray-200 dark:border-gray-700"
+    >
       <AccordionTrigger className="p-3 border-b text-base bg-accent">
         {label}
       </AccordionTrigger>
@@ -25,5 +28,4 @@ const PropertyTypeWrapper = ({
     </AccordionItem>
   );
 };
-
 export default PropertyTypeWrapper;

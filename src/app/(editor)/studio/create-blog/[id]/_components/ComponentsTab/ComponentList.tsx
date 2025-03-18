@@ -1,11 +1,11 @@
 "use client";
 
-import React from "react";
+import React, { memo } from "react";
 import ComponentButton from "@/app/(editor)/studio/create-blog/[id]/_components/ComponentButton";
 import { componentItemList } from "@/app/(editor)/studio/create-blog/[id]/_constant";
 import ComponentItemList from "@/app/(editor)/studio/create-blog/[id]/_components/ComponentsTab/ComponentItemList";
 
-const ComponentList = () => {
+const ComponentList = memo(() => {
   return (
     <ComponentItemList.Wrapper className="flex flex-col gap-3">
       <ComponentItemList.Title>Components</ComponentItemList.Title>
@@ -23,6 +23,6 @@ const ComponentList = () => {
       </div>
     </ComponentItemList.Wrapper>
   );
-};
+});
 
 export default ComponentList;

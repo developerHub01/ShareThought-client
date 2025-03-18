@@ -1,12 +1,12 @@
 "use client";
 
-import React, { useMemo } from "react";
+import React, { memo, useMemo } from "react";
 import { BlockTypes } from "@/redux/features/builders/blogBuilderSlice";
 import { layoutItemList } from "@/app/(editor)/studio/create-blog/[id]/_constant";
 import ComponentItemList from "@/app/(editor)/studio/create-blog/[id]/_components/ComponentsTab/ComponentItemList";
 import LayoutButton from "@/app/(editor)/studio/create-blog/[id]/_components/LayoutButton";
 
-const LayoutList = () => {
+const LayoutList = memo(() => {
   const modifiedLayoutList = useMemo(() => {
     return layoutItemList.map((item) => ({
       id: `row_${item}`,
@@ -37,6 +37,6 @@ const LayoutList = () => {
       </div>
     </ComponentItemList.Wrapper>
   );
-};
+});
 
 export default LayoutList;

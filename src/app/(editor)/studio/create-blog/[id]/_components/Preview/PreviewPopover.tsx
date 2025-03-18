@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
-import React from "react";
+import React, { memo } from "react";
 import {
   Drawer,
   DrawerContentWitoutHandler,
@@ -15,7 +15,7 @@ import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import PreviewContent from "@/app/(editor)/studio/create-blog/[id]/_components/Preview/PreviewContent";
 
-const PreviewPopover = () => {
+const PreviewPopover = memo(() => {
   const params = useSearchParams();
   const router = useRouter();
   const { modifyParams, buildFullPath } = useModifyQueryParams();
@@ -60,6 +60,6 @@ const PreviewPopover = () => {
       </DrawerContentWitoutHandler>
     </Drawer>
   );
-};
+});
 
 export default PreviewPopover;

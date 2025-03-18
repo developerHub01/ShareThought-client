@@ -1,28 +1,36 @@
 "use client";
 
-import React, { ChangeEvent, useCallback } from "react";
+import React, { ChangeEvent, memo, useCallback } from "react";
 import CountBlock from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/CountBlock";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useParams } from "next/navigation";
 import { EDITOR_DEFAULT_VALUES } from "@/constant";
 import { addGlobalStyle } from "@/redux/features/builders/blogBuilderSlice";
 import useActiveStyleSettingTab from "@/hooks/editor/use-active-style-setting-tab";
+import {
+  selectBlogGlobalStyle,
+  selectBlogScreenType,
+} from "@/redux/features/builders/selectors";
 
 interface GapSizeProps {
   type: "row" | "column";
   label: string;
 }
 
-const GapSize = ({ type, label }: GapSizeProps) => {
+const GapSize = memo(({ type, label }: GapSizeProps) => {
   const dispatch = useAppDispatch();
   const { id: blogId } = useParams<{ id: string }>();
 
   if (!blogId) return null;
 
-  const {
-    screenType = "desktop",
-    metaData: { globalStyles },
-  } = useAppSelector((state) => state.blogBuilder.blogs[blogId]);
+  const screenType = useAppSelector((state) =>
+    selectBlogScreenType(state, blogId)
+  );
+  const globalStyles = useAppSelector((state) =>
+    selectBlogGlobalStyle(state, blogId)
+  );
+
+  console.log(`Global style Gap Size ==== type = ${type}`);
 
   const activeStyle = useActiveStyleSettingTab({
     globalStyles,
@@ -72,6 +80,6 @@ const GapSize = ({ type, label }: GapSizeProps) => {
       max={EDITOR_DEFAULT_VALUES.GAP.MAX}
     />
   );
-};
+});
 
 export default GapSize;

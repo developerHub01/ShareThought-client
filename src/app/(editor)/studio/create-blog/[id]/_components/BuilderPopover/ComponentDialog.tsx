@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { memo, useState } from "react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import LayoutList from "@/app/(editor)/studio/create-blog/[id]/_components/BuilderPopover/LayoutList";
 import ComponentList from "@/app/(editor)/studio/create-blog/[id]/_components/BuilderPopover/ComponentList";
@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/dialog";
 import AddComponentSection from "@/app/(editor)/studio/create-blog/[id]/_components/BuilderPopover/AddComponentSection";
 
-const ComponentDialog = () => {
+const ComponentDialog = memo(() => {
   const { isComponentDialogOpen, setIsComponentDialogOpen, setSelectedIndex } =
     useEditor();
   const handleOpenChange = (value: boolean) => {
@@ -41,9 +41,9 @@ const ComponentDialog = () => {
       </DialogContent>
     </Dialog>
   );
-};
+});
 
-const EditorComponentPopup = () => {
+const EditorComponentPopup = memo(() => {
   const [isComponentListOpen, setIsComponentListOpen] = useState(true);
   const { showLayoutTab } = useEditor();
 
@@ -76,6 +76,6 @@ const EditorComponentPopup = () => {
       </ScrollArea>
     </div>
   );
-};
+});
 
 export default ComponentDialog;

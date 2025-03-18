@@ -11,7 +11,7 @@ import TypographyColor from "@/app/(editor)/studio/create-blog/[id]/_components/
 import HidePropertyInMobile from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/HidePropertyInMobile";
 import TypographyMargin from "@/app/(editor)/studio/create-blog/[id]/_components/SettingsTab/Typography/TypographyMargin";
 
-const TypographyProperties = () => {
+const TypographyProperties =() => {
   return (
     <SettingTypographyProvider>
       <PropertyTypeWrapper>

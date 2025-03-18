@@ -44,3 +44,5 @@ export interface BlogComponentBlock extends BlockInterface {
   postId?: string;
   styles?: Record<string, string | number>;
 }
+
+export type OrientationType = "vertical" | "horizontal";

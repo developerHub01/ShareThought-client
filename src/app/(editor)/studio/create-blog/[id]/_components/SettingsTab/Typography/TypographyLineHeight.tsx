@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { memo } from "react";
 import SelectBlock from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/SelectBlock";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useParams } from "next/navigation";
@@ -11,6 +11,10 @@ import {
 import { useSettingTypography } from "@/app/(editor)/studio/create-blog/[id]/_context/SettingTab/SettingTypographyProvider";
 import { EDITOR_DEFAULT_VALUES } from "@/constant";
 import useActiveStyleSettingTab from "@/hooks/editor/use-active-style-setting-tab";
+import {
+  selectBlogGlobalStyle,
+  selectBlogScreenType,
+} from "@/redux/features/builders/selectors";
 
 const lineHeightList = [
   {
@@ -31,17 +35,19 @@ const lineHeightList = [
   },
 ];
 
-const TypographyLineHeight = () => {
+const TypographyLineHeight = memo(() => {
   const dispatch = useAppDispatch();
   const { id: blogId } = useParams<{ id: string }>();
   const { selectedTypography: type } = useSettingTypography();
 
   if (!blogId || !type) return null;
 
-  const {
-    screenType = "desktop",
-    metaData: { globalStyles },
-  } = useAppSelector((state) => state.blogBuilder.blogs[blogId]);
+  const screenType = useAppSelector((state) =>
+    selectBlogScreenType(state, blogId)
+  );
+  const globalStyles = useAppSelector((state) =>
+    selectBlogGlobalStyle(state, blogId)
+  );
 
   const activeStyle = useActiveStyleSettingTab({
     globalStyles,
@@ -73,6 +79,6 @@ const TypographyLineHeight = () => {
       handleChange={handleChangeLineHeight}
     />
   );
-};
+});
 
 export default TypographyLineHeight;

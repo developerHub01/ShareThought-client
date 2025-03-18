@@ -2,10 +2,10 @@
 
 import { useAppSelector } from "@/redux/hooks";
 import { useParams } from "next/navigation";
-import React from "react";
+import React, { memo } from "react";
 import Post from "@/components/post/Post";
 
-const PreviewContent = () => {
+const PreviewContent = memo(() => {
   const { id: postId } = useParams<{ id: string }>();
 
   const blogData = useAppSelector(
@@ -15,6 +15,6 @@ const PreviewContent = () => {
   if (!blogData) return null;
 
   return <Post {...blogData} />;
-};
+});
 
 export default PreviewContent;

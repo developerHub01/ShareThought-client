@@ -43,6 +43,7 @@ import { Button } from "@/components/ui/button";
 import TopActionList from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/TopActionList";
 import SidebarToogler from "@/app/(editor)/studio/create-blog/[id]/_components/SidebarToogler";
 import TabScreenMode from "@/app/(editor)/studio/create-blog/[id]/_components/TabScreenMode";
+import { selectBlogActiveBlock } from "@/redux/features/builders/selectors";
 
 type TabType = "components" | "properties" | "settings";
 
@@ -66,15 +67,15 @@ const tabList: Array<ITabList> = [
   },
 ];
 
-const EditorSidebar = () => {
-  const { id: postId } = useParams<{ id: string }>();
+const EditorSidebar = memo(() => {
+  const { id: blogId } = useParams<{ id: string }>();
 
   const [sidebarShowState, setSidebarShowState] = useState<boolean>(true);
   const [tabListState, setTabListState] = useState<Array<ITabList>>(tabList);
   const [tab, setTab] = useState<TabType>("components");
 
-  const { activeBlock } = useAppSelector(
-    (state) => state.blogBuilder.blogs?.[postId] ?? {}
+  const activeBlock = useAppSelector((state) =>
+    selectBlogActiveBlock(state, blogId)
   );
 
   useEffect(() => {
@@ -124,7 +125,7 @@ const EditorSidebar = () => {
       </AnimatePresence>
     </>
   );
-};
+});
 
 interface SidebarTabProps {
   tabs: Array<ITabList>;

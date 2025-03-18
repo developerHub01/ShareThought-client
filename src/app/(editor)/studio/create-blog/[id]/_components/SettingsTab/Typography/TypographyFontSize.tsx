@@ -1,6 +1,6 @@
 "use client";
 
-import React, { ChangeEvent, useCallback } from "react";
+import React, { ChangeEvent, memo, useCallback } from "react";
 import CountBlock from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/CountBlock";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useParams } from "next/navigation";
@@ -8,18 +8,26 @@ import { EDITOR_DEFAULT_VALUES } from "@/constant";
 import { useSettingTypography } from "@/app/(editor)/studio/create-blog/[id]/_context/SettingTab/SettingTypographyProvider";
 import { addGlobalStyle } from "@/redux/features/builders/blogBuilderSlice";
 import useActiveStyleSettingTab from "@/hooks/editor/use-active-style-setting-tab";
+import {
+  selectBlogGlobalStyle,
+  selectBlogScreenType,
+} from "@/redux/features/builders/selectors";
 
-const TypographyFontSize = () => {
+const TypographyFontSize = memo(() => {
   const dispatch = useAppDispatch();
   const { id: blogId } = useParams<{ id: string }>();
   const { selectedTypography: type } = useSettingTypography();
 
   if (!blogId || !type) return null;
 
-  const {
-    screenType = "desktop",
-    metaData: { globalStyles },
-  } = useAppSelector((state) => state.blogBuilder.blogs[blogId]);
+  const screenType = useAppSelector((state) =>
+    selectBlogScreenType(state, blogId)
+  );
+  const globalStyles = useAppSelector((state) =>
+    selectBlogGlobalStyle(state, blogId)
+  );
+
+  console.log({ globalStyles });
 
   const activeStyle = useActiveStyleSettingTab({
     globalStyles,
@@ -27,6 +35,8 @@ const TypographyFontSize = () => {
     type,
     propertyName: "fontSize",
   });
+
+  console.log({ activeStyle });
 
   const handleDispatchSize = useCallback(
     (fontSize: number | "inc" | "dec") => {
@@ -71,6 +81,6 @@ const TypographyFontSize = () => {
       max={EDITOR_DEFAULT_VALUES.FONT_SIZE.MAX}
     />
   );
-};
+});
 
 export default TypographyFontSize;

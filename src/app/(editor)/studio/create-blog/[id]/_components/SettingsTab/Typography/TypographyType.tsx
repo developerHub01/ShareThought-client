@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { memo } from "react";
 import SelectBlock from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/SelectBlock";
 import { useParams } from "next/navigation";
 import { TypographyType as TypographyTypes } from "@/redux/features/builders/blogBuilderSlice";
@@ -15,7 +15,7 @@ const typeList = [
   },
 ];
 
-const TypographyType = () => {
+const TypographyType = memo(() => {
   const { id: blogId } = useParams<{ id: string }>();
 
   if (!blogId) return null;
@@ -32,6 +32,6 @@ const TypographyType = () => {
       handleChange={(value) => handleChange(value as TypographyTypes)}
     />
   );
-};
+});
 
 export default TypographyType;

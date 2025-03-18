@@ -12,6 +12,7 @@ import { useParams } from "next/navigation";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { cn } from "@/lib/utils";
 import { selectBlogScreenType } from "@/redux/features/builders/selectors";
+import { OrientationType } from "@/types";
 
 const screenList: Array<{
   id: string;
@@ -32,14 +33,14 @@ const screenList: Array<{
 
 interface ResponsiveToggleBlockProps {
   className?: string;
+  orientation?: OrientationType;
 }
-const ResponsiveToggleBlock = ({ className }: ResponsiveToggleBlockProps) => {
+const ResponsiveToggleBlock = ({
+  className,
+  orientation,
+}: ResponsiveToggleBlockProps) => {
   const { id: blogId } = useParams<{ id: string }>();
   const dispatch = useAppDispatch();
-
-  // const { screenType } = useAppSelector(
-  //   (state) => state.blogBuilder.blogs?.[blogId] ?? {}
-  // );
 
   const screenType = useAppSelector((state) =>
     selectBlogScreenType(state, blogId)
@@ -54,7 +55,7 @@ const ResponsiveToggleBlock = ({ className }: ResponsiveToggleBlockProps) => {
 
   return (
     <ToggleList
-      orientation="vertical"
+      orientation={orientation}
       size="sm"
       className={cn("", className)}
       toggleList={screenList}

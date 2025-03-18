@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { memo } from "react";
 import {
   Drawer,
   DrawerHeader,
@@ -16,7 +16,7 @@ import { X as CloseIcon } from "lucide-react";
 import ImageEditor from "@/app/(editor)/studio/create-blog/[id]/_components/ImageEditor/ImageEditor";
 import EditorFooter from "@/app/(editor)/studio/create-blog/[id]/_components/ImageEditor/EditorFooter";
 
-const EditorPopover = () => {
+const EditorPopover = memo(() => {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -62,6 +62,6 @@ const EditorPopover = () => {
       </DrawerContentWitoutHandler>
     </Drawer>
   );
-};
+});
 
 export default EditorPopover;

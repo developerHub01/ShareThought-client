@@ -9,7 +9,7 @@ const filterStyle = (
     Object.entries(styles).filter(
       ([key, value]) => key.includes(styleType) && value !== undefined
     )
-  ) as Record<string, unknown>;
+  ) as CSSProperties;
 };
 
 export default filterStyle;
