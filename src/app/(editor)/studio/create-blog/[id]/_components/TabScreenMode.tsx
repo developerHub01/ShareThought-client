@@ -9,7 +9,7 @@ const TabScreenMode = () => {
         <label htmlFor="screenType" className="text-sm">
           Device Size
         </label>
-        <ResponsiveToggleBlock />
+        <ResponsiveToggleBlock orientation="vertical" />
       </div>
     </PropertyWrapper_v1>
   );

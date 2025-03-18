@@ -7,7 +7,7 @@ import NavbarFullScreenButtons from "@/app/(editor)/studio/_components/NavbarFul
 
 const Navbar = () => {
   return (
-    <header className="w-full flex justify-between items-center gap-4 bg-primary-foreground shadow-xl px-5 py-3 border-b">
+    <header className="w-full flex justify-between items-center gap-4 bg-primary-foreground shadow-xl px-1.5 py-3 border-b">
       <Button variant={"ghost"} size={"sm"}>
         <LeftIcon size={18} /> Back
       </Button>

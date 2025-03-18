@@ -48,7 +48,7 @@ const ValueCounter = ({
         variant={"outline"}
         onClick={handleIncrement}
         className={clsx("", {
-          "rounded-r-none": separate,
+          "rounded-l-none": separate,
           "rounded-none": !separate,
         })}
       >

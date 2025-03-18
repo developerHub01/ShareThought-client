@@ -23,7 +23,7 @@ const useActiveStyleSettingTab = ({
   screenType = "desktop",
   type,
   propertyName,
-}: useActiveStylePropertyTabProps) => {
+}: useActiveStylePropertyTabProps): CSSProperties => {
   return useMemo(
     () => ({
       ...filterStyle(globalStyles["desktop"][type] as StyleType, propertyName),
