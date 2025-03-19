@@ -7,6 +7,10 @@ import SliderBlock from "@/app/(editor)/studio/create-blog/[id]/_components/Bloc
 import { useParams } from "next/navigation";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { addStyle } from "@/redux/features/builders/blogBuilderSlice";
+import {
+  selectBlogActiveBlock,
+  selectBlogStylesById,
+} from "@/redux/features/builders/selectors";
 
 const ButtonWidth = () => {
   const { id: blogId } = useParams<{ id: string }>();
@@ -14,16 +18,16 @@ const ButtonWidth = () => {
 
   if (!blogId) return null;
 
-  const {
-    activeBlock,
-    metaData: { styles },
-  } = useAppSelector((state) => state.blogBuilder.blogs[blogId]);
+  const activeBlock = useAppSelector((state) =>
+    selectBlogActiveBlock(state, blogId)
+  );
+  const style = useAppSelector((state) =>
+    selectBlogStylesById(state, blogId, activeBlock)
+  );
+
+  const buttonWidth = style?.width;
 
   if (!activeBlock) return null;
-
-  const activeStyles = styles[activeBlock];
-
-  const buttonWidth = activeStyles?.width;
 
   const handleChange = (value: number) => {
     dispatch(

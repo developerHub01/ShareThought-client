@@ -6,6 +6,10 @@ import { useParams } from "next/navigation";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { updateComponentText } from "@/redux/features/builders/blogBuilderSlice";
 import PropertyWrapper_v1 from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/PropertyWrapper_v1";
+import {
+  selectBlogActiveBlock,
+  selectBlogComponentById,
+} from "@/redux/features/builders/selectors";
 
 const ButtonContentText = () => {
   const [buttonContent, setButtonContent] = useState("");
@@ -14,17 +18,22 @@ const ButtonContentText = () => {
 
   if (!blogId) return null;
 
-  const { activeBlock, components } = useAppSelector(
-    (state) => state.blogBuilder.blogs[blogId]
+  const activeBlock = useAppSelector((state) =>
+    selectBlogActiveBlock(state, blogId)
+  );
+  const activeComponent = useAppSelector((state) =>
+    selectBlogComponentById(state, blogId, activeBlock)
   );
 
-  if (!activeBlock) return null;
-
-  const buttonText = components[activeBlock]?.text || "";
+  const buttonText = activeComponent?.text ?? "";
 
   useEffect(() => {
+    if (!activeBlock) return;
+
     setButtonContent(buttonText);
   }, [activeBlock, buttonText]);
+
+  if (!activeBlock) return null;
 
   const handleChange = (value: string) => {
     setButtonContent(value);
