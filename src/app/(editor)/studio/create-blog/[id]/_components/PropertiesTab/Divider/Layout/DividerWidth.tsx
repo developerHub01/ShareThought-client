@@ -1,25 +1,29 @@
 "use client";
 
-import React from "react";
+import React, { memo } from "react";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useParams } from "next/navigation";
 import SliderBlockWithLabel from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/SliderBlockWithLabel";
 import { addStyle } from "@/redux/features/builders/blogBuilderSlice";
+import {
+  selectBlogActiveBlock,
+  selectBlogStylesById,
+} from "@/redux/features/builders/selectors";
 
-const DividerWidth = () => {
+const DividerWidth = memo(() => {
   const dispatch = useAppDispatch();
   const { id: blogId } = useParams<{ id: string }>();
 
   if (!blogId) return null;
 
-  const {
-    activeBlock,
-    metaData: { styles = {} },
-  } = useAppSelector((state) => state.blogBuilder.blogs[blogId]);
+  const activeBlock = useAppSelector((state) =>
+    selectBlogActiveBlock(state, blogId)
+  );
+  const styles = useAppSelector((state) =>
+    selectBlogStylesById(state, blogId, activeBlock)
+  );
 
   if (!activeBlock) return null;
-
-  const activeBlockStyles = styles[activeBlock];
 
   const handleChange = (value: number) => {
     dispatch(
@@ -36,7 +40,7 @@ const DividerWidth = () => {
   return (
     <SliderBlockWithLabel
       label="Width"
-      value={Number(activeBlockStyles.width ?? 100)}
+      value={Number(styles.width ?? 100)}
       defaultValue={100}
       min={0}
       max={100}
@@ -44,6 +48,6 @@ const DividerWidth = () => {
       onChange={handleChange}
     />
   );
-};
+});
 
 export default DividerWidth;

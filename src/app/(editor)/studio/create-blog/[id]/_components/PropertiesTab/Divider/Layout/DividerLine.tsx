@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback, memo } from "react";
 import BorderBlock from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/BorderBlock";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useParams } from "next/navigation";
@@ -10,27 +10,31 @@ import {
   BorderStyleType,
 } from "@/redux/features/builders/blogBuilderSlice";
 import { ColorResult } from "react-color";
+import {
+  selectBlogActiveBlock,
+  selectBlogStylesById,
+} from "@/redux/features/builders/selectors";
 
-const DividerLine = () => {
+const DividerLine = memo(() => {
   const dispatch = useAppDispatch();
   const { id: blogId } = useParams<{ id: string }>();
 
   if (!blogId) return null;
 
-  const {
-    activeBlock,
-    metaData: { styles },
-  } = useAppSelector((state) => state.blogBuilder.blogs[blogId]);
+  const activeBlock = useAppSelector((state) =>
+    selectBlogActiveBlock(state, blogId)
+  );
+  const styles = useAppSelector((state) =>
+    selectBlogStylesById(state, blogId, activeBlock)
+  );
 
-  if (!activeBlock) return null;
+  const activeBlockLine = styles.borderTop ?? [1, "solid", "#dddddd"];
 
-  const activeBlockLine = styles[activeBlock].borderTop ?? [
-    1,
-    "solid",
-    "#dddddd",
-  ];
-
-  const [borderState, setBorderState] = useState({
+  const [borderState, setBorderState] = useState<{
+    style: BorderStyleType;
+    color: string;
+    size: number;
+  }>({
     style: activeBlockLine[1] as BorderStyleType,
     color: activeBlockLine[2],
     size: activeBlockLine[0],
@@ -39,15 +43,19 @@ const DividerLine = () => {
   const [lastValidColor, setLastValidColor] = useState(activeBlockLine[2]);
 
   useEffect(() => {
+    if (!activeBlock) return;
+
     setBorderState({
       style: activeBlockLine[1] as BorderStyleType,
       color: activeBlockLine[2],
       size: activeBlockLine[0],
     });
-  }, [activeBlock]);
+  }, [activeBlock, activeBlockLine]);
 
   const updateBorderStyle = useCallback(
     (updatedProps: Partial<typeof borderState>) => {
+      if (!activeBlock) return;
+
       setBorderState((prev) => ({ ...prev, ...updatedProps }));
       dispatch(
         addBorderStyle({
@@ -59,6 +67,8 @@ const DividerLine = () => {
     },
     [blogId, activeBlock, dispatch]
   );
+
+  if (!activeBlock) return null;
 
   const handleColorChange = (color: string) => {
     if (isValidHexColor(color) || color === "transparent") {
@@ -91,6 +101,6 @@ const DividerLine = () => {
       maxSize={100}
     />
   );
-};
+});
 
 export default DividerLine;
