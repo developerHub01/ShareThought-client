@@ -13,7 +13,7 @@ const ImageUrl = () => {
   const dispatch = useAppDispatch();
   const { url: imageUrl, activeBlock, blogId } = useActiveImage();
 
-  const isBlob = isBlobURL(imageUrl);
+  const isBlob = isBlobURL(imageUrl ?? "");
 
   useEffect(() => {
     if (imageUrl) setUrl(isBlob ? "" : imageUrl);

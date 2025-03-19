@@ -1,6 +1,6 @@
 "use client";
 
-import React, { ChangeEvent, useCallback, useRef } from "react";
+import React, { ChangeEvent, useCallback, useRef, memo } from "react";
 import { useRouter } from "next/navigation";
 import { useAppDispatch } from "@/redux/hooks";
 import { updateImageContent } from "@/redux/features/builders/blogBuilderSlice";
@@ -12,7 +12,7 @@ import { LabelButton } from "@/components/ui/label-button";
 import { Button } from "@/components/ui/button";
 import { Crop as EditIcon } from "lucide-react";
 
-const ImageActions = () => {
+const ImageActions = memo(() => {
   const { toast } = useToast();
   const router = useRouter();
   const dispatch = useAppDispatch();
@@ -20,7 +20,7 @@ const ImageActions = () => {
   const { url: imageUrl, activeBlock, blogId } = useActiveImage();
   const { buildFullPath, modifyParams } = useModifyQueryParams();
 
-  if (!blogId) return null;
+  if (!blogId || !imageUrl || !activeBlock) return null;
 
   const processImageFile = useCallback(
     (file: File) => {
@@ -80,6 +80,6 @@ const ImageActions = () => {
       </div>
     </PropertyWrapper_v1>
   );
-};
+});
 
 export default ImageActions;

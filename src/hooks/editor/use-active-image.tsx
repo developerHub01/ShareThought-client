@@ -1,5 +1,10 @@
 "use client";
 
+import {
+  selectBlogActiveBlock,
+  selectBlogComponentById,
+  selectBlogImgLinkById,
+} from "@/redux/features/builders/selectors";
 import { useAppSelector } from "@/redux/hooks";
 import { useParams } from "next/navigation";
 
@@ -16,17 +21,19 @@ const useActiveImage = () => {
 
   if (!blogId) return defaultImageDetails;
 
-  const {
-    activeBlock,
-    components,
-    metaData: { imgLinks },
-  } = useAppSelector((state) => state.blogBuilder.blogs[blogId]);
+  const activeBlock = useAppSelector((state) =>
+    selectBlogActiveBlock(state, blogId)
+  );
+  const activeComponent = useAppSelector((state) =>
+    selectBlogComponentById(state, blogId, activeBlock)
+  );
+  const activeImageUrl = useAppSelector((state) =>
+    selectBlogImgLinkById(state, blogId, activeBlock)
+  );
 
-  if (!activeBlock) return defaultImageDetails;
+  if (!activeBlock || !activeComponent) return defaultImageDetails;
 
-  const activeImageUrl = imgLinks[activeBlock];
-
-  const { alt, caption } = components[activeBlock];
+  const { alt, caption } = activeComponent;
 
   return {
     url: activeImageUrl,

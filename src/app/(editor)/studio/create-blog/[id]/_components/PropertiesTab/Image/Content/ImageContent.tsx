@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { memo } from "react";
 import ImageAlt from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Image/Content/ImageAlt";
 import ImageCaption from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Image/Content/ImageCaption";
 import ImageUrl from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Image/Content/ImageUrl";
@@ -9,7 +9,7 @@ import useActiveImage from "@/hooks/editor/use-active-image";
 import ComponentLinkProperty from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Common/ComponentLinkProperty";
 import PropertyTypeWrapper from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Common/PropertyTypeWrapper";
 
-const ImageContent = () => {
+const ImageContent = memo(() => {
   const { url } = useActiveImage();
 
   return (
@@ -26,6 +26,6 @@ const ImageContent = () => {
       )}
     </PropertyTypeWrapper>
   );
-};
+});
 
 export default ImageContent;
