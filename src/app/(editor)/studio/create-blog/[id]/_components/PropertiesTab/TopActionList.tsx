@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo } from "react";
+import React, { useCallback, useMemo } from "react";
 import {
   Tooltip,
   TooltipContent,
@@ -24,41 +24,10 @@ import {
   duplicateComponent,
 } from "@/redux/features/builders/blogBuilderSlice";
 import { useParams } from "next/navigation";
-
-/* 
-
-{
-  id: "up",
-  Icon: MoveUpIcon,
-  label: "Goto Up Layer",
-  onClick: () => {
-    if (!activeBlock) return null;
-
-    dispatch(
-      gotoUpDownComponent({
-        blogId,
-        type: "up",
-      })
-    );
-  },
-},
-{
-  id: "down",
-  Icon: MoveDownIcon,
-  label: "Goto Down Layer",
-  onClick: () => {
-    if (!activeBlock) return null;
-
-    dispatch(
-      gotoUpDownComponent({
-        blogId,
-        type: "down",
-      })
-    );
-  },
-},
-
-*/
+import {
+  selectBlogActiveBlock,
+  selectBlogComponentById,
+} from "@/redux/features/builders/selectors";
 
 const TopActionList = () => {
   const { id: blogId } = useParams<{
@@ -66,8 +35,12 @@ const TopActionList = () => {
   }>();
 
   const dispatch = useAppDispatch();
-  const { activeBlock, components } = useAppSelector(
-    (state) => state.blogBuilder.blogs[blogId]
+  const activeBlock = useAppSelector((state) =>
+    selectBlogActiveBlock(state, blogId)
+  );
+
+  const activeComponent = useAppSelector((state) =>
+    selectBlogComponentById(state, blogId, activeBlock)
   );
 
   const actionList = useMemo(
@@ -142,9 +115,7 @@ const TopActionList = () => {
     [blogId, activeBlock]
   );
 
-  if (!activeBlock) return null;
-
-  const activeComponent = components[activeBlock];
+  if (!activeBlock || !activeComponent) return null;
 
   return (
     <div>

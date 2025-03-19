@@ -63,18 +63,21 @@ const TextAlignProperty = memo(() => {
   const screenType = useAppSelector((state) =>
     selectBlogScreenType(state, blogId)
   );
-
-  if (!activeBlock) return null;
-
-  const styles = useAppSelector((state) =>
-    selectBlogStylesById(state, blogId, activeBlock)
-  );
-  const mobileStyles = useAppSelector((state) =>
-    selectBlogMobileStylesById(state, blogId, activeBlock)
-  );
-  const { type } = useAppSelector((state) =>
+  const styles =
+    useAppSelector((state) =>
+      selectBlogStylesById(state, blogId, activeBlock)
+    ) ?? {};
+  const mobileStyles =
+    useAppSelector((state) =>
+      selectBlogMobileStylesById(state, blogId, activeBlock)
+    ) ?? {};
+  const component = useAppSelector((state) =>
     selectBlogComponentById(state, blogId, activeBlock)
   );
+
+  if (!blogId || !activeBlock || !component || !component.type) return null;
+
+  const { type } = component;
 
   console.log("Re-run textAlign property===========");
 

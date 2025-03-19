@@ -1066,7 +1066,8 @@ export const blogBuilderSlice = createSlice({
       }>
     ) => {
       const { blogId, activeBlockId } = action.payload;
-      state.blogs[blogId].activeBlock = activeBlockId || null;
+      console.log({ activeBlockId });
+      state.blogs[blogId].activeBlock = activeBlockId ?? null;
     },
 
     updateComponentText: (

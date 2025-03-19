@@ -51,12 +51,11 @@ const TextTransformProperty = memo(() => {
   const activeBlock = useAppSelector((state) =>
     selectBlogActiveBlock(state, blogId)
   );
-
-  if (!activeBlock) return null;
-
-  const styles = useAppSelector((state) =>
+  const styles = (useAppSelector((state) =>
     selectBlogStylesById(state, blogId, activeBlock)
-  ) as CSSProperties;
+  ) ?? {}) as CSSProperties;
+
+  if (!blogId || !activeBlock) return null;
 
   console.log("Re-run textTransform property===========");
 

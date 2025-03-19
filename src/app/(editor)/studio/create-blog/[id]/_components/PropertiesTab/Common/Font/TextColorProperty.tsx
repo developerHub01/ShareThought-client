@@ -33,15 +33,17 @@ const TextColorProperty = memo(() => {
   const globalStyles = useAppSelector((state) =>
     selectBlogGlobalStyle(state, blogId)
   );
-
-  if (!activeBlock) return null;
-
-  const styles = useAppSelector((state) =>
-    selectBlogStylesById(state, blogId, activeBlock)
-  );
-  const { type } = useAppSelector((state) =>
+  const styles =
+    useAppSelector((state) =>
+      selectBlogStylesById(state, blogId, activeBlock)
+    ) ?? {};
+  const component = useAppSelector((state) =>
     selectBlogComponentById(state, blogId, activeBlock)
   );
+
+  if (!blogId || !activeBlock || !component || !component.type) return null;
+
+  const { type } = component;
 
   console.log("Re-run TextColor property===========");
 

@@ -44,8 +44,6 @@ const PropertiesTab = memo(() => {
     selectBlogActiveBlock(state, blogId)
   );
 
-  if (!activeBlock) return null;
-
   const activeComponent = useAppSelector((state) =>
     selectBlogComponentById(state, blogId, activeBlock)
   );
@@ -53,7 +51,7 @@ const PropertiesTab = memo(() => {
     selectBlogImgLinkById(state, blogId, activeBlock)
   );
 
-  if (!activeComponent) return null;
+  if (!activeBlock || !activeComponent) return null;
 
   console.log("PropertiesTab ============");
 

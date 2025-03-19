@@ -36,12 +36,11 @@ const TextDirectionProperty = memo(() => {
   const activeBlock = useAppSelector((state) =>
     selectBlogActiveBlock(state, blogId)
   );
-
-  if (!activeBlock) return null;
-
-  const styles = useAppSelector((state) =>
+  const styles = (useAppSelector((state) =>
     selectBlogStylesById(state, blogId, activeBlock)
-  ) as CSSProperties;
+  ) ?? {}) as CSSProperties;
+
+  if (!blogId || !activeBlock) return null;
 
   console.log("Re-run direction property===========");
 
@@ -60,7 +59,7 @@ const TextDirectionProperty = memo(() => {
   return (
     <TextAlignBlock
       title="Text Direction"
-      activeAlign={styles?.direction || alignList[0].id}
+      activeAlign={styles?.direction ?? alignList[0].id}
       handleChange={handleChangeAlign}
       alignList={alignList}
     />

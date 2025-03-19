@@ -3,7 +3,6 @@
 import {
   BlockTypes,
   ScreenTypes,
-  StylesInterface,
   StyleType,
 } from "@/redux/features/builders/blogBuilderSlice";
 import filterStyle from "@/utils/editor/filterStyle";

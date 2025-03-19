@@ -43,32 +43,40 @@ export const selectBlogComponents = createSelector(
 
 export const selectBlogComponentById = createSelector(
   [
-    (state: RootState, blogId: string, componentId: string) =>
-      state.blogBuilder.blogs[blogId]?.components?.[componentId],
+    (state: RootState, blogId: string, componentId?: string | null) =>
+      !componentId
+        ? null
+        : state.blogBuilder.blogs[blogId]?.components?.[componentId],
   ],
-  (component) => component ?? {}
+  (component) => component ?? null
 );
 
 export const selectBlogImgLinkById = createSelector(
   [
-    (state: RootState, blogId: string, componentId: string) =>
-      state.blogBuilder.blogs[blogId]?.metaData.imgLinks?.[componentId],
+    (state: RootState, blogId: string, componentId?: string | null) =>
+      !componentId
+        ? null
+        : state.blogBuilder.blogs[blogId]?.metaData.imgLinks?.[componentId],
   ],
   (link) => link
 );
 
 export const selectBlogStylesById = createSelector(
   [
-    (state: RootState, blogId: string, componentId: string) =>
-      state.blogBuilder.blogs[blogId]?.metaData.styles?.[componentId],
+    (state: RootState, blogId: string, componentId?: string | null) =>
+      !componentId
+        ? null
+        : state.blogBuilder.blogs[blogId]?.metaData.styles?.[componentId],
   ],
   (styles) => styles ?? {}
 );
 
 export const selectBlogMobileStylesById = createSelector(
   [
-    (state: RootState, blogId: string, componentId: string) =>
-      state.blogBuilder.blogs[blogId]?.metaData.mobileStyles?.[componentId],
+    (state: RootState, blogId: string, componentId?: string | null) =>
+      !componentId
+        ? null
+        : state.blogBuilder.blogs[blogId]?.metaData.mobileStyles?.[componentId],
   ],
   (styles) => styles ?? {}
 );
