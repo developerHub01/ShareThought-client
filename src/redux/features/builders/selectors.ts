@@ -88,3 +88,8 @@ export const selectBlogGlobalStyle = createSelector(
   ],
   (styles) => styles ?? {}
 );
+
+export const selectBlogHoveringComponentId = createSelector(
+  [(state: RootState) => state.blogBuilder.hoveringComponentId],
+  (id) => id
+);

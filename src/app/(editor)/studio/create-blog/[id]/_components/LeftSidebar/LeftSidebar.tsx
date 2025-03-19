@@ -1,5 +1,6 @@
 "use client";
 
+import React, { memo } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Tooltip,
@@ -22,7 +23,7 @@ interface MenuItemInterface {
   haveContentArea?: boolean;
 }
 
-const LeftSidebar = () => {
+const LeftSidebar = memo(() => {
   const searchParams = useSearchParams();
   const router = useRouter();
   const menuList = useMemo<Array<MenuItemInterface>>(
@@ -102,14 +103,14 @@ const LeftSidebar = () => {
       <Content />
     </div>
   );
-};
+});
 
-const Content = () => {
+const Content = memo(() => {
   return (
     <>
       <Navigator />
     </>
   );
-};
+});
 
 export default LeftSidebar;
