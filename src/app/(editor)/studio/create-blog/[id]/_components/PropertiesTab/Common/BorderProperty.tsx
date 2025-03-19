@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, memo } from "react";
 import { isValidHexColor } from "@/utils";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useParams } from "next/navigation";
@@ -11,23 +11,32 @@ import {
   toggleBorderAll,
 } from "@/redux/features/builders/blogBuilderSlice";
 import BorderAllSideBlock from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/BorderAllSideBlock";
+import {
+  selectBlogActiveBlock,
+  selectBlogComponentById,
+  selectBlogGlobalStyle,
+  selectBlogMobileStylesById,
+  selectBlogScreenType,
+  selectBlogStylesById,
+} from "@/redux/features/builders/selectors";
 
 type BorderComboType = Partial<Record<BorderType, [number, string, string]>>;
 
-const BorderProperty = () => {
+const BorderProperty = memo(() => {
   const dispatch = useAppDispatch();
   const { id: blogId } = useParams<{ id: string }>();
 
   if (!blogId) return null;
 
-  const {
-    activeBlock,
-    metaData: { styles = {} },
-  } = useAppSelector((state) => state.blogBuilder.blogs[blogId]);
-
-  if (!activeBlock) return null;
-
-  const componentStyles = styles[activeBlock] || {};
+  const activeBlock = useAppSelector((state) =>
+    selectBlogActiveBlock(state, blogId)
+  );
+  const activeComponent = useAppSelector((state) =>
+    selectBlogComponentById(state, blogId, activeBlock)
+  );
+  const styles = useAppSelector((state) =>
+    selectBlogStylesById(state, blogId, activeBlock)
+  );
 
   const [lastValidColor, setLastValidColor] = useState("#343434");
   const [borderState, setBorderState] = useState<BorderComboType>({});
@@ -36,13 +45,15 @@ const BorderProperty = () => {
     if (!activeBlock) return;
 
     setBorderState({
-      border: componentStyles["border"],
-      borderLeft: componentStyles["borderLeft"],
-      borderRight: componentStyles["borderRight"],
-      borderTop: componentStyles["borderTop"],
-      borderBottom: componentStyles["borderBottom"],
+      border: styles["border"],
+      borderLeft: styles["borderLeft"],
+      borderRight: styles["borderRight"],
+      borderTop: styles["borderTop"],
+      borderBottom: styles["borderBottom"],
     });
-  }, [activeBlock, componentStyles]);
+  }, [activeBlock, styles]);
+
+  if (!activeBlock || !activeComponent) return null;
 
   const updateBorder = (
     borderType: BorderType,
@@ -135,6 +146,6 @@ const BorderProperty = () => {
       }
     />
   );
-};
+});
 
 export default BorderProperty;

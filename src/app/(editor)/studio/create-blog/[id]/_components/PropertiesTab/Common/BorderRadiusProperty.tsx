@@ -1,6 +1,6 @@
 "use client";
 
-import React, { CSSProperties, useEffect, useMemo } from "react";
+import React, { useEffect, useMemo, memo } from "react";
 import BorderRadiusBlock from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/BorderRadiusBlock";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useParams } from "next/navigation";
@@ -11,37 +11,48 @@ import {
   toggleBorderRadiusAll,
 } from "@/redux/features/builders/blogBuilderSlice";
 import filterStyle from "@/utils/editor/filterStyle";
+import {
+  selectBlogActiveBlock,
+  selectBlogMobileStylesById,
+  selectBlogScreenType,
+  selectBlogStylesById,
+} from "@/redux/features/builders/selectors";
 
-const BorderRadiusProperty = () => {
+const BorderRadiusProperty = memo(() => {
   const dispatch = useAppDispatch();
   const { id: blogId } = useParams<{ id: string }>();
 
   if (!blogId) return null;
 
-  const {
-    activeBlock,
-    screenType,
-    metaData: { styles = {}, mobileStyles = {} },
-  } = useAppSelector((state) => state.blogBuilder.blogs[blogId]);
+  const activeBlock = useAppSelector((state) =>
+    selectBlogActiveBlock(state, blogId)
+  );
+  const screenType = useAppSelector((state) =>
+    selectBlogScreenType(state, blogId)
+  );
+  const styles = useAppSelector((state) =>
+    selectBlogStylesById(state, blogId, activeBlock)
+  );
+  const mobileStyles = useAppSelector((state) =>
+    selectBlogMobileStylesById(state, blogId, activeBlock)
+  );
 
   useEffect(() => {
-    if (activeBlock && !styles[activeBlock])
+    if (activeBlock)
       dispatch(
         createActiveBlockStyle({
           blogId,
           activeBlockId: activeBlock,
         })
       );
-  }, [activeBlock, styles, dispatch, blogId]);
+  }, [activeBlock, dispatch, blogId]);
 
   const activeStyle = useMemo(() => {
     if (!activeBlock || !styles[activeBlock]) return {};
 
     return {
-      ...filterStyle(styles[activeBlock], "Radius"),
-      ...(screenType === "mobile"
-        ? filterStyle(mobileStyles[activeBlock], "Radius")
-        : {}),
+      ...filterStyle(styles, "Radius"),
+      ...(screenType === "mobile" ? filterStyle(mobileStyles, "Radius") : {}),
     };
   }, [styles, mobileStyles, activeBlock, screenType]);
 
@@ -70,11 +81,11 @@ const BorderRadiusProperty = () => {
 
   return (
     <BorderRadiusBlock
-      borderRadius={activeStyle}
+      borderRadius={activeStyle as Partial<Record<BorderRadiusType, number>>}
       handleChange={handleChange}
       handleToggleMore={handleToggleMore}
     />
   );
-};
+});
 
 export default BorderRadiusProperty;

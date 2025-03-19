@@ -1,25 +1,29 @@
 "use client";
 
-import React from "react";
+import React, { memo } from "react";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useParams } from "next/navigation";
 import SliderBlockWithLabel from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/SliderBlockWithLabel";
 import { updateOpacity } from "@/redux/features/builders/blogBuilderSlice";
+import {
+  selectBlogActiveBlock,
+  selectBlogStylesById,
+} from "@/redux/features/builders/selectors";
 
-const OpacityProperty = () => {
+const OpacityProperty = memo(() => {
   const dispatch = useAppDispatch();
   const { id: blogId } = useParams<{ id: string }>();
 
   if (!blogId) return null;
 
-  const {
-    activeBlock,
-    metaData: { styles = {} },
-  } = useAppSelector((state) => state.blogBuilder.blogs[blogId]);
+  const activeBlock = useAppSelector((state) =>
+    selectBlogActiveBlock(state, blogId)
+  );
+  const componentStyles = useAppSelector((state) =>
+    selectBlogStylesById(state, blogId, activeBlock)
+  );
 
   if (!activeBlock) return null;
-
-  const componentStyles = styles?.[activeBlock] ?? {};
 
   const handleChange = (value: number) => {
     dispatch(
@@ -38,6 +42,6 @@ const OpacityProperty = () => {
       onChange={handleChange}
     />
   );
-};
+});
 
 export default OpacityProperty;

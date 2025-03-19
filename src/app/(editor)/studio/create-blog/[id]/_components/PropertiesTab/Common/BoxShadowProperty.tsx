@@ -1,6 +1,6 @@
 "use client";
 
-import React, { ChangeEvent, useEffect, useState } from "react";
+import React, { ChangeEvent, useEffect, useState, memo } from "react";
 import {
   addStyle,
   removeStyle,
@@ -13,6 +13,10 @@ import ColorBlock from "@/app/(editor)/studio/create-blog/[id]/_components/Block
 import { ColorResult } from "react-color";
 import SelectBlock from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/SelectBlock";
 import ResetBlock from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/ResetBlock";
+import {
+  selectBlogActiveBlock,
+  selectBlogStylesById,
+} from "@/redux/features/builders/selectors";
 
 type boxShadowType = [number, number, number, number, string, string];
 
@@ -29,20 +33,20 @@ const shadowTypeList = [
   },
 ];
 
-const BoxShadowProperty = () => {
+const BoxShadowProperty = memo(() => {
   const { id: blogId } = useParams<{ id: string }>();
   const dispatch = useAppDispatch();
 
   if (!blogId) return null;
 
-  const {
-    activeBlock,
-    metaData: { styles },
-  } = useAppSelector((state) => state.blogBuilder.blogs[blogId]);
+  const activeBlock = useAppSelector((state) =>
+    selectBlogActiveBlock(state, blogId)
+  );
+  const styles = useAppSelector((state) =>
+    selectBlogStylesById(state, blogId, activeBlock)
+  );
 
-  if (!activeBlock) return null;
-
-  const activeBoxShadow = (styles?.[activeBlock]?.boxShadow ??
+  const activeBoxShadow = (styles?.boxShadow ??
     defaultBoxShadow) as boxShadowType;
 
   const [boxShadowState, setBoxShadowState] =
@@ -52,6 +56,8 @@ const BoxShadowProperty = () => {
     if (!activeBlock) return;
     setBoxShadowState(activeBoxShadow);
   }, [activeBlock, activeBoxShadow]);
+
+  if (!activeBlock) return null;
 
   const handleChange = (index: number, value: number | string) => {
     const newBoxShadowState: boxShadowType = [...boxShadowState];
@@ -141,6 +147,6 @@ const BoxShadowProperty = () => {
       />
     </PropertyWrapper_v1>
   );
-};
+});
 
 export default BoxShadowProperty;

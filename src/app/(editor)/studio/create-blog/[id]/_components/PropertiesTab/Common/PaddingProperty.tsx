@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, memo } from "react";
 import PaddingBlock from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/PaddingBlock";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useParams } from "next/navigation";
@@ -12,6 +12,14 @@ import {
 } from "@/redux/features/builders/blogBuilderSlice";
 import { EDITOR_DEFAULT_VALUES } from "@/constant";
 import useActiveStylePropertyTab from "@/hooks/editor/use-active-style-property-tab";
+import {
+  selectBlogActiveBlock,
+  selectBlogComponentById,
+  selectBlogGlobalStyle,
+  selectBlogMobileStylesById,
+  selectBlogScreenType,
+  selectBlogStylesById,
+} from "@/redux/features/builders/selectors";
 
 interface PaddingPropertyProps {
   label?: string;
@@ -41,37 +49,48 @@ const paddingStyleConstraints = {
   },
 };
 
-const PaddingProperty = ({ label }: PaddingPropertyProps) => {
+const PaddingProperty = memo(({ label }: PaddingPropertyProps) => {
   const dispatch = useAppDispatch();
   const { id: blogId } = useParams<{ id: string }>();
 
   if (!blogId) return null;
 
-  const {
-    activeBlock,
-    screenType = "desktop",
-    components,
-    metaData: { styles = {}, mobileStyles = {}, globalStyles },
-  } = useAppSelector((state) => state.blogBuilder.blogs[blogId]);
-
-  if (!activeBlock) return null;
+  const activeBlock = useAppSelector((state) =>
+    selectBlogActiveBlock(state, blogId)
+  );
+  const screenType = useAppSelector((state) =>
+    selectBlogScreenType(state, blogId)
+  );
+  const activeComponent = useAppSelector((state) =>
+    selectBlogComponentById(state, blogId, activeBlock)
+  );
+  const globalStyles = useAppSelector((state) =>
+    selectBlogGlobalStyle(state, blogId)
+  );
+  const styles = useAppSelector((state) =>
+    selectBlogStylesById(state, blogId, activeBlock)
+  );
+  const mobileStyles = useAppSelector((state) =>
+    selectBlogMobileStylesById(state, blogId, activeBlock)
+  );
 
   useEffect(() => {
-    if (activeBlock && !styles[activeBlock])
+    if (activeBlock)
       dispatch(
         createActiveBlockStyle({
           blogId,
           activeBlockId: activeBlock,
         })
       );
-  }, [activeBlock, dispatch, blogId, styles]);
+  }, [activeBlock, blogId]);
 
-  const { type } = components[activeBlock];
+  if (!activeBlock || !activeComponent) return null;
+
+  const { type } = activeComponent;
 
   const activeStyle = useActiveStylePropertyTab({
     type,
     globalStyles,
-    activeBlock,
     styles,
     mobileStyles,
     screenType,
@@ -103,11 +122,11 @@ const PaddingProperty = ({ label }: PaddingPropertyProps) => {
   return (
     <PaddingBlock
       label={label}
-      padding={activeStyle}
+      padding={activeStyle as Partial<Record<PaddingType, number>>}
       handleChange={handleChange}
       handleToggleMore={handleToggleMore}
     />
   );
-};
+});
 
 export default PaddingProperty;

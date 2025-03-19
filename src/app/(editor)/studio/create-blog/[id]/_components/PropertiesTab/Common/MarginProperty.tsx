@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, memo } from "react";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useParams } from "next/navigation";
 import {
@@ -11,6 +11,14 @@ import {
 import MarginBlock from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/MarginBlock";
 import { EDITOR_DEFAULT_VALUES } from "@/constant";
 import useActiveStylePropertyTab from "@/hooks/editor/use-active-style-property-tab";
+import {
+  selectBlogActiveBlock,
+  selectBlogComponentById,
+  selectBlogGlobalStyle,
+  selectBlogMobileStylesById,
+  selectBlogScreenType,
+  selectBlogStylesById,
+} from "@/redux/features/builders/selectors";
 
 const marginStyleConstraints = {
   defaultStyles: {
@@ -31,20 +39,30 @@ interface MarginPropertyProps {
   label?: string;
 }
 
-const MarginProperty = ({ label }: MarginPropertyProps) => {
+const MarginProperty = memo(({ label }: MarginPropertyProps) => {
   const dispatch = useAppDispatch();
   const { id: blogId } = useParams<{ id: string }>();
 
   if (!blogId) return null;
 
-  const {
-    activeBlock,
-    screenType = "desktop",
-    components,
-    metaData: { styles = {}, mobileStyles = {}, globalStyles },
-  } = useAppSelector((state) => state.blogBuilder.blogs[blogId]);
-
-  if (!activeBlock) return null;
+  const activeBlock = useAppSelector((state) =>
+    selectBlogActiveBlock(state, blogId)
+  );
+  const screenType = useAppSelector((state) =>
+    selectBlogScreenType(state, blogId)
+  );
+  const activeComponent = useAppSelector((state) =>
+    selectBlogComponentById(state, blogId, activeBlock)
+  );
+  const globalStyles = useAppSelector((state) =>
+    selectBlogGlobalStyle(state, blogId)
+  );
+  const styles = useAppSelector((state) =>
+    selectBlogStylesById(state, blogId, activeBlock)
+  );
+  const mobileStyles = useAppSelector((state) =>
+    selectBlogMobileStylesById(state, blogId, activeBlock)
+  );
 
   useEffect(() => {
     if (activeBlock && !styles[activeBlock])
@@ -56,11 +74,12 @@ const MarginProperty = ({ label }: MarginPropertyProps) => {
       );
   }, [activeBlock, dispatch, blogId, styles]);
 
-  const { type } = components[activeBlock];
+  if (!activeBlock || !activeComponent) return null;
+
+  const { type } = activeComponent;
 
   const activeStyle = useActiveStylePropertyTab({
     globalStyles,
-    activeBlock,
     type,
     styles,
     mobileStyles,
@@ -84,10 +103,10 @@ const MarginProperty = ({ label }: MarginPropertyProps) => {
   return (
     <MarginBlock
       label={label}
-      margin={activeStyle}
+      margin={activeStyle as Partial<Record<MarginType, number>>}
       handleChange={handleChange}
     />
   );
-};
+});
 
 export default MarginProperty;

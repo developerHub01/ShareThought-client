@@ -6,7 +6,7 @@ import React, {
   useEffect,
   useState,
   CSSProperties,
-  useCallback,
+  memo,
 } from "react";
 import { ColorResult } from "react-color";
 import { isValidHexColor } from "@/utils";
@@ -14,22 +14,24 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { addStyle } from "@/redux/features/builders/blogBuilderSlice";
 import { useParams } from "next/navigation";
 import ColorBlock from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/ColorBlock";
+import {
+  selectBlogActiveBlock,
+  selectBlogStylesById,
+} from "@/redux/features/builders/selectors";
 
-const BackgroundColorProperty = () => {
+const BackgroundColorProperty = memo(() => {
   const { id: blogId } = useParams<{ id: string }>();
 
   if (!blogId) return null;
 
-  const {
-    activeBlock,
-    metaData: { styles },
-  } = useAppSelector((state) => state.blogBuilder.blogs[blogId]);
+  const activeBlock = useAppSelector((state) =>
+    selectBlogActiveBlock(state, blogId)
+  );
+  const styles = useAppSelector((state) =>
+    selectBlogStylesById(state, blogId, activeBlock)
+  ) as CSSProperties;
 
-  if (!activeBlock) return null;
-
-  const activeStyle = styles[activeBlock] as CSSProperties;
-
-  const backgroundColor = activeStyle?.backgroundColor || "transparent";
+  const backgroundColor = styles?.backgroundColor || "transparent";
 
   const dispatch = useAppDispatch();
   const [backgroundColorState, setBackgroundColorState] =
@@ -40,6 +42,8 @@ const BackgroundColorProperty = () => {
     if (activeBlock && backgroundColor)
       setBackgroundColorState(backgroundColor);
   }, [activeBlock, backgroundColor]);
+
+  if (!activeBlock) return null;
 
   const handleColorDispatch = (backgroundColor: string) => {
     dispatch(
@@ -96,6 +100,6 @@ const BackgroundColorProperty = () => {
       handleColorBlur={handleColorBlur}
     />
   );
-};
+});
 
 export default BackgroundColorProperty;

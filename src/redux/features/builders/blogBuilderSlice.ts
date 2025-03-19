@@ -1066,7 +1066,9 @@ export const blogBuilderSlice = createSlice({
       }>
     ) => {
       const { blogId, activeBlockId } = action.payload;
-      console.log({ activeBlockId });
+
+      if (state.blogs[blogId].activeBlock === activeBlockId) return state;
+
       state.blogs[blogId].activeBlock = activeBlockId ?? null;
     },
 

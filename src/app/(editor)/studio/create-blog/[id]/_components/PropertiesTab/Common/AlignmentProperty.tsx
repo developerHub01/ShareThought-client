@@ -1,4 +1,6 @@
-import React from "react";
+"use client";
+
+import React, { memo } from "react";
 import TextAlignBlock from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/TextAlignBlock";
 import { useParams } from "next/navigation";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
@@ -11,6 +13,14 @@ import {
   flexAlignType,
   setAlignment,
 } from "@/redux/features/builders/blogBuilderSlice";
+import {
+  selectBlogActiveBlock,
+  selectBlogComponentById,
+  selectBlogGlobalStyle,
+  selectBlogMobileStylesById,
+  selectBlogScreenType,
+  selectBlogStylesById,
+} from "@/redux/features/builders/selectors";
 
 const alignList = [
   {
@@ -30,20 +40,20 @@ const alignList = [
   },
 ];
 
-const AlignmentProperty = () => {
+const AlignmentProperty = memo(() => {
   const { id: blogId } = useParams<{ id: string }>();
   const dispatch = useAppDispatch();
 
   if (!blogId) return null;
 
-  const {
-    activeBlock,
-    metaData: { styles },
-  } = useAppSelector((state) => state.blogBuilder.blogs[blogId]);
+  const activeBlock = useAppSelector((state) =>
+    selectBlogActiveBlock(state, blogId)
+  );
+  const styles = useAppSelector((state) =>
+    selectBlogStylesById(state, blogId, activeBlock)
+  );
 
   if (!activeBlock) return null;
-
-  const activeStyles = styles[activeBlock];
 
   const handleChangeAlign = (value: string) => {
     dispatch(
@@ -58,13 +68,11 @@ const AlignmentProperty = () => {
   return (
     <TextAlignBlock
       title="Align"
-      activeAlign={
-        (activeStyles?.justifyContent as flexAlignType) ?? alignList[0].id
-      }
+      activeAlign={(styles?.justifyContent as flexAlignType) ?? alignList[0].id}
       handleChange={handleChangeAlign}
       alignList={alignList}
     />
   );
-};
+});
 
 export default AlignmentProperty;

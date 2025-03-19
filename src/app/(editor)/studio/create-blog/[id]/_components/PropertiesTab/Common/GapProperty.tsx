@@ -1,32 +1,51 @@
 "use client";
 
-import React, { ChangeEvent, useCallback } from "react";
+import React, { ChangeEvent, useCallback, memo } from "react";
 import CountBlock from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/CountBlock";
 import { addStyle } from "@/redux/features/builders/blogBuilderSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useParams } from "next/navigation";
 import { EDITOR_DEFAULT_VALUES } from "@/constant";
 import useActiveStylePropertyTab from "@/hooks/editor/use-active-style-property-tab";
+import {
+  selectBlogActiveBlock,
+  selectBlogComponentById,
+  selectBlogGlobalStyle,
+  selectBlogMobileStylesById,
+  selectBlogScreenType,
+  selectBlogStylesById,
+} from "@/redux/features/builders/selectors";
 
-const GapProperty = () => {
+const GapProperty = memo(() => {
   const dispatch = useAppDispatch();
   const { id: blogId } = useParams<{ id: string }>();
 
   if (!blogId) return null;
 
-  const {
-    activeBlock,
-    screenType = "desktop",
-    components,
-    metaData: { styles = {}, mobileStyles = {}, globalStyles },
-  } = useAppSelector((state) => state.blogBuilder.blogs[blogId]);
+  const activeBlock = useAppSelector((state) =>
+    selectBlogActiveBlock(state, blogId)
+  );
+  const screenType = useAppSelector((state) =>
+    selectBlogScreenType(state, blogId)
+  );
+  const activeComponent = useAppSelector((state) =>
+    selectBlogComponentById(state, blogId, activeBlock)
+  );
+  const globalStyles = useAppSelector((state) =>
+    selectBlogGlobalStyle(state, blogId)
+  );
+  const styles = useAppSelector((state) =>
+    selectBlogStylesById(state, blogId, activeBlock)
+  );
+  const mobileStyles = useAppSelector((state) =>
+    selectBlogMobileStylesById(state, blogId, activeBlock)
+  );
 
-  if (!activeBlock) return null;
+  if (!activeBlock || !activeComponent) return null;
 
-  const { type } = components[activeBlock];
+  const { type } = activeComponent;
 
   const activeStyle = useActiveStylePropertyTab({
-    activeBlock,
     type,
     globalStyles,
     styles,
@@ -68,6 +87,8 @@ const GapProperty = () => {
     handleDispatchSize(value);
   };
 
+  console.log("GapProperty ===========")
+
   return (
     <CountBlock
       label="Gap"
@@ -79,6 +100,6 @@ const GapProperty = () => {
       max={EDITOR_DEFAULT_VALUES.GAP.MAX}
     />
   );
-};
+});
 
 export default GapProperty;
