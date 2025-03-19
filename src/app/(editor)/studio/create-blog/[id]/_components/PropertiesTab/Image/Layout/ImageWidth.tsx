@@ -1,29 +1,33 @@
 "use client";
 
-import React from "react";
+import React, { memo } from "react";
 import PropertyWrapper_v1 from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/PropertyWrapper_v1";
 import { Switch } from "@/components/ui/switch";
 import SliderBlock from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/SliderBlockWithLabel";
 import { useParams } from "next/navigation";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { addStyle } from "@/redux/features/builders/blogBuilderSlice";
+import {
+  selectBlogActiveBlock,
+  selectBlogStylesById,
+} from "@/redux/features/builders/selectors";
 
-const ImageWidth = () => {
+const ImageWidth = memo(() => {
   const { id: blogId } = useParams<{ id: string }>();
   const dispatch = useAppDispatch();
 
   if (!blogId) return null;
 
-  const {
-    activeBlock,
-    metaData: { styles },
-  } = useAppSelector((state) => state.blogBuilder.blogs[blogId]);
+  const activeBlock = useAppSelector((state) =>
+    selectBlogActiveBlock(state, blogId)
+  );
+  const styles = useAppSelector((state) =>
+    selectBlogStylesById(state, blogId, activeBlock)
+  );
+
+  const imageWidth = styles?.width;
 
   if (!activeBlock) return null;
-
-  const activeStyles = styles[activeBlock];
-
-  const imageWidth = activeStyles?.width;
 
   const handleChange = (value: number) => {
     dispatch(
@@ -73,6 +77,6 @@ const ImageWidth = () => {
       )}
     </PropertyWrapper_v1>
   );
-};
+});
 
 export default ImageWidth;

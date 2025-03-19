@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { memo } from "react";
 import SliderBlockWithLabel from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/SliderBlockWithLabel";
 import { useParams } from "next/navigation";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
@@ -8,23 +8,27 @@ import {
   addImageFilter,
   ImageFiltersInitial,
 } from "@/redux/features/builders/blogBuilderSlice";
+import {
+  selectBlogActiveBlock,
+  selectBlogStylesById,
+} from "@/redux/features/builders/selectors";
 
-const ImageOpacity = () => {
+const ImageOpacity = memo(() => {
   const { id: blogId } = useParams<{ id: string }>();
   const dispatch = useAppDispatch();
 
   if (!blogId) return null;
 
-  const {
-    activeBlock,
-    metaData: { styles },
-  } = useAppSelector((state) => state.blogBuilder.blogs[blogId]);
+  const activeBlock = useAppSelector((state) =>
+    selectBlogActiveBlock(state, blogId)
+  );
+  const styles = useAppSelector((state) =>
+    selectBlogStylesById(state, blogId, activeBlock)
+  );
 
   if (!activeBlock) return null;
 
-  const activeStyles = styles[activeBlock];
-
-  const imageOpacity = (activeStyles?.filter?.opacity ??
+  const imageOpacity = (styles?.filter?.opacity ??
     ImageFiltersInitial.opacity) as number;
 
   const handleChange = (value: number) => {
@@ -49,6 +53,6 @@ const ImageOpacity = () => {
       onChange={handleChange}
     />
   );
-};
+});
 
 export default ImageOpacity;

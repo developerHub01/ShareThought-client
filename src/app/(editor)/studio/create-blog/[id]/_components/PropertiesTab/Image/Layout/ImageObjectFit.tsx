@@ -1,10 +1,14 @@
 "use client";
 
-import React, { CSSProperties } from "react";
+import React, { CSSProperties, memo } from "react";
 import SelectBlock from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/SelectBlock";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useParams } from "next/navigation";
 import { addStyle } from "@/redux/features/builders/blogBuilderSlice";
+import {
+  selectBlogActiveBlock,
+  selectBlogStylesById,
+} from "@/redux/features/builders/selectors";
 
 const objectFitList = [
   {
@@ -29,20 +33,20 @@ const objectFitList = [
   },
 ];
 
-const ImageObjectFit = () => {
+const ImageObjectFit = memo(() => {
   const dispatch = useAppDispatch();
   const { id: blogId } = useParams<{ id: string }>();
 
   if (!blogId) return null;
 
-  const {
-    activeBlock,
-    metaData: { styles },
-  } = useAppSelector((state) => state.blogBuilder.blogs[blogId]);
+  const activeBlock = useAppSelector((state) =>
+    selectBlogActiveBlock(state, blogId)
+  );
+  const styles = useAppSelector((state) =>
+    selectBlogStylesById(state, blogId, activeBlock)
+  ) as CSSProperties;
 
   if (!activeBlock) return null;
-
-  const activeStyle = styles[activeBlock] as CSSProperties;
 
   const handleChange = (value: string) => {
     dispatch(
@@ -59,11 +63,11 @@ const ImageObjectFit = () => {
   return (
     <SelectBlock
       label="Object Fit"
-      activeValue={String(activeStyle?.objectFit || objectFitList[0].id)}
+      activeValue={String(styles?.objectFit || objectFitList[0].id)}
       itemList={objectFitList}
       handleChange={handleChange}
     />
   );
-};
+});
 
 export default ImageObjectFit;

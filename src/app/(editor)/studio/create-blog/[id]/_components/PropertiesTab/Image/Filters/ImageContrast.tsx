@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { memo } from "react";
 import {
   addImageFilter,
   ImageFiltersInitial,
@@ -8,23 +8,27 @@ import {
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useParams } from "next/navigation";
 import SliderBlockWithLabel from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/SliderBlockWithLabel";
+import {
+  selectBlogActiveBlock,
+  selectBlogStylesById,
+} from "@/redux/features/builders/selectors";
 
-const ImageContrast = () => {
+const ImageContrast = memo(() => {
   const { id: blogId } = useParams<{ id: string }>();
   const dispatch = useAppDispatch();
 
   if (!blogId) return null;
 
-  const {
-    activeBlock,
-    metaData: { styles },
-  } = useAppSelector((state) => state.blogBuilder.blogs[blogId]);
+  const activeBlock = useAppSelector((state) =>
+    selectBlogActiveBlock(state, blogId)
+  );
+  const styles = useAppSelector((state) =>
+    selectBlogStylesById(state, blogId, activeBlock)
+  );
 
   if (!activeBlock) return null;
 
-  const activeStyles = styles[activeBlock];
-
-  const imageContrast = (activeStyles?.filter?.contrast ??
+  const imageContrast = (styles?.filter?.contrast ??
     ImageFiltersInitial.contrast) as number;
 
   const handleChange = (value: number) => {
@@ -49,6 +53,6 @@ const ImageContrast = () => {
       onChange={handleChange}
     />
   );
-};
+});
 
 export default ImageContrast;

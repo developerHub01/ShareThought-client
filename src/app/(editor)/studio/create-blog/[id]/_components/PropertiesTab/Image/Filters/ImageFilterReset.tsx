@@ -1,25 +1,29 @@
 "use client";
 
-import React from "react";
+import React, { memo } from "react";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { resetImageFilter } from "@/redux/features/builders/blogBuilderSlice";
 import { useParams } from "next/navigation";
 import ResetBlock from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/ResetBlock";
+import {
+  selectBlogActiveBlock,
+  selectBlogStylesById,
+} from "@/redux/features/builders/selectors";
 
-const ImageFilterReset = () => {
+const ImageFilterReset = memo(() => {
   const { id: blogId } = useParams<{ id: string }>();
   const dispatch = useAppDispatch();
 
   if (!blogId) return null;
 
-  const {
-    activeBlock,
-    metaData: { styles },
-  } = useAppSelector((state) => state.blogBuilder.blogs[blogId]);
+  const activeBlock = useAppSelector((state) =>
+    selectBlogActiveBlock(state, blogId)
+  );
+  const styles = useAppSelector((state) =>
+    selectBlogStylesById(state, blogId, activeBlock)
+  );
 
   if (!activeBlock) return null;
-
-  const activeStyles = styles[activeBlock];
 
   const handleResetFilters = () => {
     dispatch(
@@ -34,10 +38,10 @@ const ImageFilterReset = () => {
     <ResetBlock
       lable="Reset filters"
       tooltip="Reset all filters"
-      disabled={!activeStyles || !activeStyles.filter}
+      disabled={!styles || !styles.filter}
       handleResetFilters={handleResetFilters}
     />
   );
-};
+});
 
 export default ImageFilterReset;

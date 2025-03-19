@@ -1,35 +1,36 @@
 "use client";
 
-import React, { ChangeEvent, useEffect, useState } from "react";
-import {
-  addImageFilter,
-} from "@/redux/features/builders/blogBuilderSlice";
+import React, { ChangeEvent, useEffect, useState, memo } from "react";
+import { addImageFilter } from "@/redux/features/builders/blogBuilderSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useParams } from "next/navigation";
 import SliderBlockWithLabel from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/SliderBlockWithLabel";
 import PropertyWrapper_v1 from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/PropertyWrapper_v1";
 import ColorBlock from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/ColorBlock";
 import { ColorResult } from "react-color";
+import {
+  selectBlogActiveBlock,
+  selectBlogStylesById,
+} from "@/redux/features/builders/selectors";
 
 type dropShadowType = [number, number, number, string];
 
 const defaultDropShadow: dropShadowType = [0, 0, 0, "transparent"];
 
-const ImageDropShadow = () => {
+const ImageDropShadow = memo(() => {
   const { id: blogId } = useParams<{ id: string }>();
   const dispatch = useAppDispatch();
 
   if (!blogId) return null;
 
-  const {
-    activeBlock,
-    metaData: { styles },
-  } = useAppSelector((state) => state.blogBuilder.blogs[blogId]);
+  const activeBlock = useAppSelector((state) =>
+    selectBlogActiveBlock(state, blogId)
+  );
+  const styles = useAppSelector((state) =>
+    selectBlogStylesById(state, blogId, activeBlock)
+  );
 
-  if (!activeBlock) return null;
-
-  const activeFilter =
-    styles?.[activeBlock]?.filter?.["drop-shadow"] ?? defaultDropShadow;
+  const activeFilter = styles?.filter?.["drop-shadow"] ?? defaultDropShadow;
 
   const [dropShadowState, setDropShadowState] =
     useState<dropShadowType>(activeFilter);
@@ -38,6 +39,8 @@ const ImageDropShadow = () => {
     if (!activeBlock) return;
     setDropShadowState(activeFilter);
   }, [activeBlock, activeFilter]);
+
+  if (!activeBlock) return null;
 
   const handleChange = (index: number, value: number | string) => {
     const newDropShadowState: dropShadowType = [...dropShadowState];
@@ -96,6 +99,6 @@ const ImageDropShadow = () => {
       />
     </PropertyWrapper_v1>
   );
-};
+});
 
 export default ImageDropShadow;

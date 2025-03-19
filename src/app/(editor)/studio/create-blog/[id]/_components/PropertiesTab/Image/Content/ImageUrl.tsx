@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, memo } from "react";
 import InputWithAttachLebel from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/InputWithAttachLebel";
 import useActiveImage from "@/hooks/editor/use-active-image";
 import { updateImageContent } from "@/redux/features/builders/blogBuilderSlice";
@@ -8,7 +8,7 @@ import { useAppDispatch } from "@/redux/hooks";
 import { isBlobURL, isValidURL } from "@/utils/index";
 import PropertyWrapper_v1 from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/PropertyWrapper_v1";
 
-const ImageUrl = () => {
+const ImageUrl = memo(() => {
   const [url, setUrl] = useState("");
   const dispatch = useAppDispatch();
   const { url: imageUrl, activeBlock, blogId } = useActiveImage();
@@ -48,6 +48,6 @@ const ImageUrl = () => {
       />
     </PropertyWrapper_v1>
   );
-};
+});
 
 export default ImageUrl;
