@@ -1,12 +1,13 @@
 "use client";
 
-import React, { ChangeEvent, useCallback, memo } from "react";
+import React, { ChangeEvent, useCallback, memo, useMemo } from "react";
 import CountBlock from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/CountBlock";
 import { addStyle } from "@/redux/features/builders/blogBuilderSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useParams } from "next/navigation";
 import { EDITOR_DEFAULT_VALUES } from "@/constant";
 import useActiveStylePropertyTab from "@/hooks/editor/use-active-style-property-tab";
+import ResetToGlobalStyle from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/ResetToGlobalStyle";
 import {
   selectBlogActiveBlock,
   selectBlogComponentById,
@@ -15,9 +16,11 @@ import {
   selectBlogScreenType,
   selectBlogStylesById,
 } from "@/redux/features/builders/selectors";
+import useRemoveStyle from "@/hooks/editor/use-remove-style";
 
 const GapProperty = memo(() => {
   const dispatch = useAppDispatch();
+  const handleReset = useRemoveStyle();
   const { id: blogId } = useParams<{ id: string }>();
 
   if (!blogId) return null;
@@ -44,6 +47,9 @@ const GapProperty = memo(() => {
   if (!activeBlock || !activeComponent) return null;
 
   const { type } = activeComponent;
+
+  console.log({ styles });
+  const haveCustomStyle = useMemo(() => "gap" in styles, [styles]);
 
   const activeStyle = useActiveStylePropertyTab({
     type,
@@ -87,7 +93,7 @@ const GapProperty = memo(() => {
     handleDispatchSize(value);
   };
 
-  console.log("GapProperty ===========")
+  console.log("GapProperty ===========");
 
   return (
     <CountBlock
@@ -98,6 +104,12 @@ const GapProperty = memo(() => {
       handleChange={handleChange}
       min={EDITOR_DEFAULT_VALUES.GAP.MIN}
       max={EDITOR_DEFAULT_VALUES.GAP.MAX}
+      AfterComponent={() => (
+        <ResetToGlobalStyle
+          disabled={!haveCustomStyle}
+          handleReset={() => handleReset("gap")}
+        />
+      )}
     />
   );
 });

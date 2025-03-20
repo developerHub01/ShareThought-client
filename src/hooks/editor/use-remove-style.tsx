@@ -17,12 +17,12 @@ const useRemoveStyle = () => {
 
   if (!activeBlock) return () => {};
 
-  const handleReset = (properyName: keyof CSSProperties) => {
+  const handleReset = (propertyName: keyof CSSProperties) => {
     dispatch(
       removeStyle({
         activeBlockId: activeBlock,
         blogId,
-        properyName,
+        propertyName,
       })
     );
   };

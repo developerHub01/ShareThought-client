@@ -1503,18 +1503,18 @@ export const blogBuilderSlice = createSlice({
       action: PayloadAction<{
         blogId: string;
         activeBlockId: string;
-        properyName: string;
+        propertyName: string;
       }>
     ) => {
-      const { blogId, activeBlockId, properyName } = action.payload;
+      const { blogId, activeBlockId, propertyName } = action.payload;
 
       if (
         !state.blogs[blogId].metaData.styles[activeBlockId] ||
-        !state.blogs[blogId].metaData.styles[activeBlockId][properyName]
+        !(propertyName in state.blogs[blogId].metaData.styles[activeBlockId])
       )
         return state;
 
-      delete state.blogs[blogId].metaData.styles[activeBlockId][properyName];
+      delete state.blogs[blogId].metaData.styles[activeBlockId][propertyName];
     },
 
     changeType: (

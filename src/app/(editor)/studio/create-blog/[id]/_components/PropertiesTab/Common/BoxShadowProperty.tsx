@@ -79,7 +79,7 @@ const BoxShadowProperty = memo(() => {
       removeStyle({
         blogId,
         activeBlockId: activeBlock,
-        properyName: "boxShadow",
+        propertyName: "boxShadow",
       })
     );
   };
