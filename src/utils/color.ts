@@ -21,7 +21,7 @@ export const hexToRgba = (hex: string) => {
     b = parseInt(hex.substring(4, 6), 16);
     if (hex.length === 8) a = parseInt(hex.substring(6, 8), 16);
   } else {
-    throw new Error("Invalid HEX format");
+    return "rgba(0, 0, 0, 1)";
   }
 
   return `rgba(${r}, ${g}, ${b}, ${a / 255})`;
