@@ -1,6 +1,12 @@
 "use client";
 
-import React, { ChangeEvent, FocusEvent, useEffect, useState } from "react";
+import React, {
+  ChangeEvent,
+  FocusEvent,
+  useEffect,
+  useState,
+  memo,
+} from "react";
 import PropertyWrapper_v1 from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/PropertyWrapper_v1";
 import ColorPickerBlock from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/ColorPickerBlock";
 import { useParams } from "next/navigation";
@@ -25,20 +31,26 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {
+  selectBlogActiveBlock,
+  selectBlogComponentById,
+} from "@/redux/features/builders/selectors";
 
-const TableStripedRow = () => {
+const TableStripedRow = memo(() => {
   const { id: blogId } = useParams<{ id: string }>();
 
   if (!blogId) return null;
 
-  const { activeBlock, content, components } = useAppSelector(
-    (state) => state.blogBuilder.blogs[blogId]
+  const activeBlock = useAppSelector((state) =>
+    selectBlogActiveBlock(state, blogId)
+  );
+  const component = useAppSelector((state) =>
+    selectBlogComponentById(state, blogId, activeBlock)
   );
 
-  if (!activeBlock) return null;
+  if (!activeBlock || !component) return null;
 
-  const tableData = components[activeBlock as string]
-    ?.children as TableInterface;
+  const tableData = component?.children as TableInterface;
   const tableStripeBackgroundColor = tableData.stripedRow?.backgroundColor;
 
   const dispatch = useAppDispatch();
@@ -163,6 +175,6 @@ const TableStripedRow = () => {
       )}
     </PropertyWrapper_v1>
   );
-};
+});
 
 export default TableStripedRow;

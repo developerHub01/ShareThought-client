@@ -1,6 +1,12 @@
 "use client";
 
-import React, { ChangeEvent, FocusEvent, useEffect, useState } from "react";
+import React, {
+  ChangeEvent,
+  FocusEvent,
+  useEffect,
+  useState,
+  memo,
+} from "react";
 import { ColorResult } from "react-color";
 import { isValidHexColor } from "@/utils";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
@@ -12,21 +18,29 @@ import {
 } from "@/redux/features/builders/blogBuilderSlice";
 import { EDITOR_TABLE_SIZE } from "@/constant";
 import BorderBlock from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/BorderBlock";
+import {
+  selectBlogActiveBlock,
+  selectBlogComponentById,
+} from "@/redux/features/builders/selectors";
 
-const TableBorder = () => {
+const TableBorder = memo(() => {
   const dispatch = useAppDispatch();
   const { id: blogId } = useParams<{ id: string }>();
 
   if (!blogId) return null;
 
-  const { activeBlock, content, components } = useAppSelector(
-    (state) => state.blogBuilder.blogs[blogId]
+  const activeBlock = useAppSelector((state) =>
+    selectBlogActiveBlock(state, blogId)
   );
+  const component = useAppSelector((state) =>
+    selectBlogComponentById(state, blogId, activeBlock)
+  );
+
+  if (!activeBlock || !component) return null;
 
   if (!activeBlock) return null;
 
-  const tableData = components[activeBlock as string]
-    ?.children as TableInterface;
+  const tableData = component?.children as TableInterface;
 
   const tableBorderStyle = tableData?.border;
 
@@ -201,6 +215,6 @@ const TableBorder = () => {
       maxSize={EDITOR_TABLE_SIZE.MAX_BORDER_SIZE}
     />
   );
-};
+});
 
 export default TableBorder;

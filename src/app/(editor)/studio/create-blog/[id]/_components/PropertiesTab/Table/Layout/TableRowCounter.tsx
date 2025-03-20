@@ -1,6 +1,6 @@
 "use client";
 
-import React, { ChangeEvent, useEffect, useState } from "react";
+import React, { ChangeEvent, useEffect, useState, memo } from "react";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useParams } from "next/navigation";
 import {
@@ -11,29 +11,37 @@ import {
 } from "@/redux/features/builders/blogBuilderSlice";
 import { EDITOR_TABLE_SIZE } from "@/constant";
 import CountBlock from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/CountBlock";
+import {
+  selectBlogActiveBlock,
+  selectBlogComponentById,
+} from "@/redux/features/builders/selectors";
 
-const TableRowCounter = () => {
+const TableRowCounter = memo(() => {
   const dispatch = useAppDispatch();
   const { id: blogId } = useParams<{ id: string }>();
 
   if (!blogId) return null;
 
-  const { activeBlock, content, components } = useAppSelector(
-    (state) => state.blogBuilder.blogs[blogId]
+  const activeBlock = useAppSelector((state) =>
+    selectBlogActiveBlock(state, blogId)
   );
+  const component = useAppSelector((state) =>
+    selectBlogComponentById(state, blogId, activeBlock)
+  );
+
+  if (!activeBlock || !component) return null;
 
   if (!activeBlock) return null;
 
-  const tableData = components[activeBlock as string]
-    ?.children as TableInterface;
+  const tableData = component?.children as TableInterface;
 
   const rowsCount = tableData?.tbody?.length;
 
   const [tableRowsCount, setTableRowsCount] = useState(rowsCount);
 
   useEffect(() => {
-    if (content) setTableRowsCount(rowsCount);
-  }, [content]);
+    setTableRowsCount(rowsCount);
+  }, []);
 
   /* Rows handlers =========== */
   const handleRowsIncrement = () => {
@@ -91,6 +99,6 @@ const TableRowCounter = () => {
       min={0}
     />
   );
-};
+});
 
 export default TableRowCounter;

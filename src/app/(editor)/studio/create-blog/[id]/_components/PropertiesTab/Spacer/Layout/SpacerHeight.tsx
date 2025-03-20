@@ -1,12 +1,18 @@
 "use client";
 
-import React, { ChangeEvent, useCallback, useMemo } from "react";
+import React, { ChangeEvent, useCallback, memo } from "react";
 import CountBlock from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/CountBlock";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useParams } from "next/navigation";
 import { addStyle } from "@/redux/features/builders/blogBuilderSlice";
-import filterStyle from "@/utils/editor/filterStyle";
 import useActiveStylePropertyTab from "@/hooks/editor/use-active-style-property-tab";
+import {
+  selectBlogActiveBlock,
+  selectBlogComponentById,
+  selectBlogMobileStylesById,
+  selectBlogScreenType,
+  selectBlogStylesById,
+} from "@/redux/features/builders/selectors";
 
 const spacerHeightStyleConstraints = {
   defaultStyles: {
@@ -17,26 +23,34 @@ const spacerHeightStyleConstraints = {
   },
 };
 
-const SpacerHeight = () => {
+const SpacerHeight = memo(() => {
   const dispatch = useAppDispatch();
   const { id: blogId } = useParams<{ id: string }>();
 
   if (!blogId) return null;
 
-  const {
-    activeBlock,
-    screenType,
-    components,
-    metaData: { styles = {}, mobileStyles = {} },
-  } = useAppSelector((state) => state.blogBuilder.blogs[blogId]);
+  const activeBlock = useAppSelector((state) =>
+    selectBlogActiveBlock(state, blogId)
+  );
+  const component = useAppSelector((state) =>
+    selectBlogComponentById(state, blogId, activeBlock)
+  );
+  const styles = useAppSelector((state) =>
+    selectBlogStylesById(state, blogId, activeBlock)
+  );
+  const mobileStyles = useAppSelector((state) =>
+    selectBlogMobileStylesById(state, blogId, activeBlock)
+  );
+  const screenType = useAppSelector((state) =>
+    selectBlogScreenType(state, blogId)
+  );
 
-  if (!activeBlock) return null;
+  if (!activeBlock || !component) return null;
 
-  const { type } = components[activeBlock];
+  const { type } = component;
 
   const activeStyle = useActiveStylePropertyTab({
     type,
-    activeBlock,
     styles,
     mobileStyles,
     screenType,
@@ -58,32 +72,6 @@ const SpacerHeight = () => {
     [dispatch, blogId, activeBlock]
   );
 
-  const handleSpacerSizeIncrement = () => {
-    dispatch(
-      addStyle({
-        blogId,
-        activeBlockId: activeBlock,
-        styles: {
-          height: "inc",
-        },
-        ...spacerHeightStyleConstraints,
-      })
-    );
-  };
-
-  const handleSpacerSizeDecrement = () => {
-    dispatch(
-      addStyle({
-        blogId,
-        activeBlockId: activeBlock,
-        styles: {
-          height: "dec",
-        },
-        ...spacerHeightStyleConstraints,
-      })
-    );
-  };
-
   const handleSpacerSizeChange = (e: ChangeEvent<HTMLInputElement>) => {
     const height = Number(e.target.value);
     handleDispatch(height);
@@ -98,6 +86,6 @@ const SpacerHeight = () => {
       handleDecrement={() => handleDispatch("dec")}
     />
   );
-};
+});
 
 export default SpacerHeight;

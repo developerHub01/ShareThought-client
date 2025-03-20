@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { memo } from "react";
 import TextAlignBlock from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/TextAlignBlock";
 import { AlignCenter, AlignJustify, AlignLeft, AlignRight } from "lucide-react";
 import {
@@ -10,6 +10,10 @@ import {
 } from "@/redux/features/builders/blogBuilderSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useParams } from "next/navigation";
+import {
+  selectBlogActiveBlock,
+  selectBlogComponentById,
+} from "@/redux/features/builders/selectors";
 
 const alignList = [
   {
@@ -34,20 +38,22 @@ const alignList = [
   },
 ];
 
-const TableHeaderTextAlign = () => {
+const TableHeaderTextAlign = memo(() => {
   const dispatch = useAppDispatch();
   const { id: blogId } = useParams<{ id: string }>();
 
   if (!blogId) return null;
 
-  const { activeBlock, components } = useAppSelector(
-    (state) => state.blogBuilder.blogs[blogId]
+  const activeBlock = useAppSelector((state) =>
+    selectBlogActiveBlock(state, blogId)
+  );
+  const component = useAppSelector((state) =>
+    selectBlogComponentById(state, blogId, activeBlock)
   );
 
-  if (!activeBlock) return null;
+  if (!activeBlock || !component) return null;
 
-  const tableData = components[activeBlock as string]
-    ?.children as TableInterface;
+  const tableData = component?.children as TableInterface;
 
   const tableHeader = tableData.header;
 
@@ -69,6 +75,6 @@ const TableHeaderTextAlign = () => {
       alignList={alignList}
     />
   );
-};
+});
 
 export default TableHeaderTextAlign;

@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { memo } from "react";
 import SelectBlock from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/SelectBlock";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useParams } from "next/navigation";
@@ -14,7 +14,7 @@ import {
   selectBlogComponentById,
 } from "@/redux/features/builders/selectors";
 
-const TypographyContentType = () => {
+const TypographyContentType = memo(() => {
   const dispatch = useAppDispatch();
   const { id: blogId } = useParams<{ id: string }>();
 
@@ -23,12 +23,13 @@ const TypographyContentType = () => {
   const activeBlock = useAppSelector((state) =>
     selectBlogActiveBlock(state, blogId)
   );
-
-  if (!activeBlock) return null;
-
-  const { type } = useAppSelector((state) =>
+  const component = useAppSelector((state) =>
     selectBlogComponentById(state, blogId, activeBlock)
   );
+
+  if (!activeBlock || !component) return null;
+
+  const { type } = component;
 
   const handleChangeTypographyType = (value: TypographyType) => {
     dispatch(
@@ -50,6 +51,6 @@ const TypographyContentType = () => {
       }
     />
   );
-};
+});
 
 export default TypographyContentType;

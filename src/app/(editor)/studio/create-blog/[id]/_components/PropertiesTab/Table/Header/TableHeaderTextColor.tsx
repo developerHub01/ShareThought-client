@@ -1,6 +1,12 @@
 "use client";
 
-import React, { ChangeEvent, FocusEvent, useEffect, useState } from "react";
+import React, {
+  ChangeEvent,
+  FocusEvent,
+  useEffect,
+  useState,
+  memo,
+} from "react";
 import { ColorResult } from "react-color";
 import { isValidHexColor } from "@/utils";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
@@ -11,20 +17,26 @@ import {
 import { useParams } from "next/navigation";
 import { EDITOR_TABLE_SIZE } from "@/constant";
 import ColorBlock from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/ColorBlock";
+import {
+  selectBlogActiveBlock,
+  selectBlogComponentById,
+} from "@/redux/features/builders/selectors";
 
-const TableHeaderTextColor = () => {
+const TableHeaderTextColor = memo(() => {
   const { id: blogId } = useParams<{ id: string }>();
 
   if (!blogId) return null;
 
-  const { activeBlock, components } = useAppSelector(
-    (state) => state.blogBuilder.blogs[blogId]
+  const activeBlock = useAppSelector((state) =>
+    selectBlogActiveBlock(state, blogId)
+  );
+  const component = useAppSelector((state) =>
+    selectBlogComponentById(state, blogId, activeBlock)
   );
 
-  if (!activeBlock) return null;
+  if (!activeBlock || !component) return null;
 
-  const tableData = components[activeBlock as string]
-    ?.children as TableInterface;
+  const tableData = component?.children as TableInterface;
   const tableHeaderTextColor = tableData.header?.textColor;
 
   const dispatch = useAppDispatch();
@@ -105,6 +117,6 @@ const TableHeaderTextColor = () => {
       handleColorBlur={handleColorBlur}
     />
   );
-};
+});
 
 export default TableHeaderTextColor;

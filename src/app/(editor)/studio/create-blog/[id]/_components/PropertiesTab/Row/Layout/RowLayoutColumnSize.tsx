@@ -1,7 +1,7 @@
 "use client";
 
-import React, { Fragment, MouseEvent, useMemo, useState } from "react";
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import React, { Fragment, MouseEvent, useMemo, useState, memo } from "react";
+import { useAppSelector } from "@/redux/hooks";
 import { useParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import {
@@ -12,26 +12,32 @@ import {
 import PropertyWrapper_v1 from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/PropertyWrapper_v1";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
+import {
+  selectBlogActiveBlock,
+  selectBlogComponentById,
+} from "@/redux/features/builders/selectors";
 
-const RowLayoutColumnSize = () => {
+const RowLayoutColumnSize = memo(() => {
   const [selectedIndex, setSelectedIndex] = useState(-1);
-  const dispatch = useAppDispatch();
   const { id: blogId } = useParams<{ id: string }>();
 
   if (!blogId) return null;
 
-  const { activeBlock, components } = useAppSelector(
-    (state) => state.blogBuilder.blogs[blogId]
+  const activeBlock = useAppSelector((state) =>
+    selectBlogActiveBlock(state, blogId)
+  );
+  const component = useAppSelector((state) =>
+    selectBlogComponentById(state, blogId, activeBlock)
   );
 
   if (
     !activeBlock ||
-    !components[activeBlock] ||
-    !components[activeBlock].gridSize
+    !component ||
+    !component.gridSize
   )
     return null;
 
-  const { gridSize } = components[activeBlock];
+  const { gridSize } = component
 
   const remainingSize = useMemo(
     () => 12 - gridSize.reduce((acc, curr) => acc + curr, 0),
@@ -89,6 +95,6 @@ const RowLayoutColumnSize = () => {
       </div>
     </PropertyWrapper_v1>
   );
-};
+});
 
 export default RowLayoutColumnSize;
