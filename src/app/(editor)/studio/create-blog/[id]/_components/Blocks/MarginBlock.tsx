@@ -12,6 +12,9 @@ interface MarginBlockProps {
   handleChange: (
     margin: Partial<Record<MarginType, number | "inc" | "dec">>
   ) => void;
+  BeforeComponent?: React.ComponentType; // Accepts a JSX component
+  AfterComponent?: React.ComponentType; // Accepts a JSX component
+  [key: string]: unknown;
 }
 
 const marginList: Array<{
@@ -28,11 +31,24 @@ const marginList: Array<{
   },
 ];
 
-const MarginBlock = ({ label, margin, handleChange }: MarginBlockProps) => {
+const MarginBlock = ({
+  label,
+  margin,
+  handleChange,
+  BeforeComponent,
+  AfterComponent,
+  ...props
+}: MarginBlockProps) => {
   return (
     <PropertyWrapper_v1 className="flex flex-col gap-3">
       <div className="w-full flex justify-between items-center gap-3 flex-wrap">
+        {/* Render BeforeComponent if passed */}
+        {BeforeComponent && <BeforeComponent />}
+
         <p className="text-sm">{label ?? "Margin"}</p>
+
+        {/* Render AfterComponent if passed */}
+        {AfterComponent && <AfterComponent />}
       </div>
       <div className="w-full grid grid-cols-2 gap-4">
         {marginList.map(({ id, label }) => (

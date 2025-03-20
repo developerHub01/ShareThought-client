@@ -7,6 +7,7 @@ import React, {
   useState,
   useCallback,
   memo,
+  useMemo,
 } from "react";
 import { ColorResult } from "react-color";
 import { isValidHexColor } from "@/utils";
@@ -22,9 +23,12 @@ import {
   selectBlogGlobalStyle,
   selectBlogStylesById,
 } from "@/redux/features/builders/selectors";
+import ResetToGlobalStyle from "../../../Blocks/ResetToGlobalStyle";
+import useRemoveStyle from "@/hooks/editor/use-remove-style";
 
 const TextColorProperty = memo(() => {
   const { id: blogId } = useParams<{ id: string }>();
+  const handleReset = useRemoveStyle();
   if (!blogId) return null;
 
   const activeBlock = useAppSelector((state) =>
@@ -66,6 +70,8 @@ const TextColorProperty = memo(() => {
   useEffect(() => {
     if (activeBlock && textColor) setTextColorState(textColor);
   }, [activeBlock, textColor]);
+
+  const haveCustomStyle = useMemo(() => "color" in styles, [styles]);
 
   const handleColorDispatch = useCallback(
     (color: string) => {
@@ -122,6 +128,12 @@ const TextColorProperty = memo(() => {
       handleColorPicker={handleColorPicker}
       handleColorChange={handleColorChange}
       handleColorBlur={handleColorBlur}
+      AfterComponent={() => (
+        <ResetToGlobalStyle
+          disabled={!haveCustomStyle}
+          handleReset={() => handleReset("color")}
+        />
+      )}
     />
   );
 });

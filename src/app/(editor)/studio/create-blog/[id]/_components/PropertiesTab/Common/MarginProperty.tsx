@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, memo } from "react";
+import React, { useEffect, memo, useMemo } from "react";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useParams } from "next/navigation";
 import {
@@ -11,6 +11,7 @@ import {
 import MarginBlock from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/MarginBlock";
 import { EDITOR_DEFAULT_VALUES } from "@/constant";
 import useActiveStylePropertyTab from "@/hooks/editor/use-active-style-property-tab";
+import ResetToGlobalStyle from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/ResetToGlobalStyle";
 import {
   selectBlogActiveBlock,
   selectBlogComponentById,
@@ -19,6 +20,7 @@ import {
   selectBlogScreenType,
   selectBlogStylesById,
 } from "@/redux/features/builders/selectors";
+import useRemoveStyle from "@/hooks/editor/use-remove-style";
 
 const marginStyleConstraints = {
   defaultStyles: {
@@ -41,6 +43,7 @@ interface MarginPropertyProps {
 
 const MarginProperty = memo(({ label }: MarginPropertyProps) => {
   const dispatch = useAppDispatch();
+  const handleReset = useRemoveStyle();
   const { id: blogId } = useParams<{ id: string }>();
 
   if (!blogId) return null;
@@ -78,6 +81,16 @@ const MarginProperty = memo(({ label }: MarginPropertyProps) => {
 
   const { type } = activeComponent;
 
+  const haveCustomStyle = useMemo(
+    () => "marginTop" in styles || "marginBottom" in styles,
+    [styles]
+  );
+
+  const showResetStyleButton = useMemo(
+    () => ["h1", "h2", "h3", "h4", "h5", "h6", "p", "button"].includes(type),
+    [type]
+  );
+
   const activeStyle = useActiveStylePropertyTab({
     globalStyles,
     type,
@@ -105,6 +118,19 @@ const MarginProperty = memo(({ label }: MarginPropertyProps) => {
       label={label}
       margin={activeStyle as Partial<Record<MarginType, number>>}
       handleChange={handleChange}
+      AfterComponent={() =>
+        showResetStyleButton ? (
+          <ResetToGlobalStyle
+            disabled={!haveCustomStyle}
+            handleReset={() => {
+              handleReset("marginTop");
+              handleReset("marginBottom");
+            }}
+          />
+        ) : (
+          <></>
+        )
+      }
     />
   );
 });

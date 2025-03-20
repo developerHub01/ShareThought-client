@@ -26,7 +26,7 @@ const ResetToGlobalStyle = ({
           <Button
             size={"smIcon"}
             variant={"ghost"}
-            className="rounded-full"
+            className="rounded-full flex-shrink-0"
             onClick={handleReset}
             disabled={disabled}
           >
