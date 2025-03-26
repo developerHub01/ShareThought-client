@@ -5,7 +5,7 @@ import { useSidebar } from "@/components/sidebar/SidebarMain";
 import { AnimatePresence, motion } from "motion/react";
 import { sidebarLabelAnimProps } from "@/components/sidebar/sidebarLabelAnim";
 import { MotionSpanProps } from "@/types";
-import { LucideIcon } from "lucide-react";
+import { LucideIcon } from "@/lib/icons";
 
 interface ItemButtonContentProps {
   label: string;

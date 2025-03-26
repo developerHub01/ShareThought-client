@@ -1,7 +1,7 @@
 "use client";
 
 import React, { ChangeEvent, FormEvent, useEffect, useState } from "react";
-import { Search as SearchIcon, X as CloseIcon } from "lucide-react";
+import { SearchIcon, CloseIcon } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { useRouter, useSearchParams } from "next/navigation";
 import useModifyQueryParams from "@/hooks/use-modify-query-params";

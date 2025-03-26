@@ -9,11 +9,7 @@ import {
 } from "@/redux/features/create-channel/createChannelSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import clsx from "clsx";
-import {
-  ChevronLeft as LeftIcon,
-  ChevronRight as RightIcon,
-  SkipForward as SkipIcon,
-} from "lucide-react";
+import { LeftIcon, RightIcon, SkipIcon } from "@/lib/icons";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useMemo } from "react";
 

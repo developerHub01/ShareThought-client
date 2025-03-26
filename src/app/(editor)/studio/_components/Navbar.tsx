@@ -1,9 +1,9 @@
 import React from "react";
 
 import { Button } from "@/components/ui/button";
-import { ChevronLeft as LeftIcon, Save as SaveIcon } from "lucide-react";
 import PreviewButton from "@/app/(editor)/studio/_components/PreviewButton";
 import NavbarFullScreenButtons from "@/app/(editor)/studio/_components/NavbarFullScreenButtons";
+import { LeftIcon, SaveIcon } from "@/lib/icons";
 
 const Navbar = () => {
   return (

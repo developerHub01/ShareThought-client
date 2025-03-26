@@ -2,9 +2,9 @@
 
 import React from "react";
 import { Button } from "@/components/ui/button";
-import { Eye as EyeIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import useModifyQueryParams from "@/hooks/use-modify-query-params";
+import { EyeIcon } from "@/lib/icons";
 
 const PreviewButton = () => {
   const router = useRouter();

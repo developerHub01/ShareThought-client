@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { MoveRight as RightIcon } from "lucide-react";
+import { RightIcon } from "@/lib/icons";
 import Link from "next/link";
 import React from "react";
 

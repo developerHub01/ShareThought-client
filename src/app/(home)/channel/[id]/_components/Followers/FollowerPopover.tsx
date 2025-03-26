@@ -9,7 +9,7 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
-import { X as CloseIcon } from "lucide-react";
+import { CloseIcon } from "@/lib/icons";
 import { useRouter, useSearchParams } from "next/navigation";
 import React from "react";
 import FollowerChannel from "@/app/(home)/channel/[id]/_components/Followers/FollowerChannel";

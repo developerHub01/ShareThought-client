@@ -2,10 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import { Button } from "@/components/ui/button";
-import {
-  Bookmark as SaveCategoryIcon,
-  Share2 as ShareIcon,
-} from "lucide-react";
+import { BookmarkIcon as SaveCategoryIcon, ShareIcon } from "@/lib/icons";
 import PostCardCTA from "@/components/actions/PostCardCTA";
 import CategoryTopDescriptionButton from "@/components/category/CategoryTopDescriptionButton";
 import CategoryDescriptionPopover from "@/components/category/CategoryDescriptionPopover";

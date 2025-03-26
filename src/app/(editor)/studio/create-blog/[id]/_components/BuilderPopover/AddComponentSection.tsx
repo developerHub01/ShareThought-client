@@ -3,7 +3,7 @@
 import React from "react";
 import { useEditor } from "@/app/(editor)/studio/create-blog/[id]/_context/EditorProvider";
 import { Button } from "@/components/ui/button";
-import { Plus as AddIcon } from "lucide-react";
+import { AddIcon } from "@/lib/icons";
 import Container from "@/app/(editor)/studio/create-blog/[id]/_components/Container";
 import { cn } from "@/lib/utils";
 

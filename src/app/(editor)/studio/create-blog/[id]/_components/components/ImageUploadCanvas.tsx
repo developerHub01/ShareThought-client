@@ -2,7 +2,7 @@
 
 import { useToast } from "@/hooks/use-toast";
 import { useAppDispatch } from "@/redux/hooks";
-import { Image as ImageIcon } from "lucide-react";
+import { ImageIcon } from "@/lib/icons";
 import React, {
   ChangeEvent,
   DragEvent,

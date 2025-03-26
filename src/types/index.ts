@@ -1,5 +1,5 @@
 import { REACTION_TYPES } from "@/constant";
-import { LucideIcon } from "lucide-react";
+import { LucideIcon } from "@/lib/icons";
 import { MotionProps } from "motion/react";
 import { BlockInterface } from "@/redux/features/builders/blogBuilderSlice";
 

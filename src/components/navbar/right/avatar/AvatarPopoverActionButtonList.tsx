@@ -2,11 +2,11 @@ import { Fragment } from "react";
 import AvatarActionButton from "@/components/navbar/right/avatar/AvatarActionButton";
 import LightSeparator from "@/components/separator/LightSeparator";
 import {
-  LogOut as LogOutIcon,
-  Settings as SettingsIcon,
-  AppWindowMac as AboutUsIcon,
+  LogOutIcon,
+  SettingIcon,
+  AboutUsIcon,
   LucideIcon,
-} from "lucide-react";
+} from "@/lib/icons";
 
 interface IActionButton {
   id: string;
@@ -26,7 +26,7 @@ const actionList: Array<IActionButton> = [
   {
     id: "setting",
     label: "setting",
-    Icon: SettingsIcon,
+    Icon: SettingIcon,
     link: "/",
   },
   {

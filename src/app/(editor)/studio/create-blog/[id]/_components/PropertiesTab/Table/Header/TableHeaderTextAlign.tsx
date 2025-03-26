@@ -2,7 +2,7 @@
 
 import React, { memo } from "react";
 import TextAlignBlock from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/TextAlignBlock";
-import { AlignCenter, AlignJustify, AlignLeft, AlignRight } from "lucide-react";
+import { AlignCenter, AlignJustify, AlignLeft, AlignRight } from "@/lib/icons";
 import {
   AlignType,
   changeTableHeaderStyle,

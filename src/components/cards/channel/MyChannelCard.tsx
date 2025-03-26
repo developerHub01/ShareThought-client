@@ -1,6 +1,6 @@
 import FollowedChannelCardCTA from "@/components/actions/FollowingChannelCardCTA";
 import { Button } from "@/components/ui/button";
-import { CornerDownRight as EnterIcon, Eye as ViewIcon } from "lucide-react";
+import { EnterIcon, ViewIcon } from "@/lib/icons";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";

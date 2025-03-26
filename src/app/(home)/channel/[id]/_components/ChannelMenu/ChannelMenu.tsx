@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useMemo } from "react";
-import { Search as SearchIcon, LucideIcon } from "lucide-react";
+import { SearchIcon, LucideIcon } from "@/lib/icons";
 import { useParams, usePathname } from "next/navigation";
 import clsx from "clsx";
 import MobileMenuList from "@/app/(home)/channel/[id]/_components/ChannelMenu/MobileMenuList";

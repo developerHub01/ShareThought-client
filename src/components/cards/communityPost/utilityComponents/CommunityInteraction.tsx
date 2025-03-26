@@ -15,12 +15,7 @@ import {
 } from "@/components/ui/tooltip";
 import { REACTION_LIST, REACTION_MAP } from "@/constant";
 import { TReactions } from "@/types";
-import {
-  MessageSquareText as CommentIcon,
-  ThumbsUp as LikeIcon,
-  Link as LinkIcon,
-  LucideIcon,
-} from "lucide-react";
+import { CommentIcon, LikeIcon, LinkIcon, LucideIcon } from "@/lib/icons";
 import Link from "next/link";
 import React, { MouseEvent, useState } from "react";
 

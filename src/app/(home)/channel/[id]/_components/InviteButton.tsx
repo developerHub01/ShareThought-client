@@ -1,6 +1,6 @@
 import React from "react";
 import { Button } from "@/components/buttons/Button";
-import { Share2 as ShareIcon } from "lucide-react";
+import { ShareIcon } from "@/lib/icons";
 
 const InviteButton = () => {
   return (

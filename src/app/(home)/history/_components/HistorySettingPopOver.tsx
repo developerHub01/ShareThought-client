@@ -12,7 +12,7 @@ import useIsActiveQuery from "@/hooks/use-is-active-query";
 import { useRouter } from "next/navigation";
 import React from "react";
 import HistorySetting from "@/app/(home)/history/_components/HistorySetting";
-import { Settings as SettingIcon, X as CloseIcon } from "lucide-react";
+import { SettingIcon, CloseIcon } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import useModifyQueryParams from "@/hooks/use-modify-query-params";

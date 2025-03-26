@@ -3,8 +3,7 @@
 import { SidebarMenuButton } from "@/components/sidebar/SidebarMain";
 import { useParams, usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
-import { LucideIcon } from "lucide-react";
-import * as LucideIcons from "lucide-react";
+import LucideIcons, { LucideIcon } from "@/lib/icons";
 import { v4 as uuidv4 } from "uuid";
 import ItemButtonContent from "@/components/sidebar/ItemButtonContent";
 

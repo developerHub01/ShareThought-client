@@ -1,4 +1,4 @@
-import { CircleAlert as AlertIcon } from "lucide-react";
+import { AlertIcon } from "@/lib/icons";
 
 interface InputWrapperWithErrorMessageProps {
   children: React.ReactNode;

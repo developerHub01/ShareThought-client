@@ -14,7 +14,7 @@ import {
   TooltipTrigger,
   TooltipContent,
 } from "@/components/ui/tooltip";
-import { ExternalLink as RedirectIcon } from "lucide-react";
+import { ExternalLink as RedirectIcon } from "@/lib/icons";
 import { Button } from "@/components/buttons/Button";
 import useIsStudioPost from "@/hooks/use-is-studio-post";
 

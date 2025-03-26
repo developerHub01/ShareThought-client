@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Bell as NotificationIcon } from "lucide-react";
+import { NotificationIcon } from "@/lib/icons";
 import NotificationPopover from "@/components/navbar/right/notification/NotificationPopover";
 import { Badge } from "@/components/ui/badge";
 import useModifyQueryParams from "@/hooks/use-modify-query-params";

@@ -8,14 +8,9 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import useModifyQueryParams from "@/hooks/use-modify-query-params";
+import { CameraIcon, CropIcon, LucideIcon, RemoveIcon } from "@/lib/icons";
 import { removeAvatar } from "@/redux/features/signup/signupSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import {
-  Aperture as CameraIcon,
-  Crop as EditIcon,
-  Trash as RemoveIcon,
-  LucideIcon,
-} from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useCallback, useMemo } from "react";
@@ -56,7 +51,7 @@ const AvatarUpload = () => {
       {
         id: "edit",
         label: "edit",
-        Icon: EditIcon,
+        Icon: CropIcon,
         onClick: () => handleNavigateQuery("avatar", "edit"),
       },
       {

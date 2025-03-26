@@ -1,11 +1,8 @@
 "use client";
 
 import React from "react";
-import CardCTAButton from "../buttons/CardCTAButton";
-import {
-  BellOff as NotificationOffIcon,
-  EyeOff as HideIcon,
-} from "lucide-react";
+import CardCTAButton from "@/components/buttons/CardCTAButton";
+import { NotificationOffIcon, HideIcon } from "@/lib/icons";
 import { ICTAMenuItem, IPopoverPosition } from "@/types";
 
 type TPostType =

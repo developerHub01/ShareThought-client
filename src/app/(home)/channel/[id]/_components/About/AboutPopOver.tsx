@@ -12,7 +12,7 @@ import { useRouter } from "next/navigation";
 import React from "react";
 import AboutChannel from "@/app/(home)/channel/[id]/_components/About/AboutChannel";
 import useIsActiveQuery from "@/hooks/use-is-active-query";
-import { X as CloseIcon } from "lucide-react";
+import { CloseIcon } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import useModifyQueryParams from "@/hooks/use-modify-query-params";

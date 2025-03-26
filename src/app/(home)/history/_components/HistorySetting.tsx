@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import React, { useMemo } from "react";
-import { Trash as ClearIcon, Pause as PauseIcon } from "lucide-react";
+import { TrashIcon, PauseIcon } from "@/lib/icons";
 
 const HistorySetting = () => {
   const handleClearHistory = () => {
@@ -18,7 +18,7 @@ const HistorySetting = () => {
       {
         id: "clear",
         label: "Clear all read history",
-        Icon: ClearIcon,
+        Icon: TrashIcon,
         onClick: handleClearHistory,
       },
       {

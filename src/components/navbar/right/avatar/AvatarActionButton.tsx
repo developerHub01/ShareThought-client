@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import clsx from "clsx";
-import { Check as ActiveIcon, LucideIcon } from "lucide-react";
+import { CheckIcon as ActiveIcon, LucideIcon } from "@/lib/icons";
 import Link from "next/link";
 import { useState } from "react";
 

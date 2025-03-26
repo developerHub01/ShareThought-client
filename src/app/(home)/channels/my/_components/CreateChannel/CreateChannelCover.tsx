@@ -17,11 +17,11 @@ import {
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import clsx from "clsx";
 import {
-  Aperture as CameraIcon,
-  Crop as EditIcon,
-  Trash as RemoveIcon,
+  CameraIcon,
+  CropIcon,
+  RemoveIcon,
   LucideIcon,
-} from "lucide-react";
+} from "@/lib/icons";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, {
@@ -125,7 +125,7 @@ const CreateChannelCover = () => {
       {
         id: "edit",
         label: "edit",
-        Icon: EditIcon,
+        Icon: CropIcon,
         onClick: handleNavigateEditQuery,
       },
       {

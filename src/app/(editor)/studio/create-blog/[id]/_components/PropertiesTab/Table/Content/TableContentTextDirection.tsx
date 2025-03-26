@@ -2,7 +2,7 @@
 
 import React, { memo } from "react";
 import TextAlignBlock from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/TextAlignBlock";
-import { PilcrowRight as LRTIcon, PilcrowLeft as RTLIcon } from "lucide-react";
+import { LRTIcon, RTLIcon } from "@/lib/icons";
 import {
   changeTableContentStyle,
   TableInterface,

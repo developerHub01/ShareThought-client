@@ -12,13 +12,6 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import Image from "next/image";
 import { removeAvatar, setAvatar } from "@/redux/features/signup/signupSlice";
 import { useToast } from "@/hooks/use-toast";
-import {
-  LucideIcon,
-  Aperture as CameraIcon,
-  Crop as EditIcon,
-  Trash as RemoveIcon,
-  CheckCheck as ProceedIcon,
-} from "lucide-react";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import ActionButton from "@/app/(auth)/signup/_components/modal/ActionButton";
 import { CenterScrollArea } from "@/components/scrollArea/CenterScrollArea";
@@ -26,6 +19,7 @@ import clsx from "clsx";
 import UploadAvatarCanvas from "@/components/canvas/UploadAvatarCanvas";
 import useModifyQueryParams from "@/hooks/use-modify-query-params";
 import { useRouter } from "next/navigation";
+import { LucideIcon, CameraIcon, EditIcon, ProceedIcon, RemoveIcon } from "@/lib/icons";
 
 interface IActionButton {
   id: "camera" | "edit" | "remove" | "proceed";

@@ -8,7 +8,7 @@ import {
   AlignLeft,
   AlignRight,
   LucideIcon,
-} from "lucide-react";
+} from "@/lib/icons";
 import {
   AlignType,
   addStyle,

@@ -1,11 +1,11 @@
 "use client";
 
 import React from "react";
-import { Eye as PreviewIcon, Pencil as EditIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useParams } from "next/navigation";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { toggleEditorOrPreview } from "@/redux/features/builders/blogBuilderSlice";
+import { EditIcon, PreviewIcon } from "@/lib/icons";
 
 const PreviewButton = () => {
   const { id: postId } = useParams<{ id: string }>();

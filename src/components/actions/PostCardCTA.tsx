@@ -3,18 +3,18 @@
 import React from "react";
 import CardCTAButton from "../buttons/CardCTAButton";
 import {
-  ArrowDownToLine as DownloadIcon,
+  DownloadIcon,
   ClockIcon,
-  Share2 as ShareIcon,
-  Boxes as CategoryListIcon,
-  Flag as ReportIcon,
-  Trash as RemoveIcon,
-  ArrowUpToLine as UpIcon,
-  ArrowDownToLine as DownIcon,
-  MousePointerClick as ChangeReactionIcon,
-  Pencil as EditIcon,
-  Link as LinkIcon,
-} from "lucide-react";
+  ShareIcon,
+  CategoryListIcon,
+  ReportIcon,
+  RemoveIcon,
+  UpIcon,
+  DownIcon,
+  ChangeReactionIcon,
+  EditIcon,
+  LinkIcon,
+} from "@/lib/icons";
 import { ICTAMenuItem, IPopoverPosition } from "@/types";
 
 type TPostType =

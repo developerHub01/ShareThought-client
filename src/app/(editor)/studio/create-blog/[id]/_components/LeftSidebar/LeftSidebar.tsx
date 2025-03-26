@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/tooltip";
 import useModifyQueryParams from "@/hooks/use-modify-query-params";
 import { cn } from "@/lib/utils";
-import { Layers as NavigatorIcon, LucideIcon } from "lucide-react";
+import { NavigatorIcon, LucideIcon } from "@/lib/icons";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, FocusEvent } from "react";
 import Navigator from "@/app/(editor)/studio/create-blog/[id]/_components/LeftSidebar/Navigator/Navigator";

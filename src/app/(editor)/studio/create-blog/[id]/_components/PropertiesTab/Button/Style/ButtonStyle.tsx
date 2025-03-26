@@ -34,8 +34,8 @@ const ButtonStyle = () => {
         <TextDirectionProperty />
         <BorderProperty />
         <BorderRadiusProperty />
+        <AlignmentProperty />
       </HidePropertyInMobile>
-      <AlignmentProperty />
       <HidePropertyInMobile>
         <BoxShadowProperty />
       </HidePropertyInMobile>

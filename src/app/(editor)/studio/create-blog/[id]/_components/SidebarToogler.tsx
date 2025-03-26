@@ -7,8 +7,8 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { RightIcon } from "@/lib/icons";
 import { cn } from "@/lib/utils";
-import { ChevronRight as RightIcon } from "lucide-react";
 
 interface SidebarTooglerProps {
   state: boolean;

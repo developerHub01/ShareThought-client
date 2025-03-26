@@ -16,12 +16,7 @@ import {
 } from "@/redux/features/create-channel/createChannelSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import clsx from "clsx";
-import {
-  Aperture as CameraIcon,
-  Crop as EditIcon,
-  Trash as RemoveIcon,
-  LucideIcon,
-} from "lucide-react";
+import { CameraIcon, CropIcon, RemoveIcon, LucideIcon } from "@/lib/icons";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, {
@@ -126,7 +121,7 @@ const CreateChannelAvatar = () => {
       {
         id: "edit",
         label: "edit",
-        Icon: EditIcon,
+        Icon: CropIcon,
         onClick: handleNavigateEditQuery,
       },
       {

@@ -1,6 +1,6 @@
 import React, { ChangeEvent } from "react";
 
-import { Plus as PlusIcon, Minus as MinusIcon } from "lucide-react";
+import { AddIcon, MinusIcon } from "@/lib/icons";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import clsx from "clsx";
@@ -52,7 +52,7 @@ const ValueCounter = ({
           "rounded-none": !separate,
         })}
       >
-        <PlusIcon size={16} />
+        <AddIcon size={16} />
       </Button>
     </div>
   );

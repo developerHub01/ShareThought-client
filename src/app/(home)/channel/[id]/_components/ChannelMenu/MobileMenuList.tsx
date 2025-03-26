@@ -7,7 +7,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
-import { Ellipsis as ThreeDotIcon } from "lucide-react";
+import { ThreeDotIcon } from "@/lib/icons";
 
 interface MobileMenuListProps {
   channelId: string;

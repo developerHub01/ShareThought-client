@@ -1,10 +1,5 @@
 "use client";
 
-import {
-  Monitor as DesktopIcon,
-  LucideIcon,
-  Smartphone as MobileIcon,
-} from "lucide-react";
 import React from "react";
 import ToggleList from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/ToggleList";
 import { toggleScreenType } from "@/redux/features/builders/blogBuilderSlice";
@@ -13,6 +8,7 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { cn } from "@/lib/utils";
 import { selectBlogScreenType } from "@/redux/features/builders/selectors";
 import { OrientationType } from "@/types";
+import { LucideIcon, DesktopIcon, MobileIcon } from "@/lib/icons";
 
 const screenList: Array<{
   id: string;

@@ -3,13 +3,13 @@
 import React, { useMemo, useState } from "react";
 import AvatarActionButton from "@/components/navbar/right/avatar/AvatarActionButton";
 import {
-  ChevronRight as ArrowIcon,
-  Sun as LightIcon,
-  Moon as DarkIcon,
-  Palette as ThemeIcon,
-  MonitorCog as SystemIcon,
+  RightIcon as ArrowIcon,
+  LightIcon,
+  DarkIcon,
+  ThemeIcon,
+  SystemIcon,
   LucideIcon,
-} from "lucide-react";
+} from "@/lib/icons";
 import { useTheme } from "next-themes";
 
 type TThemeId = "dark" | "light" | "system";

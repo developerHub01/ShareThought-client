@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/carousel";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { LeftIcon, RightIcon } from "@/lib/icons";
 
 const imgUrls = [
   "https://images.unsplash.com/photo-1731000892655-5a0d52e8a43c?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
@@ -60,7 +60,7 @@ const CommunityPostImage = () => {
             variant={"outline"}
             className="absolute top-1/2 left-0 -translate-x-1/2 -translate-y-1/2 rounded-full border shadow-md"
           >
-            <ChevronLeft />
+            <LeftIcon />
           </Button>
           <Button
             size={"icon"}
@@ -68,7 +68,7 @@ const CommunityPostImage = () => {
             variant={"outline"}
             className="absolute top-1/2 right-0 translate-x-1/2 -translate-y-1/2 rounded-full border shadow-md"
           >
-            <ChevronRight />
+            <RightIcon />
           </Button>
         </>
       ) : (

@@ -1,8 +1,7 @@
 "use client";
 
 import { SidebarMenuButton } from "@/components/sidebar/SidebarMain";
-import * as LucideIcons from "lucide-react";
-import { LucideIcon, ChevronRight as RightIcon } from "lucide-react";
+import LucideIcons, { LucideIcon, RightIcon } from "@/lib/icons";
 import { AnimatePresence, motion } from "motion/react";
 import { useSidebar } from "@/components/sidebar/SidebarMain";
 import { MotionSpanProps } from "@/types";

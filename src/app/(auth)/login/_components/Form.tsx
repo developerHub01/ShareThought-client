@@ -4,12 +4,8 @@ import { Button } from "@/components/buttons/Button";
 import InputField from "@/components/Inputs/InputField";
 import InputWrapperWithErrorMessage from "@/components/Inputs/InputWrapperWithErrorMessage";
 import { Checkbox } from "@/components/ui/checkbox";
+import { HideIcon, LoadingIcon, ShowIcon } from "@/lib/icons";
 import { yupResolver } from "@hookform/resolvers/yup";
-import {
-  Eye as ShowIcon,
-  EyeClosed as HideIcon,
-  Loader as LoadingIcon,
-} from "lucide-react";
 import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import * as yup from "yup";

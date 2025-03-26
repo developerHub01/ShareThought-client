@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import PostCardCTA from "@/components/actions/PostCardCTA";
-import { GripHorizontal as GrabIcon } from "lucide-react";
+import { GripIcon } from "@/lib/icons";
 import DotIcon from "@/components/icons/DotIcon";
 
 const PostCategoryCard = ({
@@ -22,7 +22,7 @@ const PostCategoryCard = ({
         }`}
       >
         {isMyCategory ? (
-          <GrabIcon className="cursor-grab size-3 sm:size-5" />
+          <GripIcon className="cursor-grab size-3 sm:size-5" />
         ) : (
           <p>1</p>
         )}

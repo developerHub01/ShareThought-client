@@ -1,4 +1,4 @@
-import { Menu as StackIcon } from "lucide-react";
+import { MenuIcon as StackIcon } from "@/lib/icons";
 import Image from "next/image";
 import Link from "next/link";
 

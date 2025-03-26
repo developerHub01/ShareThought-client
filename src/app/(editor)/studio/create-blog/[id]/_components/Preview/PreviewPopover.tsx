@@ -9,7 +9,7 @@ import {
   DrawerHeader,
   DrawerTitle,
 } from "@/components/ui/drawer";
-import { X as CloseIcon } from "lucide-react";
+import { CloseIcon } from "@/lib/icons";
 import useModifyQueryParams from "@/hooks/use-modify-query-params";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";

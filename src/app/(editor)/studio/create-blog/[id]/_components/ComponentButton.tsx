@@ -2,7 +2,7 @@
 
 import React from "react";
 
-import { LucideIcon } from "lucide-react";
+import { LucideIcon } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { useDraggable } from "@dnd-kit/core";
 import { CSS } from "@dnd-kit/utilities";

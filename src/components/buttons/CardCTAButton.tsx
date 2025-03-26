@@ -10,7 +10,7 @@ import {
   MenubarSeparator,
   MenubarTrigger,
 } from "@/components/ui/menubar";
-import { EllipsisVertical as ThreeDotIcon } from "lucide-react";
+import { ThreeVerticalDotIcon } from "@/lib/icons";
 import { ICTAMenuItem, IPopoverPosition } from "@/types";
 
 const CardCTAButton = ({
@@ -27,7 +27,7 @@ const CardCTAButton = ({
     <Menubar className="p-0 border-none bg-transparent flex-shrink-0">
       <MenubarMenu>
         <MenubarTrigger className="outline-none transition-all duration-75 rounded-full min-h-10 min-w-10 grid place-items-center relative before:content-[''] before:absolute before:size-full before:rounded-full before:transition-all before:duration-100 before:scale-0 hover:before:scale-100 focus:before:bg-transparent hover:before:bg-gray-500/20 p-1 cursor-pointer">
-          <ThreeDotIcon
+          <ThreeVerticalDotIcon
             size={22}
             strokeWidth={1.2}
             className="text-primary-500"

@@ -1,6 +1,6 @@
 import React from "react";
 import { Button } from "@/components/buttons/Button";
-import { Plus as AddIcon } from "lucide-react";
+import { AddIcon } from "@/lib/icons";
 
 const ShareButton = () => {
   return (

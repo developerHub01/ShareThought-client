@@ -2,7 +2,7 @@
 
 import React from "react";
 import PropertyWrapper_v1 from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/PropertyWrapper_v1";
-import { LucideIcon } from "lucide-react";
+import { LucideIcon } from "@/lib/icons";
 import ToggleList from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/ToggleList";
 
 interface TextAlignBlockProps {

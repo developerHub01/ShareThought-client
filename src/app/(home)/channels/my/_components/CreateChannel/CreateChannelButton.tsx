@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Plus as CreateIcon } from "lucide-react";
+import { AddIcon } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import useModifyQueryParams from "@/hooks/use-modify-query-params";
@@ -15,7 +15,7 @@ const CreateChannelButton = () => {
 
   return (
     <Button size={"sm"} onClick={() => handleNavigateCreateChannelQuery()}>
-      <CreateIcon size={18} /> Create Channel
+      <AddIcon size={18} /> Create Channel
     </Button>
   );
 };

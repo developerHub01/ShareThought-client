@@ -3,10 +3,10 @@
 import clsx from "clsx";
 import { Button } from "@/components/ui/button";
 import {
-  Search as SearchIcon,
-  X as CancelIcon,
-  ArrowLeft as BackIcon,
-} from "lucide-react";
+  SearchIcon,
+  CloseIcon as CancelIcon,
+  LeftArrowIcon as BackIcon,
+} from "@/lib/icons";
 import { ChangeEvent, KeyboardEvent, useEffect, useRef, useState } from "react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import useModifyQueryParams from "@/hooks/use-modify-query-params";

@@ -3,11 +3,11 @@
 import React, { useState } from "react";
 import AvatarActionButton from "@/components/navbar/right/avatar/AvatarActionButton";
 import {
-  TvMinimalPlay as ChannelIcon,
-  ChevronRight as ArrowIcon,
-  Plus as AddIcon,
-  Eye as ViewAllChannelIcon,
-} from "lucide-react";
+  ChannelIcon,
+  RightIcon as ArrowIcon,
+  AddIcon,
+  ViewIcon as ViewAllChannelIcon,
+} from "@/lib/icons";
 import AvatarPopoverChannelList from "@/components/navbar/right/avatar/AvatarPopoverChannelList";
 
 const ChannelActionList = () => {

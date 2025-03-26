@@ -9,7 +9,6 @@ import {
 } from "@/redux/features/builders/blogBuilderSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useDroppable } from "@dnd-kit/core";
-import { GripHorizontal as GripIcon, LucideIcon } from "lucide-react";
 import { useParams } from "next/navigation";
 import { AnimatePresence, motion } from "motion/react";
 import {
@@ -17,6 +16,7 @@ import {
   selectBlogComponentById,
   selectBlogScreenType,
 } from "@/redux/features/builders/selectors";
+import { GripIcon, LucideIcon } from "@/lib/icons";
 
 interface BlockComponentWrapperProps {
   id: string;
@@ -55,7 +55,7 @@ const BlockComponentWrapper = memo(
 
     const dispatch = useAppDispatch();
 
-    if (!blogId) return null;
+    if (!blogId || !component) return null;
 
     const activeBlock = useAppSelector((state) =>
       selectBlogActiveBlock(state, blogId)

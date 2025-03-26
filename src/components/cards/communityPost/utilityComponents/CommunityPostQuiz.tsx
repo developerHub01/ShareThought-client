@@ -1,7 +1,7 @@
 "use client";
 
 import { convertNumberToWords } from "@/utils";
-import { CheckCheck as CorrectIcon, X as WrongIcon } from "lucide-react";
+import { CheckCheckIcon as CorrectIcon, CloseIcon as WrongIcon } from "@/lib/icons";
 import React, { useState } from "react";
 
 interface CorrectOrWrongIconProps {

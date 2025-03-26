@@ -3,11 +3,11 @@
 import React, { CSSProperties, memo } from "react";
 import TextAlignBlock from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/TextAlignBlock";
 import {
-  ALargeSmall as CapitalizeIcon,
-  CaseUpper as UppercaseIcon,
-  CaseLower as LowercaseIcon,
-  X as ClearIcon,
-} from "lucide-react";
+  CapitalizeIcon,
+  UppercaseIcon,
+  LowercaseIcon,
+  ClearIcon,
+} from "@/lib/icons";
 import {
   TextTransformType,
   addStyle,

@@ -29,7 +29,7 @@ const Button = ({ id, parentId, ...props }: ButtonProps) => {
   const { id: blogId } = useParams<{ id: string }>();
   const dispatch = useAppDispatch();
 
-  const { text, redirect, type } = useAppSelector((state) =>
+  const component = useAppSelector((state) =>
     selectBlogComponentById(state, blogId, id)
   );
   const styles = useAppSelector((state) =>
@@ -39,7 +39,9 @@ const Button = ({ id, parentId, ...props }: ButtonProps) => {
     selectBlogActiveBlock(state, blogId)
   );
 
-  if (!blogId) return null;
+  if (!blogId || !component) return null;
+
+  const { text, redirect, type } = component;
 
   let { contentStyles, wrapperStyles } =
     handleWrapperContentStyleSeparator(styles);

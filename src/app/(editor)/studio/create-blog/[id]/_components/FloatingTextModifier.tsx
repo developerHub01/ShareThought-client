@@ -10,17 +10,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import {
-  LucideIcon,
-  Bold as BoldIcon,
-  Italic as ItalicIcon,
-  Underline as UnderlineIcon,
-  Strikethrough as StrikeIcon,
-  Code as CodeIcon,
-  Superscript as SupIcon,
-  Subscript as SubIcon,
-} from "lucide-react";
-import ColorPicker from "@/components/ui/ColorPicker";
+import {BoldIcon, ItalicIcon, LucideIcon, StrikeIcon, SupIcon, UnderlineIcon }from "@/lib/icons";
 
 const actionList: Array<{
   id: string;

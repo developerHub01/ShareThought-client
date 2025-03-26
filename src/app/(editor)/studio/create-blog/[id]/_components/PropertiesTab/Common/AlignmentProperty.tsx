@@ -4,21 +4,13 @@ import React, { memo } from "react";
 import TextAlignBlock from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/TextAlignBlock";
 import { useParams } from "next/navigation";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import {
-  AlignStartVertical as LeftAlignIcon,
-  AlignEndVertical as RightAlignIcon,
-  AlignCenterVertical as CenterAlignIcon,
-} from "lucide-react";
+import { LeftAlignIcon, RightAlignIcon, CenterAlignIcon } from "@/lib/icons";
 import {
   flexAlignType,
   setAlignment,
 } from "@/redux/features/builders/blogBuilderSlice";
 import {
   selectBlogActiveBlock,
-  selectBlogComponentById,
-  selectBlogGlobalStyle,
-  selectBlogMobileStylesById,
-  selectBlogScreenType,
   selectBlogStylesById,
 } from "@/redux/features/builders/selectors";
 

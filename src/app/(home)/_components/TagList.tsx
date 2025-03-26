@@ -1,10 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import clsx from "clsx";
-import {
-  ChevronLeft as LeftIcon,
-  ChevronRight as RightIcon,
-} from "lucide-react";
+import { LeftIcon, RightIcon } from "@/lib/icons";
 import Link from "next/link";
 
 const TagList = () => {

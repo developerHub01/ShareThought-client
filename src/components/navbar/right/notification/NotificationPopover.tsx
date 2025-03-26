@@ -8,7 +8,7 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer";
 import { Button } from "@/components/ui/button";
-import { Settings } from "lucide-react";
+import { SettingIcon } from "@/lib/icons";
 import Link from "next/link";
 import NotificationList from "@/components/navbar/right/notification/NotificationList";
 import { useRouter } from "next/navigation";
@@ -49,7 +49,7 @@ const NotificationPopover = ({ children }: NotificationPopoverProps) => {
           <DrawerDescription hidden></DrawerDescription>
           <Link href={"/"}>
             <Button size={"icon"} className="rounded-full" variant={"ghost"}>
-              <Settings size={22} strokeWidth={1.5} />
+              <SettingIcon size={22} strokeWidth={1.5} />
             </Button>
           </Link>
         </DrawerHeader>

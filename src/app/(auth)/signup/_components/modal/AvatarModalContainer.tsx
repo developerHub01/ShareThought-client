@@ -12,7 +12,7 @@ import {
 import AvatarUploaderModal from "@/app/(auth)/signup/_components/modal/AvatarUploaderModal";
 import AvatarEditModal from "@/app/(auth)/signup/_components/modal/AvatarEditModal";
 import clsx from "clsx";
-import { X as CloseIcon } from "lucide-react";
+import { CloseIcon } from "@/lib/icons";
 
 type TModalType = "camera" | "edit";
 

@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { convertNumberToWords } from "@/utils";
 import { useState } from "react";
-import { CheckCheck as CheckIcon } from "lucide-react";
+import { CheckIcon } from "@/lib/icons";
 import Image from "next/image";
 
 // const postPollDetails = {

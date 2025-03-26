@@ -3,10 +3,6 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
 import {
-  Expand as FullScreenIcon,
-  Minimize as SmallScreenIcon,
-} from "lucide-react";
-import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
@@ -14,6 +10,7 @@ import {
 } from "@/components/ui/tooltip";
 import { useEditor } from "@/app/(editor)/studio/create-blog/[id]/_context/EditorProvider";
 import { useFullScreen } from "@/hooks/use-full-screen";
+import { FullScreenIcon, SmallScreenIcon } from "@/lib/icons";
 
 const NavbarFullScreenButtons = () => {
   const { containerRef } = useEditor();

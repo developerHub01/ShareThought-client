@@ -8,7 +8,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { Button } from "@/components/ui/button";
-import { RotateCcw as ResetIcon } from "lucide-react";
+import { ResetIcon } from "@/lib/icons";
 
 interface ResetToGlobalStyleProps {
   disabled?: boolean;

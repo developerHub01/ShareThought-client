@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { useAppSelector } from "@/redux/hooks";
 import Image from "next/image";
 import React from "react";
-import { CornerDownRight as EnterIcon, Eye as ViewIcon } from "lucide-react";
+import { EnterIcon, ViewIcon } from "@/lib/icons";
 import { CenterScrollArea } from "@/components/scrollArea/CenterScrollArea";
 
 const channelDefaultCover = "/images/channel-cover.jpg";

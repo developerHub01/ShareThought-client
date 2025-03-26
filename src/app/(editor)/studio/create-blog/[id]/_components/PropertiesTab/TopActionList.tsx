@@ -9,12 +9,12 @@ import {
 } from "@/components/ui/tooltip";
 import { Button } from "@/components/ui/button";
 import {
-  Trash as DeleteIcon,
-  Copy as DuplicateIcon,
-  X as ClearIcon,
-  MoveLeft as MovePrevIcon,
-  MoveRight as MoveNextIcon,
-} from "lucide-react";
+  DeleteIcon,
+  DuplicateIcon,
+  ClearIcon,
+  MovePrevIcon,
+  MoveNextIcon,
+} from "@/lib/icons";
 import clsx from "clsx";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import {

@@ -10,7 +10,7 @@ import useActiveImage from "@/hooks/editor/use-active-image";
 import useModifyQueryParams from "@/hooks/use-modify-query-params";
 import { LabelButton } from "@/components/ui/label-button";
 import { Button } from "@/components/ui/button";
-import { Crop as EditIcon } from "lucide-react";
+import { CropIcon } from "@/lib/icons";
 
 const ImageActions = memo(() => {
   const { toast } = useToast();
@@ -74,7 +74,7 @@ const ImageActions = memo(() => {
         </LabelButton>
         {imageUrl && (
           <Button size={"sm"} onClick={handleEdit} className="w-full">
-            Edit <EditIcon size={18} />
+            Edit <CropIcon size={18} />
           </Button>
         )}
       </div>

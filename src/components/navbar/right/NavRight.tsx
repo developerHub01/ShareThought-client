@@ -11,11 +11,7 @@ import {
 } from "@/components/ui/popover";
 import LoginWrapper from "@/components/navbar/right/login/LoginWrapper";
 import useIsStudio from "@/hooks/use-is-studio";
-import {
-  Plus as AddIcon,
-  SquarePen as CreateIcon,
-  LucideIcon,
-} from "lucide-react";
+import { AddIcon, SquarePen as CreateIcon, LucideIcon } from "@/lib/icons";
 
 const NavRight = () => {
   const showLoginOption = false;

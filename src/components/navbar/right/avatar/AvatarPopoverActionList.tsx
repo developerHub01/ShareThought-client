@@ -6,7 +6,7 @@ import clsx from "clsx";
 import AvatarPopoverActionButtonList from "@/components/navbar/right/avatar/AvatarPopoverActionButtonList";
 import useIsStudio from "@/hooks/use-is-studio";
 import AvatarActionButton from "@/components/navbar/right/avatar/AvatarActionButton";
-import { AppWindowMac as AboutUsIcon, House as HomeIcon } from "lucide-react";
+import { AboutUsIcon, HomeIcon } from "@/lib/icons";
 import { Fragment } from "react";
 
 interface AvatarPopoverActionListProps {

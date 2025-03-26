@@ -2,7 +2,7 @@
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import React from "react";
-import { Ellipsis as ThreeDotHIcon } from "lucide-react";
+import { ThreeDotIcon as ThreeDotHIcon } from "@/lib/icons";
 import { useRouter } from "next/navigation";
 import useModifyQueryParams from "@/hooks/use-modify-query-params";
 

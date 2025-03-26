@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 import { OrientationType } from "@/types";
-import { LucideIcon } from "lucide-react";
+import { LucideIcon } from "@/lib/icons";
 import React from "react";
 
 interface ToggleListProps {

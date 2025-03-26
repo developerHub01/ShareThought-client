@@ -11,7 +11,7 @@ import {
 import useModifyQueryParams from "@/hooks/use-modify-query-params";
 import { useRouter, useSearchParams } from "next/navigation";
 import React, { useMemo } from "react";
-import { X as CloseIcon } from "lucide-react";
+import { CloseIcon } from "@/lib/icons";
 import CreateChannelName from "@/app/(home)/channels/my/_components/CreateChannel/CreateChannelName";
 import CreateChannelDescription from "@/app/(home)/channels/my/_components/CreateChannel/CreateChannelDescription";
 import CreateChannelAvatar from "@/app/(home)/channels/my/_components/CreateChannel/CreateChannelAvatar";

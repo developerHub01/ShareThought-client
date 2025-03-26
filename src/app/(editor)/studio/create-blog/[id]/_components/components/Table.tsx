@@ -30,7 +30,7 @@ import {
 } from "@/redux/features/builders/selectors";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import handleWrapperContentStyleSeparator from "@/utils/editor/handleWrapperContentStyleSeparator";
-import { Plus as PlusIcon, Trash as TrashIcon } from "lucide-react";
+import { AddIcon, TrashIcon } from "@/lib/icons";
 import { AnimatePresence, motion } from "motion/react";
 import { useParams } from "next/navigation";
 import React, { FocusEvent, memo, useMemo, useRef, useState } from "react";
@@ -90,7 +90,7 @@ const Table = memo(({ id, parentId }: TableProps) => {
 
   if (!blogId) return null;
 
-  const { type, children } = useAppSelector((state) =>
+  const component = useAppSelector((state) =>
     selectBlogComponentById(state, blogId, id)
   );
   const styles = useAppSelector((state) =>
@@ -98,6 +98,10 @@ const Table = memo(({ id, parentId }: TableProps) => {
   );
 
   const dispatch = useAppDispatch();
+
+  if (!blogId || !component) return null;
+
+  const { type, children } = component;
 
   const {
     thead,
@@ -333,7 +337,7 @@ const Table = memo(({ id, parentId }: TableProps) => {
                                           "rounded-l-none": rows.length > 1,
                                         })}
                                       >
-                                        <PlusIcon size={14} />
+                                        <AddIcon size={14} />
                                       </Button>
                                     </DropdownMenuTrigger>
                                     <DropdownMenuContent>
@@ -442,7 +446,7 @@ const Table = memo(({ id, parentId }: TableProps) => {
                                         size={"smIcon"}
                                         className="rounded-l-none"
                                       >
-                                        <PlusIcon size={14} />
+                                        <AddIcon size={14} />
                                       </Button>
                                     </DropdownMenuTrigger>
                                     <DropdownMenuContent

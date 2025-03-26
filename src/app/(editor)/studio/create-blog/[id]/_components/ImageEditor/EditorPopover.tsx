@@ -12,7 +12,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import useModifyQueryParams from "@/hooks/use-modify-query-params";
 import clsx from "clsx";
 import { Button } from "@/components/ui/button";
-import { X as CloseIcon } from "lucide-react";
+import { CloseIcon } from "@/lib/icons";
 import ImageEditor from "@/app/(editor)/studio/create-blog/[id]/_components/ImageEditor/ImageEditor";
 import EditorFooter from "@/app/(editor)/studio/create-blog/[id]/_components/ImageEditor/EditorFooter";
 

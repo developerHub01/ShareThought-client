@@ -3,17 +3,13 @@
 import { Button } from "@/components/buttons/Button";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import {
-  Eye as ShowIcon,
-  EyeClosed as HideIcon,
-  Loader as LoadingIcon,
-} from "lucide-react";
 import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import InputField from "@/components/Inputs/InputField";
 import InputWrapperWithErrorMessage from "@/components/Inputs/InputWrapperWithErrorMessage";
+import { HideIcon, LoadingIcon, ShowIcon } from "@/lib/icons";
 
 type TPasswordTypes = "password" | "confirmPassword";
 

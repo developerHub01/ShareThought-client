@@ -11,11 +11,11 @@ import {
   DrawerTitle,
 } from "@/components/ui/drawer";
 import clsx from "clsx";
-import { X as CloseIcon } from "lucide-react";
 import useModifyQueryParams from "@/hooks/use-modify-query-params";
 import { Button } from "@/components/ui/button";
 import AvatarUploaderModal from "@/app/(auth)/signup/_components/modal/AvatarUploaderModal";
 import AvatarEditModal from "@/app/(auth)/signup/_components/modal/AvatarEditModal";
+import { CloseIcon } from "@/lib/icons";
 
 type TModalName = "camera" | "edit";
 

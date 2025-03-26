@@ -4,11 +4,7 @@ import React, { Fragment, MouseEvent, useMemo, useState, memo } from "react";
 import { useAppSelector } from "@/redux/hooks";
 import { useParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import {
-  Trash as DeleteIcon,
-  Plus as AddIcon,
-  GripVertical as ResizeIcon,
-} from "lucide-react";
+import { DeleteIcon, AddIcon, ResizeIcon } from "@/lib/icons";
 import PropertyWrapper_v1 from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/PropertyWrapper_v1";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
@@ -30,14 +26,9 @@ const RowLayoutColumnSize = memo(() => {
     selectBlogComponentById(state, blogId, activeBlock)
   );
 
-  if (
-    !activeBlock ||
-    !component ||
-    !component.gridSize
-  )
-    return null;
+  if (!activeBlock || !component || !component.gridSize) return null;
 
-  const { gridSize } = component
+  const { gridSize } = component;
 
   const remainingSize = useMemo(
     () => 12 - gridSize.reduce((acc, curr) => acc + curr, 0),
