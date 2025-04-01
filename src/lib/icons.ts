@@ -110,6 +110,15 @@ import {
   ArrowLeft as LeftArrow2Icon,
   ArrowRight as RightArrow2Icon,
   ExternalLink,
+  AlignCenterHorizontal,
+  AlignEndHorizontal,
+  AlignStartHorizontal,
+  AlignCenterVertical,
+  AlignEndVertical,
+  AlignStartVertical,
+  AlignVerticalSpaceBetween,
+  AlignVerticalSpaceAround,
+  AlignVerticalDistributeCenter
 } from "lucide-react";
 
 export {
@@ -221,6 +230,15 @@ export {
   LeftArrow2Icon,
   RightArrow2Icon,
   ExternalLink,
+  AlignCenterHorizontal,
+  AlignEndHorizontal,
+  AlignStartHorizontal,
+  AlignCenterVertical,
+  AlignEndVertical,
+  AlignStartVertical,
+  AlignVerticalSpaceBetween,
+  AlignVerticalSpaceAround,
+  AlignVerticalDistributeCenter
 };
 
 export type { LucideIcon };

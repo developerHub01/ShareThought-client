@@ -25,7 +25,7 @@ const TextAlignBlock = ({
   return (
     <PropertyWrapper_v1>
       <p className="text-sm">{title}</p>
-      <div className="flex">
+      <div className="flex ml-auto">
         <ToggleList
           toggleList={alignList}
           handleChange={handleChange}
