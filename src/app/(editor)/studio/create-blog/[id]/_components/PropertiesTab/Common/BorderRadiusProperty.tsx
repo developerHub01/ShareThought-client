@@ -48,7 +48,7 @@ const BorderRadiusProperty = memo(() => {
   }, [activeBlock, dispatch, blogId]);
 
   const activeStyle = useMemo(() => {
-    if (!activeBlock || !styles[activeBlock]) return {};
+    if (!activeBlock || !styles) return {};
 
     return {
       ...filterStyle(styles, "Radius"),
