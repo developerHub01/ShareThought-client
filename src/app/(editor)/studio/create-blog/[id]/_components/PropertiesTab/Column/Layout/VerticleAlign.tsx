@@ -3,12 +3,12 @@
 import React from "react";
 import TextAlignBlock from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/TextAlignBlock";
 import {
-  AlignCenterHorizontal,
-  AlignEndHorizontal,
-  AlignStartHorizontal,
-  AlignVerticalDistributeCenter,
-  AlignVerticalSpaceAround,
-  AlignVerticalSpaceBetween,
+  AlignCenterHorizontalIcon,
+  AlignEndHorizontalIcon,
+  AlignStartHorizontalIcon,
+  AlignVerticalDistributeCenterIcon,
+  AlignVerticalSpaceAroundIcon,
+  AlignVerticalSpaceBetweenIcon,
 } from "@/lib/icons";
 import { useParams } from "next/navigation";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
@@ -22,32 +22,32 @@ const alignList = [
   {
     id: "flex-start",
     label: "Top",
-    Icon: AlignStartHorizontal,
+    Icon: AlignStartHorizontalIcon,
   },
   {
     id: "center",
     label: "Center",
-    Icon: AlignCenterHorizontal,
+    Icon: AlignCenterHorizontalIcon,
   },
   {
     id: "flex-end",
     label: "Bottom",
-    Icon: AlignEndHorizontal,
+    Icon: AlignEndHorizontalIcon,
   },
   {
     id: "space-between",
     label: "Space Between",
-    Icon: AlignVerticalSpaceBetween,
+    Icon: AlignVerticalSpaceBetweenIcon,
   },
   {
     id: "space-around",
     label: "Space Around",
-    Icon: AlignVerticalSpaceAround,
+    Icon: AlignVerticalSpaceAroundIcon,
   },
   {
     id: "space-evenly",
     label: "Space Evenly",
-    Icon: AlignVerticalDistributeCenter,
+    Icon: AlignVerticalDistributeCenterIcon,
   },
 ];
 
@@ -80,7 +80,7 @@ const VerticleAlign = () => {
 
   return (
     <TextAlignBlock
-      title="Horizontal Align"
+      title="Verticle Align"
       activeAlign={(styles.justifyContent || alignList[0].id) as string}
       alignList={alignList}
       handleChange={handlejustifyContent}

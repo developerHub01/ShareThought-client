@@ -110,15 +110,16 @@ import {
   ArrowLeft as LeftArrow2Icon,
   ArrowRight as RightArrow2Icon,
   ExternalLink,
-  AlignCenterHorizontal,
-  AlignEndHorizontal,
-  AlignStartHorizontal,
-  AlignCenterVertical,
-  AlignEndVertical,
-  AlignStartVertical,
-  AlignVerticalSpaceBetween,
-  AlignVerticalSpaceAround,
-  AlignVerticalDistributeCenter
+  AlignCenterHorizontal as AlignCenterHorizontalIcon,
+  AlignEndHorizontal as AlignEndHorizontalIcon,
+  AlignStartHorizontal as AlignStartHorizontalIcon,
+  AlignCenterVertical as AlignCenterVerticalIcon,
+  AlignEndVertical as AlignEndVerticalIcon,
+  AlignStartVertical as AlignStartVerticalIcon,
+  AlignVerticalSpaceBetween as AlignVerticalSpaceBetweenIcon,
+  AlignVerticalSpaceAround as AlignVerticalSpaceAroundIcon,
+  AlignVerticalDistributeCenter as AlignVerticalDistributeCenterIcon,
+  GalleryThumbnails as PostBannerIcon,
 } from "lucide-react";
 
 export {
@@ -230,15 +231,16 @@ export {
   LeftArrow2Icon,
   RightArrow2Icon,
   ExternalLink,
-  AlignCenterHorizontal,
-  AlignEndHorizontal,
-  AlignStartHorizontal,
-  AlignCenterVertical,
-  AlignEndVertical,
-  AlignStartVertical,
-  AlignVerticalSpaceBetween,
-  AlignVerticalSpaceAround,
-  AlignVerticalDistributeCenter
+  AlignCenterHorizontalIcon,
+  AlignEndHorizontalIcon,
+  AlignStartHorizontalIcon,
+  AlignCenterVerticalIcon,
+  AlignEndVerticalIcon,
+  AlignStartVerticalIcon,
+  AlignVerticalSpaceBetweenIcon,
+  AlignVerticalSpaceAroundIcon,
+  AlignVerticalDistributeCenterIcon,
+  PostBannerIcon,
 };
 
 export type { LucideIcon };

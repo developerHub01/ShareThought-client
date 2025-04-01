@@ -1,66 +1,25 @@
 "use client";
 
-import React, { ChangeEvent, KeyboardEvent, memo } from "react";
+import React, { memo } from "react";
 import { DndContext } from "@dnd-kit/core";
 import AddComponentSection from "@/app/(editor)/studio/create-blog/[id]/_components/BuilderPopover/AddComponentSection";
 import ComponentDialog from "@/app/(editor)/studio/create-blog/[id]/_components/BuilderPopover/ComponentDialog";
 import EditorSidebar from "@/app/(editor)/studio/create-blog/[id]/_components/EditorSidebar";
 import { AnimatePresence, motion } from "motion/react";
 import BlockComponent from "@/app/(editor)/studio/create-blog/[id]/_components/BlockComponent";
-import { Input } from "@/components/ui/input";
-import { updateTitle } from "@/redux/features/builders/blogBuilderSlice";
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { useAppSelector } from "@/redux/hooks";
 import { useParams } from "next/navigation";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import EditorPopover from "@/app/(editor)/studio/create-blog/[id]/_components/ImageEditor/EditorPopover";
 import PreviewPopover from "@/app/(editor)/studio/create-blog/[id]/_components/Preview/PreviewPopover";
 import LeftSidebar from "@/app/(editor)/studio/create-blog/[id]/_components/LeftSidebar/LeftSidebar";
-import {
-  selectBlogContent,
-  selectBlogTitle,
-} from "@/redux/features/builders/selectors";
-
-const EditorBlogTitle = memo(() => {
-  const { id: blogId } = useParams<{ id: string }>();
-  const dispatch = useAppDispatch();
-
-  const title = useAppSelector((state) => selectBlogTitle(state, blogId));
-
-  console.log("Re-run title ===========");
-
-  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
-    dispatch(
-      updateTitle({
-        id: blogId,
-        title: e.target.value,
-      })
-    );
-  };
-
-  const onKeyChange = (e: KeyboardEvent) => {
-    if (e.key === "Enter") e.preventDefault();
-  };
-
-  return (
-    <div className="w-full max-w-3xl mx-auto">
-      <Input
-        type="text"
-        placeholder="Post Title"
-        className="text-lg md:text-xl h-auto py-3 font-bold"
-        onChange={onChange}
-        value={title}
-        onKeyUp={onKeyChange}
-      />
-    </div>
-  );
-});
+import { selectBlogContent } from "@/redux/features/builders/selectors";
+import EditorBlogTitle from "@/app/(editor)/studio/create-blog/[id]/_components/EditorBlogTitle";
 
 const EditorCanvas = memo(() => {
   const { id: blogId } = useParams<{ id: string }>();
 
   const content = useAppSelector((state) => selectBlogContent(state, blogId));
-
-  console.log({ content });
 
   return (
     <DndContext>
