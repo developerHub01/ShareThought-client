@@ -3,16 +3,9 @@
 import { updateComponentText } from "@/redux/features/builders/blogBuilderSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useParams } from "next/navigation";
-import React, {
-  FocusEvent,
-  memo,
-  useCallback,
-  useEffect,
-  useMemo,
-} from "react";
+import React, { FocusEvent, memo } from "react";
 import { TYPOGRAPHY_LIST } from "@/constant";
 import {
-  selectBlogActiveBlock,
   selectBlogComponentById,
   selectBlogGlobalStyle,
   selectBlogMobileStylesById,

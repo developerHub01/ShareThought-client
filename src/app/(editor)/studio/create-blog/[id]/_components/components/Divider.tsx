@@ -1,8 +1,10 @@
 "use client";
 
+import useCombinedResponsiveSettingStyles from "@/hooks/editor/use-combined-responsive-setting-styles";
 import { StyleType } from "@/redux/features/builders/blogBuilderSlice";
 import {
-  selectBlogComponentById,
+  selectBlogMobileStylesById,
+  selectBlogScreenType,
   selectBlogStylesById,
 } from "@/redux/features/builders/selectors";
 import { useAppSelector } from "@/redux/hooks";
@@ -19,19 +21,26 @@ interface DividerProps {
 const Divider = memo(({ id, parentId, ...props }: DividerProps) => {
   const { id: blogId } = useParams<{ id: string }>();
 
+  const screenType = useAppSelector((state) =>
+    selectBlogScreenType(state, blogId)
+  );
   const styles = useAppSelector((state) =>
     selectBlogStylesById(state, blogId, id)
   );
-  const component = useAppSelector((state) =>
-    selectBlogComponentById(state, blogId, id)
+  const mobileStyles = useAppSelector((state) =>
+    selectBlogMobileStylesById(state, blogId, id)
   );
+  if (!blogId) return null;
 
-  if (!blogId || !component) return null;
-
-  const { type } = component;
+  const combinedStyles = useCombinedResponsiveSettingStyles({
+    type: "divider",
+    screenType,
+    styles,
+    mobileStyles,
+  });
 
   let { contentStyles, wrapperStyles } =
-    handleWrapperContentStyleSeparator(styles);
+    handleWrapperContentStyleSeparator(combinedStyles);
 
   contentStyles = {
     ...contentStyles,
@@ -46,7 +55,7 @@ const Divider = memo(({ id, parentId, ...props }: DividerProps) => {
       style={{
         ...(wrapperStyles as Record<string, string | number>),
       }}
-      data-component-type={type}
+      data-component-type={"divider"}
       data-component-id={id}
     >
       <div

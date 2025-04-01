@@ -42,7 +42,7 @@ const useCombinedResponsiveSettingStyles = ({
     };
   }, [styles, screenType, globalStyles, mobileStyles, type]);
 
-  return combinedStyles;
+  return combinedStyles as StyleType;
 };
 
 export default useCombinedResponsiveSettingStyles;
