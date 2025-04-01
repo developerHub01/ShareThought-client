@@ -6,7 +6,7 @@ import {
 } from "@/redux/features/builders/blogBuilderSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useParams } from "next/navigation";
-import React, { FocusEvent } from "react";
+import React, { FocusEvent, memo } from "react";
 import handleWrapperContentStyleSeparator from "@/utils/editor/handleWrapperContentStyleSeparator";
 import handleBorderStyle from "@/utils/editor/handleBorderStyle";
 import Link from "next/link";
@@ -25,7 +25,7 @@ interface ButtonProps {
   parentId?: string;
 }
 
-const Button = ({ id, parentId, ...props }: ButtonProps) => {
+const Button = memo(({ id, parentId, ...props }: ButtonProps) => {
   const { id: blogId } = useParams<{ id: string }>();
   const dispatch = useAppDispatch();
 
@@ -117,6 +117,6 @@ const Button = ({ id, parentId, ...props }: ButtonProps) => {
       )}
     </div>
   );
-};
+});
 
 export default Button;

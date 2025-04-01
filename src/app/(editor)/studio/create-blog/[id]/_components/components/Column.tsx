@@ -14,14 +14,14 @@ import handleBorderStyle from "@/utils/editor/handleBorderStyle";
 import handleBoxShadow from "@/utils/editor/handleBoxShadow";
 import { AnimatePresence, motion } from "motion/react";
 import { useParams } from "next/navigation";
-import React, { CSSProperties } from "react";
+import React, { CSSProperties, memo } from "react";
 
 interface RowProps {
   id: string;
   parentId: string;
 }
 
-const Column = ({ id, ...props }: RowProps) => {
+const Column = memo(({ id, ...props }: RowProps) => {
   const { id: blogId } = useParams<{ id: string }>();
 
   const component = useAppSelector((state) =>
@@ -82,6 +82,6 @@ const Column = ({ id, ...props }: RowProps) => {
       </section>
     </BlockComponentWrapper>
   );
-};
+});
 
 export default Column;

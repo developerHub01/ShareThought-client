@@ -7,7 +7,7 @@ import {
 } from "@/redux/features/builders/selectors";
 import { useAppSelector } from "@/redux/hooks";
 import { useParams } from "next/navigation";
-import React, { CSSProperties } from "react";
+import React, { CSSProperties, memo } from "react";
 
 interface SpacerProps {
   id: string;
@@ -16,7 +16,7 @@ interface SpacerProps {
   [key: string]: unknown;
 }
 
-const Spacer = ({ id, parentId, className, ...props }: SpacerProps) => {
+const Spacer = memo(({ id, parentId, className, ...props }: SpacerProps) => {
   const { id: blogId } = useParams<{ id: string }>();
 
   const styles = useAppSelector((state) =>
@@ -41,6 +41,6 @@ const Spacer = ({ id, parentId, className, ...props }: SpacerProps) => {
       data-component-id={id}
     ></div>
   );
-};
+});
 
 export default Spacer;

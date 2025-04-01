@@ -1,7 +1,7 @@
 "use client";
 
 import { useAppSelector } from "@/redux/hooks";
-import React, { CSSProperties } from "react";
+import React, { CSSProperties, memo } from "react";
 import Column from "@/app/(editor)/studio/create-blog/[id]/_components/components/Column";
 import { cn } from "@/lib/utils";
 import { useParams } from "next/navigation";
@@ -32,7 +32,7 @@ const getColSpan = (column: number) => {
   return colSpanMap[column] || "md:col-span-12"; // Fallback to col-span-12
 };
 
-const Row = ({ id }: RowProps) => {
+const Row = memo(({ id }: RowProps) => {
   const { id: blogId } = useParams<{ id: string }>();
 
   const screenType = useAppSelector((state) =>
@@ -83,6 +83,6 @@ const Row = ({ id }: RowProps) => {
         ))}
     </section>
   );
-};
+});
 
 export default Row;
