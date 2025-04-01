@@ -3,10 +3,14 @@
 import BlockComponent from "@/app/(editor)/studio/create-blog/[id]/_components/BlockComponent";
 import BlockComponentWrapper from "@/app/(editor)/studio/create-blog/[id]/_components/BlockComponentWrapper";
 import AddComponentSection from "@/app/(editor)/studio/create-blog/[id]/_components/BuilderPopover/AddComponentSection";
+import useCombinedResponsiveSettingStyles from "@/hooks/editor/use-combined-responsive-setting-styles";
 import { cn } from "@/lib/utils";
 import { StyleType } from "@/redux/features/builders/blogBuilderSlice";
 import {
   selectBlogComponentById,
+  selectBlogGlobalStyle,
+  selectBlogMobileStylesById,
+  selectBlogScreenType,
   selectBlogStylesById,
 } from "@/redux/features/builders/selectors";
 import { useAppSelector } from "@/redux/hooks";
@@ -24,18 +28,33 @@ interface RowProps {
 const Column = memo(({ id, ...props }: RowProps) => {
   const { id: blogId } = useParams<{ id: string }>();
 
-  const component = useAppSelector((state) =>
-    selectBlogComponentById(state, blogId, id)
+  const screenType = useAppSelector((state) =>
+    selectBlogScreenType(state, blogId)
+  );
+  const globalStyles = useAppSelector((state) =>
+    selectBlogGlobalStyle(state, blogId)
   );
   const styles = useAppSelector((state) =>
     selectBlogStylesById(state, blogId, id)
+  );
+  const mobileStyles = useAppSelector((state) =>
+    selectBlogMobileStylesById(state, blogId, id)
+  );
+  const component = useAppSelector((state) =>
+    selectBlogComponentById(state, blogId, id)
   );
 
   if (!blogId || !component) return null;
 
   const { children, type } = component;
 
-  let componentStyles: StyleType = styles ?? {};
+  let componentStyles = useCombinedResponsiveSettingStyles({
+    type,
+    screenType,
+    styles,
+    mobileStyles,
+    globalStyles,
+  });
 
   componentStyles = {
     ...componentStyles,
