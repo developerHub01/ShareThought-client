@@ -30,6 +30,7 @@ const Divider = memo(({ id, parentId, ...props }: DividerProps) => {
   const mobileStyles = useAppSelector((state) =>
     selectBlogMobileStylesById(state, blogId, id)
   );
+  
   if (!blogId) return null;
 
   const combinedStyles = useCombinedResponsiveSettingStyles({

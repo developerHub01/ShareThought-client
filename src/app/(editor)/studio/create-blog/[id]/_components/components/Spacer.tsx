@@ -1,8 +1,10 @@
 "use client";
 
+import useCombinedResponsiveSettingStyles from "@/hooks/editor/use-combined-responsive-setting-styles";
 import { cn } from "@/lib/utils";
 import {
-  selectBlogComponentById,
+  selectBlogMobileStylesById,
+  selectBlogScreenType,
   selectBlogStylesById,
 } from "@/redux/features/builders/selectors";
 import { useAppSelector } from "@/redux/hooks";
@@ -19,25 +21,32 @@ interface SpacerProps {
 const Spacer = memo(({ id, parentId, className, ...props }: SpacerProps) => {
   const { id: blogId } = useParams<{ id: string }>();
 
+  const screenType = useAppSelector((state) =>
+    selectBlogScreenType(state, blogId)
+  );
   const styles = useAppSelector((state) =>
     selectBlogStylesById(state, blogId, id)
-  ) as CSSProperties;
-
-  const component = useAppSelector((state) =>
-    selectBlogComponentById(state, blogId, id)
+  );
+  const mobileStyles = useAppSelector((state) =>
+    selectBlogMobileStylesById(state, blogId, id)
   );
 
-  if (!blogId || !component) return null;
+  if (!blogId) return null;
 
-  const { type } = component;
+  const combinedStyles = useCombinedResponsiveSettingStyles({
+    type: "spacer",
+    screenType,
+    styles,
+    mobileStyles,
+  });
 
   return (
     <div
       className={cn("", className)}
       style={{
-        ...styles,
+        ...(combinedStyles as CSSProperties),
       }}
-      data-component-type={type}
+      data-component-type={"spacer"}
       data-component-id={id}
     ></div>
   );
