@@ -17,8 +17,12 @@ import handleBoxShadowExtractor from "@/utils/editor/handleBoxShadowExtractor";
 import {
   selectBlogActiveBlock,
   selectBlogComponentById,
+  selectBlogGlobalStyle,
+  selectBlogMobileStylesById,
+  selectBlogScreenType,
   selectBlogStylesById,
 } from "@/redux/features/builders/selectors";
+import useCombinedResponsiveSettingStyles from "@/hooks/editor/use-combined-responsive-setting-styles";
 
 interface ButtonProps {
   id: string;
@@ -29,12 +33,22 @@ const Button = memo(({ id, parentId, ...props }: ButtonProps) => {
   const { id: blogId } = useParams<{ id: string }>();
   const dispatch = useAppDispatch();
 
-  const component = useAppSelector((state) =>
-    selectBlogComponentById(state, blogId, id)
+  const screenType = useAppSelector((state) =>
+    selectBlogScreenType(state, blogId)
+  );
+  const globalStyles = useAppSelector((state) =>
+    selectBlogGlobalStyle(state, blogId)
   );
   const styles = useAppSelector((state) =>
     selectBlogStylesById(state, blogId, id)
   );
+  const mobileStyles = useAppSelector((state) =>
+    selectBlogMobileStylesById(state, blogId, id)
+  );
+  const component = useAppSelector((state) =>
+    selectBlogComponentById(state, blogId, id)
+  );
+
   const activeBlock = useAppSelector((state) =>
     selectBlogActiveBlock(state, blogId)
   );
@@ -43,10 +57,18 @@ const Button = memo(({ id, parentId, ...props }: ButtonProps) => {
 
   const { text, redirect, type } = component;
 
-  let { contentStyles, wrapperStyles } =
-    handleWrapperContentStyleSeparator(styles);
+  const combinedStyles = useCombinedResponsiveSettingStyles({
+    type,
+    screenType,
+    styles,
+    mobileStyles,
+    globalStyles,
+  });
 
-  const filteredBorder = handleBorderStyle(styles);
+  let { contentStyles, wrapperStyles } =
+    handleWrapperContentStyleSeparator(combinedStyles);
+
+  const filteredBorder = handleBorderStyle(combinedStyles);
 
   contentStyles = { ...contentStyles, ...filteredBorder };
 
