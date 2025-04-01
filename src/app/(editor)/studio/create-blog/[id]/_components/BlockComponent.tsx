@@ -24,6 +24,8 @@ const Block = memo(({ id, parentId }: { id: string; parentId?: string }) => {
     selectBlogComponentById(state, blogId, id)
   );
 
+  if (!component) return null;
+  
   const { type } = component;
 
   if (["h1", "h2", "h3", "h4", "h5", "h6", "p"].includes(type)) {

@@ -117,7 +117,6 @@ const BlockComponentWrapper = memo(
         <div
           className={cn(
             "w-full max-w-3xl rounded-sm",
-
             {
               "max-w-3xl": screenType === "desktop",
               "max-w-md": screenType === "mobile",

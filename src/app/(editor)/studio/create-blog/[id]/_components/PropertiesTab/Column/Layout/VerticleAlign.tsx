@@ -72,7 +72,6 @@ const VerticleAlign = () => {
         blogId,
         activeBlockId: activeBlock,
         styles: {
-          //   display: "flex",
           justifyContent: value as string,
         },
       })
