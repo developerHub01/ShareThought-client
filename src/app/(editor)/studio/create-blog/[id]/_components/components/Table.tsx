@@ -26,6 +26,8 @@ import {
 } from "@/redux/features/builders/blogBuilderSlice";
 import {
   selectBlogComponentById,
+  selectBlogMobileStylesById,
+  selectBlogScreenType,
   selectBlogStylesById,
 } from "@/redux/features/builders/selectors";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
@@ -34,6 +36,7 @@ import { AddIcon, TrashIcon } from "@/lib/icons";
 import { AnimatePresence, motion } from "motion/react";
 import { useParams } from "next/navigation";
 import React, { FocusEvent, memo, useMemo, useRef, useState } from "react";
+import useCombinedResponsiveSettingStyles from "@/hooks/editor/use-combined-responsive-setting-styles";
 
 const actionButtonAnim = {
   initial: { scale: 0, opacity: 0 },
@@ -90,11 +93,17 @@ const Table = memo(({ id, parentId }: TableProps) => {
 
   if (!blogId) return null;
 
-  const component = useAppSelector((state) =>
-    selectBlogComponentById(state, blogId, id)
+  const screenType = useAppSelector((state) =>
+    selectBlogScreenType(state, blogId)
   );
   const styles = useAppSelector((state) =>
     selectBlogStylesById(state, blogId, id)
+  );
+  const mobileStyles = useAppSelector((state) =>
+    selectBlogMobileStylesById(state, blogId, id)
+  );
+  const component = useAppSelector((state) =>
+    selectBlogComponentById(state, blogId, id)
   );
 
   const dispatch = useAppDispatch();
@@ -102,6 +111,13 @@ const Table = memo(({ id, parentId }: TableProps) => {
   if (!blogId || !component) return null;
 
   const { type, children } = component;
+
+  const combinedStyles = useCombinedResponsiveSettingStyles({
+    type,
+    screenType,
+    styles,
+    mobileStyles,
+  });
 
   const {
     thead,
@@ -248,7 +264,7 @@ const Table = memo(({ id, parentId }: TableProps) => {
   };
 
   const { contentStyles, wrapperStyles } =
-    handleWrapperContentStyleSeparator(styles);
+    handleWrapperContentStyleSeparator(combinedStyles);
 
   return (
     <div
@@ -262,7 +278,7 @@ const Table = memo(({ id, parentId }: TableProps) => {
       <table
         className="border-collapse w-full table-fixed text-sm text-left text-gray-500 dark:text-gray-400"
         style={{
-          ...(styles as Record<string, string | number>),
+          ...(combinedStyles as Record<string, string | number>),
           ...borderStyle,
           ...tableStyle,
           ...contentStyles,
