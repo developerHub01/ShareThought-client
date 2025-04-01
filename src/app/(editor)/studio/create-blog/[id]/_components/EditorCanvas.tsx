@@ -15,6 +15,7 @@ import PreviewPopover from "@/app/(editor)/studio/create-blog/[id]/_components/P
 import LeftSidebar from "@/app/(editor)/studio/create-blog/[id]/_components/LeftSidebar/LeftSidebar";
 import { selectBlogContent } from "@/redux/features/builders/selectors";
 import EditorBlogTitle from "@/app/(editor)/studio/create-blog/[id]/_components/EditorBlogTitle";
+import BlogBanner from "@/app/(editor)/studio/create-blog/[id]/_components/BlogBanner";
 
 const EditorCanvas = memo(() => {
   const { id: blogId } = useParams<{ id: string }>();
@@ -28,6 +29,7 @@ const EditorCanvas = memo(() => {
           <LeftSidebar />
           <ScrollArea className="h-full w-full flex-1 px-2 py-4">
             <form className="w-full flex flex-col gap-3 mx-auto mb-5">
+              <BlogBanner />
               <EditorBlogTitle />
               <section className="w-full h-full py-5 px-1 flex flex-col">
                 <AnimatePresence>
