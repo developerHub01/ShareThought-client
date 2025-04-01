@@ -19,8 +19,6 @@ interface SpacerProps {
 const Spacer = ({ id, parentId, className, ...props }: SpacerProps) => {
   const { id: blogId } = useParams<{ id: string }>();
 
-  if (!blogId) return null;
-
   const styles = useAppSelector((state) =>
     selectBlogStylesById(state, blogId, id)
   ) as CSSProperties;
@@ -29,7 +27,7 @@ const Spacer = ({ id, parentId, className, ...props }: SpacerProps) => {
     selectBlogComponentById(state, blogId, id)
   );
 
-  if (!component) return null;
+  if (!blogId || !component) return null;
 
   const { type } = component;
 

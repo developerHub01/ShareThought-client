@@ -22,12 +22,11 @@ const Heading = ({ id, parentId, ...props }: HeadingProps) => {
   const styles = useAppSelector((state) =>
     selectBlogStylesById(state, blogId, id)
   );
-
   const component = useAppSelector((state) =>
     selectBlogComponentById(state, blogId, id)
   );
 
-  if (!blogId) return null;
+  if (!blogId || !component) return null;
 
   const { type, text } = component;
 

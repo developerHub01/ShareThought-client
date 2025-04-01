@@ -35,19 +35,17 @@ const getColSpan = (column: number) => {
 const Row = ({ id }: RowProps) => {
   const { id: blogId } = useParams<{ id: string }>();
 
-  if (!blogId) return null;
-
   const screenType = useAppSelector((state) =>
     selectBlogScreenType(state, blogId)
   );
-
   const styles = useAppSelector((state) =>
     selectBlogStylesById(state, blogId, id)
   );
-
   const component = useAppSelector((state) =>
     selectBlogComponentById(state, blogId, id)
   );
+
+  if (!blogId || !component) return null;
 
   const { children, gridSize, type } = component;
 

@@ -24,14 +24,16 @@ interface RowProps {
 const Column = ({ id, ...props }: RowProps) => {
   const { id: blogId } = useParams<{ id: string }>();
 
-  if (!blogId) return;
-
-  const { children, type } = useAppSelector((state) =>
+  const component = useAppSelector((state) =>
     selectBlogComponentById(state, blogId, id)
   );
   const styles = useAppSelector((state) =>
     selectBlogStylesById(state, blogId, id)
   );
+
+  if (!blogId || !component) return null;
+
+  const { children, type } = component;
 
   let componentStyles: StyleType = styles ?? {};
 

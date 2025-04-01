@@ -25,22 +25,21 @@ interface ImageProps {
 const Image = memo(({ id, parentId, ...props }: ImageProps) => {
   const { id: blogId } = useParams<{ id: string }>();
 
-  if (!blogId) return null;
-
   const styles = useAppSelector((state) =>
     selectBlogStylesById(state, blogId, id)
   );
-  const {
-    alt = "",
-    caption = "",
-    redirect,
-    type,
-  } = useAppSelector((state) => selectBlogComponentById(state, blogId, id));
+  const component = useAppSelector((state) =>
+    selectBlogComponentById(state, blogId, id)
+  );
   const imageSrc = useAppSelector((state) =>
     selectBlogImgLinkById(state, blogId, id)
   );
 
+  if (!blogId || !component) return null;
+
   if (!imageSrc) return <ImageUploadCanvas id={id} blogId={blogId} />;
+
+  const { alt = "", caption = "", redirect, type } = component;
 
   let { contentStyles, wrapperStyles } =
     handleWrapperContentStyleSeparator(styles);

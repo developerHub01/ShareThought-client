@@ -19,17 +19,14 @@ interface DividerProps {
 const Divider = memo(({ id, parentId, ...props }: DividerProps) => {
   const { id: blogId } = useParams<{ id: string }>();
 
-  if (!blogId) return null;
-
   const styles = useAppSelector((state) =>
     selectBlogStylesById(state, blogId, id)
   );
-
   const component = useAppSelector((state) =>
     selectBlogComponentById(state, blogId, id)
   );
 
-  if (component) return null;
+  if (!blogId || !component) return null;
 
   const { type } = component;
 
