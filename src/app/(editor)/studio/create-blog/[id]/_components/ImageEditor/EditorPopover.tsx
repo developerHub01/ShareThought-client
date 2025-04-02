@@ -20,7 +20,8 @@ const EditorPopover = memo(() => {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const isCreateOpen = searchParams.has("edit");
+  const isCreateOpen =
+    searchParams.has("edit");
 
   const { modifyParams, buildFullPath } = useModifyQueryParams();
 

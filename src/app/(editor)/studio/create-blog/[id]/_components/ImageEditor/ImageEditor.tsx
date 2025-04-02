@@ -1,3 +1,5 @@
+"use client";
+
 import { CenterScrollArea } from "@/components/scrollArea/CenterScrollArea";
 import useModifyQueryParams from "@/hooks/use-modify-query-params";
 import { useToast } from "@/hooks/use-toast";
@@ -5,6 +7,7 @@ import {
   changeImage,
   toggleisImageEditorOpen,
 } from "@/redux/features/builders/blogBuilderSlice";
+import { selectBlogImgLinkById } from "@/redux/features/builders/selectors";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 import React, { useCallback, useEffect, useRef } from "react";
@@ -12,29 +15,49 @@ import { Cropper, CropperRef } from "react-advanced-cropper";
 import "react-advanced-cropper/dist/style.css";
 import "react-advanced-cropper/dist/themes/compact.css";
 
-interface ImageEditorProps {}
-
-const ImageEditor = ({}: ImageEditorProps) => {
+const useGetImageData = (): {
+  isBanner: boolean;
+  imageId: string;
+  targetImage: string;
+} => {
   const searchParams = useSearchParams();
   const { id: blogId } = useParams<{ id: string }>();
-
-  if (!blogId) return null;
 
   const { activeBlock } = useAppSelector(
     (state) => state.blogBuilder.blogs[blogId]
   );
 
+  const bannerImage = useAppSelector((state) =>
+    selectBlogImgLinkById(state, blogId, "banner")
+  );
+  const isBanner = searchParams.get("edit")?.trim() === "banner";
+  const imageId = isBanner ? "banner" : activeBlock ?? "";
+  const targetImage =
+    (isBanner ? bannerImage : searchParams.get("edit")?.trim()) ?? "";
+
+  return {
+    isBanner,
+    imageId,
+    targetImage,
+  };
+};
+
+interface ImageEditorProps {}
+
+const ImageEditor = ({}: ImageEditorProps) => {
+  const { id: blogId } = useParams<{ id: string }>();
+
+  if (!blogId) return null;
+
   const { isImageEditorOpen } = useAppSelector((state) => state.blogBuilder);
   const dispatch = useAppDispatch();
 
-  if (!activeBlock) return null;
+  const { imageId, targetImage } = useGetImageData();
 
   const cropperRef = useRef<CropperRef>(null);
   const { toast } = useToast();
   const router = useRouter();
   const { modifyParams, buildFullPath } = useModifyQueryParams();
-
-  const targetImage = searchParams.get("edit");
 
   const handleSaveCroppedImage = useCallback(() => {
     const cropper = cropperRef.current;
@@ -54,7 +77,13 @@ const ImageEditor = ({}: ImageEditorProps) => {
 
       const coverURL = URL.createObjectURL(blob);
 
-      dispatch(changeImage({ blogId, id: activeBlock, image: coverURL }));
+      dispatch(
+        changeImage({
+          blogId,
+          id: imageId,
+          image: coverURL,
+        })
+      );
       dispatch(toggleisImageEditorOpen());
       handleClose();
     }, "image/png");
@@ -69,6 +98,8 @@ const ImageEditor = ({}: ImageEditorProps) => {
     if (isImageEditorOpen) handleSaveCroppedImage();
   }, [router, targetImage, isImageEditorOpen]);
 
+  if (!imageId || !targetImage) return null;
+
   return (
     <CenterScrollArea className="w-full h-full">
       <section className="w-full h-full flex flex-col justify-center items-center gap-3 overflow-hidden py-5">
@@ -79,6 +110,7 @@ const ImageEditor = ({}: ImageEditorProps) => {
                 ref={cropperRef}
                 src={targetImage}
                 stencilProps={{
+                  aspectRatio: 16 / 9,
                   grid: true,
                 }}
                 className={"cropper w-full h-full object-contain"}
