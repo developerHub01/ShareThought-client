@@ -97,15 +97,15 @@ const ImageUploadCanvas = ({ id, blogId }: ImageUploadCanvasProps) => {
 
       <input
         type="file"
-        name="imageUploader"
+        name={`imageUploader__${id}`}
         accept="image/*"
-        id="imageUploader"
+        id={`imageUploader__${id}`}
         ref={imageInputRef}
         onChange={handleImageChange}
         hidden
       />
       <label
-        htmlFor="imageUploader"
+        htmlFor={`imageUploader__${id}`}
         className="cursor-pointer bg-primary hover:bg-primary/80 text-primary-foreground px-4 py-1.5 rounded-sm"
       >
         Upload

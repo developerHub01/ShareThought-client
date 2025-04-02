@@ -4,7 +4,6 @@ import React, { memo } from "react";
 import ImageUploadCanvas from "@/app/(editor)/studio/create-blog/[id]/_components/components/ImageUploadCanvas";
 import { useParams } from "next/navigation";
 import { useAppSelector } from "@/redux/hooks";
-import { StyleType } from "@/redux/features/builders/blogBuilderSlice";
 import handleHandleFilterStyle from "@/utils/editor/handleHandleFilterStyle";
 import handleBorderStyle from "@/utils/editor/handleBorderStyle";
 import handleWrapperContentStyleSeparator from "@/utils/editor/handleWrapperContentStyleSeparator";
@@ -24,7 +23,7 @@ interface ImageProps {
 
 const Image = memo(({ id, parentId, ...props }: ImageProps) => {
   const { id: blogId } = useParams<{ id: string }>();
-
+  
   const styles = useAppSelector((state) =>
     selectBlogStylesById(state, blogId, id)
   );
