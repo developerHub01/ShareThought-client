@@ -1,24 +1,24 @@
 "use client";
 
-import { useAppSelector } from "@/redux/hooks";
 import React, { CSSProperties, memo } from "react";
-import Column from "@/app/(editor)/studio/create-blog/[id]/_components/Components/Column";
 import { cn } from "@/lib/utils";
-import { useParams } from "next/navigation";
 import handleBorderStyle from "@/utils/editor/handleBorderStyle";
 import handleBoxShadow from "@/utils/editor/handleBoxShadow";
-import {
-  selectBlogComponentById,
-  selectBlogStylesById,
-  selectBlogScreenType,
-  selectBlogGlobalStyle,
-  selectBlogMobileStylesById,
-} from "@/redux/features/builders/selectors";
 import useCombinedResponsiveSettingStyles from "@/hooks/editor/use-combined-responsive-setting-styles";
+import Column from "@/app/(editor)/studio/create-blog/[id]/_components/Preview/Components/Column";
+import {
+  BlogComponentsDataInterface,
+  BlogContentType,
+  BlogMetaDataInterface,
+} from "@/redux/features/builders/blogBuilderSlice";
+import { useEditorPreview } from "@/app/(editor)/studio/create-blog/[id]/_context/Preview/EditorPreviewProvider";
 
 interface RowProps {
   id: string;
   parentId?: string;
+  content: BlogContentType;
+  components: BlogComponentsDataInterface;
+  metaData: BlogMetaDataInterface;
 }
 
 const getColSpan = (column: number) => {
@@ -35,28 +35,19 @@ const getColSpan = (column: number) => {
   return colSpanMap[column] || "md:col-span-12"; // Fallback to col-span-12
 };
 
-const Row = memo(({ id }: RowProps) => {
-  const { id: blogId } = useParams<{ id: string }>();
+const Row = memo((props: RowProps) => {
+  const { id, ...restProps } = props;
+  const { components, metaData } = restProps;
 
-  const screenType = useAppSelector((state) =>
-    selectBlogScreenType(state, blogId)
-  );
-  const globalStyles = useAppSelector((state) =>
-    selectBlogGlobalStyle(state, blogId)
-  );
-  const styles = useAppSelector((state) =>
-    selectBlogStylesById(state, blogId, id)
-  );
-  const mobileStyles = useAppSelector((state) =>
-    selectBlogMobileStylesById(state, blogId, id)
-  );
-  const component = useAppSelector((state) =>
-    selectBlogComponentById(state, blogId, id)
-  );
+  const styles = metaData.styles[id];
+  const mobileStyles = metaData.mobileStyles[id];
+  const globalStyles = metaData.globalStyles;
 
-  if (!blogId || !component) return null;
+  const { screenType } = useEditorPreview();
 
-  const { children, gridSize, type } = component;
+  if (!components || !components[id]) return null;
+
+  const { children, gridSize, type } = components[id];
 
   let componentStyles = useCombinedResponsiveSettingStyles({
     type,
@@ -93,7 +84,7 @@ const Row = memo(({ id }: RowProps) => {
               getColSpan(screenType === "mobile" ? 12 : gridSize?.[index] ?? 12)
             )}
           >
-            <Column id={id} parentId={id} />
+            <Column id={id} parentId={id} {...restProps} />
           </div>
         ))}
     </section>

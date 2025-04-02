@@ -5,44 +5,38 @@ import BlockComponentWrapper from "@/app/(editor)/studio/create-blog/[id]/_compo
 import AddComponentSection from "@/app/(editor)/studio/create-blog/[id]/_components/BuilderPopover/AddComponentSection";
 import useCombinedResponsiveSettingStyles from "@/hooks/editor/use-combined-responsive-setting-styles";
 import { cn } from "@/lib/utils";
-import { StyleType } from "@/redux/features/builders/blogBuilderSlice";
 import {
-  selectBlogComponentById,
-  selectBlogGlobalStyle,
-  selectBlogMobileStylesById,
-  selectBlogScreenType,
-  selectBlogStylesById,
-} from "@/redux/features/builders/selectors";
-import { useAppSelector } from "@/redux/hooks";
+  BlogComponentsDataInterface,
+  BlogContentType,
+  BlogMetaDataInterface,
+} from "@/redux/features/builders/blogBuilderSlice";
 import handleBorderStyle from "@/utils/editor/handleBorderStyle";
 import handleBoxShadow from "@/utils/editor/handleBoxShadow";
 import { AnimatePresence, motion } from "motion/react";
 import { useParams } from "next/navigation";
 import React, { CSSProperties, memo } from "react";
+import { useEditorPreview } from "@/app/(editor)/studio/create-blog/[id]/_context/Preview/EditorPreviewProvider";
+import BlockDecision from "../BlockDecision";
 
 interface RowProps {
   id: string;
   parentId: string;
+  content: BlogContentType;
+  components: BlogComponentsDataInterface;
+  metaData: BlogMetaDataInterface;
 }
 
-const Column = memo(({ id, ...props }: RowProps) => {
-  const { id: blogId } = useParams<{ id: string }>();
+const Column = memo((props: RowProps) => {
+  const { id, ...restProps } = props;
+  const { components, metaData } = restProps;
 
-  const screenType = useAppSelector((state) =>
-    selectBlogScreenType(state, blogId)
-  );
-  const globalStyles = useAppSelector((state) =>
-    selectBlogGlobalStyle(state, blogId)
-  );
-  const styles = useAppSelector((state) =>
-    selectBlogStylesById(state, blogId, id)
-  );
-  const mobileStyles = useAppSelector((state) =>
-    selectBlogMobileStylesById(state, blogId, id)
-  );
-  const component = useAppSelector((state) =>
-    selectBlogComponentById(state, blogId, id)
-  );
+  const { id: blogId } = useParams<{ id: string }>();
+  const { screenType } = useEditorPreview();
+
+  const globalStyles = metaData.globalStyles;
+  const styles = metaData.styles[id];
+  const mobileStyles = metaData.mobileStyles[id];
+  const component = components[id];
 
   if (!blogId || !component) return null;
 
@@ -66,40 +60,22 @@ const Column = memo(({ id, ...props }: RowProps) => {
   };
 
   return (
-    <BlockComponentWrapper id={id}>
-      <section
-        className={cn("w-full h-full flex flex-col", {
-          "py-10 bg-primary/10": Array.isArray(children) && !children.length,
-        })}
-        style={{
-          ...(componentStyles as CSSProperties),
-        }}
-        data-component-type={type}
-        data-component-id={id}
-      >
-        {Array.isArray(children) && (
-          <>
-            {Boolean(children.length) && <AddComponentSection index={0} />}
-            {children.map((currentId, index, list) => (
-              <React.Fragment key={currentId}>
-                <BlockComponent id={currentId} parentId={id} />
-                <AnimatePresence>
-                  {index !== list.length - 1 && (
-                    <motion.div
-                      className="group-hover:opacity-100 group-hover:scale-y-100 opacity-0 scale-y-0 -translate-y-1/2 mt-1 mx-auto"
-                      exit={{ opacity: 0 }}
-                    >
-                      <AddComponentSection index={index + 1} parentId={id} />
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </React.Fragment>
-            ))}
-            <AddComponentSection index={children.length} parentId={id} />
-          </>
-        )}
-      </section>
-    </BlockComponentWrapper>
+    <section
+      className="w-full h-full flex flex-col"
+      style={{
+        ...(componentStyles as CSSProperties),
+      }}
+      data-component-type={type}
+      data-component-id={id}
+    >
+      {Array.isArray(children) && (
+        <>
+          {children.map((id) => (
+            <BlockDecision key={id} {...restProps} id={id} />
+          ))}
+        </>
+      )}
+    </section>
   );
 });
 
