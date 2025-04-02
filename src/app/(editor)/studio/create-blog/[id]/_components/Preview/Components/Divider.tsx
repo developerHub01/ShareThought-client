@@ -1,71 +1,70 @@
 "use client";
 
 import useCombinedResponsiveSettingStyles from "@/hooks/editor/use-combined-responsive-setting-styles";
-import { StyleType } from "@/redux/features/builders/blogBuilderSlice";
 import {
-  selectBlogMobileStylesById,
-  selectBlogScreenType,
-  selectBlogStylesById,
-} from "@/redux/features/builders/selectors";
-import { useAppSelector } from "@/redux/hooks";
+  BlogComponentsDataInterface,
+  BlogContentType,
+  BlogMetaDataInterface,
+  StyleType,
+} from "@/redux/features/builders/blogBuilderSlice";
 import handleBorderStyle from "@/utils/editor/handleBorderStyle";
 import handleWrapperContentStyleSeparator from "@/utils/editor/handleWrapperContentStyleSeparator";
 import { useParams } from "next/navigation";
 import React, { memo } from "react";
+import { useEditorPreview } from "@/app/(editor)/studio/create-blog/[id]/_context/Preview/EditorPreviewProvider";
 
 interface DividerProps {
   id: string;
   parentId?: string;
+  content: BlogContentType;
+  components: BlogComponentsDataInterface;
+  metaData: BlogMetaDataInterface;
 }
 
-const Divider = memo(({ id, parentId, ...props }: DividerProps) => {
-  const { id: blogId } = useParams<{ id: string }>();
+const Divider = memo(
+  ({ id, parentId, components, metaData, ...props }: DividerProps) => {
+    const { id: blogId } = useParams<{ id: string }>();
 
-  const screenType = useAppSelector((state) =>
-    selectBlogScreenType(state, blogId)
-  );
-  const styles = useAppSelector((state) =>
-    selectBlogStylesById(state, blogId, id)
-  );
-  const mobileStyles = useAppSelector((state) =>
-    selectBlogMobileStylesById(state, blogId, id)
-  );
-  
-  if (!blogId) return null;
+    const { screenType } = useEditorPreview();
+    const styles = metaData.styles[id];
+    const mobileStyles = metaData.mobileStyles[id];
 
-  const combinedStyles = useCombinedResponsiveSettingStyles({
-    type: "divider",
-    screenType,
-    styles,
-    mobileStyles,
-  });
+    if (!blogId) return null;
 
-  let { contentStyles, wrapperStyles } =
-    handleWrapperContentStyleSeparator(combinedStyles);
+    const combinedStyles = useCombinedResponsiveSettingStyles({
+      type: "divider",
+      screenType,
+      styles,
+      mobileStyles,
+    });
 
-  contentStyles = {
-    ...contentStyles,
-    ...handleBorderStyle(contentStyles as StyleType),
-  };
+    let { contentStyles, wrapperStyles } =
+      handleWrapperContentStyleSeparator(combinedStyles);
 
-  if (contentStyles.width) contentStyles.width = `${contentStyles.width}%`;
+    contentStyles = {
+      ...contentStyles,
+      ...handleBorderStyle(contentStyles as StyleType),
+    };
 
-  return (
-    <div
-      className={"flex"}
-      style={{
-        ...(wrapperStyles as Record<string, string | number>),
-      }}
-      data-component-type={"divider"}
-      data-component-id={id}
-    >
+    if (contentStyles.width) contentStyles.width = `${contentStyles.width}%`;
+
+    return (
       <div
+        className={"flex"}
         style={{
-          ...contentStyles,
+          ...(wrapperStyles as Record<string, string | number>),
         }}
-      ></div>
-    </div>
-  );
-});
+        data-component-type={"divider"}
+        data-component-id={id}
+      >
+        <div
+          style={{
+            ...contentStyles,
+          }}
+        ></div>
+      </div>
+    );
+  }
+);
 
 export default Divider;
