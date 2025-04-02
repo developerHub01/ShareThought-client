@@ -11,7 +11,7 @@ import { useAppSelector } from "@/redux/hooks";
 import { useParams } from "next/navigation";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import EditorPopover from "@/app/(editor)/studio/create-blog/[id]/_components/ImageEditor/EditorPopover";
-import PreviewPopover from "@/app/(editor)/studio/create-blog/[id]/_components/Preview/PreviewPopover";
+import EditorPreview from "@/app/(editor)/studio/create-blog/[id]/_components/Preview/EditorPreview";
 import LeftSidebar from "@/app/(editor)/studio/create-blog/[id]/_components/LeftSidebar/LeftSidebar";
 import { selectBlogContent } from "@/redux/features/builders/selectors";
 import EditorBlogTitle from "@/app/(editor)/studio/create-blog/[id]/_components/EditorBlogTitle";
@@ -62,7 +62,7 @@ const EditorCanvas = memo(() => {
         </section>
         <ComponentDialog />
         <EditorPopover />
-        <PreviewPopover />
+        <EditorPreview />
       </section>
     </DndContext>
   );

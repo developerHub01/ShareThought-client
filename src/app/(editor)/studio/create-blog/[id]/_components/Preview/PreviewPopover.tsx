@@ -2,23 +2,19 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 import React, { memo } from "react";
-import {
-  Drawer,
-  DrawerContentWitoutHandler,
-  DrawerDescription,
-  DrawerHeader,
-  DrawerTitle,
-} from "@/components/ui/drawer";
-import { CloseIcon } from "@/lib/icons";
+import { Drawer, DrawerContentWitoutHandler } from "@/components/ui/drawer";
 import useModifyQueryParams from "@/hooks/use-modify-query-params";
-import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import PreviewContent from "@/app/(editor)/studio/create-blog/[id]/_components/Preview/PreviewContent";
+import { useEditorPreview } from "@/app/(editor)/studio/create-blog/[id]/_context/Preview/EditorPreviewProvider";
+import PreviewPopoverHeader from "@/app/(editor)/studio/create-blog/[id]/_components/Preview/PreviewPopoverHeader";
+import { cn } from "@/lib/utils";
 
 const PreviewPopover = memo(() => {
   const params = useSearchParams();
   const router = useRouter();
   const { modifyParams, buildFullPath } = useModifyQueryParams();
+  const { screenType } = useEditorPreview();
 
   let isPreviewOpen = Boolean(params.get("preview"));
 
@@ -34,25 +30,18 @@ const PreviewPopover = memo(() => {
       onOpenChange={handleClose}
     >
       <DrawerContentWitoutHandler
-        className="fixed mt-0 overflow-hidden inset-2 rounded-sm ml-auto border-0 w-[90%] max-w-4xl grid-place-items-centered"
+        className={cn(
+          "fixed mt-0 overflow-hidden inset-2 rounded-sm ml-auto border-0 w-[90%] grid-place-items-centered",
+          {
+            "max-w-xl": screenType === "mobile",
+            "max-w-3xl": screenType !== "mobile",
+          }
+        )}
         style={
           { "--initial-transform": "calc(100% + 8px)" } as React.CSSProperties
         }
       >
-        <DrawerHeader className="flex justify-between items-center gap-2 border-b py-2">
-          <DrawerTitle className="font-medium">
-            <p>Blog Preview</p>
-          </DrawerTitle>
-          <DrawerDescription hidden></DrawerDescription>
-          <Button
-            size={"icon"}
-            className="rounded-full"
-            variant={"ghost"}
-            onClick={() => handleClose(false)}
-          >
-            <CloseIcon size={22} strokeWidth={1.5} />
-          </Button>
-        </DrawerHeader>
+        <PreviewPopoverHeader handleClose={handleClose} />
 
         <ScrollArea className="p-3 w-full">
           <PreviewContent />
