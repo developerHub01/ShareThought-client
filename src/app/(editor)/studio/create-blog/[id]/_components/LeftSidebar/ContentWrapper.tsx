@@ -30,7 +30,7 @@ const ContentWrapper = memo(
           {isContentOpen && (
             <motion.div
               className={cn(
-                "absolute top-0 left-0 w-56 h-full bg-primary-foreground shadow-xl overflow-hidden border",
+                "absolute top-0 left-0 w-64 h-full bg-primary-foreground shadow-xl overflow-hidden border",
                 className
               )}
               initial={{
