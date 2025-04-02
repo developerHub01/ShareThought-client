@@ -1,3 +1,5 @@
+"use client";
+
 import { EDITOR_TABLE_SIZE } from "@/constant";
 import {
   AlignType,
@@ -9,8 +11,10 @@ import {
 } from "@/redux/features/builders/blogBuilderSlice";
 import handleWrapperContentStyleSeparator from "@/utils/editor/handleWrapperContentStyleSeparator";
 import React from "react";
-import Th from "@/components/post/components/Th";
-import Td from "@/components/post/components/Td";
+import { useEditorPreview } from "@/app/(editor)/studio/create-blog/[id]/_context/Preview/EditorPreviewProvider";
+import useCombinedResponsiveSettingStyles from "@/hooks/editor/use-combined-responsive-setting-styles";
+import Td from "@/app/(editor)/studio/create-blog/[id]/_components/Preview/Components/Td";
+import Th from "@/app/(editor)/studio/create-blog/[id]/_components/Preview/Components/Th";
 
 interface TableProps {
   id: string;
@@ -22,7 +26,17 @@ interface TableProps {
 const Table = ({ id, components, metaData }: TableProps) => {
   if (!components || !components[id]) return null;
 
-  let activeBlockStyles = metaData.styles[id];
+  const styles = metaData.styles[id];
+  const mobileStyles = metaData.mobileStyles[id];
+
+  const { screenType } = useEditorPreview();
+
+  const combinedStyles = useCombinedResponsiveSettingStyles({
+    type: "table",
+    screenType,
+    styles,
+    mobileStyles,
+  });
 
   const {
     tbody,
@@ -77,7 +91,7 @@ const Table = ({ id, components, metaData }: TableProps) => {
   };
 
   const { contentStyles, wrapperStyles } =
-    handleWrapperContentStyleSeparator(activeBlockStyles);
+    handleWrapperContentStyleSeparator(combinedStyles);
 
   return (
     <div
@@ -91,7 +105,7 @@ const Table = ({ id, components, metaData }: TableProps) => {
       <table
         className="border-collapse w-full table-fixed text-sm text-left text-gray-500 dark:text-gray-400"
         style={{
-          ...(activeBlockStyles as Record<string, string | number>),
+          ...(combinedStyles as Record<string, string | number>),
           ...borderStyle,
           ...tableStyle,
           ...contentStyles,

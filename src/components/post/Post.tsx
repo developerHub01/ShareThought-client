@@ -9,7 +9,7 @@ const Post = ({ title, content, components, metaData }: BlogStateInterface) => {
   return (
     <div className="w-full">
       <div className="w-full max-w-3xl mx-auto">
-        <h1 className="text-4xl font-bold text-primary pb-4">
+        <h1 className="text-4xl sm:text-3xl font-bold text-primary pb-4">
           {title || "Dummy Blog Title"}
         </h1>
         {bannerImage && (

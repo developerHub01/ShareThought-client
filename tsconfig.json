@@ -27,7 +27,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "src/app/(editor)/studio/create-blog/[id]/_components/components/Row.tsx"
+    "src/app/(editor)/studio/create-blog/[id]/_components/Components/Row.tsx"
   ],
   "exclude": ["node_modules"]
 }

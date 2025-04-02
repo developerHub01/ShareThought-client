@@ -1,7 +1,7 @@
 "use client";
 
 import React, { memo } from "react";
-import ImageUploadCanvas from "@/app/(editor)/studio/create-blog/[id]/_components/components/ImageUploadCanvas";
+import ImageUploadCanvas from "@/app/(editor)/studio/create-blog/[id]/_components/Components/ImageUploadCanvas";
 import { useParams } from "next/navigation";
 import { useAppSelector } from "@/redux/hooks";
 import handleHandleFilterStyle from "@/utils/editor/handleHandleFilterStyle";
