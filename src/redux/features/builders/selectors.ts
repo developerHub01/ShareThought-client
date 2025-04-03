@@ -93,3 +93,37 @@ export const selectBlogHoveringComponentId = createSelector(
   [(state: RootState) => state.blogBuilder.hoveringComponentId],
   (id) => id
 );
+
+export const selectBlogActiveComponentFullPath = createSelector(
+  [
+    (state: RootState, blogId: string) => {
+      const { components } = state.blogBuilder?.blogs?.[blogId] || {};
+
+      return components;
+    },
+    (state: RootState, blogId: string) => {
+      const { activeBlock } = state.blogBuilder?.blogs?.[blogId] || {};
+
+      return activeBlock;
+    },
+  ],
+  (components, id) => {
+    let path: Array<string> = [];
+
+    if (!components || !id) return path;
+
+    const getFullPathRecursive = (id: string): Array<string> => {
+      if (!id || !components?.[id]) return [];
+
+      const result = getFullPathRecursive(components[id].parentId ?? "");
+
+      result.push(id);
+
+      return result;
+    };
+
+    path = getFullPathRecursive(id);
+
+    return path;
+  }
+);

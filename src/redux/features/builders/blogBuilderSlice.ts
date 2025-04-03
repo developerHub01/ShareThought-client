@@ -408,6 +408,7 @@ export const blogBuilderSlice = createSlice({
       state,
       action: PayloadAction<string | null>
     ) => {
+      if (state.hoveringComponentId === action.payload) return;
       state.hoveringComponentId = action.payload;
     },
 
