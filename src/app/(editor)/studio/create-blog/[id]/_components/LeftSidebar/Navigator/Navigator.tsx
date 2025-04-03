@@ -6,6 +6,7 @@ import { useAppSelector } from "@/redux/hooks";
 import { useParams } from "next/navigation";
 import Component from "@/app/(editor)/studio/create-blog/[id]/_components/LeftSidebar/Navigator/Component";
 import { selectBlogContent } from "@/redux/features/builders/selectors";
+import useGetComponentFullPath from "@/hooks/editor/use-get-component-full-path";
 
 const Navigator = memo(() => {
   const { id: blogId } = useParams<{ id: string }>();
@@ -14,11 +15,23 @@ const Navigator = memo(() => {
 
   const content = useAppSelector((state) => selectBlogContent(state, blogId));
 
+  const activeFullPath = useGetComponentFullPath(blogId);
+
   return (
     <ContentWrapper id="navigator" label="Navigator">
-      {content.map((id) => (
-        <Component key={id} id={id} />
-      ))}
+      {content.map((id) => {
+        return (
+          <Component
+            key={id}
+            id={id}
+            {...(activeFullPath[0] === id
+              ? {
+                  activeFullPath: activeFullPath,
+                }
+              : {})}
+          />
+        );
+      })}
     </ContentWrapper>
   );
 });

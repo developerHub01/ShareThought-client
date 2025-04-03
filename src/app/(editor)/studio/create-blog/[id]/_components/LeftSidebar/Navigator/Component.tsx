@@ -11,9 +11,10 @@ import ComponentDetail from "@/app/(editor)/studio/create-blog/[id]/_components/
 
 interface ComponentProps {
   id: string;
+  activeFullPath?: Array<string>;
 }
 
-const Component = memo(({ id }: ComponentProps) => {
+const Component = memo(({ id, activeFullPath }: ComponentProps) => {
   const { id: blogId } = useParams<{ id: string }>();
   if (!blogId) return null;
 
@@ -25,7 +26,7 @@ const Component = memo(({ id }: ComponentProps) => {
 
   if (!activeComponent) return null;
 
-  return <ComponentDetail {...activeComponent} activeBlock={activeBlock} />;
+  return <ComponentDetail {...activeComponent} activeFullPath={activeFullPath} activeBlock={activeBlock} />;
 });
 
 export default Component;
