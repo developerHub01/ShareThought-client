@@ -46,8 +46,6 @@ const Heading = memo(
 
     return (
       <Tag
-        contentEditable
-        suppressContentEditableWarning
         data-component-type={type}
         data-component-id={id}
         className={defaultClassName}

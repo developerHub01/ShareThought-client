@@ -52,7 +52,7 @@ const ImageEditor = ({}: ImageEditorProps) => {
   const { isImageEditorOpen } = useAppSelector((state) => state.blogBuilder);
   const dispatch = useAppDispatch();
 
-  const { imageId, targetImage } = useGetImageData();
+  const { isBanner, imageId, targetImage } = useGetImageData();
 
   const cropperRef = useRef<CropperRef>(null);
   const { toast } = useToast();
@@ -110,7 +110,11 @@ const ImageEditor = ({}: ImageEditorProps) => {
                 ref={cropperRef}
                 src={targetImage}
                 stencilProps={{
-                  aspectRatio: 16 / 9,
+                  ...(isBanner
+                    ? {
+                        aspectRatio: 16 / 9,
+                      }
+                    : {}),
                   grid: true,
                 }}
                 className={"cropper w-full h-full object-contain"}
