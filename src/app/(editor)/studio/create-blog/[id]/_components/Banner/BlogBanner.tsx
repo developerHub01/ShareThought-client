@@ -15,7 +15,7 @@ import React, {
 } from "react";
 import { selectBlogImgLinkById } from "@/redux/features/builders/selectors";
 import Image from "next/image";
-import BannerBottomAction from "@/app/(editor)/studio/create-blog/[id]/_components/BannerBottomAction";
+import BannerBottomAction from "@/app/(editor)/studio/create-blog/[id]/_components/Banner/BannerBottomAction";
 
 const BlogBanner = () => {
   const { id: blogId } = useParams<{ id: string }>();

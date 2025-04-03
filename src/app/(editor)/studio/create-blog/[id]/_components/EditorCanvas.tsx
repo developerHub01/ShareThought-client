@@ -15,7 +15,7 @@ import EditorPreview from "@/app/(editor)/studio/create-blog/[id]/_components/Pr
 import LeftSidebar from "@/app/(editor)/studio/create-blog/[id]/_components/LeftSidebar/LeftSidebar";
 import { selectBlogContent } from "@/redux/features/builders/selectors";
 import EditorBlogTitle from "@/app/(editor)/studio/create-blog/[id]/_components/EditorBlogTitle";
-import BlogBanner from "@/app/(editor)/studio/create-blog/[id]/_components/BlogBanner";
+import BlogBanner from "@/app/(editor)/studio/create-blog/[id]/_components/Banner/BlogBanner";
 
 const EditorCanvas = memo(() => {
   const { id: blogId } = useParams<{ id: string }>();
