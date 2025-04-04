@@ -29,7 +29,9 @@ const ComponentDetail = memo(
     const { id: blogId } = useParams<{ id: string }>();
 
     // State to track whether the component is open (for toggling)
-    const [isOpen, setOpen] = useState(id === activeFullPath?.[0]);
+    const [isOpen, setOpen] = useState(
+      id === activeFullPath?.[0] && activeFullPath?.length > 1
+    );
 
     // Redux dispatch hook to dispatch actions
     const dispatch = useAppDispatch();
@@ -37,7 +39,7 @@ const ComponentDetail = memo(
     /* Synchronizing the active component with the current one.
        When activeFullPath or id changes, it updates the state (isOpen) to reflect the current component's state. */
     useEffect(() => {
-      const newValue = id === activeFullPath?.[0];
+      const newValue = id === activeFullPath?.[0] && activeFullPath?.length > 1;
       if (isOpen !== newValue) setOpen(newValue);
     }, [activeFullPath, id]);
 
