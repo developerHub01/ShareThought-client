@@ -4,7 +4,7 @@ import React, { useMemo, memo } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { useSearchParams } from "next/navigation";
 import { cn } from "@/lib/utils";
-import { ScrollArea } from "@/components/ui/scroll-area";
+import ContentInnerWrapper from "@/app/(editor)/studio/create-blog/[id]/_components/LeftSidebar/ContentInnerWrapper";
 
 interface ContentWrapperProps {
   id: string;
@@ -33,7 +33,7 @@ const ContentWrapper = memo(
           {isContentOpen && (
             <motion.div
               className={cn(
-                "absolute top-0 left-0 w-64 h-full bg-primary-foreground shadow-xl overflow-visible border",
+                "absolute top-0 left-0 w-64 h-full bg-primary-foreground shadow-xl overflow-visible border flex flex-col",
                 className
               )}
               initial={{
@@ -53,12 +53,9 @@ const ContentWrapper = memo(
                 ease: "anticipate",
               }}
             >
-              <div className="p-2 text-base font-bold capitalize border-b">
-                <h4>{label ?? id}</h4>
-              </div>
-              <ScrollArea className="w-full h-full px-2 text-sm">
+              <ContentInnerWrapper id={id} label={label}>
                 {children}
-              </ScrollArea>
+              </ContentInnerWrapper>
             </motion.div>
           )}
         </AnimatePresence>
