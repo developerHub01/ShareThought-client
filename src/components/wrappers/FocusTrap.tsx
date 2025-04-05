@@ -9,6 +9,7 @@ interface FocusTrapProps {
   className?: string;
   isOpen?: boolean;
   onClose?: () => void;
+  reCalculateable?: boolean;
 }
 
 const focusSelectorsList = [
@@ -26,6 +27,7 @@ const FocusTrap = ({
   className,
   isOpen,
   onClose,
+  reCalculateable = false,
 }: FocusTrapProps) => {
   const modalRef = useRef<HTMLDivElement>(null);
 
@@ -44,24 +46,44 @@ const FocusTrap = ({
 
     if (!modalElement) return;
 
-    const focusableElements =
-      modalElement?.querySelectorAll(focusableSelectors);
+    let focusableElements: NodeListOf<Element> | null = null;
+    let firstElement: HTMLElement | null = null;
+    let lastElement: HTMLElement | null = null;
 
-    const firstElement = focusableElements[0] as HTMLElement;
-    const lastElement = focusableElements[
-      focusableElements.length - 1
-    ] as HTMLElement;
+    if (!reCalculateable) {
+      focusableElements = modalElement?.querySelectorAll(focusableSelectors);
 
-    const handleKeyPress = (event: globalThis.KeyboardEvent) => {
-      if (event.key === "Tab") {
-        if (event.shiftKey && document.activeElement === firstElement) {
-          event.preventDefault();
-          lastElement.focus();
-        } else if (!event.shiftKey && document.activeElement === lastElement) {
-          event.preventDefault();
-          firstElement.focus();
-        }
-      } else if (event.key === "Escape" && onClose) onClose();
+      if (!focusableElements || focusableElements.length === 0) return;
+
+      firstElement = focusableElements[0] as HTMLElement;
+      lastElement = focusableElements[
+        focusableElements.length - 1
+      ] as HTMLElement;
+    }
+
+    const handleKeyPress = (e: globalThis.KeyboardEvent) => {
+      if (!["Escape", "Tab"].includes(e.key)) return;
+
+      if (e.key === "Escape" && onClose) return onClose();
+
+      if (reCalculateable) {
+        focusableElements = modalElement?.querySelectorAll(focusableSelectors);
+
+        if (!focusableElements || focusableElements.length === 0) return;
+
+        firstElement = focusableElements[0] as HTMLElement;
+        lastElement = focusableElements[
+          focusableElements.length - 1
+        ] as HTMLElement;
+      }
+
+      if (e.shiftKey && document.activeElement === firstElement) {
+        e.preventDefault();
+        lastElement?.focus();
+      } else if (!e.shiftKey && document.activeElement === lastElement) {
+        e.preventDefault();
+        firstElement?.focus();
+      }
     };
 
     modalElement.addEventListener("keydown", handleKeyPress);
@@ -77,5 +99,6 @@ const FocusTrap = ({
     </div>
   );
 };
+
 
 export default FocusTrap;
