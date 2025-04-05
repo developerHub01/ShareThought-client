@@ -66,7 +66,7 @@ const LeftSidebar = memo(() => {
   const handleClick = (id: string) => {};
 
   const handleBlur = (e: FocusEvent<HTMLDivElement>) => {
-    // if (!containerRef.current?.contains(e.relatedTarget)) deleteSidebar();
+    if (!containerRef.current?.contains(e.relatedTarget)) deleteSidebar();
   };
 
   return (
@@ -109,7 +109,7 @@ interface ContentProps {
   onClose?: () => void;
 }
 
-const Content = memo(({onClose}:ContentProps) => {
+const Content = memo(({ onClose }: ContentProps) => {
   return (
     <>
       <Navigator onClose={onClose} />
