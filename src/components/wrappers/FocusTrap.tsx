@@ -51,14 +51,10 @@ const FocusTrap = ({
     let lastElement: HTMLElement | null = null;
 
     if (!reCalculateable) {
-      focusableElements = modalElement?.querySelectorAll(focusableSelectors);
+      const elements = getFocusableElements(modalElement, focusableSelectors);
+      if (!elements) return;
 
-      if (!focusableElements || focusableElements.length === 0) return;
-
-      firstElement = focusableElements[0] as HTMLElement;
-      lastElement = focusableElements[
-        focusableElements.length - 1
-      ] as HTMLElement;
+      ({ firstElement, lastElement } = elements);
     }
 
     const handleKeyPress = (e: globalThis.KeyboardEvent) => {
@@ -67,14 +63,10 @@ const FocusTrap = ({
       if (e.key === "Escape" && onClose) return onClose();
 
       if (reCalculateable) {
-        focusableElements = modalElement?.querySelectorAll(focusableSelectors);
+        const elements = getFocusableElements(modalElement, focusableSelectors);
+        if (!elements) return;
 
-        if (!focusableElements || focusableElements.length === 0) return;
-
-        firstElement = focusableElements[0] as HTMLElement;
-        lastElement = focusableElements[
-          focusableElements.length - 1
-        ] as HTMLElement;
+        ({ firstElement, lastElement } = elements);
       }
 
       if (e.shiftKey && document.activeElement === firstElement) {
@@ -100,5 +92,19 @@ const FocusTrap = ({
   );
 };
 
+const getFocusableElements = (
+  container: HTMLElement | null,
+  selectors: string
+) => {
+  if (!container) return null;
+
+  const elements = container.querySelectorAll(selectors);
+  if (!elements.length) return null;
+
+  return {
+    firstElement: elements[0] as HTMLElement,
+    lastElement: elements[elements.length - 1] as HTMLElement,
+  };
+};
 
 export default FocusTrap;
