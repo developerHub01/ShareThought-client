@@ -1,78 +1,97 @@
 "use client";
 
-interface ComponentActionsProps {
-  blogId: string;
-  id: string;
-  activeBlock: string;
-}
-
-import { SelectIcon, DuplicateIcon, TrashIcon } from "@/lib/icons";
+import { SelectIcon, DuplicateIcon, TrashIcon, LucideIcon } from "@/lib/icons";
 import {
   changeActiveBlock,
   duplicateComponent,
   removeComponent,
 } from "@/redux/features/builders/blogBuilderSlice";
 import { useAppDispatch } from "@/redux/hooks";
-import { memo, MouseEvent, useCallback } from "react";
+import { memo, useCallback } from "react";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+
+interface ComponentActionsProps {
+  blogId: string;
+  id: string;
+  activeBlock: string;
+}
 
 const ComponentActions = memo(
   ({ blogId, id, activeBlock }: ComponentActionsProps) => {
     const dispatch = useAppDispatch();
     const activateBlock = useCallback(
-      (e: MouseEvent<HTMLButtonElement>) => {
-        e.stopPropagation();
-        dispatch(changeActiveBlock({ blogId, activeBlockId: id }));
-      },
+      () => dispatch(changeActiveBlock({ blogId, activeBlockId: id })),
       [dispatch, blogId, id]
     );
 
     const duplicateBlock = useCallback(
-      (e: MouseEvent<HTMLButtonElement>) => {
-        e.stopPropagation();
-        dispatch(duplicateComponent({ blogId, id }));
-      },
+      () => dispatch(duplicateComponent({ blogId, id })),
       [dispatch, blogId, id]
     );
 
     const removeBlock = useCallback(
-      (e: MouseEvent<HTMLButtonElement>) => {
-        e.stopPropagation();
-        dispatch(removeComponent({ blogId, id }));
-      },
+      () => dispatch(removeComponent({ blogId, id })),
       [dispatch, blogId, id]
     );
 
     return (
-      <>
+      <TooltipProvider>
         {activeBlock !== id && (
-          <button
+          <Button
             onClick={activateBlock}
-            type="button"
-            className="hidden group-hover:block bg-primary-foreground text-primary rounded-full p-1"
-            title="Select component"
-          >
-            <SelectIcon size={16} />
-          </button>
+            label="Select Component"
+            Icon={SelectIcon}
+            shortCut="Enter"
+          />
         )}
-        <button
+        <Button
           onClick={duplicateBlock}
-          type="button"
-          className="hidden group-hover:block bg-primary-foreground text-primary rounded-full p-1"
-          title="Duplicate component"
-        >
-          <DuplicateIcon size={16} />
-        </button>
-        <button
+          label="Duplicate Component"
+          Icon={DuplicateIcon}
+          shortCut="Shift + Alt + D"
+        />
+        <Button
           onClick={removeBlock}
-          type="button"
-          className="hidden group-hover:block bg-primary-foreground text-primary rounded-full p-1"
-          title="Delete component"
-        >
-          <TrashIcon size={16} />
-        </button>
-      </>
+          label="Delete Component"
+          Icon={TrashIcon}
+          shortCut="Delete"
+        />
+      </TooltipProvider>
     );
   }
 );
+
+interface ButtonProps {
+  onClick: () => void;
+  Icon: LucideIcon;
+  label: string;
+  shortCut?: string;
+}
+
+const Button = ({ onClick, Icon, label, shortCut }: ButtonProps) => {
+  return (
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <button
+          onClick={onClick}
+          type="button"
+          className="hidden group-hover:block bg-primary-foreground text-primary rounded-full p-1"
+          title={label}
+          tabIndex={-1}
+        >
+          <Icon size={16} />
+        </button>
+      </TooltipTrigger>
+      <TooltipContent>
+        <p>{shortCut}</p>
+      </TooltipContent>
+    </Tooltip>
+  );
+};
 
 export default ComponentActions;

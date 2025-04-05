@@ -5,11 +5,21 @@ import { RightIcon } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import {
   BlockInterface,
+  changeActiveBlock,
   changeHoveringComponentId,
+  duplicateComponent,
+  removeComponent,
 } from "@/redux/features/builders/blogBuilderSlice";
 import { useAppDispatch } from "@/redux/hooks";
 import { useParams } from "next/navigation";
-import { memo, MouseEvent, useCallback, useEffect, useState } from "react";
+import {
+  KeyboardEvent,
+  memo,
+  MouseEvent,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 import ComponentIcon from "@/app/(editor)/studio/create-blog/[id]/_components/LeftSidebar/Navigator/ComponentIcon";
 import Component from "@/app/(editor)/studio/create-blog/[id]/_components/LeftSidebar/Navigator/Component";
 
@@ -47,8 +57,7 @@ const ComponentDetail = memo(
     const restActivePath = activeFullPath?.slice(1) ?? [];
 
     // Toggle the component's open/close state
-    const toggleOpen = useCallback((e: MouseEvent<HTMLButtonElement>) => {
-      e.stopPropagation();
+    const toggleOpen = useCallback(() => {
       setOpen((prev) => !prev);
     }, []);
 
@@ -67,19 +76,51 @@ const ComponentDetail = memo(
       dispatch(changeHoveringComponentId(null)); // Reset hover state
     }, []);
 
+    const handleKeyUp = useCallback(
+      (e: KeyboardEvent<HTMLDivElement>) => {
+        e.preventDefault();
+
+        if (e.code === "Space") return toggleOpen();
+        else if (e.code === "Enter")
+          return dispatch(
+            changeActiveBlock({
+              blogId,
+              activeBlockId: id,
+            })
+          );
+        else if (e.code === "Delete")
+          return dispatch(
+            removeComponent({
+              blogId,
+              id,
+            })
+          );
+        else if (e.shiftKey && e.altKey && e.code === "KeyD")
+          return dispatch(
+            duplicateComponent({
+              blogId,
+              id,
+            })
+          );
+      },
+      [blogId, id]
+    );
+
     return (
       <div className="w-full rounded-sm">
         <div
           className={cn(
-            "group flex items-center pr-2 gap-1 rounded-none capitalize border-b border-l min-h-10",
+            "group flex items-center pr-2 gap-1 rounded-none capitalize border-b border-l min-h-10 focus:bg-primary/5 focus:outline-1",
             {
               // Highlight this component if it's the active block
-              "bg-primary text-primary-foreground hover:bg-primary/80 rounded-sm":
+              "bg-primary focus:bg-primary text-primary-foreground hover:bg-primary/80 rounded-sm":
                 activeBlock === id,
               // Apply hover styles when the component is not the active block
               "hover:bg-accent": activeBlock !== id,
             }
           )}
+          tabIndex={0} // Make the component focusable
+          onKeyUp={handleKeyUp}
         >
           <button
             type="button"
@@ -87,6 +128,7 @@ const ComponentDetail = memo(
             onClick={toggleOpen} // Handle the opening/closing of the component
             onMouseMove={handleMouseHover} // Track mouse hover on the component
             onMouseLeave={handleMouseLeave} // Reset hover on mouse leave
+            tabIndex={-1}
           >
             {Array.isArray(children) && (
               <RightIcon
