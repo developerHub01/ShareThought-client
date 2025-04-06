@@ -1,9 +1,14 @@
 "use client";
 
 import { useParams } from "next/navigation";
-import React, { useState } from "react";
-import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
+import React, { FocusEvent, useEffect, useState } from "react";
+import CodeMirror, { ViewUpdate } from "@uiw/react-codemirror";
+import { githubDark } from "@uiw/codemirror-theme-github";
+import { markdown, markdownLanguage } from "@codemirror/lang-markdown";
+import { languages } from "@codemirror/language-data";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { updateComponentText } from "@/redux/features/builders/blogBuilderSlice";
+import { selectBlogComponentText } from "@/redux/features/builders/selectors";
 
 interface CodeProps {
   id: string;
@@ -13,41 +18,50 @@ interface CodeProps {
 export type { CodeProps };
 
 const Code = ({ id, parentId, ...props }: CodeProps) => {
-  const [code, setCode] = useState("");
-
   const { id: blogId } = useParams<{ id: string }>();
+  const [code, setCode] = useState("");
+  const dispatch = useAppDispatch();
 
   if (!blogId) return null;
 
-  const handleCodeChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setCode(e.target.value);
-    //  onChange(e.target.value); // Pass updated code back to blog JSON
+  const syncCode = useAppSelector((state) =>
+    selectBlogComponentText(state, blogId, id)
+  );
+
+  useEffect(() => {
+    setCode(syncCode);
+  }, [syncCode]);
+
+  const handleChange = React.useCallback(
+    (val: string, viewUpdate: ViewUpdate) => {
+      setCode(val);
+    },
+    []
+  );
+
+  const handleBlur = (
+    e: FocusEvent<HTMLHeadElement | HTMLParagraphElement>
+  ) => {
+    dispatch(
+      updateComponentText({
+        blogId,
+        id,
+        text: e.target.innerText ?? "",
+      })
+    );
   };
 
   return (
-    <div>
-      <textarea
-        value={code}
-        onChange={handleCodeChange}
-        rows={6}
-        style={{
-          width: "100%",
-          fontFamily: "monospace",
-          background: "#282C34",
-          color: "#fff",
-          padding: "10px",
-          border: "1px solid #444",
-          borderRadius: "5px",
-        }}
-      />
-      <SyntaxHighlighter
-        language={"javascript"}
-        style={oneDark}
-        showLineNumbers
-      >
-        {code}
-      </SyntaxHighlighter>
-    </div>
+    <CodeMirror
+      value={code}
+      height="auto"
+      theme={githubDark}
+      extensions={[
+        markdown({ base: markdownLanguage, codeLanguages: languages }),
+      ]}
+      onChange={handleChange}
+      onBlur={handleBlur}
+    />
   );
 };
 

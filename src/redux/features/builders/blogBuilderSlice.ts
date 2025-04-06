@@ -360,6 +360,10 @@ const updateStyleValue = (value: any, currentValue: any) => {
   return value ?? currentValue;
 };
 
+const exampleCode = `\`\`\`js
+console.log("Hello world");
+\`\`\``;
+
 export const blogBuilderSlice = createSlice({
   name: "blogBuilder",
   initialState,
@@ -515,6 +519,14 @@ export const blogBuilderSlice = createSlice({
             };
           }
 
+          break;
+
+        case "code":
+          block = {
+            ...block,
+            type,
+            text: exampleCode,
+          };
           break;
         case "column":
           block = {
