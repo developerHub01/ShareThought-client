@@ -12,6 +12,7 @@ import Button from "@/app/(editor)/studio/create-blog/[id]/_components/Preview/C
 import Spacer from "@/app/(editor)/studio/create-blog/[id]/_components/Preview/Components/Spacer";
 import Divider from "@/app/(editor)/studio/create-blog/[id]/_components/Preview/Components/Divider";
 import Table from "@/app/(editor)/studio/create-blog/[id]/_components/Preview/Components/Table";
+import Code from "@/components/post/components/Code";
 
 interface BlockDecisionProps {
   id: string;
@@ -19,6 +20,7 @@ interface BlockDecisionProps {
   components: BlogComponentsDataInterface;
   metaData: BlogMetaDataInterface;
 }
+
 const BlockDecision = (props: BlockDecisionProps) => {
   const { id, components } = props;
   const component = components[id];
@@ -46,10 +48,9 @@ const ComponentSelector = (props: BlockDecisionProps) => {
     return <Spacer {...props} />;
   } else if (component.type === "divider") {
     return <Divider {...props} />;
+  } else if (component.type === "code") {
+    return <Code {...props} />;
   }
-  // else if (component.type === "code") {
-  //   return <Code {...(props as CodeProps)} />;
-  // }
   // else if (component.type === "accordion") {
   //   return <Accordion {...(props as AccordionProps)} />;
   // }

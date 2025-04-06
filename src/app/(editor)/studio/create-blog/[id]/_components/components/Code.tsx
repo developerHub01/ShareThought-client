@@ -29,11 +29,13 @@ const Code = ({ id, parentId, ...props }: CodeProps) => {
   );
 
   useEffect(() => {
+    if (syncCode === code) return;
     setCode(syncCode);
   }, [syncCode]);
 
   const handleChange = React.useCallback(
     (val: string, viewUpdate: ViewUpdate) => {
+      console.log(val);
       setCode(val);
     },
     []
@@ -46,7 +48,7 @@ const Code = ({ id, parentId, ...props }: CodeProps) => {
       updateComponentText({
         blogId,
         id,
-        text: e.target.innerText ?? "",
+        text: code ?? "",
       })
     );
   };
@@ -61,6 +63,7 @@ const Code = ({ id, parentId, ...props }: CodeProps) => {
       ]}
       onChange={handleChange}
       onBlur={handleBlur}
+      autoFocus={true}
     />
   );
 };

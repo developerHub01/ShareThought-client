@@ -1,47 +1,40 @@
-import React, { useState } from "react";
-import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
+import {
+  BlogComponentsDataInterface,
+  BlogContentType,
+  BlogMetaDataInterface,
+} from "@/redux/features/builders/blogBuilderSlice";
+import CodeMirror from "@uiw/react-codemirror";
+import { githubDark } from "@uiw/codemirror-theme-github";
+import { markdown, markdownLanguage } from "@codemirror/lang-markdown";
+import { languages } from "@codemirror/language-data";
 
 interface CodeProps {
   id: string;
-  postId: string;
   className?: string;
+  content: BlogContentType;
+  components: BlogComponentsDataInterface;
+  metaData: BlogMetaDataInterface;
   [key: string]: unknown;
 }
 
 export type { CodeProps };
 
-const Code = ({ id, postId, className, ...props }: CodeProps) => {
-  const [code, setCode] = useState("");
-
-  const handleCodeChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setCode(e.target.value);
-    //  onChange(e.target.value); // Pass updated code back to blog JSON
-  };
+const Code = ({ id, parentId, components, ...props }: CodeProps) => {
+  const code = components?.[id]?.text ?? "";
 
   return (
-    <div>
-      <textarea
+    <div className="w-full overflow-hidden rounded-sm flex">
+      <CodeMirror
+        className="w-full"
         value={code}
-        onChange={handleCodeChange}
-        rows={6}
-        style={{
-          width: "100%",
-          fontFamily: "monospace",
-          background: "#282C34",
-          color: "#fff",
-          padding: "10px",
-          border: "1px solid #444",
-          borderRadius: "5px",
-        }}
+        height="auto"
+        theme={githubDark}
+        extensions={[
+          markdown({ base: markdownLanguage, codeLanguages: languages }),
+        ]}
+        editable={false}
+        readOnly={false}
       />
-      <SyntaxHighlighter
-        language={"javascript"}
-        style={oneDark}
-        showLineNumbers
-      >
-        {code}
-      </SyntaxHighlighter>
     </div>
   );
 };

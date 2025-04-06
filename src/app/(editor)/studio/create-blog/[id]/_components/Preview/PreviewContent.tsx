@@ -20,7 +20,7 @@ const PreviewContent = memo(() => {
   const bannerImage = blogData.metaData?.imgLinks?.banner ?? "";
 
   return (
-    <div className="w-full">
+    <div className="w-full overflow-x-hidden">
       <div className="w-full max-w-3xl mx-auto">
         <PreviewHeading title={title} />
         <PreviewBanner banner={bannerImage} />
