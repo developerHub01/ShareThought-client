@@ -25,6 +25,14 @@ export const selectBlogActiveBlock = createSelector(
   (activeBlock) => activeBlock
 );
 
+export const selectBlogComponentText = createSelector(
+  [
+    (state: RootState, blogId: string, id: string) =>
+      state.blogBuilder.blogs[blogId]?.components?.[id],
+  ],
+  (component) => component?.text ?? ""
+);
+
 export const selectBlogScreenType = createSelector(
   [
     (state: RootState, blogId: string) =>
