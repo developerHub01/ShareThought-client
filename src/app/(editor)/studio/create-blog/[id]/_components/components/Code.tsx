@@ -2,7 +2,7 @@
 
 import { useParams } from "next/navigation";
 import React, { FocusEvent, useEffect, useState } from "react";
-import CodeMirror, { EditorView, ViewUpdate } from "@uiw/react-codemirror";
+import CodeMirror, { ViewUpdate } from "@uiw/react-codemirror";
 import { githubDark } from "@uiw/codemirror-theme-github";
 import { markdown, markdownLanguage } from "@codemirror/lang-markdown";
 import { languages } from "@codemirror/language-data";
@@ -72,27 +72,29 @@ const Code = ({ id, parentId, ...props }: CodeProps) => {
 
   return (
     <div
-      className="grid"
+      className="grid grid-cols-12"
       style={{
         ...wrapperStyles,
       }}
     >
-      <CodeMirror
-        className="w-full whitespace-pre-wrap"
-        style={{
-          ...contentStyles,
-        }}
-        value={code}
-        height="auto"
-        theme={githubDark}
-        extensions={[
-          markdown({ base: markdownLanguage, codeLanguages: languages }),
-          EditorView.lineWrapping,
-        ]}
-        onChange={handleChange}
-        onBlur={handleBlur}
-        autoFocus={true}
-      />
+      <div className="col-span-full">
+        <CodeMirror
+          className="w-full whitespace-pre-wrap"
+          style={{
+            ...contentStyles,
+          }}
+          value={code}
+          height="auto"
+          theme={githubDark}
+          extensions={[
+            markdown({ base: markdownLanguage, codeLanguages: languages }),
+            // EditorView.lineWrapping,
+          ]}
+          onChange={handleChange}
+          onBlur={handleBlur}
+          autoFocus={true}
+        />
+      </div>
     </div>
   );
 };
