@@ -30,6 +30,7 @@ import ColumnStyles from "@/app/(editor)/studio/create-blog/[id]/_components/Pro
 import RowLayout from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Row/Layout/RowLayout";
 import ColumnLayout from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Column/Layout/ColumnLayout";
 import HidePropertyInMobile from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/HidePropertyInMobile";
+import CodeStyle from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Code/Style/CodeStyle";
 import {
   selectBlogActiveBlock,
   selectBlogComponentById,
@@ -189,6 +190,14 @@ const PropertiesTab = memo(() => {
           </>
         )}
 
+        {activeComponent.type === "code" && (
+          <>
+            <PropertyTypeWrapper id="code_style" label="Styles">
+              <CodeStyle />
+            </PropertyTypeWrapper>
+          </>
+        )}
+
         {[
           "h1",
           "h2",
@@ -201,6 +210,7 @@ const PropertiesTab = memo(() => {
           "image",
           "divider",
           "accordion",
+          "code",
         ].includes(activeComponent.type) && (
           <>
             <HidePropertyInMobile>

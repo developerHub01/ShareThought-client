@@ -33,7 +33,7 @@ const PreviewPopover = memo(() => {
         className={cn(
           "fixed mt-0 overflow-hidden inset-2 rounded-sm ml-auto border-0 w-[90%] grid-place-items-centered",
           {
-            "max-w-xl": screenType === "mobile",
+            "max-w-lg": screenType === "mobile",
             "max-w-3xl": screenType !== "mobile",
           }
         )}
