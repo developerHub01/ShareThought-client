@@ -85,7 +85,7 @@ const ImageUploadCanvas = ({ id, blogId }: ImageUploadCanvasProps) => {
       onDragOver={handleDragOver}
       onDragLeave={handleDragLeave}
       className={cn(
-        "p-5 flex justify-center items-center flex-col gap-2 select-none border-2 border-dashed rounded-md text-center",
+        "p-5 flex justify-center items-center flex-col gap-2 select-none border-2 border-dashed rounded-md text-center bg-accent/80",
         {
           "ring-primary/50 bg-accent border-primary/50": isDragging,
           "ring-transparent bg-accent/10 border-transparent": !isDragging,

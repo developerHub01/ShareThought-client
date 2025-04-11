@@ -1,3 +1,9 @@
+declare global {
+  interface String {
+    toCapitalCase(): string;
+  }
+}
+
 export const convertNumberToWords = (number: number): string => {
   let contextNumber =
     number < 1000 ? number.toString() : (number / 1000).toFixed(2) + "K";
@@ -21,16 +27,22 @@ export const isBlobURL = (string: string) => {
   return typeof string === "string" && string.startsWith("blob:");
 };
 
-export const isValidURL = (string: string) => {
+export const isValidURL = (string: string): boolean => {
   const regex = /^(https?:\/\/)?([\w-]+\.)+[\w-]{2,}(\/[\w-./?%&=]*)?$/i;
   return regex.test(string);
 };
 
-declare global {
-  interface String {
-    toCapitalCase(): string;
-  }
-}
+export const isValidYoutubeVideoURL = (url: string): boolean => {
+  const regex = /^(https?:\/\/)?(www\.)?(youtube\.com\/(watch\?v=|shorts\/)|youtu\.be\/)([\w-]{11})([?&=]*)?/;
+  return regex.test(url);
+};
+
+export const getYoutubeVideoId = (url: string): string | null => {
+  const regExp =
+    /(?:youtube\.com\/(?:watch\?v=|shorts\/)|youtu\.be\/)([\w-]{11})/;
+  const match = url.match(regExp);
+  return match ? match[1] : null;
+};
 
 String.prototype.toCapitalCase = function (): string {
   return this.charAt(0).toUpperCase() + this.slice(1).toLowerCase();

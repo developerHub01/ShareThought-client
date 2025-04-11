@@ -1,24 +1,25 @@
-import {
-  Pilcrow as ParagraphIcon,
-  Heading1 as Heading1Icon,
-  Heading2 as Heading2Icon,
-  Heading3 as Heading3Icon,
-  Heading4 as Heading4Icon,
-  Heading5 as Heading5Icon,
-  Heading6 as Heading6Icon,
-  Code as CodeIcon,
-  Minus as DividerIcon,
-  Image as ImageIcon,
-  List as ListIcon,
-  Table as TableIcon,
-  TextQuote as BlockquoteIcon,
-  ListCollapse as AccordionIcon,
-  ChevronsDownUp as CollapsIcon,
-  AlignVerticalSpaceAround as SpacerIcon,
-  LucideIcon,
-} from "lucide-react";
 import { BlockTypes } from "@/redux/features/builders/blogBuilderSlice";
 import ButtonIcon from "@/app/(editor)/studio/create-blog/[id]/_components/ButtonIcon";
+import {
+  H1Icon,
+  H2Icon,
+  H3Icon,
+  H4Icon,
+  H5Icon,
+  H6Icon,
+  ParagraphIcon,
+  CodeIcon,
+  VideoIcon,
+  DividerIcon,
+  ListIcon,
+  TableIcon,
+  BlockquoteIcon,
+  AccordionIcon,
+  CollapseIcon,
+  SpacerIcon,
+  ImageIcon,
+  LucideIcon,
+} from "@/lib/icons";
 
 interface ComponentItem {
   id: BlockTypes;
@@ -35,32 +36,32 @@ export const componentItemList: Array<ComponentItem> = [
   {
     id: "h1",
     label: "heading 1",
-    Icon: Heading1Icon,
+    Icon: H1Icon,
   },
   {
     id: "h2",
     label: "heading 2",
-    Icon: Heading2Icon,
+    Icon: H2Icon,
   },
   {
     id: "h3",
     label: "heading 3",
-    Icon: Heading3Icon,
+    Icon: H3Icon,
   },
   {
     id: "h4",
     label: "heading 4",
-    Icon: Heading4Icon,
+    Icon: H4Icon,
   },
   {
     id: "h5",
     label: "heading 5",
-    Icon: Heading5Icon,
+    Icon: H5Icon,
   },
   {
     id: "h6",
     label: "heading 6",
-    Icon: Heading6Icon,
+    Icon: H6Icon,
   },
   {
     id: "button",
@@ -81,6 +82,11 @@ export const componentItemList: Array<ComponentItem> = [
     id: "image",
     label: "image",
     Icon: ImageIcon,
+  },
+  {
+    id: "video",
+    label: "video",
+    Icon: VideoIcon,
   },
   {
     id: "list",
@@ -104,8 +110,8 @@ export const componentItemList: Array<ComponentItem> = [
   },
   {
     id: "collapse",
-    label: "collaps",
-    Icon: CollapsIcon,
+    label: "collapse",
+    Icon: CollapseIcon,
   },
   {
     id: "spacer",
