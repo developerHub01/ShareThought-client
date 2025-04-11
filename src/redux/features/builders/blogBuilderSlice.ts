@@ -102,6 +102,7 @@ export interface BlockInterface {
   caption?: string;
   parentId?: string | null;
   children?: Array<string> | TableInterface | AccordionInterface;
+  codeThemeMode?: CodeThemeModeType;
 }
 
 export interface StripedRowInterface {
@@ -163,6 +164,8 @@ export interface BorderInterface {
   borderLeft?: [number, string, string];
   borderRight?: [number, string, string];
 }
+
+export type CodeThemeModeType = "dark" | "light";
 
 export type StyleType = Record<
   string,
@@ -1567,6 +1570,24 @@ export const blogBuilderSlice = createSlice({
       if (link) blockComponent.link = link;
     },
 
+    /*** Code ========================***/
+    changeCodeTheme: (
+      state,
+      action: PayloadAction<{
+        blogId: string;
+        id: string; // component id
+        theme: CodeThemeModeType;
+      }>
+    ) => {
+      const { blogId, id, theme } = action.payload;
+
+      const blockComponent = state.blogs[blogId]?.components?.[id];
+
+      if (!blockComponent) return;
+
+      if (theme) blockComponent.codeThemeMode = theme;
+    },
+
     /*** Table============= ***/
     addTableRows: (
       state,
@@ -2341,6 +2362,7 @@ export const {
   changeTableStripedTypeRow,
   clearTableStripedRow,
   changeCellContent,
+  changeCodeTheme,
   /* table header */
   changeTableHeaderStyle,
   /* table content */

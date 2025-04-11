@@ -352,7 +352,11 @@ export const defaultGlobalStyles = [
     return acc;
   },
   {
-    desktop: {},
+    desktop: {
+      code: {
+        background: "dark",
+      },
+    },
     mobile: {},
   } as {
     desktop: Record<string, Record<string, unknown>>;
