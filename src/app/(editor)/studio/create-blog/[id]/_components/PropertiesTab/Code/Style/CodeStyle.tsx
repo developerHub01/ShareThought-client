@@ -6,12 +6,14 @@ import HidePropertyInMobile from "@/app/(editor)/studio/create-blog/[id]/_compon
 import BackgroundColorProperty from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Common/BackgroundColorProperty";
 import BorderProperty from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Common/BorderProperty";
 import BorderRadiusProperty from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Common/BorderRadiusProperty";
+import CodeThemeMode from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Code/Style/CodeThemeMode";
 
 const CodeStyle = () => {
   return (
     <>
       <PropertyTypeWrapper>
         <HidePropertyInMobile>
+          <CodeThemeMode />
           <BackgroundColorProperty />
           <BorderProperty />
           <BorderRadiusProperty />

@@ -3,6 +3,8 @@ import PropertyTypeWrapper from "@/app/(editor)/studio/create-blog/[id]/_compone
 import TypographyProperties from "@/app/(editor)/studio/create-blog/[id]/_components/SettingsTab/Typography/TypographyProperties";
 import GapProperties from "@/app/(editor)/studio/create-blog/[id]/_components/SettingsTab/Gap/GapProperties";
 import { Accordion } from "@/components/ui/accordion";
+import CodeProperties from "@/app/(editor)/studio/create-blog/[id]/_components/SettingsTab/Code/CodeProperties";
+import HidePropertyInMobile from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/HidePropertyInMobile";
 
 const SettingTab = () => {
   return (
@@ -14,6 +16,11 @@ const SettingTab = () => {
         <PropertyTypeWrapper id="gap" label="Gap">
           <GapProperties />
         </PropertyTypeWrapper>
+        <HidePropertyInMobile>
+          <PropertyTypeWrapper id="code" label="Code">
+            <CodeProperties />
+          </PropertyTypeWrapper>
+        </HidePropertyInMobile>
       </Accordion>
     </div>
   );
