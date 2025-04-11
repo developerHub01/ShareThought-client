@@ -3,14 +3,18 @@
 import { useParams } from "next/navigation";
 import React, { FocusEvent, useEffect, useState } from "react";
 import CodeMirror, { ViewUpdate } from "@uiw/react-codemirror";
-import { githubDark } from "@uiw/codemirror-theme-github";
+import { githubDark, githubLight } from "@uiw/codemirror-theme-github";
 import { markdown, markdownLanguage } from "@codemirror/lang-markdown";
 import { languages } from "@codemirror/language-data";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { updateComponentText } from "@/redux/features/builders/blogBuilderSlice";
+import {
+  CodeThemeModeType,
+  updateComponentText,
+} from "@/redux/features/builders/blogBuilderSlice";
 import {
   selectBlogComponentById,
   selectBlogComponentText,
+  selectBlogGlobalStyle,
   selectBlogStylesById,
 } from "@/redux/features/builders/selectors";
 import handleWrapperContentStyleSeparator from "@/utils/editor/handleWrapperContentStyleSeparator";
@@ -32,12 +36,14 @@ const Code = ({ id, parentId, ...props }: CodeProps) => {
   const syncCode = useAppSelector((state) =>
     selectBlogComponentText(state, blogId, id)
   );
-
   const styles = useAppSelector((state) =>
     selectBlogStylesById(state, blogId, id)
   );
   const component = useAppSelector((state) =>
     selectBlogComponentById(state, blogId, id)
+  );
+  const globalStyles = useAppSelector((state) =>
+    selectBlogGlobalStyle(state, blogId)
   );
 
   useEffect(() => {
@@ -46,6 +52,10 @@ const Code = ({ id, parentId, ...props }: CodeProps) => {
   }, [syncCode]);
 
   if (!blogId || !component) return null;
+
+  const selectedTheme = (component.codeThemeMode ??
+    globalStyles?.desktop?.code?.background ??
+    "dark") as CodeThemeModeType;
 
   let { contentStyles, wrapperStyles } =
     handleWrapperContentStyleSeparator(styles);
@@ -77,7 +87,7 @@ const Code = ({ id, parentId, ...props }: CodeProps) => {
         ...wrapperStyles,
       }}
     >
-      <div className="col-span-full">
+      <div className="col-span-full border-2 border-accent">
         <CodeMirror
           className="w-full whitespace-pre-wrap"
           style={{
@@ -85,7 +95,7 @@ const Code = ({ id, parentId, ...props }: CodeProps) => {
           }}
           value={code}
           height="auto"
-          theme={githubDark}
+          theme={selectedTheme === "dark" ? githubDark : githubLight}
           extensions={[
             markdown({ base: markdownLanguage, codeLanguages: languages }),
             // EditorView.lineWrapping,

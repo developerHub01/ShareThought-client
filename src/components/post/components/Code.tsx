@@ -4,7 +4,7 @@ import {
   BlogMetaDataInterface,
 } from "@/redux/features/builders/blogBuilderSlice";
 import CodeMirror from "@uiw/react-codemirror";
-import { githubDark } from "@uiw/codemirror-theme-github";
+import { githubDark, githubLight } from "@uiw/codemirror-theme-github";
 import { markdown, markdownLanguage } from "@codemirror/lang-markdown";
 import { languages } from "@codemirror/language-data";
 
@@ -19,17 +19,25 @@ interface CodeProps {
 
 export type { CodeProps };
 
-const Code = ({ id, parentId, components, ...props }: CodeProps) => {
+const Code = ({ id, parentId, components, metaData, ...props }: CodeProps) => {
   const code = components?.[id]?.text ?? "";
+  const component = components?.[id];
+
+  if (!component) return null;
+
+  const selectedTheme =
+    component.codeThemeMode ??
+    metaData?.globalStyles?.desktop?.code?.background ??
+    "dark";
 
   return (
     <div className="grid grid-cols-12">
-      <div className="col-span-full">
+      <div className="col-span-full border-2 border-accent">
         <CodeMirror
           value={code}
           height="auto"
           width="auto"
-          theme={githubDark}
+          theme={selectedTheme === "dark" ? githubDark : githubLight}
           extensions={[
             markdown({ base: markdownLanguage, codeLanguages: languages }),
             // EditorView.lineWrapping,
