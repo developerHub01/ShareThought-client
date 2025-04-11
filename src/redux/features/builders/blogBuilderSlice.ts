@@ -25,6 +25,7 @@ export type BlockTypes =
   | "row"
   | "column"
   | "image"
+  | "video"
   | "spacer"
   | "divider"
   | "accordion"
@@ -544,6 +545,12 @@ export const blogBuilderSlice = createSlice({
           };
           break;
         case "image":
+          block = {
+            ...block,
+            type,
+          };
+          break;
+        case "video":
           block = {
             ...block,
             type,
@@ -1543,6 +1550,23 @@ export const blogBuilderSlice = createSlice({
       state.blogs[blogId].components[activeBlockId].type = type;
     },
 
+    changeLink: (
+      state,
+      action: PayloadAction<{
+        blogId: string;
+        id: string; // component id
+        link: string;
+      }>
+    ) => {
+      const { blogId, id, link } = action.payload;
+
+      const blockComponent = state.blogs[blogId]?.components?.[id];
+
+      if (!blockComponent) return;
+
+      if (link) blockComponent.link = link;
+    },
+
     /*** Table============= ***/
     addTableRows: (
       state,
@@ -2299,6 +2323,7 @@ export const {
   addGlobalStyle,
   removeStyle,
   changeType,
+  changeLink,
   /*** Table============= ***/
   addTableRows,
   removeTableRows,

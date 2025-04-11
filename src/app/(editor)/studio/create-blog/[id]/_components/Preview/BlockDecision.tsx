@@ -13,6 +13,7 @@ import Spacer from "@/app/(editor)/studio/create-blog/[id]/_components/Preview/C
 import Divider from "@/app/(editor)/studio/create-blog/[id]/_components/Preview/Components/Divider";
 import Table from "@/app/(editor)/studio/create-blog/[id]/_components/Preview/Components/Table";
 import Code from "@/components/post/components/Code";
+import Video from "@/components/post/components/Video";
 
 interface BlockDecisionProps {
   id: string;
@@ -42,6 +43,8 @@ const ComponentSelector = (props: BlockDecisionProps) => {
     return <Table {...props} />;
   } else if (component.type === "image") {
     return <Image {...props} />;
+  } else if (component.type === "video") {
+    return <Video {...props} />;
   } else if (component.type === "button") {
     return <Button {...props} />;
   } else if (component.type === "spacer") {

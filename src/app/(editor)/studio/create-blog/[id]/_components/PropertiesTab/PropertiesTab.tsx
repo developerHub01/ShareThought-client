@@ -1,5 +1,6 @@
 "use client";
 
+import React, { memo } from "react";
 import { Accordion } from "@/components/ui/accordion";
 import TableLayout from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Table/Layout/TableLayout";
 import { useAppSelector } from "@/redux/hooks";
@@ -36,7 +37,7 @@ import {
   selectBlogComponentById,
   selectBlogImgLinkById,
 } from "@/redux/features/builders/selectors";
-import { memo } from "react";
+import VideoContent from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Video/Content/VideoContent";
 
 const PropertiesTab = memo(() => {
   const { id: blogId } = useParams<{ id: string }>();
@@ -127,6 +128,14 @@ const PropertiesTab = memo(() => {
                 </PropertyTypeWrapper>
               )}
             </>
+          )}
+        </HidePropertyInMobile>
+
+        <HidePropertyInMobile>
+          {activeComponent.type === "video" && (
+            <PropertyTypeWrapper id="video_content" label="Content">
+              <VideoContent />
+            </PropertyTypeWrapper>
           )}
         </HidePropertyInMobile>
 

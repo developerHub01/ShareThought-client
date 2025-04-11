@@ -14,6 +14,7 @@ import BlockComponentWrapper from "@/app/(editor)/studio/create-blog/[id]/_compo
 import { useParams } from "next/navigation";
 import { useAppSelector } from "@/redux/hooks";
 import { selectBlogComponentById } from "@/redux/features/builders/selectors";
+import Video from "@/app/(editor)/studio/create-blog/[id]/_components/Components/Video";
 
 const Block = memo(({ id, parentId }: { id: string; parentId?: string }) => {
   const { id: blogId } = useParams<{ id: string }>();
@@ -25,7 +26,7 @@ const Block = memo(({ id, parentId }: { id: string; parentId?: string }) => {
   );
 
   if (!component) return null;
-  
+
   const { type } = component;
 
   if (["h1", "h2", "h3", "h4", "h5", "h6", "p"].includes(type)) {
@@ -38,6 +39,8 @@ const Block = memo(({ id, parentId }: { id: string; parentId?: string }) => {
     return <Table id={id} parentId={parentId} />;
   } else if (type === "image") {
     return <Image id={id} parentId={parentId} />;
+  } else if (type === "video") {
+    return <Video id={id} parentId={parentId} />;
   } else if (type === "spacer") {
     return <Spacer id={id} parentId={parentId} />;
   } else if (type === "divider") {

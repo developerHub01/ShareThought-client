@@ -10,9 +10,9 @@ import handleWrapperContentStyleSeparator from "@/utils/editor/handleWrapperCont
 import {
   selectBlogComponentById,
   selectBlogImgLinkById,
-  selectBlogScreenType,
   selectBlogStylesById,
 } from "@/redux/features/builders/selectors";
+
 interface ImageProps {
   id: string;
   parentId?: string;
