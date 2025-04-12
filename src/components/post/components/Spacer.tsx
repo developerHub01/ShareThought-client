@@ -3,7 +3,7 @@ import {
   BlogContentType,
   BlogMetaDataInterface,
 } from "@/redux/features/builders/blogBuilderSlice";
-import React from "react";
+import React, { CSSProperties } from "react";
 
 export interface SpacerProps {
   id: string;
@@ -23,7 +23,7 @@ const Spacer = ({ id, metaData, components }: SpacerProps) => {
     <div
       className=""
       style={{
-        ...(componentStyles as Record<string, string | number>),
+        ...(componentStyles as CSSProperties),
       }}
       data-component-type={type}
       data-component-id={id}

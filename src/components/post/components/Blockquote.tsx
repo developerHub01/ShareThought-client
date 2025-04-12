@@ -1,4 +1,4 @@
-import React from "react";
+import React, { CSSProperties } from "react";
 
 import {
   BlockquoteInterface,
@@ -15,15 +15,22 @@ interface BlockquoteProps {
   metaData: BlogMetaDataInterface;
 }
 
-const Blockquote = ({ id, components, ...props }: BlockquoteProps) => {
+const Blockquote = ({
+  id,
+  components,
+  metaData,
+  ...props
+}: BlockquoteProps) => {
   const component = components?.[id];
+
+  const styles = metaData.styles?.[id] as CSSProperties;
 
   if (!component || component.type !== "blockquote" || !component?.children)
     return null;
 
   const blockquoteData = component.children as BlockquoteInterface;
 
-  return <BlockquoteComponent {...blockquoteData} />;
+  return <BlockquoteComponent {...blockquoteData} styles={styles} />;
 };
 
 export default Blockquote;

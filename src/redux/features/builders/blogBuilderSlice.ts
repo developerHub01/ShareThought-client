@@ -1592,6 +1592,29 @@ export const blogBuilderSlice = createSlice({
       if (link) blockComponent.link = link;
     },
 
+    /*** Blockquote ======================== ***/
+    changeBlockquoteContent: (
+      state,
+      action: PayloadAction<{
+        blogId: string;
+        id: string; // component id
+        blockquote: Partial<BlockquoteInterface>;
+      }>
+    ) => {
+      const { blogId, id, blockquote } = action.payload;
+
+      const blockComponent = state.blogs[blogId]?.components?.[id];
+
+      if (!blockComponent || blockComponent.type !== "blockquote") return;
+
+      let blockquoteData = blockComponent.children as BlockquoteInterface;
+
+      blockComponent.children = {
+        ...blockquoteData,
+        ...blockquote,
+      };
+    },
+
     /*** Code ========================***/
     changeCodeTheme: (
       state,
@@ -2384,6 +2407,9 @@ export const {
   changeTableStripedTypeRow,
   clearTableStripedRow,
   changeCellContent,
+  /* blockquote */
+  changeBlockquoteContent,
+  /* code */
   changeCodeTheme,
   /* table header */
   changeTableHeaderStyle,

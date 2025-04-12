@@ -38,6 +38,7 @@ import {
   selectBlogImgLinkById,
 } from "@/redux/features/builders/selectors";
 import VideoContent from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Video/Content/VideoContent";
+import BlockquoteContent from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/Blockquote/Content/BlockquoteContent";
 
 const PropertiesTab = memo(() => {
   const { id: blogId } = useParams<{ id: string }>();
@@ -145,13 +146,21 @@ const PropertiesTab = memo(() => {
           </PropertyTypeWrapper>
         )}
 
-        <HidePropertyInMobile>
-          {activeComponent.type === "divider" && (
+        {activeComponent.type === "divider" && (
+          <HidePropertyInMobile>
             <PropertyTypeWrapper id="divider_layout" label="Layout">
               <DividerLayout />
             </PropertyTypeWrapper>
-          )}
-        </HidePropertyInMobile>
+          </HidePropertyInMobile>
+        )}
+
+        {activeComponent.type === "blockquote" && (
+          <HidePropertyInMobile>
+            <PropertyTypeWrapper id="blockquote_content" label="Content">
+              <BlockquoteContent />
+            </PropertyTypeWrapper>
+          </HidePropertyInMobile>
+        )}
 
         {activeComponent.type === "accordion" && (
           <>
@@ -246,6 +255,7 @@ const PropertiesTab = memo(() => {
           "divider",
           "accordion",
           "button",
+          "blockquote",
         ].includes(activeComponent.type) && (
           <PropertyTypeWrapper id="margin" label="Margin">
             <MarginProperty />
