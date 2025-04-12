@@ -12,9 +12,9 @@ import Button from "@/app/(editor)/studio/create-blog/[id]/_components/Preview/C
 import Spacer from "@/app/(editor)/studio/create-blog/[id]/_components/Preview/Components/Spacer";
 import Divider from "@/app/(editor)/studio/create-blog/[id]/_components/Preview/Components/Divider";
 import Table from "@/app/(editor)/studio/create-blog/[id]/_components/Preview/Components/Table";
+import Blockquote from "@/app/(editor)/studio/create-blog/[id]/_components/Preview/Components/Blockquote";
 import Code from "@/components/post/components/Code";
 import Video from "@/components/post/components/Video";
-import Blockquote from "@/components/post/components/Blockquote";
 
 interface BlockDecisionProps {
   id: string;
