@@ -14,6 +14,7 @@ import Divider from "@/app/(editor)/studio/create-blog/[id]/_components/Preview/
 import Table from "@/app/(editor)/studio/create-blog/[id]/_components/Preview/Components/Table";
 import Code from "@/components/post/components/Code";
 import Video from "@/components/post/components/Video";
+import Blockquote from "@/components/post/components/Blockquote";
 
 interface BlockDecisionProps {
   id: string;
@@ -53,6 +54,8 @@ const ComponentSelector = (props: BlockDecisionProps) => {
     return <Divider {...props} />;
   } else if (component.type === "code") {
     return <Code {...props} />;
+  } else if (component.type === "blockquote") {
+    return <Blockquote {...props} />;
   }
   // else if (component.type === "accordion") {
   //   return <Accordion {...(props as AccordionProps)} />;

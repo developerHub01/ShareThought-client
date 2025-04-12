@@ -15,6 +15,7 @@ import { useParams } from "next/navigation";
 import { useAppSelector } from "@/redux/hooks";
 import { selectBlogComponentById } from "@/redux/features/builders/selectors";
 import Video from "@/app/(editor)/studio/create-blog/[id]/_components/Components/Video";
+import Blockquote from "@/app/(editor)/studio/create-blog/[id]/_components/Components/Blockquote";
 
 const Block = memo(({ id, parentId }: { id: string; parentId?: string }) => {
   const { id: blogId } = useParams<{ id: string }>();
@@ -47,6 +48,8 @@ const Block = memo(({ id, parentId }: { id: string; parentId?: string }) => {
     return <Divider id={id} parentId={parentId} />;
   } else if (type === "code") {
     return <Code id={id} parentId={parentId} />;
+  } else if (type === "blockquote") {
+    return <Blockquote id={id} parentId={parentId} />;
   } else if (type === "accordion") {
     return <Accordion id={id} parentId={parentId} />;
   }

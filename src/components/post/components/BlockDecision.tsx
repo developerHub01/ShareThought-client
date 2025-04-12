@@ -7,6 +7,7 @@ import Image from "@/components/post/components/Image";
 import Row from "@/components/post/components/Row";
 import Spacer from "@/components/post/components/Spacer";
 import Table from "@/components/post/components/Table";
+import Blockquote from "@/components/post/components/Blockquote";
 import {
   BlogComponentsDataInterface,
   BlogContentType,
@@ -46,6 +47,8 @@ const ComponentSelector = (props: BlockDecisionProps) => {
     return <Spacer {...props} />;
   } else if (component.type === "divider") {
     return <Divider {...props} />;
+  } else if (component.type === "blockquote") {
+    return <Blockquote {...props} />;
   }
   // else if (component.type === "code") {
   //   return <Code {...(props as CodeProps)} />;

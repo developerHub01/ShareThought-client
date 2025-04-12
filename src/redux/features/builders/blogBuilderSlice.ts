@@ -1,3 +1,4 @@
+import { BlockquoteVariantType } from "@/components/ui/blockquote";
 import {
   defaultGlobalStyles,
   EDITOR_TABLE_SIZE,
@@ -101,7 +102,11 @@ export interface BlockInterface {
   alt?: string;
   caption?: string;
   parentId?: string | null;
-  children?: Array<string> | TableInterface | AccordionInterface;
+  children?:
+    | Array<string>
+    | TableInterface
+    | AccordionInterface
+    | BlockquoteInterface;
   codeThemeMode?: CodeThemeModeType;
 }
 
@@ -141,6 +146,12 @@ export interface TableInterface {
   stripedRow?: StripedRowInterface;
   header?: TableHeaderInterface;
   content?: TableContentInterface;
+}
+
+export interface BlockquoteInterface {
+  quote: string;
+  author?: string;
+  variant?: BlockquoteVariantType;
 }
 
 export interface AccordionInterface {
@@ -368,6 +379,11 @@ const exampleCode = `\`\`\`js
 console.log("Hello world");
 \`\`\``;
 
+const exampleBlockquote: BlockquoteInterface = {
+  quote: "Lorem ipsum dolor sit amet.",
+  author: "John Doe",
+};
+
 export const blogBuilderSlice = createSlice({
   name: "blogBuilder",
   initialState,
@@ -524,19 +540,18 @@ export const blogBuilderSlice = createSlice({
           }
 
           break;
-
-        case "code":
-          block = {
-            ...block,
-            type,
-            text: exampleCode,
-          };
-          break;
         case "column":
           block = {
             ...block,
             type,
             children: [],
+          };
+          break;
+        case "code":
+          block = {
+            ...block,
+            type,
+            text: exampleCode,
           };
           break;
         case "table":
@@ -582,6 +597,13 @@ export const blogBuilderSlice = createSlice({
             justifyContent: "center",
           };
 
+          break;
+        case "blockquote":
+          block = {
+            ...block,
+            type,
+            children: exampleBlockquote,
+          };
           break;
         case "accordion":
           block = {
