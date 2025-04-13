@@ -1,30 +1,13 @@
-"use client";
-
-import React, { useEffect } from "react";
-import { useParams } from "next/navigation";
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { createBlog } from "@/redux/features/builders/blogBuilderSlice";
+import React from "react";
 import EditorCanvas from "@/app/(editor)/studio/create-blog/[id]/_components/EditorCanvas";
+import ClientBlogEditorWrapper from "@/app/(editor)/studio/create-blog/[id]/_components/ClientBlogEditorWrapper";
 
 const CreateBlogPostPage = () => {
-  const { id: postId } = useParams<{ id: string }>();
-  const dispatch = useAppDispatch();
-
-  const blogsData = useAppSelector((state) => state?.blogBuilder?.blogs);
-
-  useEffect(() => {
-    if (!postId) return;
-
-    if (!blogsData[postId]) {
-      dispatch(createBlog(postId));
-    }
-  }, [postId]);
-
-  if (!blogsData) return null;
-
   return (
     <section className="w-full h-full overflow-hidden relative">
-      <EditorCanvas />
+      <ClientBlogEditorWrapper>
+        <EditorCanvas />
+      </ClientBlogEditorWrapper>
     </section>
   );
 };
