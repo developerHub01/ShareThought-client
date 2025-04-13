@@ -13,8 +13,8 @@ import Spacer from "@/app/(editor)/studio/create-blog/[id]/_components/Preview/C
 import Divider from "@/app/(editor)/studio/create-blog/[id]/_components/Preview/Components/Divider";
 import Table from "@/app/(editor)/studio/create-blog/[id]/_components/Preview/Components/Table";
 import Blockquote from "@/app/(editor)/studio/create-blog/[id]/_components/Preview/Components/Blockquote";
+import Video from "@/app/(editor)/studio/create-blog/[id]/_components/Preview/Components/Video";
 import Code from "@/components/post/components/Code";
-import Video from "@/components/post/components/Video";
 
 interface BlockDecisionProps {
   id: string;

@@ -6,12 +6,12 @@ import { useAppSelector } from "@/redux/hooks";
 import {
   selectBlogComponentById,
   selectBlogMobileStylesById,
-  selectBlogScreenType,
   selectBlogStylesById,
 } from "@/redux/features/builders/selectors";
 import VideoUploadCanvas from "@/app/(editor)/studio/create-blog/[id]/_components/Components/VideoUploadCanvas";
 import { getYoutubeVideoId } from "@/utils";
 import useCombinedResponsiveSettingStyles from "@/hooks/editor/use-combined-responsive-setting-styles";
+import { useEditorPreview } from "@/app/(editor)/studio/create-blog/[id]/_context/Preview/EditorPreviewProvider";
 import VideoComp from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/Video";
 
 interface VideoProps {
@@ -23,9 +23,7 @@ interface VideoProps {
 const Video = memo(({ id, parentId, ...props }: VideoProps) => {
   const { id: blogId } = useParams<{ id: string }>();
 
-  const screenType = useAppSelector((state) =>
-    selectBlogScreenType(state, blogId)
-  );
+  const { screenType } = useEditorPreview();
   const component = useAppSelector((state) =>
     selectBlogComponentById(state, blogId, id)
   );

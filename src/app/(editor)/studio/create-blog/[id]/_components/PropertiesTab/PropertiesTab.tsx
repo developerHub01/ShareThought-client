@@ -252,6 +252,8 @@ const PropertiesTab = memo(() => {
           "p",
           "table",
           "image",
+          "video",
+          "code",
           "divider",
           "accordion",
           "button",
