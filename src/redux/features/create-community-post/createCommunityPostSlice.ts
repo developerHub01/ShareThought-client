@@ -43,17 +43,31 @@ export const createCommunityPostSlice = createSlice({
   name: "create-community-post",
   initialState,
   reducers: {
-    changeText: (state, action: PayloadAction<string>) => {
-      state.text = action.payload.trim();
+    changeText: (
+      state,
+      action: PayloadAction<{
+        text: string;
+      }>
+    ) => {
+      const { text } = action.payload;
+
+      state.text = text.trim();
     },
-    changePostType: (state, action: PayloadAction<TCommunityPostType>) => {
-      if (state.postType === action.payload) return;
+    changePostType: (
+      state,
+      action: PayloadAction<{
+        type: TCommunityPostType;
+      }>
+    ) => {
+      const { type } = action.payload;
+
+      if (state.postType === type) return;
 
       delete state.contextBasedData;
 
-      state.postType = action.payload;
+      state.postType = type;
 
-      state.contextBasedData = getContextBasedInitialData(action.payload);
+      state.contextBasedData = getContextBasedInitialData(type);
     },
     changePostImage: (
       state,

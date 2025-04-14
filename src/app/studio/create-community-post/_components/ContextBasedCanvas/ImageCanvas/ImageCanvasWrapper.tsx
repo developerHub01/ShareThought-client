@@ -4,16 +4,21 @@ import { Button } from "@/components/ui/button";
 import { CloseIcon } from "@/lib/icons";
 import { changePostType } from "@/redux/features/create-community-post/createCommunityPostSlice";
 import { useAppDispatch } from "@/redux/hooks";
-import React from "react";
+import React, { memo } from "react";
 
 interface ImageCanvasWrapperProps {
   children: React.ReactNode;
 }
 
-const ImageCanvasWrapper = ({ children }: ImageCanvasWrapperProps) => {
+const ImageCanvasWrapper = memo(({ children }: ImageCanvasWrapperProps) => {
   const dispatch = useAppDispatch();
 
-  const handleRemoveImageType = () => dispatch(changePostType("TEXT"));
+  const handleRemoveImageType = () =>
+    dispatch(
+      changePostType({
+        type: "TEXT",
+      })
+    );
 
   return (
     <div className="w-full border rounded-sm relative">
@@ -22,11 +27,11 @@ const ImageCanvasWrapper = ({ children }: ImageCanvasWrapperProps) => {
         className="rounded-full absolute top-0 right-0 -translate-y-1/2 translate-x-1/2"
         onClick={handleRemoveImageType}
       >
-        <CloseIcon />
+        <CloseIcon size={18} />
       </Button>
       {children}
     </div>
   );
-};
+});
 
 export default ImageCanvasWrapper;

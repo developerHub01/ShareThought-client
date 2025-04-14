@@ -55,7 +55,11 @@ const PostTypeSelector = memo(() => {
   const dispatch = useAppDispatch();
 
   const handleTypeChange = (type: TCommunityPostType) => {
-    dispatch(changePostType(type));
+    dispatch(
+      changePostType({
+        type,
+      })
+    );
   };
 
   return (

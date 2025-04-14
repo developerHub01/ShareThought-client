@@ -20,7 +20,7 @@ export const selectCommunityPostImages = createSelector(
   (contextBasedData, postType) => {
     if (postType !== "IMAGE") return null;
 
-    return contextBasedData;
+    return contextBasedData as TPostImages;
   }
 );
 

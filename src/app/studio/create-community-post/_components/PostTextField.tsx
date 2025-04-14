@@ -28,7 +28,11 @@ const PostTextField = memo(() => {
     setText(e.target.value);
 
   const handleBlur = (e: FocusEvent<HTMLTextAreaElement>) => {
-    dispatch(changeText(e.target.value.trim()));
+    dispatch(
+      changeText({
+        text: e.target.value.trim(),
+      })
+    );
   };
 
   return (
