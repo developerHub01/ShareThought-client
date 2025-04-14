@@ -6,7 +6,7 @@ import ContextBasedCanvas from "@/app/studio/create-community-post/_components/C
 const CreateCommunityPostPage = () => {
   return (
     <section className="mx-auto w-full max-w-7xl">
-      <section className="max-w-3xl shadow-xl border rounded-sm p-4 flex flex-col gap-3">
+      <section className="max-w-3xl shadow-xl border rounded-sm p-5 flex flex-col gap-3">
         <PostTextField />
         <ContextBasedCanvas />
         <PostFooterAction />

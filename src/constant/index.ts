@@ -1,10 +1,6 @@
 import { ElementType } from "react";
 import { TReactions } from "@/types";
-import {
-  BlockTypes,
-  StyleType,
-  TypographyType,
-} from "@/redux/features/builders/blogBuilderSlice";
+import { TypographyType } from "@/redux/features/builders/blogBuilderSlice";
 
 export const REACTION_TYPES = {
   LIKE: "LIKE",
@@ -36,6 +32,8 @@ export const COMMUNITY_POST_TYPES = {
   POLL_WITH_IMAGE: "POLL_WITH_IMAGE",
   QUIZ: "QUIZ",
 } as const;
+
+export const COMMUNITY_POST_IMAGE_MAX_COUNT = 5;
 
 export const COMMUNITY_POST_TYPE_LIST: Array<string> =
   Object.keys(COMMUNITY_POST_TYPES);
