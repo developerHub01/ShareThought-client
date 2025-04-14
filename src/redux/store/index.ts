@@ -1,12 +1,14 @@
 import { configureStore } from "@reduxjs/toolkit";
 import signUpReducer from "@/redux/features/signup/signupSlice";
 import createChannelReducer from "@/redux/features/create-channel/createChannelSlice";
+import createCommunityPostReducer from "@/redux/features/create-community-post/createCommunityPostSlice";
 import blogBuilderReducer from "@/redux/features/builders/blogBuilderSlice";
 
 export const store = configureStore({
   reducer: {
     signUp: signUpReducer,
     createChannel: createChannelReducer,
+    createCommunityPost: createCommunityPostReducer,
     blogBuilder: blogBuilderReducer,
   },
 });

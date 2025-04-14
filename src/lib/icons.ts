@@ -2,6 +2,8 @@ import * as LucideIcons from "lucide-react";
 
 import {
   LucideIcon,
+  FileText as TextFileIcon,
+  ChartBar as PollIcon,
   MoveRight as RightArrowIcon,
   MoveLeft as LeftArrowIcon,
   ChevronRight as RightIcon,
@@ -94,6 +96,7 @@ import {
   MessageSquareText as CommentIcon,
   ThumbsUp as LikeIcon,
   CheckCheck as CheckIcon,
+  CircleCheckBig as CheckCircleIcon,
   CheckCheck as CheckCheckIcon,
   Menu as MenuIcon,
   Bookmark as BookmarkIcon,
@@ -124,6 +127,8 @@ import {
 } from "lucide-react";
 
 export {
+  TextFileIcon,
+  PollIcon,
   RightIcon,
   ShowIcon,
   HideIcon,
@@ -215,6 +220,7 @@ export {
   LikeIcon,
   CheckIcon,
   CheckCheckIcon,
+  CheckCircleIcon,
   MenuIcon,
   BookmarkIcon,
   AboutUsIcon,
