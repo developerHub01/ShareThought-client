@@ -128,6 +128,19 @@ export const createCommunityPostSlice = createSlice({
         ...images.slice(0, needToAcceptImageNumber),
       ];
     },
+    replaceAllPostImages: (
+      state,
+      action: PayloadAction<{
+        images: TPostImages;
+      }>
+    ) => {
+      const { images } = action.payload;
+
+      if (state.postType !== "IMAGE" || !isImageArray(images) || !images.length)
+        return;
+
+      (state.contextBasedData as TPostImages) = [...images];
+    },
   },
 });
 
@@ -137,6 +150,7 @@ export const {
   changePostImage,
   deletePostImage,
   addPostImages,
+  replaceAllPostImages,
 } = createCommunityPostSlice.actions;
 
 export default createCommunityPostSlice.reducer;
