@@ -13,13 +13,14 @@ import { Separator } from "@/components/ui/separator";
 import {
   deletePostImage,
   replaceAllPostImages,
+  TPostImages,
 } from "@/redux/features/create-community-post/createCommunityPostSlice";
 
 const ImageList = memo(() => {
   const mainImages =
     useAppSelector((state) => selectCommunityPostImages(state)) ?? [];
 
-  const [images, setImages] = useState<Array<string>>(mainImages);
+  const [images, setImages] = useState<TPostImages>(mainImages);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -28,10 +29,10 @@ const ImageList = memo(() => {
 
   if (!mainImages) return null;
 
-  const handleReorder = useCallback(
-    (newOrder: Array<string>) => setImages(newOrder),
-    []
-  );
+  const handleReorder = useCallback((newOrder: TPostImages) => {
+    console.log({ newOrder });
+    setImages(newOrder);
+  }, []);
 
   const handleSaveOrder = useCallback(() => {
     dispatch(
@@ -41,10 +42,10 @@ const ImageList = memo(() => {
     );
   }, [images]);
 
-  const handleDeleteImage = useCallback((index: number) => {
+  const handleDeleteImage = useCallback((id: string) => {
     dispatch(
       deletePostImage({
-        index,
+        id,
       })
     );
   }, []);
@@ -74,11 +75,11 @@ const ImageList = memo(() => {
           onReorder={handleReorder}
           className="flex flex-col gap-2"
         >
-          {images.map((image, index) => (
+          {images.map((image) => (
             <ImageThumbnailBox
-              key={image}
-              url={image}
-              onDelete={() => handleDeleteImage(index)}
+              key={image.id}
+              image={image}
+              onDelete={() => handleDeleteImage(image.id)}
             />
           ))}
         </Reorder.Group>

@@ -4,43 +4,43 @@ import React from "react";
 import Image from "next/image";
 import { Reorder } from "framer-motion";
 import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
 import { RemoveIcon } from "@/lib/icons";
 
 interface ImageThumbnailBoxProps {
-  url: string;
+  image: {
+    id: string;
+    url: string;
+  };
   onDelete: () => void;
   className?: string;
   [key: string]: unknown;
 }
 
 const ImageThumbnailBox = ({
-  url,
+  image,
   className,
   onDelete,
   ...props
 }: ImageThumbnailBoxProps) => {
   return (
     <Reorder.Item
-      key={url}
-      value={url}
-      id={url}
+      value={image}
+      id={image.id}
       className={cn(
         "w-full aspect-square rounded-md cursor-grab relative group",
         className
       )}
       {...props}
     >
-      <Button
-        variant={"destructive"}
-        size={"smIcon"}
+      <button
+        type="button"
         onClick={onDelete}
-        className="absolute top-0 right-0 -translate-y-1/4 translate-x-1/4 opacity-0 scale-90 pointer-events-none group-hover:opacity-100 group-hover:scale-100 group-hover:pointer-events-auto"
+        className="absolute top-0 right-0 -translate-y-1/4 translate-x-1/4 opacity-0 scale-90 pointer-events-none group-hover:opacity-100 group-hover:scale-100 group-hover:pointer-events-auto bg-red-500 text-white rounded-md p-1.5 aspect-1"
       >
         <RemoveIcon size={16} />
-      </Button>
+      </button>
       <Image
-        src={url}
+        src={image.url}
         alt="community post image"
         width={100}
         height={100}

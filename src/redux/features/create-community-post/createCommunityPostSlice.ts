@@ -2,8 +2,14 @@ import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { TCommunityPostType } from "@/types";
 import { COMMUNITY_POST_IMAGE_MAX_COUNT } from "@/constant";
+import { v4 as uuidv4 } from "uuid";
 
-export type TPostImages = Array<string>;
+export interface PostImage {
+  id: string;
+  url: string;
+}
+
+export type TPostImages = Array<PostImage>;
 
 export type TPostShare = string;
 
@@ -18,26 +24,8 @@ const initialState: CreateCommunityPostState = {
   postType: "TEXT",
 };
 
-const getContextBasedInitialData = (postType: TCommunityPostType) => {
-  switch (postType) {
-    case "TEXT":
-      return;
-    case "IMAGE":
-      return [] as Array<string>;
-    case "POLL":
-      return [] as Array<string>;
-    case "POLL_WITH_IMAGE":
-      return [] as Array<string>;
-    case "QUIZ":
-      return [] as Array<string>;
-    case "POST_SHARE":
-      return "";
-  }
-};
-
-const isImageArray = (data: Array<string>): data is TPostImages => {
-  return Array.isArray(data) && data.every((item) => typeof item === "string");
-};
+const imageIndex = (images: TPostImages, id: string) =>
+  images.findIndex((item) => item.id === id);
 
 export const createCommunityPostSlice = createSlice({
   name: "create-community-post",
@@ -67,54 +55,67 @@ export const createCommunityPostSlice = createSlice({
 
       state.postType = type;
 
-      state.contextBasedData = getContextBasedInitialData(type);
+      switch (type) {
+        case "TEXT":
+          break;
+        case "IMAGE":
+          state.contextBasedData = [];
+          break;
+        case "POLL":
+          state.contextBasedData = [];
+          break;
+        case "POLL_WITH_IMAGE":
+          state.contextBasedData = [];
+          break;
+        case "QUIZ":
+          state.contextBasedData = [];
+          break;
+        case "POST_SHARE":
+          state.contextBasedData = "";
+          break;
+      }
     },
     changePostImage: (
       state,
       action: PayloadAction<{
-        index: number;
+        id: string;
         image: string;
       }>
     ) => {
-      const { index, image } = action.payload;
+      const { id, image } = action.payload;
 
-      if (
-        !image ||
-        state.postType !== "IMAGE" ||
-        index > COMMUNITY_POST_IMAGE_MAX_COUNT ||
-        index > (state.contextBasedData as TPostImages)?.length
-      )
-        return;
+      if (!image || state.postType !== "IMAGE") return;
 
-      (state.contextBasedData as TPostImages)[index] = image;
+      const index = imageIndex(state.contextBasedData as TPostImages, id);
+      if (index < 0) return;
+
+      (state.contextBasedData as TPostImages)[index].url = image;
     },
     deletePostImage: (
       state,
       action: PayloadAction<{
-        index: number;
+        id: string;
       }>
     ) => {
-      const { index } = action.payload;
+      const { id } = action.payload;
 
-      if (
-        state.postType !== "IMAGE" ||
-        index > 5 ||
-        index > (state.contextBasedData as TPostImages)?.length
-      )
-        return;
+      if (state.postType !== "IMAGE") return;
+
+      const postImages = state.contextBasedData as TPostImages;
+      const index = imageIndex(postImages, id);
+      if (index < 0 || index > postImages?.length) return;
 
       (state.contextBasedData as TPostImages).splice(index, 1);
     },
     addPostImages: (
       state,
       action: PayloadAction<{
-        images: TPostImages;
+        images: Array<string>;
       }>
     ) => {
       const { images } = action.payload;
 
-      if (state.postType !== "IMAGE" || !isImageArray(images) || !images.length)
-        return;
+      if (state.postType !== "IMAGE") return;
 
       const existingImageList = state.contextBasedData as TPostImages;
 
@@ -123,9 +124,19 @@ export const createCommunityPostSlice = createSlice({
 
       if (!needToAcceptImageNumber) return;
 
+      const imagesNeedToAdd = images
+        ?.slice(0, needToAcceptImageNumber)
+        ?.reduce((acc, curr) => {
+          acc.push({
+            id: uuidv4(),
+            url: curr,
+          });
+          return acc;
+        }, [] as TPostImages);
+
       (state.contextBasedData as TPostImages) = [
         ...existingImageList,
-        ...images.slice(0, needToAcceptImageNumber),
+        ...imagesNeedToAdd,
       ];
     },
     replaceAllPostImages: (
@@ -136,8 +147,7 @@ export const createCommunityPostSlice = createSlice({
     ) => {
       const { images } = action.payload;
 
-      if (state.postType !== "IMAGE" || !isImageArray(images) || !images.length)
-        return;
+      if (state.postType !== "IMAGE") return;
 
       (state.contextBasedData as TPostImages) = [...images];
     },
