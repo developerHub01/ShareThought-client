@@ -3,6 +3,7 @@ import { Open_Sans } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import { ThemeProvider } from "@/components/ThemeProvider";
+import ThemeCookieSync from "@/components/ThemeCookieSync";
 
 const openSans = Open_Sans({
   variable: "--font-open_sans",
@@ -38,6 +39,7 @@ const RootLayout = ({
           disableTransitionOnChange
         >
           <>
+            <ThemeCookieSync />
             {children}
             <Toaster />
           </>
