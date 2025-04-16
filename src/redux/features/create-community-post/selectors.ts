@@ -1,6 +1,9 @@
 import { RootState } from "@/redux/store";
 import { createSelector } from "@reduxjs/toolkit";
-import { TPostImages } from "@/redux/features/create-community-post/createCommunityPostSlice";
+import {
+  getCommunityPostImageIndex,
+  TPostImages,
+} from "@/redux/features/create-community-post/createCommunityPostSlice";
 
 export const selectCommunityPostText = createSelector(
   [(state: RootState) => state.createCommunityPost.text],
@@ -41,5 +44,23 @@ export const selectCommunityPostImageByIndex = createSelector(
       return null;
 
     return (contextBasedData as TPostImages)[index];
+  }
+);
+
+export const selectCommunityPostImageById = createSelector(
+  [
+    (state: RootState, id: string) =>
+      state.createCommunityPost.contextBasedData,
+    (state: RootState, id: string) => state.createCommunityPost.postType,
+    (state: RootState, id: string) => id,
+  ],
+  (contextBasedData, postType, id) => {
+    if (postType !== "IMAGE" || !contextBasedData || !id) return null;
+
+    const images = contextBasedData as TPostImages;
+    const index = getCommunityPostImageIndex(images, id);
+    if (index < 0) return null;
+
+    return images[index];
   }
 );

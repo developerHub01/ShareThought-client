@@ -24,7 +24,7 @@ const initialState: CreateCommunityPostState = {
   postType: "TEXT",
 };
 
-const imageIndex = (images: TPostImages, id: string) =>
+export const getCommunityPostImageIndex = (images: TPostImages, id: string) =>
   images.findIndex((item) => item.id === id);
 
 export const createCommunityPostSlice = createSlice({
@@ -86,7 +86,7 @@ export const createCommunityPostSlice = createSlice({
 
       if (!image || state.postType !== "IMAGE") return;
 
-      const index = imageIndex(state.contextBasedData as TPostImages, id);
+      const index = getCommunityPostImageIndex(state.contextBasedData as TPostImages, id);
       if (index < 0) return;
 
       (state.contextBasedData as TPostImages)[index].url = image;
@@ -102,7 +102,7 @@ export const createCommunityPostSlice = createSlice({
       if (state.postType !== "IMAGE") return;
 
       const postImages = state.contextBasedData as TPostImages;
-      const index = imageIndex(postImages, id);
+      const index = getCommunityPostImageIndex(postImages, id);
       if (index < 0 || index > postImages?.length) return;
 
       (state.contextBasedData as TPostImages).splice(index, 1);
