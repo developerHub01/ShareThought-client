@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import AvatarActionButton from "@/components/navbar/right/avatar/AvatarActionButton";
 import {
   RightIcon as ArrowIcon,
@@ -11,45 +11,39 @@ import {
   LucideIcon,
 } from "@/lib/icons";
 import { useTheme } from "next-themes";
-
-type TThemeId = "dark" | "light" | "system";
+import { TThemeId } from "@/types";
 
 interface ITheme {
   id: TThemeId;
   label: string;
   Icon: LucideIcon;
-  onClick: () => void;
 }
+
+const themeList: Array<ITheme> = [
+  {
+    id: "light",
+    label: "light theme",
+    Icon: LightIcon,
+  },
+  {
+    id: "dark",
+    label: "dark theme",
+    Icon: DarkIcon,
+  },
+  {
+    id: "system",
+    label: "system theme",
+    Icon: SystemIcon,
+  },
+];
 
 const ThemeMode = () => {
   const { setTheme, theme } = useTheme();
-
-  const themeList: Array<ITheme> = useMemo(
-    () => [
-      {
-        id: "light",
-        label: "light theme",
-        Icon: LightIcon,
-        onClick: () => setTheme("light"),
-      },
-      {
-        id: "dark",
-        label: "dark theme",
-        Icon: DarkIcon,
-        onClick: () => setTheme("dark"),
-      },
-      {
-        id: "system",
-        label: "system theme",
-        Icon: SystemIcon,
-        onClick: () => setTheme("system"),
-      },
-    ],
-    [setTheme]
-  );
-
   const [isOpen, setOpen] = useState<boolean>(false);
   const [activeThemeId, setActiveThemeId] = useState<string>(theme || "system");
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => setMounted(true), []);
 
   const handleToggleButton = () => setOpen((prev) => !prev);
   const handleActiveThemeId = (theme: TThemeId) => setActiveThemeId(theme);
@@ -62,7 +56,7 @@ const ThemeMode = () => {
         IndicatorIcon={ArrowIcon}
         onClick={handleToggleButton}
       />
-      {isOpen && (
+      {mounted && isOpen && (
         <div className="flex flex-col">
           {themeList.map((props) => (
             <AvatarActionButton
@@ -70,7 +64,7 @@ const ThemeMode = () => {
               {...props}
               onClick={() => {
                 handleActiveThemeId(props.id);
-                props.onClick();
+                setTheme(props.id);
               }}
               havePrefix
               isActive={props.id === activeThemeId}

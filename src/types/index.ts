@@ -46,3 +46,4 @@ export interface BlogComponentBlock extends BlockInterface {
 }
 
 export type OrientationType = "vertical" | "horizontal";
+export type TThemeId = "dark" | "light" | "system";
