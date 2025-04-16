@@ -27,7 +27,7 @@ const ClientBlogEditorWrapper = ({
 
   if (!blogsData) return null;
 
-  return <>children;</>;
+  return <>{children}</>;
 };
 
 export default ClientBlogEditorWrapper;

@@ -1,7 +1,7 @@
 import React from "react";
 import EditorProvider from "@/app/(editor)/studio/create-blog/[id]/_context/EditorProvider";
 import Navbar from "@/app/(editor)/studio/_components/Navbar";
-import EditorContainerWrapper from "./_components/EditorContainerWrapper";
+import EditorContainerWrapper from "@/app/(editor)/studio/create-blog/[id]/_components/EditorContainerWrapper";
 
 interface CreateComponentCanvasLayoutProps {
   children: React.ReactNode;
