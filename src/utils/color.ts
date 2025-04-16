@@ -1,3 +1,5 @@
+import Color from "color";
+
 export const hexToRgba = (hex: string) => {
   if (!hex) return "transparent";
 
@@ -36,4 +38,23 @@ export const rgbaToHex = (r: number, g: number, b: number, a = 1) => {
     .padStart(2, "0");
 
   return `#${toHex(r)}${toHex(g)}${toHex(b)}${a < 1 ? alphaHex : ""}`;
+};
+
+export const adjustColorBasedOnTheme = (
+  color: string,
+  theme: "light" | "dark"
+) => {
+  const colorObj = Color(color);
+
+  const isLightColor = colorObj.isLight();
+
+  if (theme === "dark")
+    return isLightColor
+      ? colorObj.darken(0.8).hex()
+      : colorObj.lighten(0.8).hex();
+
+  if (theme === "light")
+    return isLightColor ? colorObj.darken(0.5).hex() : colorObj.hex();
+
+  return color;
 };
