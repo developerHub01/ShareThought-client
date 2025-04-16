@@ -1,4 +1,5 @@
 "use client";
+
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import {
   Tooltip,
@@ -39,7 +40,14 @@ const ToggleList = ({
         variant={"outline"}
         value={activeItem}
         onValueChange={handleChange}
-        className={cn("gap-0", className)}
+        className={cn(
+          "gap-0",
+          {
+            "flex-col": orientation === "vertical",
+            "flex-row": orientation === "horizontal",
+          },
+          className
+        )}
       >
         {toggleList.map(({ id, label, Icon }, index) => (
           <Tooltip key={id}>
