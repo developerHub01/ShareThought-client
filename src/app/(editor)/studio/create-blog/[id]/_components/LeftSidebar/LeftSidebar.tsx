@@ -15,6 +15,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, FocusEvent } from "react";
 import Navigator from "@/app/(editor)/studio/create-blog/[id]/_components/LeftSidebar/Navigator/Navigator";
 import ResponsiveToggleBlock from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/ResponsiveToggleBlock";
+import ThemeBlock from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/ThemeBlock";
 
 interface MenuItemInterface {
   id: string;
@@ -98,7 +99,8 @@ const LeftSidebar = memo(() => {
             </Tooltip>
           ))}
         </TooltipProvider>
-        <ResponsiveToggleBlock orientation="vertical" className="flex-col" />
+        <ResponsiveToggleBlock orientation="vertical" />
+        <ThemeBlock orientation="vertical" />
       </div>
       <Content onClose={deleteSidebar} />
     </div>
