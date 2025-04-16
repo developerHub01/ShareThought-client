@@ -7,6 +7,7 @@ interface ImageUploaderProps {
   id: string;
   accept?: string;
   multiple?: boolean;
+  handleChangeInState?: (images: Array<string>) => void;
   children: React.ReactNode;
 }
 
@@ -14,6 +15,7 @@ const ImageUploader = ({
   id,
   accept = "image/*,.gif",
   multiple = true,
+  handleChangeInState,
   children,
 }: ImageUploaderProps) => {
   const processImageFiles = useUploadCommunityPostImage();
@@ -22,7 +24,7 @@ const ImageUploader = ({
     (e: ChangeEvent<HTMLInputElement>) => {
       const imageFiles = e.target.files;
 
-      if (imageFiles) processImageFiles(imageFiles);
+      if (imageFiles) processImageFiles(imageFiles, handleChangeInState);
     },
     [processImageFiles]
   );
