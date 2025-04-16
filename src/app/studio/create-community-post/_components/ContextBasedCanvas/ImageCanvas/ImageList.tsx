@@ -54,49 +54,47 @@ const ImageList = memo(() => {
     JSON.stringify(mainImages) !== JSON.stringify(images);
 
   return (
-    <div className="h-full w-16 sm:w-20 md:w-24 flex-grow-0 flex-shrink-0">
-      <div className="w-full flex flex-col gap-2 p-2">
-        {images.length < COMMUNITY_POST_IMAGE_MAX_COUNT && (
-          <>
-            <ImageUploader id="addPostImage" multiple={false}>
-              <Button
-                variant={"outline"}
-                className="w-full h-full aspect-square pointer-events-none"
-              >
-                <AddIcon size={22} />
-              </Button>
-            </ImageUploader>
-            <Separator orientation="horizontal" />
-          </>
-        )}
-        <Reorder.Group
-          axis="y"
-          values={images}
-          onReorder={handleReorder}
-          className="flex flex-col gap-2"
-        >
-          {images.map((image) => (
-            <ImageThumbnailBox
-              key={image.id}
-              image={image}
-              onDelete={() => handleDeleteImage(image.id)}
-            />
-          ))}
-        </Reorder.Group>
-
-        {haveOrderChanged && (
-          <>
-            <Separator orientation="horizontal" />
+    <div className="w-16 sm:w-20 md:w-24 flex-grow-0 flex-shrink-0 bg-accent border-r flex flex-col gap-3 md:gap-2 p-2.5">
+      {images.length < COMMUNITY_POST_IMAGE_MAX_COUNT && (
+        <>
+          <ImageUploader id="addPostImage" multiple={false}>
             <Button
               variant={"outline"}
-              className="w-full h-full aspect-square"
-              onClick={handleSaveOrder}
+              className="w-full h-full aspect-square pointer-events-none"
             >
-              <SaveIcon size={22} />
+              <AddIcon size={22} />
             </Button>
-          </>
-        )}
-      </div>
+          </ImageUploader>
+          <Separator orientation="horizontal" />
+        </>
+      )}
+      <Reorder.Group
+        axis="y"
+        values={images}
+        onReorder={handleReorder}
+        className="flex flex-col gap-3 md:gap-2"
+      >
+        {images.map((image) => (
+          <ImageThumbnailBox
+            key={image.id}
+            image={image}
+            onDelete={() => handleDeleteImage(image.id)}
+          />
+        ))}
+      </Reorder.Group>
+
+      {haveOrderChanged && (
+        <>
+          <Separator orientation="horizontal" />
+          <Button
+            variant={"outline"}
+            className="w-full h-full aspect-square"
+            onClick={handleSaveOrder}
+          >
+            <SaveIcon size={22} />
+          </Button>
+        </>
+      )}
     </div>
   );
 });

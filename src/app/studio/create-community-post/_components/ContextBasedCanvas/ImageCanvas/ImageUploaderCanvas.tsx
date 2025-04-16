@@ -54,7 +54,7 @@ const ImageUploaderCanvas = memo(() => {
       <h3 className="text-lg md:text-2xl font-semibold">
         Select upto 5 images/gifs
       </h3>
-      <p className="text-xs md:text-sm pb-2">
+      <p className="text-foreground/60 text-xs md:text-sm pb-3">
         Select from computer or drag and drop images here
       </p>
 

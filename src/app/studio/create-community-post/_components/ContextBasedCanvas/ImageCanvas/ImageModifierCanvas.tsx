@@ -3,7 +3,7 @@ import ImageMain from "@/app/studio/create-community-post/_components/ContextBas
 
 const ImageModifierCanvas = () => {
   return (
-    <div className="w-full h-full min-h-40 max-h-[500px] flex">
+    <div className="w-full h-full min-h-40 flex">
       <ImageList />
       <ImageMain />
     </div>
