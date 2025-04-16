@@ -1,12 +1,12 @@
 "use client";
 
-import React from "react";
+import React, { memo } from "react";
 import Image from "next/image";
 import { useImagePost } from "@/app/studio/create-community-post/_context/ImagePostProvider";
 import { useAppSelector } from "@/redux/hooks";
 import { selectCommunityPostImageById } from "@/redux/features/create-community-post/selectors";
 
-const ImagePreview = () => {
+const ImagePreview = memo(() => {
   const { selectedId } = useImagePost();
   const image = useAppSelector((state) =>
     selectCommunityPostImageById(state, selectedId)
@@ -27,6 +27,6 @@ const ImagePreview = () => {
       />
     </div>
   );
-};
+});
 
 export default ImagePreview;

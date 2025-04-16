@@ -1,6 +1,6 @@
 "use client";
 
-import React, { ChangeEvent, useCallback } from "react";
+import React, { ChangeEvent, memo, useCallback } from "react";
 import useUploadCommunityPostImage from "@/hooks/community-post/use-upload-community-post-image";
 
 interface ImageUploaderProps {
@@ -11,39 +11,41 @@ interface ImageUploaderProps {
   children: React.ReactNode;
 }
 
-const ImageUploader = ({
-  id,
-  accept = "image/*,.gif",
-  multiple = true,
-  handleChangeInState,
-  children,
-}: ImageUploaderProps) => {
-  const processImageFiles = useUploadCommunityPostImage();
+const ImageUploader = memo(
+  ({
+    id,
+    accept = "image/*,.gif",
+    multiple = true,
+    handleChangeInState,
+    children,
+  }: ImageUploaderProps) => {
+    const processImageFiles = useUploadCommunityPostImage();
 
-  const handleChange = useCallback(
-    (e: ChangeEvent<HTMLInputElement>) => {
-      const imageFiles = e.target.files;
+    const handleChange = useCallback(
+      (e: ChangeEvent<HTMLInputElement>) => {
+        const imageFiles = e.target.files;
 
-      if (imageFiles) processImageFiles(imageFiles, handleChangeInState);
-    },
-    [processImageFiles]
-  );
+        if (imageFiles) processImageFiles(imageFiles, handleChangeInState);
+      },
+      [processImageFiles]
+    );
 
-  return (
-    <>
-      <input
-        id={id}
-        type="file"
-        accept={accept}
-        multiple={multiple}
-        hidden
-        onChange={handleChange}
-      />
-      <label htmlFor={id} className="cursor-pointer">
-        {children}
-      </label>
-    </>
-  );
-};
+    return (
+      <>
+        <input
+          id={id}
+          type="file"
+          accept={accept}
+          multiple={multiple}
+          hidden
+          onChange={handleChange}
+        />
+        <label htmlFor={id} className="cursor-pointer">
+          {children}
+        </label>
+      </>
+    );
+  }
+);
 
 export default ImageUploader;

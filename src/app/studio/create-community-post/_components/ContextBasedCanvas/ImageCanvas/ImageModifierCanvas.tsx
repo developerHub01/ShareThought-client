@@ -1,5 +1,5 @@
-import ImageList from "@/app/studio/create-community-post/_components/ContextBasedCanvas/ImageCanvas/ImageList";
-import ImageMain from "@/app/studio/create-community-post/_components/ContextBasedCanvas/ImageCanvas/ImageMain";
+import ImageList from "@/app/studio/create-community-post/_components/ContextBasedCanvas/ImageCanvas/Left/ImageList";
+import ImageMain from "@/app/studio/create-community-post/_components/ContextBasedCanvas/ImageCanvas/Right/ImageMain";
 
 const ImageModifierCanvas = () => {
   return (

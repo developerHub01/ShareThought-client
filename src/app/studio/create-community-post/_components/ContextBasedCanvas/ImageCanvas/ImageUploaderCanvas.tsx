@@ -1,8 +1,8 @@
 "use client";
 
+import React, { DragEvent, memo, useCallback, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import React, { DragEvent, memo, useCallback, useState } from "react";
 import ImageUploader from "@/app/studio/create-community-post/_components/ContextBasedCanvas/ImageCanvas/ImageUploader";
 import useUploadCommunityPostImage from "@/hooks/community-post/use-upload-community-post-image";
 
@@ -41,7 +41,7 @@ const ImageUploaderCanvas = memo(() => {
   return (
     <div
       className={cn(
-        "w-full h-full flex justify-center items-center flex-col text-center gap-2 p-5 min-h-64 hover:bg-accent/80 duration-100 ease-in-out select-none",
+        "w-full h-full flex justify-center items-center flex-col text-center gap-2 p-5 min-h-72 hover:bg-accent/80 duration-100 ease-in-out select-none",
         {
           "bg-transparent ring-0": !isDragging,
           "bg-accent ring-2 ring-primary rounded-sm": isDragging,
