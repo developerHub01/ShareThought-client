@@ -15,24 +15,32 @@ export interface PostImageInterface {
 }
 
 export interface PostImagesInterface {
-  images: Array<{
-    id: string;
-    url: string;
-  }>;
+  images: Array<PostImageInterface>;
 }
 
 export interface PostShareInterface {
   postId: string;
 }
 
-export interface PostPollDetailsInterface {}
-export interface PostPollWithImageDetailsInterface {}
+export interface PostTextPollOptionInterface {
+  id: string;
+  text: string;
+}
+export interface PostImagePollOptionInterface
+  extends PostTextPollOptionInterface {
+  image: string;
+}
+export interface PostPollDetailsInterface {
+  options: Array<PostTextPollOptionInterface>;
+}
+export interface PostPollWithImageDetailsInterface {
+  options: Array<PostImagePollOptionInterface>;
+}
 export interface PostQuizDetailsInterface {}
 
 export interface CreateCommunityPostState {
   text: string;
   postType: TCommunityPostType;
-  // contextBasedData?: TPostImages | TPostShare;
   postImageDetails?: PostImagesInterface;
   postSharedPostDetails?: PostShareInterface;
   postPollDetails?: PostPollDetailsInterface;
@@ -43,6 +51,34 @@ export interface CreateCommunityPostState {
 const initialState: CreateCommunityPostState = {
   text: "",
   postType: "TEXT",
+};
+
+const initialPostPollDetails: PostPollDetailsInterface = {
+  options: [
+    {
+      id: uuidv4(),
+      text: "Option 1",
+    },
+    {
+      id: uuidv4(),
+      text: "Option 2",
+    },
+  ],
+};
+
+const initialPostPollWithImageDetails: PostPollWithImageDetailsInterface = {
+  options: [
+    {
+      id: uuidv4(),
+      text: "Option 1",
+      image: "",
+    },
+    {
+      id: uuidv4(),
+      text: "Option 2",
+      image: "",
+    },
+  ],
 };
 
 export const getCommunityPostImageIndex = (
@@ -91,13 +127,16 @@ export const createCommunityPostSlice = createSlice({
           };
           break;
         case "POLL":
-          state.postPollDetails = [];
+          state.postPollDetails = initialPostPollDetails;
           break;
         case "POLL_WITH_IMAGE":
-          state.postPollWithImageDetails = [];
+          state.postPollWithImageDetails = state.postPollDetails =
+            initialPostPollWithImageDetails;
           break;
         case "QUIZ":
-          state.postQuizDetails = [];
+          state.postQuizDetails = state.postPollDetails = {
+            options: [],
+          };
           break;
         case "POST_SHARE":
           state.postSharedPostDetails = {
@@ -192,6 +231,20 @@ export const createCommunityPostSlice = createSlice({
 
       state.postImageDetails.images = [...images];
     },
+    addSharePostId: (
+      state,
+      action: PayloadAction<{
+        postId: string;
+      }>
+    ) => {
+      const { postId } = action.payload;
+
+      if (state.postType !== "POST_SHARE") return;
+
+      state.postSharedPostDetails = {
+        postId,
+      };
+    },
   },
 });
 
@@ -202,6 +255,7 @@ export const {
   deletePostImage,
   addPostImages,
   replaceAllPostImages,
+  addSharePostId,
 } = createCommunityPostSlice.actions;
 
 export default createCommunityPostSlice.reducer;

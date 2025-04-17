@@ -1,7 +1,6 @@
 "use client";
 
 import React, { memo } from "react";
-import ImageCanvasWrapper from "@/app/studio/create-community-post/_components/ContextBasedCanvas/ImageCanvas/ImageCanvasWrapper";
 import { useAppSelector } from "@/redux/hooks";
 import { selectCommunityPostImages } from "@/redux/features/create-community-post/selectors";
 import ImageUploaderCanvas from "@/app/studio/create-community-post/_components/ContextBasedCanvas/ImageCanvas/ImageUploaderCanvas";
@@ -11,13 +10,13 @@ const ImageCanvas = memo(() => {
   const images = useAppSelector((state) => selectCommunityPostImages(state));
 
   return (
-    <ImageCanvasWrapper>
+    <>
       {!images || !images?.length ? (
         <ImageUploaderCanvas />
       ) : (
         <ImageModifierCanvas />
       )}
-    </ImageCanvasWrapper>
+    </>
   );
 });
 

@@ -6,12 +6,14 @@ import { CloseIcon } from "@/lib/icons";
 import { changePostType } from "@/redux/features/create-community-post/createCommunityPostSlice";
 import { useAppDispatch } from "@/redux/hooks";
 import { useImagePost } from "@/app/studio/create-community-post/_context/ImagePostProvider";
+import { cn } from "@/lib/utils";
 
-interface ImageCanvasWrapperProps {
+interface CanvasWrapperProps {
   children: React.ReactNode;
+  className?: string;
 }
 
-const ImageCanvasWrapper = memo(({ children }: ImageCanvasWrapperProps) => {
+const CanvasWrapper = memo(({ children, className }: CanvasWrapperProps) => {
   const { setSelectedId } = useImagePost();
   const dispatch = useAppDispatch();
 
@@ -25,7 +27,7 @@ const ImageCanvasWrapper = memo(({ children }: ImageCanvasWrapperProps) => {
   };
 
   return (
-    <div className="w-full border rounded-sm relative">
+    <div className={cn("w-full border rounded-sm relative", className)}>
       <Button
         size={"smIcon"}
         variant={"outline"}
@@ -39,4 +41,4 @@ const ImageCanvasWrapper = memo(({ children }: ImageCanvasWrapperProps) => {
   );
 });
 
-export default ImageCanvasWrapper;
+export default CanvasWrapper;
