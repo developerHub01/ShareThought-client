@@ -35,7 +35,7 @@ const CommunityPostCreateSection = () => {
       <p className="text-sm text-gray-500 pb-3 leading-relaxed">
         Share your thoughts, experiences, or ideas with the world.
       </p>
-      <Link href={"/"}>
+      <Link href={"/studio/create-community-post"}>
         <Button size={"sm"} variant="outline">
           Create community post
         </Button>

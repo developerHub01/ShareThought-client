@@ -18,7 +18,7 @@ const RightFallback = memo(() => {
   };
 
   return (
-    <div className="w-full h-full flex flex-col justify-center items-center text-center select-none">
+    <div className="w-full h-full flex flex-col justify-center items-center text-center select-none min-h-64">
       <div className="max-w-44">
         <p>Please select an image</p>
         <div className="flex justify-center items-center gap-2 pb-3">

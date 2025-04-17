@@ -23,7 +23,7 @@ import {
   selectBlogGlobalStyle,
   selectBlogStylesById,
 } from "@/redux/features/builders/selectors";
-import ResetToGlobalStyle from "../../../Blocks/ResetToGlobalStyle";
+import ResetToGlobalStyle from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/ResetToGlobalStyle";
 import useRemoveStyle from "@/hooks/editor/use-remove-style";
 
 const TextColorProperty = memo(() => {

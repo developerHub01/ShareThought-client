@@ -9,14 +9,35 @@ export interface PostImage {
   url: string;
 }
 
-export type TPostImages = Array<PostImage>;
+export interface PostImageInterface {
+  id: string;
+  url: string;
+}
 
-export type TPostShare = string;
+export interface PostImagesInterface {
+  images: Array<{
+    id: string;
+    url: string;
+  }>;
+}
+
+export interface PostShareInterface {
+  postId: string;
+}
+
+export interface PostPollDetailsInterface {}
+export interface PostPollWithImageDetailsInterface {}
+export interface PostQuizDetailsInterface {}
 
 export interface CreateCommunityPostState {
   text: string;
   postType: TCommunityPostType;
-  contextBasedData?: TPostImages | TPostShare;
+  // contextBasedData?: TPostImages | TPostShare;
+  postImageDetails?: PostImagesInterface;
+  postSharedPostDetails?: PostShareInterface;
+  postPollDetails?: PostPollDetailsInterface;
+  postPollWithImageDetails?: PostPollWithImageDetailsInterface;
+  postQuizDetails?: PostQuizDetailsInterface;
 }
 
 const initialState: CreateCommunityPostState = {
@@ -24,8 +45,10 @@ const initialState: CreateCommunityPostState = {
   postType: "TEXT",
 };
 
-export const getCommunityPostImageIndex = (images: TPostImages, id: string) =>
-  images.findIndex((item) => item.id === id);
+export const getCommunityPostImageIndex = (
+  images: Array<PostImageInterface>,
+  id: string
+) => images.findIndex((item) => item.id === id);
 
 export const createCommunityPostSlice = createSlice({
   name: "create-community-post",
@@ -51,7 +74,11 @@ export const createCommunityPostSlice = createSlice({
 
       if (state.postType === type) return;
 
-      delete state.contextBasedData;
+      delete state.postImageDetails;
+      delete state.postPollDetails;
+      delete state.postPollWithImageDetails;
+      delete state.postQuizDetails;
+      delete state.postSharedPostDetails;
 
       state.postType = type;
 
@@ -59,19 +86,23 @@ export const createCommunityPostSlice = createSlice({
         case "TEXT":
           break;
         case "IMAGE":
-          state.contextBasedData = [];
+          state.postImageDetails = {
+            images: [],
+          };
           break;
         case "POLL":
-          state.contextBasedData = [];
+          state.postPollDetails = [];
           break;
         case "POLL_WITH_IMAGE":
-          state.contextBasedData = [];
+          state.postPollWithImageDetails = [];
           break;
         case "QUIZ":
-          state.contextBasedData = [];
+          state.postQuizDetails = [];
           break;
         case "POST_SHARE":
-          state.contextBasedData = "";
+          state.postSharedPostDetails = {
+            postId: "",
+          };
           break;
       }
     },
@@ -84,12 +115,21 @@ export const createCommunityPostSlice = createSlice({
     ) => {
       const { id, image } = action.payload;
 
-      if (!image || state.postType !== "IMAGE") return;
+      if (
+        !image ||
+        state.postType !== "IMAGE" ||
+        !state.postImageDetails?.images
+      )
+        return;
 
-      const index = getCommunityPostImageIndex(state.contextBasedData as TPostImages, id);
+      const index = getCommunityPostImageIndex(
+        state.postImageDetails?.images,
+        id
+      );
+
       if (index < 0) return;
 
-      (state.contextBasedData as TPostImages)[index].url = image;
+      state.postImageDetails.images[index].url = image;
     },
     deletePostImage: (
       state,
@@ -99,13 +139,14 @@ export const createCommunityPostSlice = createSlice({
     ) => {
       const { id } = action.payload;
 
-      if (state.postType !== "IMAGE") return;
+      if (state.postType !== "IMAGE" || !state.postImageDetails?.images) return;
 
-      const postImages = state.contextBasedData as TPostImages;
+      const postImages = state.postImageDetails.images;
+
       const index = getCommunityPostImageIndex(postImages, id);
       if (index < 0 || index > postImages?.length) return;
 
-      (state.contextBasedData as TPostImages).splice(index, 1);
+      state.postImageDetails.images.splice(index, 1);
     },
     addPostImages: (
       state,
@@ -115,9 +156,9 @@ export const createCommunityPostSlice = createSlice({
     ) => {
       const { images } = action.payload;
 
-      if (state.postType !== "IMAGE") return;
+      if (state.postType !== "IMAGE" || !state.postImageDetails?.images) return;
 
-      const existingImageList = state.contextBasedData as TPostImages;
+      const existingImageList = state.postImageDetails.images;
 
       const needToAcceptImageNumber =
         COMMUNITY_POST_IMAGE_MAX_COUNT - (existingImageList?.length ?? 0);
@@ -132,9 +173,9 @@ export const createCommunityPostSlice = createSlice({
             url: curr,
           });
           return acc;
-        }, [] as TPostImages);
+        }, [] as Array<PostImageInterface>);
 
-      (state.contextBasedData as TPostImages) = [
+      state.postImageDetails.images = [
         ...existingImageList,
         ...imagesNeedToAdd,
       ];
@@ -142,14 +183,14 @@ export const createCommunityPostSlice = createSlice({
     replaceAllPostImages: (
       state,
       action: PayloadAction<{
-        images: TPostImages;
+        images: Array<PostImageInterface>;
       }>
     ) => {
       const { images } = action.payload;
 
-      if (state.postType !== "IMAGE") return;
+      if (state.postType !== "IMAGE" || !state.postImageDetails?.images) return;
 
-      (state.contextBasedData as TPostImages) = [...images];
+      state.postImageDetails.images = [...images];
     },
   },
 });

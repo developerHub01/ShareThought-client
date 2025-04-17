@@ -36,7 +36,7 @@ const ImageThumbnailBox = memo(
           className={cn("w-full h-full rounded-md", {
             "ring-2 ring-offset-1 ring-primary": id === selectedId,
           })}
-          onClick={() => setSelectedId(id)}
+          onClick={() => setSelectedId(selectedId === id? "": id)}
         >
           <button
             type="button"

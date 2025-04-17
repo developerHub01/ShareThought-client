@@ -2,7 +2,7 @@ import { RootState } from "@/redux/store";
 import { createSelector } from "@reduxjs/toolkit";
 import {
   getCommunityPostImageIndex,
-  TPostImages,
+  PostImageInterface,
 } from "@/redux/features/create-community-post/createCommunityPostSlice";
 
 export const selectCommunityPostText = createSelector(
@@ -17,47 +17,41 @@ export const selectCommunityPostType = createSelector(
 
 export const selectCommunityPostImages = createSelector(
   [
-    (state: RootState) => state.createCommunityPost.contextBasedData,
+    (state: RootState) => state.createCommunityPost.postImageDetails?.images,
     (state: RootState) => state.createCommunityPost.postType,
   ],
-  (contextBasedData, postType) => {
+  (images, postType) => {
     if (postType !== "IMAGE") return null;
 
-    return contextBasedData as TPostImages;
+    return images;
   }
 );
 
 export const selectCommunityPostImageByIndex = createSelector(
   [
     (state: RootState, index: number) =>
-      state.createCommunityPost.contextBasedData,
+      state.createCommunityPost.postImageDetails?.images,
     (state: RootState, index: number) => state.createCommunityPost.postType,
     (state: RootState, index: number) => index,
   ],
-  (contextBasedData, postType, index) => {
-    if (
-      postType !== "IMAGE" ||
-      !contextBasedData ||
-      index < 0 ||
-      index >= contextBasedData.length
-    )
+  (images, postType, index) => {
+    if (postType !== "IMAGE" || !images || index < 0 || index >= images.length)
       return null;
 
-    return (contextBasedData as TPostImages)[index];
+    return images[index];
   }
 );
 
 export const selectCommunityPostImageById = createSelector(
   [
     (state: RootState, id: string) =>
-      state.createCommunityPost.contextBasedData,
+      state.createCommunityPost.postImageDetails?.images,
     (state: RootState, id: string) => state.createCommunityPost.postType,
     (state: RootState, id: string) => id,
   ],
-  (contextBasedData, postType, id) => {
-    if (postType !== "IMAGE" || !contextBasedData || !id) return null;
+  (images, postType, id) => {
+    if (postType !== "IMAGE" || !images || !id) return null;
 
-    const images = contextBasedData as TPostImages;
     const index = getCommunityPostImageIndex(images, id);
     if (index < 0) return null;
 
