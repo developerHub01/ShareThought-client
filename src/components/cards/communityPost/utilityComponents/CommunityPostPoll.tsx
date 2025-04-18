@@ -5,6 +5,7 @@ import { convertNumberToWords } from "@/utils";
 import { useState } from "react";
 import { CheckIcon } from "@/lib/icons";
 import Image from "next/image";
+import { cn } from "@/lib/utils";
 
 // const postPollDetails = {
 //   options: [
@@ -81,17 +82,15 @@ const CommunityPostPoll = () => {
               className="w-full flex gap-2.5 justify-between items-center cursor-pointer"
               onClick={handleSelectOption(id)}
             >
-              {!image && (
+              {image !== undefined && image !== null && (
                 <Button
                   variant={"ghost"}
                   size={"icon"}
                   className="rounded-full size-6"
                 >
                   {isCurrentOptionSelected ? (
-                    <span
-                      className={`border border-primary text-primary aspect-square rounded-full flex-shrink-0 size-6 grid place-items-center`}
-                    >
-                      <CheckIcon size={6} strokeWidth={3} />
+                    <span className="border border-primary text-primary aspect-square rounded-full flex-shrink-0 size-6 grid place-items-center">
+                      <CheckIcon size={16} strokeWidth={3} />
                     </span>
                   ) : (
                     <span className="size-3 rounded-full border border-green-primary"></span>
@@ -99,9 +98,12 @@ const CommunityPostPoll = () => {
                 </Button>
               )}
               <div
-                className={`relative w-full p-1.5 rounded-sm border flex items-center gap-1 ${
-                  isCurrentOptionSelected ? "border border-primary" : ""
-                }`}
+                className={cn(
+                  "relative w-full p-1.5 rounded-sm border flex items-center gap-1",
+                  {
+                    "border border-primary": isCurrentOptionSelected,
+                  }
+                )}
               >
                 {image && (
                   <div className="aspect-square size-20 overflow-hidden flex-shrink-0">
@@ -117,7 +119,7 @@ const CommunityPostPoll = () => {
                 <div className="w-full flex justify-between items-center gap-1 px-2">
                   {isSelected && (
                     <span
-                      className={`absolute left-0 top-0 h-full bg-primary/5`}
+                      className="absolute left-0 top-0 h-full bg-primary/5"
                       style={{
                         width: `${successRate}%`,
                       }}

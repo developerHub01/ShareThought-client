@@ -3,7 +3,7 @@
 import React, { DragEvent, memo, useCallback, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import ImageUploader from "@/app/studio/create-community-post/_components/ContextBasedCanvas/ImageCanvas/ImageUploader";
+import ImageUploader from "@/app/studio/create-community-post/_components/ImageUploader";
 import useUploadCommunityPostImage from "@/hooks/community-post/use-upload-community-post-image";
 
 const ImageUploaderCanvas = memo(() => {

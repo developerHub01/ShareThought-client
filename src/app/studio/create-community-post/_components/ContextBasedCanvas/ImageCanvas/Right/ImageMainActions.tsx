@@ -3,7 +3,7 @@
 import React, { memo, useCallback } from "react";
 import { useImagePost } from "@/app/studio/create-community-post/_context/ImagePostProvider";
 import { Button } from "@/components/ui/button";
-import ImageUploader from "@/app/studio/create-community-post/_components/ContextBasedCanvas/ImageCanvas/ImageUploader";
+import ImageUploader from "@/app/studio/create-community-post/_components/ImageUploader";
 import { changePostImage } from "@/redux/features/create-community-post/createCommunityPostSlice";
 
 const ImageMainActions = memo(() => {

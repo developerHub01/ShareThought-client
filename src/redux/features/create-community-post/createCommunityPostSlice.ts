@@ -22,19 +22,13 @@ export interface PostShareInterface {
   postId: string;
 }
 
-export interface PostTextPollOptionInterface {
+export interface PostPollOptionInterface {
   id: string;
   text: string;
+  image?: string;
 }
-export interface PostImagePollOptionInterface
-  extends PostTextPollOptionInterface {
-  image: string;
-}
-export interface PostPollDetailsInterface {
-  options: Array<PostTextPollOptionInterface>;
-}
-export interface PostPollWithImageDetailsInterface {
-  options: Array<PostImagePollOptionInterface>;
+export interface PostPollInterface {
+  options: Array<PostPollOptionInterface>;
 }
 export interface PostQuizDetailsInterface {}
 
@@ -43,8 +37,8 @@ export interface CreateCommunityPostState {
   postType: TCommunityPostType;
   postImageDetails?: PostImagesInterface;
   postSharedPostDetails?: PostShareInterface;
-  postPollDetails?: PostPollDetailsInterface;
-  postPollWithImageDetails?: PostPollWithImageDetailsInterface;
+  postPollDetails?: PostPollInterface;
+  postPollWithImageDetails?: PostPollInterface;
   postQuizDetails?: PostQuizDetailsInterface;
 }
 
@@ -53,32 +47,18 @@ const initialState: CreateCommunityPostState = {
   postType: "TEXT",
 };
 
-const initialPostPollDetails: PostPollDetailsInterface = {
-  options: [
-    {
-      id: uuidv4(),
-      text: "Option 1",
-    },
-    {
-      id: uuidv4(),
-      text: "Option 2",
-    },
-  ],
-};
-
-const initialPostPollWithImageDetails: PostPollWithImageDetailsInterface = {
-  options: [
-    {
-      id: uuidv4(),
-      text: "Option 1",
-      image: "",
-    },
-    {
-      id: uuidv4(),
-      text: "Option 2",
-      image: "",
-    },
-  ],
+const generatePollOption = (
+  type: "TEXT_POLL" | "IMAGE_POLL"
+): PostPollOptionInterface => {
+  return {
+    id: uuidv4(),
+    text: "Option",
+    ...(type === "IMAGE_POLL"
+      ? {
+          image: "",
+        }
+      : {}),
+  };
 };
 
 export const getCommunityPostImageIndex = (
@@ -127,11 +107,20 @@ export const createCommunityPostSlice = createSlice({
           };
           break;
         case "POLL":
-          state.postPollDetails = initialPostPollDetails;
+          state.postPollDetails = {
+            options: [
+              generatePollOption("TEXT_POLL"),
+              generatePollOption("TEXT_POLL"),
+            ],
+          };
           break;
         case "POLL_WITH_IMAGE":
-          state.postPollWithImageDetails = state.postPollDetails =
-            initialPostPollWithImageDetails;
+          state.postPollWithImageDetails = {
+            options: [
+              generatePollOption("IMAGE_POLL"),
+              generatePollOption("IMAGE_POLL"),
+            ],
+          };
           break;
         case "QUIZ":
           state.postQuizDetails = state.postPollDetails = {
@@ -245,6 +234,83 @@ export const createCommunityPostSlice = createSlice({
         postId,
       };
     },
+    addPollOption: (state) => {
+      const isTextPoll = state.postType === "POLL";
+      const isImagePoll = state.postType === "POLL_WITH_IMAGE";
+
+      const pollOptions = isTextPoll
+        ? state.postPollDetails?.options
+        : state.postPollWithImageDetails?.options;
+
+      if ((isTextPoll || isImagePoll) && pollOptions) {
+        const newOption = generatePollOption(
+          isTextPoll ? "TEXT_POLL" : "IMAGE_POLL"
+        );
+        pollOptions.push(newOption);
+      }
+    },
+    deletePollOption: (
+      state,
+      action: PayloadAction<{
+        id: string;
+      }>
+    ) => {
+      const { id } = action.payload;
+
+      const isTextPoll = state.postType === "POLL";
+      const isImagePoll = state.postType === "POLL_WITH_IMAGE";
+
+      const pollOptions = isTextPoll
+        ? state.postPollDetails?.options
+        : state.postPollWithImageDetails?.options;
+
+      if ((pollOptions?.length ?? 0) <= 1) {
+        delete state.postImageDetails;
+        delete state.postPollDetails;
+        delete state.postPollWithImageDetails;
+        delete state.postQuizDetails;
+        delete state.postSharedPostDetails;
+        state.postType = "TEXT";
+
+        return;
+      }
+
+      if ((isTextPoll || isImagePoll) && pollOptions) {
+        const index = pollOptions.findIndex((option) => option.id === id);
+
+        if (index < 0) return;
+
+        pollOptions.splice(index, 1);
+      }
+    },
+    changePollOption: (
+      state,
+      action: PayloadAction<{
+        id: string;
+        text?: string;
+        image?: string;
+      }>
+    ) => {
+      const { id } = action.payload;
+
+      const isTextPoll = state.postType === "POLL";
+      const isImagePoll = state.postType === "POLL_WITH_IMAGE";
+
+      const pollOptions = isTextPoll
+        ? state.postPollDetails?.options
+        : state.postPollWithImageDetails?.options;
+
+      if ((isTextPoll || isImagePoll) && pollOptions) {
+        const index = pollOptions.findIndex((option) => option.id === id);
+
+        if (index < 0) return;
+
+        pollOptions[index] = {
+          ...pollOptions[index],
+          ...action.payload,
+        };
+      }
+    },
   },
 });
 
@@ -256,6 +322,9 @@ export const {
   addPostImages,
   replaceAllPostImages,
   addSharePostId,
+  addPollOption,
+  deletePollOption,
+  changePollOption,
 } = createCommunityPostSlice.actions;
 
 export default createCommunityPostSlice.reducer;

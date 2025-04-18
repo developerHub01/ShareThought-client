@@ -24,13 +24,16 @@ const CommunityPost = ({ postType }: { postType: TCommunityPostType }) => {
         <div className="w-full py-1">
           <CommunityPostShare />
         </div>
-      ) : postType === "POLL" || postType === "POLL_WITH_IMAGE" ? (
+      ) : postType === "POLL"? (
         <div className="w-full py-1">
           <CommunityPostPoll />
         </div>
-      ) : (
-        <></>
-      )}
+     ): (
+      <div className="w-full py-1">
+        <CommunityPostPoll />
+      </div>
+    ) 
+      }
       <CommunityInteraction />
     </CommunitPostWrapper>
   );

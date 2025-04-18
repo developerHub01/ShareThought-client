@@ -35,7 +35,7 @@ const useUploadCommunityPostImage = () => {
             })
       );
     },
-    []
+    [dispatch]
   );
   return processImageFiles;
 };

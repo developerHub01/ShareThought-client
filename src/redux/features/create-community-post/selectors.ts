@@ -1,9 +1,5 @@
 import { RootState } from "@/redux/store";
 import { createSelector } from "@reduxjs/toolkit";
-import {
-  getCommunityPostImageIndex,
-  PostImageInterface,
-} from "@/redux/features/create-community-post/createCommunityPostSlice";
 
 export const selectCommunityPostText = createSelector(
   [(state: RootState) => state.createCommunityPost.text],
@@ -52,9 +48,43 @@ export const selectCommunityPostImageById = createSelector(
   (images, postType, id) => {
     if (postType !== "IMAGE" || !images || !id) return null;
 
-    const index = getCommunityPostImageIndex(images, id);
-    if (index < 0) return null;
+    return images.find((image) => image.id === id);
+  }
+);
 
-    return images[index];
+export const selectCommunityPostPoll = createSelector(
+  [
+    (state: RootState) =>
+      state.createCommunityPost.postPollDetails?.options ??
+      state.createCommunityPost.postPollWithImageDetails?.options,
+    (state: RootState) => state.createCommunityPost.postType,
+  ],
+  (options, postType) => {
+    if (
+      (postType !== "POLL" && postType !== "POLL_WITH_IMAGE") ||
+      !Array.isArray(options)
+    )
+      return null;
+
+    return options;
+  }
+);
+
+export const selectCommunityPostPollOption = createSelector(
+  [
+    (state: RootState, id: string) =>
+      state.createCommunityPost.postPollDetails?.options ??
+      state.createCommunityPost.postPollWithImageDetails?.options,
+    (state: RootState, id: string) => state.createCommunityPost.postType,
+    (state: RootState, id: string) => id,
+  ],
+  (options, postType, id) => {
+    if (
+      (postType !== "POLL" && postType !== "POLL_WITH_IMAGE") ||
+      !Array.isArray(options)
+    )
+      return null;
+
+    return options.find((option) => option.id === id);
   }
 );

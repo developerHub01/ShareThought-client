@@ -6,7 +6,7 @@ import { COMMUNITY_POST_IMAGE_MAX_COUNT } from "@/constant";
 import { AddIcon, SaveIcon } from "@/lib/icons";
 import { selectCommunityPostImages } from "@/redux/features/create-community-post/selectors";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import ImageUploader from "@/app/studio/create-community-post/_components/ContextBasedCanvas/ImageCanvas/ImageUploader";
+import ImageUploader from "@/app/studio/create-community-post/_components/ImageUploader";
 import { Reorder } from "framer-motion";
 import ImageThumbnailBox from "./ImageThumbnailBox";
 import { Separator } from "@/components/ui/separator";
