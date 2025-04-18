@@ -3,12 +3,26 @@ import { createSelector } from "@reduxjs/toolkit";
 
 export const selectCommunityPostText = createSelector(
   [(state: RootState) => state.createCommunityPost.text],
-  (text) => text.trim() ?? ""
+  (text) => text?.trim() ?? ""
+);
+
+export const selectCommunityPostHaveContent = createSelector(
+  [(state: RootState) => state.createCommunityPost],
+  (post) => {
+    return Boolean(
+      post.text ||
+        post.postImageDetails ||
+        post.postPollDetails ||
+        post.postPollWithImageDetails ||
+        post.postQuizDetails ||
+        post.postSharedPostDetails
+    );
+  }
 );
 
 export const selectCommunityPostType = createSelector(
   [(state: RootState) => state.createCommunityPost.postType],
-  (type) => type ?? "TEXT"
+  (type) => (type === undefined || type === null ? "TEXT" : `${type}`)
 );
 
 export const selectCommunityPostImages = createSelector(
@@ -61,7 +75,6 @@ export const selectCommunityPostPollQuiz = createSelector(
     (state: RootState) => state.createCommunityPost.postType,
   ],
   (options, postType) => {
-    console.log(options);
     if (
       !["POLL", "POLL_WITH_IMAGE", "QUIZ"].includes(postType) ||
       !Array.isArray(options)

@@ -2,6 +2,7 @@ import React from "react";
 import PostTextField from "@/app/studio/create-community-post/_components/PostTextField";
 import PostFooterAction from "@/app/studio/create-community-post/_components/PostFooterAction";
 import ContextBasedCanvas from "@/app/studio/create-community-post/_components/ContextBasedCanvas";
+import PostSchedule from "@/app/studio/create-community-post/_components/PostSchedule";
 
 const CreateCommunityPostPage = () => {
   return (
@@ -10,6 +11,7 @@ const CreateCommunityPostPage = () => {
         <PostTextField />
         <ContextBasedCanvas />
         <PostFooterAction />
+        <PostSchedule />
       </section>
     </section>
   );

@@ -41,7 +41,7 @@ const PostTextField = memo(() => {
       value={text}
       onChange={handleChange}
       onBlur={handleBlur}
-      className="w-full border-none focus-visible:ring-0 rounded-none resize-none text-sm px-0"
+      className="w-full border-none focus-visible:ring-0 rounded-none resize-none text-sm"
       placeholder={placeholderText}
     />
   );

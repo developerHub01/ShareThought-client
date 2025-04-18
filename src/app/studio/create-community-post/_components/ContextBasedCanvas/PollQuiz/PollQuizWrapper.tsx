@@ -14,7 +14,6 @@ import AddOptionButton from "@/app/studio/create-community-post/_components/Cont
 const PollQuizWrapper = memo(() => {
   const options = useAppSelector((state) => selectCommunityPostPollQuiz(state));
   const postType = useAppSelector((state) => selectCommunityPostType(state));
-  console.log({ options });
 
   if (!["POLL", "POLL_WITH_IMAGE", "QUIZ"].includes(postType) || !options)
     return null;

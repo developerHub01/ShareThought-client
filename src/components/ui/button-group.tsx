@@ -10,6 +10,7 @@ interface ButtonGroupProps {
   size?: "sm" | "lg" | "default";
   variant?: "default" | "outline" | "ghost" | "link";
   orientation?: "vertical" | "horizontal";
+  disabled?: boolean;
   className?: string;
 }
 
@@ -20,6 +21,7 @@ export const ButtonGroup = ({
   size = "default",
   variant = "default",
   orientation = "horizontal",
+  disabled = false,
 }: ButtonGroupProps) => {
   return (
     <div
@@ -34,6 +36,8 @@ export const ButtonGroup = ({
         return (
           <Fragment key={index}>
             {React.cloneElement(child as React.ReactElement<any>, {
+              disabled:
+                (child as React.ReactElement<any>).props.disabled ?? disabled,
               className: cn(
                 (child as React.ReactElement<any>).props.className || "",
                 {

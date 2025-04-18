@@ -126,7 +126,7 @@ const QuizOption = memo(
               aria-label={`Mark option ${optionText || id} as correct answer`}
               tabIndex={0}
               className={cn(
-                "inline-block w-[12px] h-[12px] rounded-full flex-shrink-0 ring-[1.5px] ring-primary ring-offset-2 cursor-pointer transition-all duration-100",
+                "inline-block w-[16px] h-[16px] rounded-full flex-shrink-0 ring-[1.5px] ring-primary ring-offset-2 cursor-pointer transition-all duration-100",
                 {
                   "bg-primary": isCorrectAnswer,
                   "bg-transparent": !isCorrectAnswer,

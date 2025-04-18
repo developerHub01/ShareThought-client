@@ -3,6 +3,7 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 import { TCommunityPostType } from "@/types";
 import { COMMUNITY_POST_IMAGE_MAX_COUNT } from "@/constant";
 import { v4 as uuidv4 } from "uuid";
+import { startOfDay, addDays } from "date-fns";
 
 export interface PostImage {
   id: string;
@@ -38,6 +39,7 @@ export interface CreateCommunityPostState {
   postPollDetails?: PostPollQuizInterface;
   postPollWithImageDetails?: PostPollQuizInterface;
   postQuizDetails?: PostPollQuizInterface;
+  scheduledTime?: string;
 }
 
 const initialState: CreateCommunityPostState = {
@@ -131,6 +133,25 @@ export const createCommunityPostSlice = createSlice({
           };
           break;
       }
+    },
+    cancelPost: (state) => {
+      delete state.postImageDetails;
+      delete state.postPollDetails;
+      delete state.postPollWithImageDetails;
+      delete state.postQuizDetails;
+      delete state.postSharedPostDetails;
+
+      state.text = "";
+      state.postType = "TEXT";
+    },
+    setScheduledTime: (state, action: PayloadAction<Date | undefined>) => {
+      const date = action.payload;
+      state.scheduledTime = date
+        ? date.toISOString()
+        : startOfDay(addDays(new Date(), 1)).toISOString();
+    },
+    clearScheduledTime: (state) => {
+      delete state.scheduledTime;
     },
     changePostImage: (
       state,
@@ -298,12 +319,10 @@ export const createCommunityPostSlice = createSlice({
       }>
     ) => {
       const { id, isCorrectAnswer, correctAnswerExplaination } = action.payload;
-      console.log(action.payload);
+
       const isTextPoll = state.postType === "POLL";
       const isImagePoll = state.postType === "POLL_WITH_IMAGE";
       const isQuiz = state.postType === "QUIZ";
-
-      console.log(action.payload);
 
       /* if type is QUIZ and try to update correct ans  */
       if (isCorrectAnswer && state.postQuizDetails?.options) {
@@ -353,6 +372,9 @@ export const createCommunityPostSlice = createSlice({
 export const {
   changeText,
   changePostType,
+  cancelPost,
+  setScheduledTime,
+  clearScheduledTime,
   changePostImage,
   deletePostImage,
   addPostImages,
