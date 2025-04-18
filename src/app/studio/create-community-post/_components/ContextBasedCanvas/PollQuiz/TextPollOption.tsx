@@ -16,7 +16,7 @@ import {
   deletePollOption,
 } from "@/redux/features/create-community-post/createCommunityPostSlice";
 import { useAppDispatch } from "@/redux/hooks";
-import OptionLimit from "@/app/studio/create-community-post/_components/ContextBasedCanvas/Poll/OptionLimit";
+import OptionLimit from "@/app/studio/create-community-post/_components/ContextBasedCanvas/PollQuiz/OptionLimit";
 
 interface TextPollOptionProp {
   id: string;

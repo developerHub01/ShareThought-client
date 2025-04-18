@@ -12,12 +12,12 @@ import React, {
 import { Button } from "@/components/ui/button";
 import { DeleteIcon, ImageIcon } from "@/lib/icons";
 import {
-  changePollOption,
-  deletePollOption,
+  changePollQuizOption,
+  deletePollQuizOption,
 } from "@/redux/features/create-community-post/createCommunityPostSlice";
 import { useAppDispatch } from "@/redux/hooks";
 import Image from "next/image";
-import OptionLimit from "@/app/studio/create-community-post/_components/ContextBasedCanvas/Poll/OptionLimit";
+import OptionLimit from "@/app/studio/create-community-post/_components/ContextBasedCanvas/PollQuiz/OptionLimit";
 import ImageUploader from "@/app/studio/create-community-post/_components/ImageUploader";
 
 interface ImagePollOptionProp {
@@ -44,7 +44,7 @@ const ImagePollOption = memo(({ id, text, image }: ImagePollOptionProp) => {
 
   const handleBlur = useCallback(
     (e: FocusEvent<HTMLInputElement>) =>
-      changePollOption({
+      changePollQuizOption({
         id,
         text: e.target.value,
       }),
@@ -54,7 +54,7 @@ const ImagePollOption = memo(({ id, text, image }: ImagePollOptionProp) => {
   const handleDelete = useCallback(
     () =>
       dispatch(
-        deletePollOption({
+        deletePollQuizOption({
           id,
         })
       ),
@@ -68,7 +68,7 @@ const ImagePollOption = memo(({ id, text, image }: ImagePollOptionProp) => {
 
   const handleChangeImage = useCallback(
     (images: Array<string>) =>
-      changePollOption({
+      changePollQuizOption({
         id,
         image: images[0],
       }),

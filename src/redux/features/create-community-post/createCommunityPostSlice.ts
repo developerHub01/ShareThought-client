@@ -22,24 +22,24 @@ export interface PostShareInterface {
   postId: string;
 }
 
-export interface PostPollOptionInterface {
+export interface PostPollQuizOptionInterface {
   id: string;
   text: string;
   image?: string;
+  isCorrectAnswer?: boolean;
+  correctAnswerExplaination?: string;
 }
-export interface PostPollInterface {
-  options: Array<PostPollOptionInterface>;
+export interface PostPollQuizInterface {
+  options: Array<PostPollQuizOptionInterface>;
 }
-export interface PostQuizDetailsInterface {}
-
 export interface CreateCommunityPostState {
   text: string;
   postType: TCommunityPostType;
   postImageDetails?: PostImagesInterface;
   postSharedPostDetails?: PostShareInterface;
-  postPollDetails?: PostPollInterface;
-  postPollWithImageDetails?: PostPollInterface;
-  postQuizDetails?: PostQuizDetailsInterface;
+  postPollDetails?: PostPollQuizInterface;
+  postPollWithImageDetails?: PostPollQuizInterface;
+  postQuizDetails?: PostPollQuizInterface;
 }
 
 const initialState: CreateCommunityPostState = {
@@ -48,8 +48,8 @@ const initialState: CreateCommunityPostState = {
 };
 
 const generatePollOption = (
-  type: "TEXT_POLL" | "IMAGE_POLL"
-): PostPollOptionInterface => {
+  type: "TEXT_POLL" | "IMAGE_POLL" | "QUIZ"
+): PostPollQuizOptionInterface => {
   return {
     id: uuidv4(),
     text: "Option",
@@ -123,8 +123,8 @@ export const createCommunityPostSlice = createSlice({
           };
           break;
         case "QUIZ":
-          state.postQuizDetails = state.postPollDetails = {
-            options: [],
+          state.postQuizDetails = state.postQuizDetails = {
+            options: [generatePollOption("QUIZ"), generatePollOption("QUIZ")],
           };
           break;
         case "POST_SHARE":
@@ -234,22 +234,25 @@ export const createCommunityPostSlice = createSlice({
         postId,
       };
     },
-    addPollOption: (state) => {
+    addPollQuizOption: (state) => {
       const isTextPoll = state.postType === "POLL";
       const isImagePoll = state.postType === "POLL_WITH_IMAGE";
+      const isQuiz = state.postType === "QUIZ";
 
       const pollOptions = isTextPoll
         ? state.postPollDetails?.options
-        : state.postPollWithImageDetails?.options;
+        : isImagePoll
+        ? state.postPollWithImageDetails?.options
+        : state.postQuizDetails?.options;
 
-      if ((isTextPoll || isImagePoll) && pollOptions) {
+      if ((isTextPoll || isImagePoll || isQuiz) && pollOptions) {
         const newOption = generatePollOption(
-          isTextPoll ? "TEXT_POLL" : "IMAGE_POLL"
+          isTextPoll ? "TEXT_POLL" : isImagePoll ? "IMAGE_POLL" : "QUIZ"
         );
         pollOptions.push(newOption);
       }
     },
-    deletePollOption: (
+    deletePollQuizOption: (
       state,
       action: PayloadAction<{
         id: string;
@@ -259,10 +262,13 @@ export const createCommunityPostSlice = createSlice({
 
       const isTextPoll = state.postType === "POLL";
       const isImagePoll = state.postType === "POLL_WITH_IMAGE";
+      const isQuiz = state.postType === "QUIZ";
 
       const pollOptions = isTextPoll
         ? state.postPollDetails?.options
-        : state.postPollWithImageDetails?.options;
+        : isImagePoll
+        ? state.postPollWithImageDetails?.options
+        : state.postQuizDetails?.options;
 
       if ((pollOptions?.length ?? 0) <= 1) {
         delete state.postImageDetails;
@@ -275,7 +281,7 @@ export const createCommunityPostSlice = createSlice({
         return;
       }
 
-      if ((isTextPoll || isImagePoll) && pollOptions) {
+      if ((isTextPoll || isImagePoll || isQuiz) && pollOptions) {
         const index = pollOptions.findIndex((option) => option.id === id);
 
         if (index < 0) return;
@@ -283,24 +289,56 @@ export const createCommunityPostSlice = createSlice({
         pollOptions.splice(index, 1);
       }
     },
-    changePollOption: (
+    changePollQuizOption: (
       state,
       action: PayloadAction<{
         id: string;
         text?: string;
         image?: string;
+        isCorrectAnswer?: boolean;
+        correctAnswerExplaination?: string;
       }>
     ) => {
-      const { id } = action.payload;
-
+      const { id, isCorrectAnswer, correctAnswerExplaination } = action.payload;
+      console.log(action.payload);
       const isTextPoll = state.postType === "POLL";
       const isImagePoll = state.postType === "POLL_WITH_IMAGE";
+      const isQuiz = state.postType === "QUIZ";
+
+      console.log(action.payload);
+
+      /* if type is QUIZ and try to update correct ans  */
+      if (isCorrectAnswer && state.postQuizDetails?.options) {
+        state.postQuizDetails.options = state.postQuizDetails.options.map(
+          (option) => {
+            if (option.id === id) option.isCorrectAnswer = true;
+            else {
+              delete option.isCorrectAnswer;
+              delete option.correctAnswerExplaination;
+            }
+            return option;
+          }
+        );
+      }
+
+      if (correctAnswerExplaination && state.postQuizDetails?.options) {
+        state.postQuizDetails.options = state.postQuizDetails.options.map(
+          (option) => {
+            if (option.id === id)
+              option.correctAnswerExplaination = correctAnswerExplaination;
+
+            return option;
+          }
+        );
+      }
 
       const pollOptions = isTextPoll
         ? state.postPollDetails?.options
-        : state.postPollWithImageDetails?.options;
+        : isImagePoll
+        ? state.postPollWithImageDetails?.options
+        : state.postQuizDetails?.options;
 
-      if ((isTextPoll || isImagePoll) && pollOptions) {
+      if ((isTextPoll || isImagePoll || isQuiz) && pollOptions) {
         const index = pollOptions.findIndex((option) => option.id === id);
 
         if (index < 0) return;
@@ -322,9 +360,9 @@ export const {
   addPostImages,
   replaceAllPostImages,
   addSharePostId,
-  addPollOption,
-  deletePollOption,
-  changePollOption,
+  addPollQuizOption,
+  deletePollQuizOption,
+  changePollQuizOption,
 } = createCommunityPostSlice.actions;
 
 export default createCommunityPostSlice.reducer;

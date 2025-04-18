@@ -11,7 +11,7 @@ import { Input } from "@/components/ui/input";
 import { useSharePost } from "@/app/studio/create-community-post/_context/SharePostProvider";
 import { Button } from "@/components/ui/button";
 import { CloseIcon, SearchIcon } from "@/lib/icons";
-import AnimatedWrapper from "@/app/studio/create-community-post/_components/ContextBasedCanvas/SharePost/AnimatedWrapper";
+import AnimatedWrapper from "@/app/studio/create-community-post/_components/AnimatedWrapper";
 
 const SharePostInput = memo(() => {
   const [inputValue, setInputValue] = useState<string>("");

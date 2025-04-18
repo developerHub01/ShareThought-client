@@ -6,7 +6,7 @@ import React, { memo } from "react";
 import ImageCanvas from "@/app/studio/create-community-post/_components/ContextBasedCanvas/ImageCanvas/ImageCanvas";
 import SharePostCanvas from "@/app/studio/create-community-post/_components/ContextBasedCanvas/SharePost/SharePostCanvas";
 import CanvasWrapper from "@/app/studio/create-community-post/_components/ContextBasedCanvas/CanvasWrapper";
-import PollWrapper from "@/app/studio/create-community-post/_components/ContextBasedCanvas/Poll/PollWrapper";
+import PollQuizWrapper from "@/app/studio/create-community-post/_components/ContextBasedCanvas/PollQuiz/PollQuizWrapper";
 
 const ContextBasedCanvas = memo(() => {
   const postType = useAppSelector((state) => selectCommunityPostType(state));
@@ -17,7 +17,9 @@ const ContextBasedCanvas = memo(() => {
     <CanvasWrapper>
       {postType === "IMAGE" && <ImageCanvas />}
       {postType === "POST_SHARE" && <SharePostCanvas />}
-      {["POLL", "POLL_WITH_IMAGE"].includes(postType) && <PollWrapper />}
+      {["POLL", "POLL_WITH_IMAGE", "QUIZ"].includes(postType) && (
+        <PollQuizWrapper />
+      )}
     </CanvasWrapper>
   );
 });

@@ -52,16 +52,18 @@ export const selectCommunityPostImageById = createSelector(
   }
 );
 
-export const selectCommunityPostPoll = createSelector(
+export const selectCommunityPostPollQuiz = createSelector(
   [
     (state: RootState) =>
       state.createCommunityPost.postPollDetails?.options ??
-      state.createCommunityPost.postPollWithImageDetails?.options,
+      state.createCommunityPost.postPollWithImageDetails?.options ??
+      state.createCommunityPost.postQuizDetails?.options,
     (state: RootState) => state.createCommunityPost.postType,
   ],
   (options, postType) => {
+    console.log(options);
     if (
-      (postType !== "POLL" && postType !== "POLL_WITH_IMAGE") ||
+      !["POLL", "POLL_WITH_IMAGE", "QUIZ"].includes(postType) ||
       !Array.isArray(options)
     )
       return null;
@@ -70,17 +72,18 @@ export const selectCommunityPostPoll = createSelector(
   }
 );
 
-export const selectCommunityPostPollOption = createSelector(
+export const selectCommunityPostPollQuizOption = createSelector(
   [
     (state: RootState, id: string) =>
       state.createCommunityPost.postPollDetails?.options ??
-      state.createCommunityPost.postPollWithImageDetails?.options,
+      state.createCommunityPost.postPollWithImageDetails?.options ??
+      state.createCommunityPost.postQuizDetails?.options,
     (state: RootState, id: string) => state.createCommunityPost.postType,
     (state: RootState, id: string) => id,
   ],
   (options, postType, id) => {
     if (
-      (postType !== "POLL" && postType !== "POLL_WITH_IMAGE") ||
+      !["POLL", "POLL_WITH_IMAGE", "QUIZ"].includes(postType) ||
       !Array.isArray(options)
     )
       return null;
