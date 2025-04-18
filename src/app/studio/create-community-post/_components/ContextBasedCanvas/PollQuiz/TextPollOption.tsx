@@ -12,8 +12,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { CloseIcon } from "@/lib/icons";
 import {
-  changePollOption,
-  deletePollOption,
+  changePollQuizOption,
+  deletePollQuizOption,
 } from "@/redux/features/create-community-post/createCommunityPostSlice";
 import { useAppDispatch } from "@/redux/hooks";
 import OptionLimit from "@/app/studio/create-community-post/_components/ContextBasedCanvas/PollQuiz/OptionLimit";
@@ -40,7 +40,7 @@ const TextPollOption = memo(({ id, text }: TextPollOptionProp) => {
 
   const handleBlur = useCallback(
     (e: FocusEvent<HTMLInputElement>) =>
-      changePollOption({
+      changePollQuizOption({
         id,
         text: e.target.value,
       }),
@@ -50,7 +50,7 @@ const TextPollOption = memo(({ id, text }: TextPollOptionProp) => {
   const handleDelete = useCallback(
     () =>
       dispatch(
-        deletePollOption({
+        deletePollQuizOption({
           id,
         })
       ),

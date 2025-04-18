@@ -19,8 +19,7 @@ import { useAppDispatch } from "@/redux/hooks";
 import OptionLimit from "@/app/studio/create-community-post/_components/ContextBasedCanvas/PollQuiz/OptionLimit";
 import { AutosizeTextarea } from "@/components/ui/autosize-textarea";
 import { cn } from "@/lib/utils";
-import { AnimatePresence, motion } from "motion/react";
-import AnimatedWrapper from "../../AnimatedWrapper";
+import AnimatedWrapper from "@/app/studio/create-community-post/_components/AnimatedWrapper";
 
 interface QuizOptionProp {
   id: string;
@@ -44,20 +43,16 @@ const QuizOption = memo(
     const dispatch = useAppDispatch();
 
     useEffect(() => {
-      if (text && optionText === text) return;
+      if (optionText === text) return;
 
       setOptionText(text);
     }, [text]);
 
     useEffect(() => {
-      if (
-        correctAnswerExplaination &&
-        optionCorrectAnswerExplaination === correctAnswerExplaination
-      )
-        return;
+      if (optionCorrectAnswerExplaination === correctAnswerExplaination) return;
 
-      setOptionCorrectAnswerExplaination(optionCorrectAnswerExplaination);
-    }, [optionCorrectAnswerExplaination]);
+      setOptionCorrectAnswerExplaination(correctAnswerExplaination);
+    }, [correctAnswerExplaination]);
 
     const handleTextChange = useCallback(
       (e: ChangeEvent<HTMLInputElement>) => setOptionText(e.target.value),
@@ -116,19 +111,22 @@ const QuizOption = memo(
     return (
       <div className="w-full flex-col gap-1.5 items-center px-0.5 border-b">
         <div className="w-full flex gap-2 items-center">
-          <div className="p-1">
+          <div className="p-1 flex-shrink-0 flex justify-center items-center">
             <input
               type="radio"
               id={`quiz-${id}`}
               name="quiz-option"
-              checked={isCorrectAnswer}
               onChange={handleSelectCorrectAns}
               hidden
             />
             <label
               htmlFor={`quiz-${id}`}
+              role="radio"
+              aria-checked={isCorrectAnswer}
+              aria-label={`Mark option ${optionText || id} as correct answer`}
+              tabIndex={0}
               className={cn(
-                "block w-[13px] h-[13px] rounded-full flex-shrink-0 ring-[1.5px] ring-primary ring-offset-2 cursor-pointer transition-all duration-100",
+                "inline-block w-[12px] h-[12px] rounded-full flex-shrink-0 ring-[1.5px] ring-primary ring-offset-2 cursor-pointer transition-all duration-100",
                 {
                   "bg-primary": isCorrectAnswer,
                   "bg-transparent": !isCorrectAnswer,
@@ -141,7 +139,7 @@ const QuizOption = memo(
             value={optionText}
             onChange={handleTextChange}
             onBlur={handleTextBlur}
-            className="w-full border-none"
+            className="w-full border-none px-2"
           />
           <OptionLimit value={optionText.length ?? 0} limit={80} />
           <Button

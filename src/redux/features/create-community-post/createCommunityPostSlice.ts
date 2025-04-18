@@ -17,11 +17,9 @@ export interface PostImageInterface {
 export interface PostImagesInterface {
   images: Array<PostImageInterface>;
 }
-
 export interface PostShareInterface {
   postId: string;
 }
-
 export interface PostPollQuizOptionInterface {
   id: string;
   text: string;
