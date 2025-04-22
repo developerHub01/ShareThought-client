@@ -55,8 +55,12 @@ const PostSubmitAction = memo(() => {
 
       {/* This is the scheduling mode activator. Mainly trigger the a default scheduling date time */}
       {!scheduledTime && (
-        <Button onClick={handleSchedulePost} size="sm" disabled={!haveChanged}>
-          <ClockIcon size={16} /> Schedule Post
+        <Button
+          onClick={handleSchedulePost}
+          size="smIcon"
+          disabled={!haveChanged}
+        >
+          <ClockIcon size={18} />
         </Button>
       )}
     </div>
