@@ -1,3 +1,5 @@
+"use client";
+
 import { Textarea } from "@/components/ui/textarea";
 import { InsetDiv } from "@/components/InsetDiv";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -16,7 +18,8 @@ const CreateChannelDescription = () => {
   const channelState = useAppSelector(
     (state) => state.createChannel.channelState
   );
-  const isSyncing = useRef(false);
+  const isSyncing = useRef<boolean>(false);
+  let syncingTimeoutId: ReturnType<typeof setTimeout>;
 
   useEffect(() => {
     if (channelState.channelDescription)
@@ -41,8 +44,9 @@ const CreateChannelDescription = () => {
 
     if (!isSyncing.current) {
       isSyncing.current = true;
+      clearTimeout(syncingTimeoutId);
 
-      setTimeout(() => {
+      syncingTimeoutId = setTimeout(() => {
         updateChannelName("channelDescription", channelDescription);
         isSyncing.current = false;
       }, 300);
