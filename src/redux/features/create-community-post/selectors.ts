@@ -1,4 +1,5 @@
 import { RootState } from "@/redux/store";
+import { getNthDayFromToday } from "@/utils";
 import { createSelector } from "@reduxjs/toolkit";
 
 export const selectCommunityPostText = createSelector(
@@ -103,4 +104,9 @@ export const selectCommunityPostPollQuizOption = createSelector(
 
     return options.find((option) => option.id === id);
   }
+);
+
+export const selectCommunityPostScheduleTime = createSelector(
+  [(state: RootState) => state.createCommunityPost.scheduledTime],
+  (scheduleTime) => scheduleTime ?? null
 );

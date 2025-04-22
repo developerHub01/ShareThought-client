@@ -3,7 +3,8 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 import { TCommunityPostType } from "@/types";
 import { COMMUNITY_POST_IMAGE_MAX_COUNT } from "@/constant";
 import { v4 as uuidv4 } from "uuid";
-import { startOfDay, addDays } from "date-fns";
+import { format } from "date-fns";
+import { combineDateTime, getNthDayFromToday } from "@/utils";
 
 export interface PostImage {
   id: string;
@@ -65,6 +66,8 @@ export const getCommunityPostImageIndex = (
   images: Array<PostImageInterface>,
   id: string
 ) => images.findIndex((item) => item.id === id);
+
+export const getDefaultScheduleDateTime = () => getNthDayFromToday(1).toISOString();
 
 export const createCommunityPostSlice = createSlice({
   name: "create-community-post",
@@ -144,11 +147,24 @@ export const createCommunityPostSlice = createSlice({
       state.text = "";
       state.postType = "TEXT";
     },
-    setScheduledTime: (state, action: PayloadAction<Date | undefined>) => {
+    setScheduledDate: (state, action: PayloadAction<string>) => {
       const date = action.payload;
-      state.scheduledTime = date
-        ? date.toISOString()
-        : startOfDay(addDays(new Date(), 1)).toISOString();
+      const time = format(
+        state.scheduledTime ?? getDefaultScheduleDateTime(),
+        "hh:mm a"
+      );
+      state.scheduledTime = combineDateTime(date, time).toISOString();
+    },
+    setScheduledTime: (state, action: PayloadAction<string>) => {
+      const time = action.payload;
+      const date = format(
+        state.scheduledTime ?? getDefaultScheduleDateTime(),
+        "yyyy-MM-dd"
+      );
+      state.scheduledTime = combineDateTime(date, time).toISOString();
+    },
+    resetScheduledTime: (state) => {
+      state.scheduledTime = getNthDayFromToday(1).toISOString();
     },
     clearScheduledTime: (state) => {
       delete state.scheduledTime;
@@ -373,7 +389,9 @@ export const {
   changeText,
   changePostType,
   cancelPost,
+  setScheduledDate,
   setScheduledTime,
+  resetScheduledTime,
   clearScheduledTime,
   changePostImage,
   deletePostImage,

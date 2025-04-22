@@ -1,3 +1,5 @@
+import { addDays, format, isBefore, parse, startOfDay } from "date-fns";
+
 declare global {
   interface String {
     toCapitalCase(): string;
@@ -68,4 +70,36 @@ export const processFiles = ({
   }
 
   return images;
+};
+
+export const getNthDayFromToday = (days: number = 1) =>
+  startOfDay(addDays(new Date(), days));
+
+export const combineDateTime = (date: string | Date, time: string) => {
+  if (typeof date !== "string") date = format(date, "yyyy-MM-dd");
+
+  return parse(`${date} ${time}`, "yyyy-MM-dd hh:mm a", new Date());
+};
+
+export const isScheduledTimePast = (date: string, time?: string): boolean => {
+  const combinedDateTime = time ? combineDateTime(date, time) : date;
+  return isBefore(combinedDateTime, new Date());
+};
+
+export const getTimeList = (): Array<string> => {
+  const timeList: Array<string> = [];
+
+  for (let timeType = 0; timeType <= 1; timeType++) {
+    for (let hour = 12; hour > 0; hour--) {
+      for (let minute = 0; minute < 60; minute += 15) {
+        timeList.push(
+          `${hour}:${minute < 10 ? "0" : ""}${minute} ${
+            !timeType ? "AM" : "PM"
+          }`
+        );
+      }
+    }
+  }
+
+  return timeList;
 };

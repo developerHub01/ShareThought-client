@@ -2,7 +2,7 @@ import React from "react";
 import PostTextField from "@/app/studio/create-community-post/_components/PostTextField";
 import PostFooterAction from "@/app/studio/create-community-post/_components/PostFooterAction";
 import ContextBasedCanvas from "@/app/studio/create-community-post/_components/ContextBasedCanvas";
-import PostSchedule from "@/app/studio/create-community-post/_components/PostSchedule";
+import PostScheduleWrapper from "@/app/studio/create-community-post/_components/PostSchedule/PostScheduleWrapper";
 
 const CreateCommunityPostPage = () => {
   return (
@@ -11,7 +11,7 @@ const CreateCommunityPostPage = () => {
         <PostTextField />
         <ContextBasedCanvas />
         <PostFooterAction />
-        <PostSchedule />
+        <PostScheduleWrapper />
       </section>
     </section>
   );
