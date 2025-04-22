@@ -1,5 +1,12 @@
 "use client";
 
+import React, {
+  ChangeEvent,
+  KeyboardEvent,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { InsetDiv } from "@/components/InsetDiv";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { CREATE_CHANNEL_SIZE } from "@/constant";
@@ -10,13 +17,6 @@ import {
 } from "@/redux/features/create-channel/createChannelSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useRouter } from "next/navigation";
-import React, {
-  ChangeEvent,
-  KeyboardEvent,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
 import SizeLimit from "@/app/(home)/channels/my/_components/CreateChannel/SizeLimit";
 
 const CreateChannelName = () => {
@@ -27,7 +27,8 @@ const CreateChannelName = () => {
   const channelState = useAppSelector(
     (state) => state.createChannel.channelState
   );
-  const isSyncing = useRef(false);
+  const isSyncing = useRef<boolean>(false);
+  let syncingTimeoutId: ReturnType<typeof setTimeout>;
 
   useEffect(() => {
     if (channelState.channelName) setChannelName(channelState.channelName);
@@ -51,8 +52,9 @@ const CreateChannelName = () => {
 
     if (!isSyncing.current) {
       isSyncing.current = true;
+      clearTimeout(syncingTimeoutId);
 
-      setTimeout(() => {
+      syncingTimeoutId = setTimeout(() => {
         updateChannelName("channelName", channelName);
         isSyncing.current = false;
       }, 300);
