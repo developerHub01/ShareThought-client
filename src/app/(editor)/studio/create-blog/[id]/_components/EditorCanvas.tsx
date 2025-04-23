@@ -12,7 +12,7 @@ import { useParams } from "next/navigation";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import EditorPopover from "@/app/(editor)/studio/create-blog/[id]/_components/ImageEditor/EditorPopover";
 import EditorPreview from "@/app/(editor)/studio/create-blog/[id]/_components/Preview/EditorPreview";
-import LeftSidebar from "@/app/(editor)/studio/create-blog/[id]/_components/LeftSidebar/LeftSidebar";
+import LeftSidebarWrapper from "@/app/(editor)/studio/create-blog/[id]/_components/LeftSidebar/LeftSidebarWrapper";
 import { selectBlogContent } from "@/redux/features/builders/selectors";
 import EditorBlogTitle from "@/app/(editor)/studio/create-blog/[id]/_components/EditorBlogTitle";
 import BlogBanner from "@/app/(editor)/studio/create-blog/[id]/_components/Banner/BlogBanner";
@@ -26,7 +26,7 @@ const EditorCanvas = memo(() => {
     <DndContext>
       <section className="mx-auto w-full h-full">
         <section className="w-full h-full flex">
-          <LeftSidebar />
+          <LeftSidebarWrapper />
           <ScrollArea className="h-full w-full flex-1 px-2 py-4">
             <form className="w-full flex flex-col gap-3 mx-auto mb-5">
               <BlogBanner />

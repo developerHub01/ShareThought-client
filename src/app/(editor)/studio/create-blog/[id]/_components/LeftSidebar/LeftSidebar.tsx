@@ -8,14 +8,13 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import useModifyQueryParams from "@/hooks/use-modify-query-params";
 import { cn } from "@/lib/utils";
 import { NavigatorIcon, LucideIcon } from "@/lib/icons";
-import { useRouter, useSearchParams } from "next/navigation";
-import { useCallback, useEffect, useMemo, useRef, FocusEvent } from "react";
+import { useEffect, useMemo, useRef, FocusEvent } from "react";
 import Navigator from "@/app/(editor)/studio/create-blog/[id]/_components/LeftSidebar/Navigator/Navigator";
 import ResponsiveToggleBlock from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/ResponsiveToggleBlock";
 import ThemeBlock from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/ThemeBlock";
+import { useLeftSidebar } from "@/app/(editor)/studio/create-blog/[id]/_context/LeftSidebar/LeftSidebarProvider";
 
 interface MenuItemInterface {
   id: string;
@@ -25,8 +24,11 @@ interface MenuItemInterface {
 }
 
 const LeftSidebar = memo(() => {
-  const searchParams = useSearchParams();
-  const router = useRouter();
+  const {
+    sidebarActiveTab,
+    handleChangeSidebarActiveTab,
+    handleClearSidebarActiveTab,
+  } = useLeftSidebar();
   const menuList = useMemo<Array<MenuItemInterface>>(
     () => [
       {
@@ -41,33 +43,17 @@ const LeftSidebar = memo(() => {
 
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const activeItem = useMemo(() => searchParams.get("sidebar"), [searchParams]);
-
   useEffect(() => {
-    if (!activeItem || !containerRef.current) return;
+    if (!sidebarActiveTab || !containerRef.current) return;
 
     containerRef.current.focus();
   }, []);
 
-  const { buildFullPath, modifyParams } = useModifyQueryParams();
-
-  const deleteSidebar = () => {
-    router.push(buildFullPath(modifyParams("delete", "sidebar")));
-  };
-
-  const toggleContent = useCallback(
-    (id: string) => {
-      if (searchParams.get("sidebar") === id) return deleteSidebar();
-
-      return router.push(buildFullPath(modifyParams("set", "sidebar", id)));
-    },
-    [router, searchParams]
-  );
-
   const handleClick = (id: string) => {};
 
   const handleBlur = (e: FocusEvent<HTMLDivElement>) => {
-    if (!containerRef.current?.contains(e.relatedTarget)) deleteSidebar();
+    if (!containerRef.current?.contains(e.relatedTarget))
+      handleClearSidebarActiveTab();
   };
 
   return (
@@ -85,9 +71,9 @@ const LeftSidebar = memo(() => {
                 <Button
                   className={cn("border")}
                   size="smIcon"
-                  variant={activeItem === id ? "default" : "secondary"}
+                  variant={sidebarActiveTab === id ? "default" : "secondary"}
                   {...(haveContentArea
-                    ? { onClick: () => toggleContent(id) }
+                    ? { onClick: () => handleChangeSidebarActiveTab(id) }
                     : { onClick: () => handleClick(id) })}
                 >
                   <Icon size={18} />
@@ -102,7 +88,7 @@ const LeftSidebar = memo(() => {
         <ResponsiveToggleBlock orientation="vertical" />
         <ThemeBlock orientation="vertical" />
       </div>
-      <Content onClose={deleteSidebar} />
+      <Content onClose={handleClearSidebarActiveTab} />
     </div>
   );
 });

@@ -2,9 +2,9 @@
 
 import React, { useMemo, memo } from "react";
 import { AnimatePresence, motion } from "motion/react";
-import { useSearchParams } from "next/navigation";
 import { cn } from "@/lib/utils";
 import ContentInnerWrapper from "@/app/(editor)/studio/create-blog/[id]/_components/LeftSidebar/ContentInnerWrapper";
+import { useLeftSidebar } from "@/app/(editor)/studio/create-blog/[id]/_context/LeftSidebar/LeftSidebarProvider";
 
 interface ContentWrapperProps {
   id: string;
@@ -15,13 +15,11 @@ interface ContentWrapperProps {
 
 const ContentWrapper = memo(
   ({ className, children, id, label }: ContentWrapperProps) => {
-    const searchParams = useSearchParams();
+    const { sidebarActiveTab } = useLeftSidebar();
 
     const isContentOpen = useMemo(
-      () =>
-        searchParams.get("sidebar")?.toLowerCase().trim() ===
-        id.toLowerCase().trim(),
-      [searchParams, id]
+      () => sidebarActiveTab === id,
+      [sidebarActiveTab, id]
     );
 
     return (
