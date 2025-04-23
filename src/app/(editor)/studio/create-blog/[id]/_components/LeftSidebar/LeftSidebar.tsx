@@ -9,12 +9,13 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
-import { NavigatorIcon, LucideIcon } from "@/lib/icons";
+import { NavigatorIcon, LucideIcon, PreviewIcon } from "@/lib/icons";
 import { useEffect, useMemo, useRef, FocusEvent } from "react";
 import Navigator from "@/app/(editor)/studio/create-blog/[id]/_components/LeftSidebar/Navigator/Navigator";
 import ResponsiveToggleBlock from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/ResponsiveToggleBlock";
 import ThemeBlock from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/ThemeBlock";
 import { useLeftSidebar } from "@/app/(editor)/studio/create-blog/[id]/_context/LeftSidebar/LeftSidebarProvider";
+import EditorPreview from "@/app/(editor)/studio/create-blog/[id]/_components/Preview/EditorPreview";
 
 interface MenuItemInterface {
   id: string;
@@ -22,6 +23,8 @@ interface MenuItemInterface {
   Icon: LucideIcon;
   haveContentArea?: boolean;
 }
+
+const haveBlurEffectTabList = ["navigator"];
 
 const LeftSidebar = memo(() => {
   const {
@@ -31,6 +34,12 @@ const LeftSidebar = memo(() => {
   } = useLeftSidebar();
   const menuList = useMemo<Array<MenuItemInterface>>(
     () => [
+      {
+        id: "preview",
+        label: "Preview",
+        Icon: PreviewIcon,
+        haveContentArea: true,
+      },
       {
         id: "navigator",
         label: "Navigator",
@@ -52,6 +61,8 @@ const LeftSidebar = memo(() => {
   const handleClick = (id: string) => {};
 
   const handleBlur = (e: FocusEvent<HTMLDivElement>) => {
+    if (!haveBlurEffectTabList.includes(sidebarActiveTab)) return;
+
     if (!containerRef.current?.contains(e.relatedTarget))
       handleClearSidebarActiveTab();
   };
@@ -101,6 +112,7 @@ const Content = memo(({ onClose }: ContentProps) => {
   return (
     <>
       <Navigator onClose={onClose} />
+      <EditorPreview />
     </>
   );
 });

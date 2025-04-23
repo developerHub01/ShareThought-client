@@ -1,26 +1,21 @@
 "use client";
 
-import { useRouter, useSearchParams } from "next/navigation";
 import React, { memo } from "react";
 import { Drawer, DrawerContentWitoutHandler } from "@/components/ui/drawer";
-import useModifyQueryParams from "@/hooks/use-modify-query-params";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import PreviewContent from "@/app/(editor)/studio/create-blog/[id]/_components/Preview/PreviewContent";
 import { useEditorPreview } from "@/app/(editor)/studio/create-blog/[id]/_context/Preview/EditorPreviewProvider";
 import PreviewPopoverHeader from "@/app/(editor)/studio/create-blog/[id]/_components/Preview/PreviewPopoverHeader";
 import { cn } from "@/lib/utils";
+import { useLeftSidebar } from "@/app/(editor)/studio/create-blog/[id]/_context/LeftSidebar/LeftSidebarProvider";
 
 const PreviewPopover = memo(() => {
-  const params = useSearchParams();
-  const router = useRouter();
-  const { modifyParams, buildFullPath } = useModifyQueryParams();
+  const { sidebarActiveTab, handleClearSidebarActiveTab } = useLeftSidebar();
   const { screenType } = useEditorPreview();
 
-  let isPreviewOpen = Boolean(params.get("preview"));
+  let isPreviewOpen = sidebarActiveTab == "preview";
 
-  const handleClose = (open: boolean) => {
-    if (!open) router.push(buildFullPath(modifyParams("delete", "preview")));
-  };
+  const handleClose = () => handleClearSidebarActiveTab();
 
   return (
     <Drawer
