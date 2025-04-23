@@ -4,7 +4,7 @@ import React, { memo } from "react";
 import { DndContext } from "@dnd-kit/core";
 import AddComponentSection from "@/app/(editor)/studio/create-blog/[id]/_components/BuilderPopover/AddComponentSection";
 import ComponentDialog from "@/app/(editor)/studio/create-blog/[id]/_components/BuilderPopover/ComponentDialog";
-import EditorSidebar from "@/app/(editor)/studio/create-blog/[id]/_components/EditorSidebar";
+import EditorSidebar from "@/app/(editor)/studio/create-blog/[id]/_components/Sidebar/EditorSidebar";
 import { AnimatePresence, motion } from "motion/react";
 import BlockComponent from "@/app/(editor)/studio/create-blog/[id]/_components/BlockComponent";
 import { useAppSelector } from "@/redux/hooks";

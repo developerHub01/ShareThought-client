@@ -69,7 +69,7 @@ const LeftSidebar = memo(() => {
             <Tooltip key={id}>
               <TooltipTrigger asChild>
                 <Button
-                  className={cn("border")}
+                  className={cn("border flex-shrink-0")}
                   size="smIcon"
                   variant={sidebarActiveTab === id ? "default" : "secondary"}
                   {...(haveContentArea

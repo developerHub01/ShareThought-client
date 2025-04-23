@@ -41,8 +41,8 @@ const SettingTab = dynamic(
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
 import TopActionList from "@/app/(editor)/studio/create-blog/[id]/_components/PropertiesTab/TopActionList";
-import SidebarToogler from "@/app/(editor)/studio/create-blog/[id]/_components/SidebarToogler";
-import TabScreenMode from "@/app/(editor)/studio/create-blog/[id]/_components/TabScreenMode";
+import SidebarToogler from "@/app/(editor)/studio/create-blog/[id]/_components/Sidebar/SidebarToogler";
+import TabScreenMode from "@/app/(editor)/studio/create-blog/[id]/_components/Sidebar/TabScreenMode";
 import { selectBlogActiveBlock } from "@/redux/features/builders/selectors";
 
 type TabType = "components" | "properties" | "settings";
