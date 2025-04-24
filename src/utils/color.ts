@@ -40,21 +40,10 @@ export const rgbaToHex = (r: number, g: number, b: number, a = 1) => {
   return `#${toHex(r)}${toHex(g)}${toHex(b)}${a < 1 ? alphaHex : ""}`;
 };
 
-export const adjustColorBasedOnTheme = (
-  color: string,
-  theme: "light" | "dark"
-) => {
-  const colorObj = Color(color);
+export const toggleColorModeBaseOnMode = (color: string, theme: "light" | "dark" = "light") => {
+  if (theme === "light") return color;
 
-  const isLightColor = colorObj.isLight();
-
-  if (theme === "dark")
-    return isLightColor
-      ? colorObj.darken(0.8).hex()
-      : colorObj.lighten(0.8).hex();
-
-  if (theme === "light")
-    return isLightColor ? colorObj.darken(0.5).hex() : colorObj.hex();
-
-  return color;
+  const newColor = Color(color).hsl().array();
+  newColor[2] = 100 - newColor[2];
+  return Color.hsl(newColor).hex();
 };

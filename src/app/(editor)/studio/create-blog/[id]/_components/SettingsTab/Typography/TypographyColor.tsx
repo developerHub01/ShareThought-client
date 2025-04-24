@@ -23,6 +23,7 @@ import {
 } from "@/redux/features/builders/selectors";
 import Color from "color";
 import { useTheme } from "next-themes";
+import { toggleColorModeBaseOnMode } from "@/utils/color";
 
 /* 
 in light mode -> dark
@@ -36,12 +37,6 @@ if color is light then make it dark
 if color is dark make it little bit ligter
 
 */
-
-const toggleColorMode = (color: string) => {
-  const newColor = Color(color).hsl().array();
-  newColor[2] = 100 - newColor[2];
-  return Color.hsl(newColor).hex();
-};
 
 const TypographyColor = memo(() => {
   const { id: blogId } = useParams<{ id: string }>();
@@ -73,7 +68,7 @@ const TypographyColor = memo(() => {
   );
 
   const adjustedColor = useMemo(
-    () => (theme === "light" ? textColor : toggleColorMode(textColor)),
+    () => toggleColorModeBaseOnMode(textColor, theme),
     [theme, textColor]
   );
 
@@ -86,14 +81,12 @@ const TypographyColor = memo(() => {
 
   const handleColorDispatch = useCallback(
     (color: string) => {
-      color = theme === "light" ? color : toggleColorMode(color);
-
       dispatch(
         addGlobalStyle({
           blogId,
           type,
           styles: {
-            color,
+            color: toggleColorModeBaseOnMode(color, theme),
           },
         })
       );
@@ -113,29 +106,35 @@ const TypographyColor = memo(() => {
     [handleColorDispatch]
   );
 
-  const handleColorChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-    const color = e.target.value;
+  const handleColorChange = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => {
+      const color = e.target.value;
 
-    if (isValidHexColor(color)) setLastValidColor(color);
+      if (isValidHexColor(color)) setLastValidColor(color);
 
-    setTextColorState(color);
+      setTextColorState(color);
 
-    handleColorDispatch(color);
-  }, [handleColorDispatch]);
+      handleColorDispatch(color);
+    },
+    [handleColorDispatch]
+  );
 
-  const handleColorBlur = useCallback((e: FocusEvent<HTMLInputElement>) => {
-    const color = e.target.value;
+  const handleColorBlur = useCallback(
+    (e: FocusEvent<HTMLInputElement>) => {
+      const color = e.target.value;
 
-    if (!isValidHexColor(color)) {
-      handleColorDispatch(lastValidColor);
+      if (!isValidHexColor(color)) {
+        handleColorDispatch(lastValidColor);
 
-      return setTextColorState(lastValidColor);
-    }
+        return setTextColorState(lastValidColor);
+      }
 
-    setTextColorState(color);
+      setTextColorState(color);
 
-    handleColorDispatch(color);
-  }, [handleColorDispatch]);
+      handleColorDispatch(color);
+    },
+    [handleColorDispatch]
+  );
 
   return (
     <ColorBlock
