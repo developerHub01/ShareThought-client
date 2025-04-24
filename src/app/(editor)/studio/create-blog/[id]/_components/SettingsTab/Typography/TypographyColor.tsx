@@ -21,10 +21,34 @@ import {
   selectBlogGlobalStyle,
   selectBlogScreenType,
 } from "@/redux/features/builders/selectors";
+import Color from "color";
+import { useTheme } from "next-themes";
+
+/* 
+in light mode -> dark
+======================
+if color is dark then make it a light
+if color is light make a little bit darkar
+
+in dark mode -> light
+======================
+if color is light then make it dark
+if color is dark make it little bit ligter
+
+*/
+
+const toggleColorMode = (color: string) => {
+  const newColor = Color(color).hsl().array();
+  newColor[2] = 100 - newColor[2];
+  return Color.hsl(newColor).hex();
+};
 
 const TypographyColor = memo(() => {
   const { id: blogId } = useParams<{ id: string }>();
   const { selectedTypography: type } = useSettingTypography();
+  const { resolvedTheme } = useTheme();
+  const theme = resolvedTheme as "light" | "dark";
+  const dispatch = useAppDispatch();
 
   if (!blogId || !type) return null;
 
@@ -48,16 +72,22 @@ const TypographyColor = memo(() => {
       EDITOR_DEFAULT_VALUES.COLOR.default
   );
 
-  const dispatch = useAppDispatch();
-  const [textColorState, setTextColorState] = useState<string>(textColor);
-  const [lastValidColor, setLastValidColor] = useState<string>(textColor);
+  const adjustedColor = useMemo(
+    () => (theme === "light" ? textColor : toggleColorMode(textColor)),
+    [theme, textColor]
+  );
+
+  const [textColorState, setTextColorState] = useState<string>(adjustedColor);
+  const [lastValidColor, setLastValidColor] = useState<string>(adjustedColor);
 
   useEffect(() => {
-    if (type && textColor) setTextColorState(textColor);
-  }, [type, textColor]);
+    if (type && adjustedColor) setTextColorState(adjustedColor);
+  }, [type, adjustedColor]);
 
   const handleColorDispatch = useCallback(
     (color: string) => {
+      color = theme === "light" ? color : toggleColorMode(color);
+
       dispatch(
         addGlobalStyle({
           blogId,
@@ -68,19 +98,22 @@ const TypographyColor = memo(() => {
         })
       );
     },
-    [blogId, type]
+    [blogId, type, theme]
   );
 
-  const handleColorPicker = (color: ColorResult, e: ChangeEvent) => {
-    const newColor = color.hex;
-    if (isValidHexColor(newColor)) setLastValidColor(newColor);
+  const handleColorPicker = useCallback(
+    (color: ColorResult, e: ChangeEvent) => {
+      const newColor = color.hex;
+      if (isValidHexColor(newColor)) setLastValidColor(newColor);
 
-    setTextColorState(newColor);
+      setTextColorState(newColor);
 
-    handleColorDispatch(newColor);
-  };
+      handleColorDispatch(newColor);
+    },
+    [handleColorDispatch]
+  );
 
-  const handleColorChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleColorChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     const color = e.target.value;
 
     if (isValidHexColor(color)) setLastValidColor(color);
@@ -88,10 +121,10 @@ const TypographyColor = memo(() => {
     setTextColorState(color);
 
     handleColorDispatch(color);
-  };
+  }, [handleColorDispatch]);
 
-  const handleColorBlur = (e: FocusEvent<HTMLInputElement>) => {
-    let color = e.target.value;
+  const handleColorBlur = useCallback((e: FocusEvent<HTMLInputElement>) => {
+    const color = e.target.value;
 
     if (!isValidHexColor(color)) {
       handleColorDispatch(lastValidColor);
@@ -102,7 +135,7 @@ const TypographyColor = memo(() => {
     setTextColorState(color);
 
     handleColorDispatch(color);
-  };
+  }, [handleColorDispatch]);
 
   return (
     <ColorBlock
