@@ -24,7 +24,7 @@ const TextareaWithAttachLabel = ({
     <div className="flex flex-col w-full">
       <label
         htmlFor={id}
-        className="w-full px-2 py-1 flex-shrink-0 border border-r-0 h-10 flex items-center rounded-l-sm capitalize"
+        className="w-full px-2 py-1 flex-shrink-0 border border-b-0 h-10 flex items-center rounded-sm rounded-b-none capitalize"
       >
         {label}
       </label>
