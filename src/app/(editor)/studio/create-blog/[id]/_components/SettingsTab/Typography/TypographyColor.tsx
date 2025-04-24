@@ -21,7 +21,6 @@ import {
   selectBlogGlobalStyle,
   selectBlogScreenType,
 } from "@/redux/features/builders/selectors";
-import Color from "color";
 import { useTheme } from "next-themes";
 import { toggleColorModeBaseOnMode } from "@/utils/color";
 
@@ -100,7 +99,6 @@ const TypographyColor = memo(() => {
       if (isValidHexColor(newColor)) setLastValidColor(newColor);
 
       setTextColorState(newColor);
-
       handleColorDispatch(newColor);
     },
     [handleColorDispatch]
@@ -113,7 +111,6 @@ const TypographyColor = memo(() => {
       if (isValidHexColor(color)) setLastValidColor(color);
 
       setTextColorState(color);
-
       handleColorDispatch(color);
     },
     [handleColorDispatch]
@@ -130,7 +127,6 @@ const TypographyColor = memo(() => {
       }
 
       setTextColorState(color);
-
       handleColorDispatch(color);
     },
     [handleColorDispatch]

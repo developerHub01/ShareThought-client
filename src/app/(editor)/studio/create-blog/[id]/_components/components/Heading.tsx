@@ -67,18 +67,12 @@ const Heading = memo(({ id, parentId, ...props }: HeadingProps) => {
     );
   };
 
-  console.log({ theme });
-  console.log("before ===== ", combinedStyles);
   if (combinedStyles.color) {
-    const color = toggleColorModeBaseOnMode(combinedStyles.color, theme);
-    console.log({ color });
-    // combinedStyles.color = color;
     combinedStyles = {
       ...combinedStyles,
-      color,
+      color: toggleColorModeBaseOnMode(combinedStyles.color, theme),
     };
   }
-  console.log("after ===== ", combinedStyles);
 
   const { tag: Tag, className: defaultClassName } =
     TYPOGRAPHY_LIST[type] || TYPOGRAPHY_LIST.h1;

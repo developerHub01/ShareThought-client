@@ -20,7 +20,7 @@ interface ColorPickerBlockProps {
 const transparentImage = "/images/transparent.jpg";
 
 const ColorPickerBlock = ({
-  color,
+  color = "transparent",
   handleColorPicker,
   handleColorChange,
   handleColorBlur,
@@ -49,8 +49,8 @@ const ColorPickerBlock = ({
       </Popover>
       <input
         type="text"
-        value={color?.toUpperCase()}
-        className="min-w-16 w-fit max-w-20 text-center rounded-none bg-transparent"
+        value={color?.toLowerCase()}
+        className="min-w-16 w-fit max-w-24 text-center rounded-none bg-transparent"
         onChange={handleColorChange}
         onBlur={handleColorBlur}
       />

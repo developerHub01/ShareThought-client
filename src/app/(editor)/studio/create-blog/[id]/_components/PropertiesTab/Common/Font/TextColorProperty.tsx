@@ -25,10 +25,16 @@ import {
 } from "@/redux/features/builders/selectors";
 import ResetToGlobalStyle from "@/app/(editor)/studio/create-blog/[id]/_components/Blocks/ResetToGlobalStyle";
 import useRemoveStyle from "@/hooks/editor/use-remove-style";
+import { toggleColorModeBaseOnMode } from "@/utils/color";
+import { useTheme } from "next-themes";
 
 const TextColorProperty = memo(() => {
   const { id: blogId } = useParams<{ id: string }>();
   const handleReset = useRemoveStyle();
+  const dispatch = useAppDispatch();
+  const { resolvedTheme } = useTheme();
+  const theme = resolvedTheme as "light" | "dark";
+
   if (!blogId) return null;
 
   const activeBlock = useAppSelector((state) =>
@@ -49,8 +55,6 @@ const TextColorProperty = memo(() => {
 
   const { type } = component;
 
-  console.log("Re-run TextColor property===========");
-
   const { color } = useActiveStylePropertyTab({
     propertyName: "color",
     styles,
@@ -63,13 +67,17 @@ const TextColorProperty = memo(() => {
     EDITOR_DEFAULT_VALUES.COLOR[type] ??
     EDITOR_DEFAULT_VALUES.COLOR.default;
 
-  const dispatch = useAppDispatch();
-  const [textColorState, setTextColorState] = useState<string>(textColor);
-  const [lastValidColor, setLastValidColor] = useState<string>(textColor);
+  const adjustedColor = useMemo(
+    () => toggleColorModeBaseOnMode(textColor, theme),
+    [theme, textColor]
+  );
+
+  const [textColorState, setTextColorState] = useState<string>(adjustedColor);
+  const [lastValidColor, setLastValidColor] = useState<string>(adjustedColor);
 
   useEffect(() => {
-    if (activeBlock && textColor) setTextColorState(textColor);
-  }, [activeBlock, textColor]);
+    if (activeBlock && adjustedColor) setTextColorState(adjustedColor);
+  }, [activeBlock, adjustedColor]);
 
   const haveCustomStyle = useMemo(() => "color" in styles, [styles]);
 
@@ -80,12 +88,12 @@ const TextColorProperty = memo(() => {
           blogId,
           activeBlockId: activeBlock,
           styles: {
-            color,
+            color: toggleColorModeBaseOnMode(color, theme),
           },
         })
       );
     },
-    [blogId, activeBlock]
+    [blogId, activeBlock, theme]
   );
 
   const handleColorPicker = (color: ColorResult, e: ChangeEvent) => {
