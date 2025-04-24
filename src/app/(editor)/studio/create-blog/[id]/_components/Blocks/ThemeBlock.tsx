@@ -40,6 +40,7 @@ const ThemeBlock = memo(({ className, orientation }: ThemeBlockProps) => {
   useEffect(() => setMounted(true), []);
 
   const handleChange = useCallback((theme: string) => {
+    if (!theme) return;
     setTheme(theme);
   }, []);
 

@@ -30,8 +30,6 @@ const GapSize = memo(({ type, label }: GapSizeProps) => {
     selectBlogGlobalStyle(state, blogId)
   );
 
-  console.log(`Global style Gap Size ==== type = ${type}`);
-
   const activeStyle = useActiveStyleSettingTab({
     globalStyles,
     screenType,
