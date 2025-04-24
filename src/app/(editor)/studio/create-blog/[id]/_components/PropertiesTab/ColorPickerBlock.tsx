@@ -49,7 +49,7 @@ const ColorPickerBlock = ({
       </Popover>
       <input
         type="text"
-        value={color}
+        value={color?.toUpperCase()}
         className="min-w-16 w-fit max-w-20 text-center rounded-none bg-transparent"
         onChange={handleColorChange}
         onBlur={handleColorBlur}
