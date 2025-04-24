@@ -3,7 +3,7 @@
 import { updateComponentText } from "@/redux/features/builders/blogBuilderSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useParams } from "next/navigation";
-import React, { FocusEvent, memo } from "react";
+import React, { CSSProperties, FocusEvent, memo } from "react";
 import { TYPOGRAPHY_LIST } from "@/constant";
 import {
   selectBlogComponentById,
@@ -13,6 +13,8 @@ import {
   selectBlogStylesById,
 } from "@/redux/features/builders/selectors";
 import useCombinedResponsiveSettingStyles from "@/hooks/editor/use-combined-responsive-setting-styles";
+import { useTheme } from "next-themes";
+import { toggleColorModeBaseOnMode } from "@/utils/color";
 
 interface HeadingProps {
   id: string;
@@ -22,6 +24,8 @@ interface HeadingProps {
 const Heading = memo(({ id, parentId, ...props }: HeadingProps) => {
   const { id: blogId } = useParams<{ id: string }>();
   const dispatch = useAppDispatch();
+  const { resolvedTheme } = useTheme();
+  const theme = resolvedTheme as "light" | "dark";
 
   const screenType = useAppSelector((state) =>
     selectBlogScreenType(state, blogId)
@@ -43,13 +47,13 @@ const Heading = memo(({ id, parentId, ...props }: HeadingProps) => {
 
   const { type, text } = component;
 
-  const combinedStyles = useCombinedResponsiveSettingStyles({
+  let combinedStyles = useCombinedResponsiveSettingStyles({
     type,
     screenType,
     styles,
     mobileStyles,
     globalStyles,
-  });
+  }) as CSSProperties;
 
   const handleBlur = (
     e: FocusEvent<HTMLHeadElement | HTMLParagraphElement>
@@ -62,6 +66,19 @@ const Heading = memo(({ id, parentId, ...props }: HeadingProps) => {
       })
     );
   };
+
+  console.log({ theme });
+  console.log("before ===== ", combinedStyles);
+  if (combinedStyles.color) {
+    const color = toggleColorModeBaseOnMode(combinedStyles.color, theme);
+    console.log({ color });
+    // combinedStyles.color = color;
+    combinedStyles = {
+      ...combinedStyles,
+      color,
+    };
+  }
+  console.log("after ===== ", combinedStyles);
 
   const { tag: Tag, className: defaultClassName } =
     TYPOGRAPHY_LIST[type] || TYPOGRAPHY_LIST.h1;

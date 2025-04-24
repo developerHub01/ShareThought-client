@@ -40,7 +40,10 @@ export const rgbaToHex = (r: number, g: number, b: number, a = 1) => {
   return `#${toHex(r)}${toHex(g)}${toHex(b)}${a < 1 ? alphaHex : ""}`;
 };
 
-export const toggleColorModeBaseOnMode = (color: string, theme: "light" | "dark" = "light") => {
+export const toggleColorModeBaseOnMode = (
+  color: string,
+  theme: "light" | "dark" = "light"
+) => {
   if (theme === "light") return color;
 
   const newColor = Color(color).hsl().array();
