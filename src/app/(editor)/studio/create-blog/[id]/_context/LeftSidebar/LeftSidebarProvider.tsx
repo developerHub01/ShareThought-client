@@ -35,8 +35,6 @@ const LeftSidebarProvider = ({ children }: LeftSidebarProviderProps) => {
   };
   const handleClearSidebarActiveTab = () => setSidebarActiveTab("");
 
-  console.log({ sidebarActiveTab });
-
   return (
     <LeftSidebarContext.Provider
       value={{

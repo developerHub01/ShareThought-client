@@ -17,7 +17,7 @@ const CreateComponentCanvasLayout = ({
         <Navbar />
         {children}
       </EditorContainerWrapper>
-      <PreventUnsaveClose />
+      {/* <PreventUnsaveClose /> */}
     </EditorProvider>
   );
 };

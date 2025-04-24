@@ -12,7 +12,7 @@ const HidePropertyInMobile = memo(
     const screenType = useAppSelector((state) =>
       selectBlogScreenType(state, blogId)
     );
-    console.log("HidePropertyInMobile");
+    
     if (screenType === "mobile") return null;
 
     return <>{children}</>;

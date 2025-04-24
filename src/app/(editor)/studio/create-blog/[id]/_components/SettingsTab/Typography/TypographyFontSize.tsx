@@ -27,16 +27,12 @@ const TypographyFontSize = memo(() => {
     selectBlogGlobalStyle(state, blogId)
   );
 
-  console.log({ globalStyles });
-
   const activeStyle = useActiveStyleSettingTab({
     globalStyles,
     screenType,
     type,
     propertyName: "fontSize",
   });
-
-  console.log({ activeStyle });
 
   const handleDispatchSize = useCallback(
     (fontSize: number | "inc" | "dec") => {

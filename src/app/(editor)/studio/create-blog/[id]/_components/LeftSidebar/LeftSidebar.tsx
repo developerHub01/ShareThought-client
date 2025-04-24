@@ -82,7 +82,7 @@ const LeftSidebar = memo(() => {
                 <Button
                   className={cn("border flex-shrink-0")}
                   size="smIcon"
-                  variant={sidebarActiveTab === id ? "default" : "secondary"}
+                  variant={sidebarActiveTab === id ? "default" : "outline"}
                   {...(haveContentArea
                     ? { onClick: () => handleChangeSidebarActiveTab(id) }
                     : { onClick: () => handleClick(id) })}

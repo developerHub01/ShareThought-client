@@ -38,8 +38,6 @@ const TypographyWeight = memo(() => {
     selectBlogGlobalStyle(state, blogId)
   );
 
-  console.log("Typography weight =========");
-
   const activeStyle = useActiveStyleSettingTab({
     globalStyles,
     screenType,
